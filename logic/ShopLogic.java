@@ -1,4 +1,4 @@
-package tekner.loecraftpack.logic;
+package loecraftpack.logic;
 
 import java.util.ArrayList;
 import java.util.List;

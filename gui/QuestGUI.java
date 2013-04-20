@@ -1,13 +1,14 @@
-package tekner.loecraftpack.gui;
+package loecraftpack.gui;
 
 import java.awt.Color;
+
+import loecraftpack.logic.QuestLogic;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.opengl.GL11;
 
-import tekner.loecraftpack.logic.QuestLogic;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

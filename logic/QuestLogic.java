@@ -1,9 +1,9 @@
-package tekner.loecraftpack.logic;
+package loecraftpack.logic;
 
+import loecraftpack.LoECraftPack;
+import loecraftpack.gui.DialogGUI;
+import loecraftpack.gui.GuiIds;
 import net.minecraft.client.Minecraft;
-import tekner.loecraftpack.LoECraftPack;
-import tekner.loecraftpack.gui.DialogGUI;
-import tekner.loecraftpack.gui.GuiIds;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

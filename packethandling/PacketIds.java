@@ -1,4 +1,4 @@
-package tekner.loecraftpack.packethandling;
+package loecraftpack.packethandling;
 
 public class PacketIds
 {

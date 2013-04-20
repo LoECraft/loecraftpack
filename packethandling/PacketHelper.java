@@ -1,4 +1,4 @@
-package tekner.loecraftpack.packethandling;
+package loecraftpack.packethandling;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

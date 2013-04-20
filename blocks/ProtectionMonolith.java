@@ -1,7 +1,11 @@
-package tekner.loecraftpack.blocks;
+package loecraftpack.blocks;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import loecraftpack.LoECraftPack;
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.gui.GuiIds;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
@@ -9,9 +13,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tekner.loecraftpack.LoECraftPack;
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.gui.GuiIds;
 
 public class ProtectionMonolith extends Block implements ITileEntityProvider
 {

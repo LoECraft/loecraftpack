@@ -1,16 +1,17 @@
-package tekner.loecraftpack.gui;
+package loecraftpack.gui;
 
 import java.awt.Color;
 import java.text.DecimalFormat;
+
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.packethandling.PacketHelper;
+import loecraftpack.packethandling.PacketIds;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 
 import org.lwjgl.opengl.GL11;
 
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.packethandling.PacketHelper;
-import tekner.loecraftpack.packethandling.PacketIds;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

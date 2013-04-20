@@ -1,10 +1,11 @@
-package tekner.loecraftpack.packethandling;
+package loecraftpack.packethandling;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.INetworkManager;

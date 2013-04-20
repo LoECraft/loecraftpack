@@ -1,8 +1,8 @@
-package tekner.loecraftpack.proxies;
+package loecraftpack.proxies;
 
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.blocks.te.rendering.ProtectionMonolithRenderer;
-import tekner.loecraftpack.logic.handlers.LoECraftKeyHandler;
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.blocks.te.rendering.ProtectionMonolithRenderer;
+import loecraftpack.logic.handlers.LoECraftKeyHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import net.minecraftforge.client.MinecraftForgeClient;

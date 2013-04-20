@@ -1,6 +1,8 @@
-package tekner.loecraftpack.items;
+package loecraftpack.items;
 
 import java.util.List;
+
+import loecraftpack.LoECraftPack;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -8,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
-import tekner.loecraftpack.LoECraftPack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

@@ -1,4 +1,4 @@
-package tekner.loecraftpack.gui;
+package loecraftpack.gui;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

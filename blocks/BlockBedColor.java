@@ -1,6 +1,9 @@
-package tekner.loecraftpack;
+package loecraftpack.blocks;
 
 import java.util.ArrayList;
+
+import loecraftpack.items.ItemBedColor;
+
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

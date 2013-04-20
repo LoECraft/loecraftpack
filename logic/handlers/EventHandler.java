@@ -1,14 +1,14 @@
-package tekner.loecraftpack.logic.handlers;
+package loecraftpack.logic.handlers;
 
+import loecraftpack.blocks.ProtectionMonolith;
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.logic.DialogLogic;
+import loecraftpack.packethandling.PacketHelper;
+import loecraftpack.packethandling.PacketIds;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import tekner.loecraftpack.blocks.ProtectionMonolith;
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.logic.DialogLogic;
-import tekner.loecraftpack.packethandling.PacketHelper;
-import tekner.loecraftpack.packethandling.PacketIds;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class EventHandler

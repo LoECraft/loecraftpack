@@ -1,5 +1,7 @@
-package tekner.loecraftpack.blocks.te.rendering;
+package loecraftpack.blocks.te.rendering;
 
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.logic.handlers.LoECraftKeyHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -8,8 +10,6 @@ import net.minecraft.tileentity.TileEntity;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Color;
 
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.logic.handlers.LoECraftKeyHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 

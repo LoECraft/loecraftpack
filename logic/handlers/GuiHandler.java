@@ -1,13 +1,13 @@
-package tekner.loecraftpack.logic.handlers;
+package loecraftpack.logic.handlers;
 
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.gui.DialogGUI;
+import loecraftpack.gui.ProtectionMonolithGUI;
+import loecraftpack.gui.QuestGUI;
+import loecraftpack.gui.ShopGUI;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.gui.DialogGUI;
-import tekner.loecraftpack.gui.ProtectionMonolithGUI;
-import tekner.loecraftpack.gui.QuestGUI;
-import tekner.loecraftpack.gui.ShopGUI;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class GuiHandler implements IGuiHandler

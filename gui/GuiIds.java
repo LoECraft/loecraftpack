@@ -1,4 +1,4 @@
-package tekner.loecraftpack.gui;
+package loecraftpack.gui;
 
 public class GuiIds
 {

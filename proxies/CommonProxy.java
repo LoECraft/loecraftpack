@@ -1,4 +1,4 @@
-package tekner.loecraftpack.proxies;
+package loecraftpack.proxies;
 
 public class CommonProxy
 {

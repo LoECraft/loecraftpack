@@ -1,6 +1,9 @@
-package tekner.loecraftpack.logic.handlers;
+package loecraftpack.logic.handlers;
 
 import java.util.EnumSet;
+
+import loecraftpack.gui.DialogGUI;
+import loecraftpack.logic.DialogLogic;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -8,8 +11,6 @@ import net.minecraft.client.settings.KeyBinding;
 
 import org.lwjgl.input.Keyboard;
 
-import tekner.loecraftpack.gui.DialogGUI;
-import tekner.loecraftpack.logic.DialogLogic;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.relauncher.Side;

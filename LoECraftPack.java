@@ -1,8 +1,19 @@
-package tekner.loecraftpack;
+package loecraftpack;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import loecraftpack.blocks.BlockBedColor;
+import loecraftpack.blocks.ProtectionMonolith;
+import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.items.Bits;
+import loecraftpack.items.ItemBedColor;
+import loecraftpack.logic.handlers.EventHandler;
+import loecraftpack.logic.handlers.GuiHandler;
+import loecraftpack.packethandling.CPacketHandler;
+import loecraftpack.packethandling.SPacketHandler;
+import loecraftpack.proxies.CommonProxy;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -11,16 +22,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.common.MinecraftForge;
-import tekner.loecraftpack.BlockBedColor;
-import tekner.loecraftpack.ItemBedColor;
-import tekner.loecraftpack.blocks.ProtectionMonolith;
-import tekner.loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import tekner.loecraftpack.items.Bits;
-import tekner.loecraftpack.logic.handlers.EventHandler;
-import tekner.loecraftpack.logic.handlers.GuiHandler;
-import tekner.loecraftpack.packethandling.CPacketHandler;
-import tekner.loecraftpack.packethandling.SPacketHandler;
-import tekner.loecraftpack.proxies.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;

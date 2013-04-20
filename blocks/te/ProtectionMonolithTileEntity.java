@@ -1,4 +1,4 @@
-package tekner.loecraftpack.blocks.te;
+package loecraftpack.blocks.te;
 
 import java.util.ArrayList;
 import java.util.Arrays;

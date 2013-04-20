@@ -1,4 +1,4 @@
-package tekner.loecraftpack.blocks;
+package loecraftpack.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

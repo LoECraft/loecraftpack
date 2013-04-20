@@ -1,5 +1,6 @@
-package tekner.loecraftpack;
+package loecraftpack.items;
 
+import loecraftpack.blocks.BlockBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
