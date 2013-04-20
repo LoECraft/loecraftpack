@@ -11,12 +11,11 @@ import net.minecraft.util.MathHelper;
 
 public class ColoredBedTileEntity extends TileEntity
 {
-	private Dye color = Dye.White;
-	ColoredBedBlock block;
+	public Dye color = Dye.White;
 	
-	public ColoredBedTileEntity(ColoredBedBlock block)
+	public ColoredBedTileEntity(Dye color)
 	{
-		this.block = block;
+		this.color = color;
 	}
 	
 	@Override
@@ -24,7 +23,6 @@ public class ColoredBedTileEntity extends TileEntity
     {
 		super.readFromNBT(nbt);
 		color = Dye.values()[MathHelper.clamp_int(nbt.getInteger("color"), 0, 15)];
-		block.color = color;
     }
 	
 	@Override

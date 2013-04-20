@@ -4,6 +4,7 @@ import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.ColoredBedBlock;
+import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -73,11 +74,12 @@ public class ColoredBedItem extends Item
                 {
                 	System.out.println("place bed");
                     world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.bedBlock.blockID, i1, 3);
-                    //world.setBlockTileEntity(par1, par2, par3, par4TileEntity);
+                    world.setBlockTileEntity(xCoord, yCoord, zCoord, (new ColoredBedTileEntity(Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1)])));
 
                     if (world.getBlockId(xCoord, yCoord, zCoord) == LoECraftPack.bedBlock.blockID)
                     {
                         world.setBlock(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID, i1 + 8, 3);
+                        world.setBlockTileEntity(xCoord + b0, yCoord, zCoord + b1, (new ColoredBedTileEntity(Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1)])));
                     }
 
                     --itemStack.stackSize;
