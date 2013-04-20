@@ -21,17 +21,17 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
 	// TODO change 16 to a value dependent on the number of types
-	public static int bedtypes = 16;
-	public Dye color;//TODO make this more stable
+	public static int bedTypes = 16;
+	public Dye color = Dye.White;//TODO make this more stable
 	
 	/** Maps the foot-of-bed block to the head-of-bed block. */
     public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedend = new Icon[bedtypes][];//end
+    protected static Icon[][] bedend = new Icon[bedTypes][];//end
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedside = new Icon[bedtypes][];//side
+    protected static Icon[][] bedside = new Icon[bedTypes][];//side
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedtop = new Icon[bedtypes][];//top
+    protected static Icon[][] bedtop = new Icon[bedTypes][];//top
     
     
 	public ColoredBedBlock(int par1) {
@@ -46,7 +46,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
-		for(int i=0; i<bedtypes; i++)
+		for(int i=0; i<bedTypes; i++)
 		{
 			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_top")};
 			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_end")};

@@ -11,7 +11,7 @@ import net.minecraft.util.MathHelper;
 
 public class ColoredBedTileEntity extends TileEntity
 {
-	private Dye color;
+	private Dye color = Dye.White;
 	ColoredBedBlock block;
 	
 	public ColoredBedTileEntity(ColoredBedBlock block)

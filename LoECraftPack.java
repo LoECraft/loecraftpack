@@ -121,6 +121,7 @@ public class LoECraftPack
 		
 		for(int i = 0; i < 16; i++)
 		{
+			System.out.println("item.coloredBed." + i + ".name");
 			LanguageRegistry.instance().addStringLocalization("item.coloredBed." + i + ".name", "Bed : " + Dye.values()[i]);
 		}
 		

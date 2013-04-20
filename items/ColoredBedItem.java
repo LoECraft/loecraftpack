@@ -2,7 +2,6 @@ package loecraftpack.items;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.ColoredBedBlock;
-import loecraftpack.enums.Dye;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -18,6 +17,7 @@ public class ColoredBedItem extends Item
     {
         super(par1);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setUnlocalizedName("coloredBed");
     }
 
     /**
@@ -87,5 +87,12 @@ public class ColoredBedItem extends Item
                 return false;
             }
         }
+    }
+    
+    @Override
+    public String getUnlocalizedName(ItemStack itemStack)
+    {
+    	System.out.println(super.getUnlocalizedName() + "." + MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1));
+        return super.getUnlocalizedName() + "." + MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1);
     }
 }
