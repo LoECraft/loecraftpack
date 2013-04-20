@@ -118,12 +118,8 @@ public class LoECraftPack
 		
 		//Bed items and blocks
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
-		
-		for(int i = 0; i < 16; i++)
-		{
-			System.out.println("item.coloredBed." + i + ".name");
-			LanguageRegistry.instance().addStringLocalization("item.coloredBed." + i + ".name", "Bed : " + Dye.values()[i]);
-		}
+		for(int i = 0; i < ColoredBedBlock.bedTypes; i++)
+			LanguageRegistry.instance().addStringLocalization("item.coloredBed." + Dye.values()[i] + ".name", "Bed : " + Dye.values()[i]);
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");

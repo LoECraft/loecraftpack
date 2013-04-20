@@ -1,7 +1,11 @@
 package loecraftpack.items;
 
+import java.util.List;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.ColoredBedBlock;
+import loecraftpack.enums.Dye;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,6 +20,8 @@ public class ColoredBedItem extends Item
     public ColoredBedItem(int par1)
     {
         super(par1);
+        this.setHasSubtypes(true);
+		this.setMaxDamage(0);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
         this.setUnlocalizedName("coloredBed");
     }
@@ -92,7 +98,15 @@ public class ColoredBedItem extends Item
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-    	System.out.println(super.getUnlocalizedName() + "." + MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1));
-        return super.getUnlocalizedName() + "." + MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1);
+    	return super.getUnlocalizedName() + "." + Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1)];
     }
+    
+    @Override
+	public void getSubItems(int id, CreativeTabs tab, List list)
+	{
+		for (int j = 0; j < ColoredBedBlock.bedTypes+1; ++j)
+    	{
+    		list.add(new ItemStack(id, 1, j));
+    	}
+	}
 }
