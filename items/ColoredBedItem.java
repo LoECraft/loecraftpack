@@ -14,7 +14,6 @@ public class ColoredBedItem extends Item
 	//test
 	//Associated Block
 	public ColoredBedBlock block[] = new ColoredBedBlock[ColoredBedBlock.bedtypes];
-	public Dye color;//TODO make this more stable
 	
     public ColoredBedItem(int par1)
     {
@@ -67,11 +66,11 @@ public class ColoredBedItem extends Item
             {
                 if (world.isAirBlock(xCoord, yCoord, zCoord) && world.isAirBlock(xCoord + b0, yCoord, zCoord + b1) && world.doesBlockHaveSolidTopSurface(xCoord, yCoord - 1, zCoord) && world.doesBlockHaveSolidTopSurface(xCoord + b0, yCoord - 1, zCoord + b1))
                 {
-                    world.setBlock(xCoord, yCoord, zCoord, block[color.ordinal()].blockID, i1, 3);
+                    world.setBlock(xCoord, yCoord, zCoord, block[itemStack.getItemDamage()].blockID, i1, 3);
 
-                    if (world.getBlockId(xCoord, yCoord, zCoord) == block[color.ordinal()].blockID)
+                    if (world.getBlockId(xCoord, yCoord, zCoord) == block[itemStack.getItemDamage()].blockID)
                     {
-                        world.setBlock(xCoord + b0, yCoord, zCoord + b1, block[color.ordinal()].blockID, i1 + 8, 3);
+                        world.setBlock(xCoord + b0, yCoord, zCoord + b1, block[itemStack.getItemDamage()].blockID, i1 + 8, 3);
                     }
 
                     --itemStack.stackSize;
