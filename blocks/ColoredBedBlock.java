@@ -1,5 +1,6 @@
 package loecraftpack.blocks;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.ColoredBedItem;
@@ -19,20 +20,21 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
-	public ColoredBedItem item;
+	// TODO change 16 to a value dependent on the number of types
+	protected static int types = 16;
+	public ColoredBedItem item[] = new ColoredBedItem[types];
 	public Dye color;
 	
 	/** Maps the foot-of-bed block to the head-of-bed block. */
     public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
-    private Icon[] bedend;//end
+    protected static Icon[][] bedend = new Icon[types][];//end
     @SideOnly(Side.CLIENT)
-    private Icon[] bedside;//side
+    protected static Icon[][] bedside = new Icon[types][];//side
     @SideOnly(Side.CLIENT)
-    private Icon[] bedtop;//top
+    protected static Icon[][] bedtop = new Icon[types][];//top
     
     
-    // TODO  update constructor to accept Icons, to simply changing render.
 	public ColoredBedBlock(int par1) {
 		super(par1);
 	}
@@ -45,9 +47,12 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
-        this.bedtop = new Icon[] {par1IconRegister.registerIcon("bed_feet_top"), par1IconRegister.registerIcon("bed_head_top")};
-        this.bedend = new Icon[] {par1IconRegister.registerIcon("bed_feet_end"), par1IconRegister.registerIcon("bed_head_end")};
-        this.bedside = new Icon[] {par1IconRegister.registerIcon("bed_feet_side"), par1IconRegister.registerIcon("bed_head_side")};
+		for(int i=0; i<types; i++)
+		{
+			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_top")};
+			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_end")};
+			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_side")};
+		}
     }
 	
 	@SideOnly(Side.CLIENT)
@@ -66,14 +71,14 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
             int k = getDirection(par2);
             int l = Direction.bedDirection[k][par1];
             int i1 = isBlockHeadOfBed(par2) ? 1 : 0;
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedtop[i1] : this.bedside[i1]) : this.bedend[i1];
+            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedtop[color.ordinal()][i1] : this.bedside[color.ordinal()][i1]) : this.bedend[color.ordinal()][i1];
         }
     }
 	
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
-		return new ItemStack(item);
+		return new ItemStack(item[color.ordinal()]);
     }
 	
 	@Override
