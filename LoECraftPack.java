@@ -46,6 +46,7 @@ public class LoECraftPack
 	@Instance
     public static LoECraftPack instance = new LoECraftPack();
 	
+	//beds
 	ItemBedColor[] bedItems = new ItemBedColor[16];
 	BlockBedColor[] bedBlocks = new BlockBedColor[16];
 	String[] colors = new String[]
@@ -86,6 +87,7 @@ public class LoECraftPack
 	@PreInit
     public void preInit(FMLPreInitializationEvent event)
 	{
+		//Assign Bed IDs
 		for(int i = 0; i < 16; i++)
 		{
 			bedItems[i] = new ItemBedColor(670+i);
@@ -113,7 +115,7 @@ public class LoECraftPack
 		
 		proxy.doProxyStuff();
 		
-		//Bed Items
+		//Bed Registry
 		for(int i = 0; i < 16; i++)
 		{
 			LanguageRegistry.addName(bedItems[i].setUnlocalizedName("BedItem"+i), "Bed : " + colors[i]);
