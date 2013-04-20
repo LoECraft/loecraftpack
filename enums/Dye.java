@@ -7,7 +7,7 @@ public enum Dye {
 	LightBlue,
 	Yellow,
 	Lime,
-	Pinky,
+	Pink,
 	Gray,
 	LightGray,
 	Cyan,

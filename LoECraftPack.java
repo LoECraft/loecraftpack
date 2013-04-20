@@ -7,6 +7,7 @@ import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.ProtectionMonolithBlock;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.enums.Dye;
 import loecraftpack.items.Bits;
 import loecraftpack.items.ColoredBedItem;
 import loecraftpack.logic.handlers.EventHandler;
@@ -43,31 +44,17 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 serverPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = ServerPacketHandler.class))
 public class LoECraftPack
 {
+	/***************************/
+	/**Variable Initialization**/
+	/***************************/
+	
+	//Create a singleton
 	@Instance
     public static LoECraftPack instance = new LoECraftPack();
 	
-	//Instantiate bed variables
+	//Instantiate bed item variables
 	public static ColoredBedItem[] bedItems = new ColoredBedItem[16];
-	public static ColoredBedBlock[] bedBlocks = new ColoredBedBlock[16];
-	String[] colors = new String[]
-	{
-		"White",
-		"Orange",
-		"Magenta",
-		"Light Blue",
-		"Yellow",
-		"Lime",
-		"Pink",
-		"Gray",
-		"Light Gray",
-		"Cyan",
-		"Purple",
-		"Blue",
-		"Brown",
-		"Green",
-		"Red",
-		"Black"
-	};
+	
 	
 	//Register proxies
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
@@ -76,29 +63,49 @@ public class LoECraftPack
 	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
 	{
+		//Set the icon - TODO: ADD NEW ITEM WITH CUSTOM ICON FOR USE HERE 
         public ItemStack getIconItemStack()
         {
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
 	
-	//Register immutable items and blocks
+	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final Bits bits = new Bits(667);
-	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	
-	//Handle configuration and initialize iterable variables
+	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
+	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
+	
+	/****************************/
+	/**Forge Pre-Initialization**/
+	/****************************/
+	
 	@PreInit
     public void preInit(FMLPreInitializationEvent event)
 	{
+		/***************/
+		/**Load Config**/
+		/***************/
+		
+		//TODO: LOAD CONFIG HERE
+		
+		/************************/
+		/**Initialize Variables**/
+		/************************/
+		
 		//Assign Bed IDs
+		bedBlock.item = bedItems;
+		
 		for(int i = 0; i < 16; i++)
 		{
 			bedItems[i] = new ColoredBedItem(670+i);
-			bedBlocks[i] = new ColoredBedBlock(670+i);
-			bedItems[i].block = bedBlocks[i];
-			bedBlocks[i].item = bedItems[i];
+			//bedItems[i].block = bedBlocks[i];
 		}
     }
+	
+	/************************/
+	/**Forge Initialization**/
+	/************************/
 	
 	@Init
 	public void load(FMLInitializationEvent e)
@@ -118,6 +125,14 @@ public class LoECraftPack
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
 		
+		//Bed items and blocks
+		GameRegistry.registerBlock(bedBlock, "ColoredBed");
+		
+		for(int i = 0; i < 16; i++)
+		{
+			LanguageRegistry.instance().addStringLocalization("item.coloredBed." + i + ".name", "Bed : " + Dye.values()[i]);
+		}
+		
 		//Tile Entities
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");
 		GameRegistry.registerTileEntity(ColoredBedTileEntity.class, "ColoredBedTileEntity");
@@ -126,16 +141,9 @@ public class LoECraftPack
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		
-		//Bed items and blocks
-		proxy.doProxyStuff();
-		
-		//Bed Registry
-		for(int i = 0; i < 16; i++)
-		{
-			LanguageRegistry.addName(bedItems[i].setUnlocalizedName("BedItem"+i), "Bed : " + colors[i]);
-			LanguageRegistry.addName(bedBlocks[i].setUnlocalizedName("BedBlock"+i), "Bed : " + colors[i]);
-			GameRegistry.registerBlock(bedBlocks[i], "bed" + colors[i]);
-		}
+		/******************/
+		/**Do Proxy Stuff**/
+		/******************/
 		
 		//Schtuff
 		proxy.doProxyStuff();
@@ -152,26 +160,29 @@ public class LoECraftPack
     	Iterator r = recipes.iterator();
     	while (r.hasNext())
     	{
-    		//test if recipe creates a bed
     		IRecipe ir = (IRecipe)r.next();
-			if( ir != null && ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
+    		//if the recipe outputs a bed, remove it
+			if(ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
 			{
-				//clear old recipe and move on
 				r.remove();
-				break;//there really should only be one vanilla bed to remove, so stop once we find it
+				break; //there really should only be one vanilla bed to remove, so stop once we find it
 			}
     	}
     	
-    	//add new recipes to replace the old one
+    	//add the new bed recipes to replace the old one we just removed
     	for (int i = 0; i < 16; i++)
     	{
     		cmi.addRecipe(new ItemStack(bedItems[i]), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
     	}
 	}
 	
+	/*****************************/
+	/**Forge Post-Initialization**/
+	/*****************************/
+	
 	@PostInit
 	public void postLoad(FMLPostInitializationEvent e)
 	{
-		
+		//TODO: POST-LOAD STUFF
 	}
 }
