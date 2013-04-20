@@ -1,5 +1,6 @@
 package loecraftpack.blocks;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.ColoredBedItem;
@@ -21,7 +22,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
 	// TODO change 16 to a value dependent on the number of types
 	public static int bedtypes = 16;
-	public ColoredBedItem item[] = new ColoredBedItem[bedtypes];
 	public Dye color;//TODO make this more stable
 	
 	/** Maps the foot-of-bed block to the head-of-bed block. */
@@ -77,7 +77,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
-		return new ItemStack(item[color.ordinal()]);
+		return new ItemStack(LoECraftPack.bedItems, 1, color.ordinal());
     }
 	
 	@Override
@@ -89,6 +89,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
+		System.out.println("create tile");
 		return new ColoredBedTileEntity(this);
 	}
 }

@@ -53,7 +53,7 @@ public class LoECraftPack
     public static LoECraftPack instance = new LoECraftPack();
 	
 	//Instantiate bed item variables
-	public static ColoredBedItem[] bedItems = new ColoredBedItem[16];
+	
 	
 	
 	//Register proxies
@@ -72,7 +72,7 @@ public class LoECraftPack
 	
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final Bits bits = new Bits(667);
-	
+	public static final ColoredBedItem bedItems = new ColoredBedItem(670);
 	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
 	
@@ -92,15 +92,6 @@ public class LoECraftPack
 		/************************/
 		/**Initialize Variables**/
 		/************************/
-		
-		//Assign Bed IDs
-		bedBlock.item = bedItems;
-		
-		for(int i = 0; i < 16; i++)
-		{
-			bedItems[i] = new ColoredBedItem(670+i);
-			//bedItems[i].block = bedBlocks[i];
-		}
     }
 	
 	/************************/
@@ -172,7 +163,7 @@ public class LoECraftPack
     	//add the new bed recipes to replace the old one we just removed
     	for (int i = 0; i < 16; i++)
     	{
-    		cmi.addRecipe(new ItemStack(bedItems[i]), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
+    		cmi.addRecipe(new ItemStack(bedItems, 1, i), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
     	}
 	}
 	
