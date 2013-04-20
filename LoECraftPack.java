@@ -87,12 +87,13 @@ public class LoECraftPack
   ///Colored-Beds END///
 	
 	
-	@SidedProxy(clientSide = "tekner.loecraftpack.main.ClientProxy", serverSide = "tekner.loecraftpack.main.CommonProxy")
+	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;
 	
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
 	{
-        public ItemStack getIconItemStack() {
+        public ItemStack getIconItemStack()
+        {
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
@@ -101,10 +102,9 @@ public class LoECraftPack
 	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	
 	@PreInit
-    public void preInit(FMLPreInitializationEvent event) {
-    	
-		
-	  ///Colored Beds///
+    public void preInit(FMLPreInitializationEvent event)
+	{
+		///Colored Beds///
 		
     	iBedWhite     = new ItemBedColor(670);
         iBedOrange    = new ItemBedColor(671);
@@ -170,7 +170,7 @@ public class LoECraftPack
 		for(int i = 0; i < Bits.names.length; i++ )
 			LanguageRegistry.instance().addStringLocalization("item.itemBits." + Bits.iconNames[i] + ".name", "en_US", Bits.names[i]);
 		
-		GameRegistry.registerBlock(monolith, "ProtectionMonolith");
+		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
 		
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");
@@ -178,10 +178,12 @@ public class LoECraftPack
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		
-      ///Colored Beds///
+		proxy.doProxyStuff();
+		
+		///Colored Beds///
 		
 		//Bed Items
-        LanguageRegistry.addName(iBedWhite,     "Bed : White");
+        /*LanguageRegistry.addName(iBedWhite,     "Bed : White");
         LanguageRegistry.addName(iBedOrange,    "Bed : Orange");
         LanguageRegistry.addName(iBedMagenta,   "Bed : Magenta");
         LanguageRegistry.addName(iBedLightBlue, "Bed : Light Blue");
@@ -232,13 +234,10 @@ public class LoECraftPack
         LanguageRegistry.addName(  bBedBlack,     "Bed : Black");
         GameRegistry.registerBlock(bBedBlack,     "bedBlack");
         
-      ///Colored-Beds END///
+        ///Colored-Beds END///
 		
 		
-		proxy.doProxyStuff();
-		
-		
-	  ///Colored Beds///
+		///Colored Beds///
 		
         ///Update Recipes
         
@@ -281,7 +280,7 @@ public class LoECraftPack
     	
     	//add new recipes to replace the old one
     	for (int i = 0; i < 16; i++)
-    		cmi.addRecipe(new ItemStack(bedItems[i], 1), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
+    		cmi.addRecipe(new ItemStack(bedItems[i], 1), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);*/
         
       ///Colored-Beds END///
 		

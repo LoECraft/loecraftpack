@@ -57,7 +57,7 @@ public class Bits extends Item
 	@SideOnly(Side.CLIENT)
 	public void updateIcons(IconRegister iconRegister)
 	{
-	    	icons = new Icon[iconNames.length];
+	    icons = new Icon[iconNames.length];
 	        
 		for (int i = 0; i < iconNames.length; ++i)
 		{
