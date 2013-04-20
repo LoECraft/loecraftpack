@@ -1,4 +1,4 @@
-package rundo.coloredbeds;
+package tekner.loecraftpack;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
