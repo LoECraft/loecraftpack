@@ -6,7 +6,6 @@ import java.util.List;
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.gui.GuiIds;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.material.Material;
@@ -48,8 +47,6 @@ public class ProtectionMonolithBlock extends Block implements ITileEntityProvide
 	{
 		if (((ProtectionMonolithTileEntity)world.getBlockTileEntity(x, y, z)).isOwner(playerEntity.username))
 			playerEntity.openGui(LoECraftPack.instance, GuiIds.Monolith, world, x, y, z);
-		else
-			System.out.println("not allowed");
 		return false;
 	}
 	

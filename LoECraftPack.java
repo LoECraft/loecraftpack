@@ -14,7 +14,6 @@ import loecraftpack.logic.handlers.GuiHandler;
 import loecraftpack.packethandling.ClientPacketHandler;
 import loecraftpack.packethandling.ServerPacketHandler;
 import loecraftpack.proxies.CommonProxy;
-
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -117,8 +116,8 @@ public class LoECraftPack
 		//Bed Items
 		for(int i = 0; i < 16; i++)
 		{
-			LanguageRegistry.addName(bedItems[i].setUnlocalizedName("BedColor"+i), "Bed : " + colors[i]);
-			LanguageRegistry.addName(bedBlocks[i], "Bed : " + colors[i]);
+			LanguageRegistry.addName(bedItems[i].setUnlocalizedName("BedItem"+i), "Bed : " + colors[i]);
+			LanguageRegistry.addName(bedBlocks[i].setUnlocalizedName("BedBlock"+i), "Bed : " + colors[i]);
 			GameRegistry.registerBlock(bedBlocks[i], "bed" + colors[i]);
 		}
 		

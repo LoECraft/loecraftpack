@@ -2,8 +2,6 @@ package loecraftpack.items;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.BlockBedColor;
-import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
