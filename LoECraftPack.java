@@ -50,39 +50,39 @@ public class LoECraftPack
 	
   ///Colored Beds///
 	
-	private static Item iBedWhite;
-    private static Item iBedOrange;
-    private static Item iBedMagenta;
-    private static Item iBedLightBlue;
-    private static Item iBedYellow;
-    private static Item iBedLime;
-    private static Item iBedPink;
-    private static Item iBedGray;
-    private static Item iBedLightGray;
-    private static Item iBedCyan;
-    private static Item iBedPurple;
-    private static Item iBedBlue;
-    private static Item iBedBrown;
-    private static Item iBedGreen;
-    private static Item iBedRed;
-    private static Item iBedBlack;
+	private static ItemBedColor iBedWhite;
+    private static ItemBedColor iBedOrange;
+    private static ItemBedColor iBedMagenta;
+    private static ItemBedColor iBedLightBlue;
+    private static ItemBedColor iBedYellow;
+    private static ItemBedColor iBedLime;
+    private static ItemBedColor iBedPink;
+    private static ItemBedColor iBedGray;
+    private static ItemBedColor iBedLightGray;
+    private static ItemBedColor iBedCyan;
+    private static ItemBedColor iBedPurple;
+    private static ItemBedColor iBedBlue;
+    private static ItemBedColor iBedBrown;
+    private static ItemBedColor iBedGreen;
+    private static ItemBedColor iBedRed;
+    private static ItemBedColor iBedBlack;
     
-    private static Block bBedWhite;
-    private static Block bBedOrange;
-    private static Block bBedMagenta;
-    private static Block bBedLightBlue;
-    private static Block bBedYellow;
-    private static Block bBedLime;
-    private static Block bBedPink;
-    private static Block bBedGray;
-    private static Block bBedLightGray;
-    private static Block bBedCyan;
-    private static Block bBedPurple;
-    private static Block bBedBlue;
-    private static Block bBedBrown;
-    private static Block bBedGreen;
-    private static Block bBedRed;
-    private static Block bBedBlack;
+    private static BlockBedColor bBedWhite;
+    private static BlockBedColor bBedOrange;
+    private static BlockBedColor bBedMagenta;
+    private static BlockBedColor bBedLightBlue;
+    private static BlockBedColor bBedYellow;
+    private static BlockBedColor bBedLime;
+    private static BlockBedColor bBedPink;
+    private static BlockBedColor bBedGray;
+    private static BlockBedColor bBedLightGray;
+    private static BlockBedColor bBedCyan;
+    private static BlockBedColor bBedPurple;
+    private static BlockBedColor bBedBlue;
+    private static BlockBedColor bBedBrown;
+    private static BlockBedColor bBedGreen;
+    private static BlockBedColor bBedRed;
+    private static BlockBedColor bBedBlack;
     
   ///Colored-Beds END///
 	
@@ -106,39 +106,39 @@ public class LoECraftPack
 		
 	  ///Colored Beds///
 		
-    	ItemBedColor iBedWhite     = new ItemBedColor(670);
-        ItemBedColor iBedOrange    = new ItemBedColor(671);
-        ItemBedColor iBedMagenta   = new ItemBedColor(672);
-        ItemBedColor iBedLightBlue = new ItemBedColor(673);
-        ItemBedColor iBedYellow    = new ItemBedColor(674);
-        ItemBedColor iBedLime      = new ItemBedColor(675);
-        ItemBedColor iBedPink      = new ItemBedColor(676);
-        ItemBedColor iBedGray      = new ItemBedColor(677);
-        ItemBedColor iBedLightGray = new ItemBedColor(678);
-        ItemBedColor iBedCyan      = new ItemBedColor(679);
-        ItemBedColor iBedPurple    = new ItemBedColor(680);
-        ItemBedColor iBedBlue      = new ItemBedColor(681);
-        ItemBedColor iBedBrown     = new ItemBedColor(682);
-        ItemBedColor iBedGreen     = new ItemBedColor(683);
-        ItemBedColor iBedRed       = new ItemBedColor(684);
-        ItemBedColor iBedBlack     = new ItemBedColor(685);
+    	iBedWhite     = new ItemBedColor(670);
+        iBedOrange    = new ItemBedColor(671);
+        iBedMagenta   = new ItemBedColor(672);
+        iBedLightBlue = new ItemBedColor(673);
+        iBedYellow    = new ItemBedColor(674);
+        iBedLime      = new ItemBedColor(675);
+        iBedPink      = new ItemBedColor(676);
+        iBedGray      = new ItemBedColor(677);
+        iBedLightGray = new ItemBedColor(678);
+        iBedCyan      = new ItemBedColor(679);
+        iBedPurple    = new ItemBedColor(680);
+        iBedBlue      = new ItemBedColor(681);
+        iBedBrown     = new ItemBedColor(682);
+        iBedGreen     = new ItemBedColor(683);
+        iBedRed       = new ItemBedColor(684);
+        iBedBlack     = new ItemBedColor(685);
         
-        BlockBedColor bBedWhite     = new BlockBedColor(670);
-        BlockBedColor bBedOrange    = new BlockBedColor(671);
-        BlockBedColor bBedMagenta   = new BlockBedColor(672);
-        BlockBedColor bBedLightBlue = new BlockBedColor(673);
-        BlockBedColor bBedYellow    = new BlockBedColor(674);
-        BlockBedColor bBedLime      = new BlockBedColor(675);
-        BlockBedColor bBedPink      = new BlockBedColor(676);
-        BlockBedColor bBedGray      = new BlockBedColor(677);
-        BlockBedColor bBedLightGray = new BlockBedColor(678);
-        BlockBedColor bBedCyan      = new BlockBedColor(679);
-        BlockBedColor bBedPurple    = new BlockBedColor(680);
-        BlockBedColor bBedBlue      = new BlockBedColor(681);
-        BlockBedColor bBedBrown     = new BlockBedColor(682);
-        BlockBedColor bBedGreen     = new BlockBedColor(683);
-        BlockBedColor bBedRed       = new BlockBedColor(684);
-        BlockBedColor bBedBlack     = new BlockBedColor(685);
+        bBedWhite     = new BlockBedColor(670);
+        bBedOrange    = new BlockBedColor(671);
+        bBedMagenta   = new BlockBedColor(672);
+        bBedLightBlue = new BlockBedColor(673);
+        bBedYellow    = new BlockBedColor(674);
+        bBedLime      = new BlockBedColor(675);
+        bBedPink      = new BlockBedColor(676);
+        bBedGray      = new BlockBedColor(677);
+        bBedLightGray = new BlockBedColor(678);
+        bBedCyan      = new BlockBedColor(679);
+        bBedPurple    = new BlockBedColor(680);
+        bBedBlue      = new BlockBedColor(681);
+        bBedBrown     = new BlockBedColor(682);
+        bBedGreen     = new BlockBedColor(683);
+        bBedRed       = new BlockBedColor(684);
+        bBedBlack     = new BlockBedColor(685);
         
         //Link relation information directly
         iBedWhite.block = bBedWhite; bBedWhite.item = iBedWhite;
