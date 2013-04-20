@@ -14,11 +14,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class ProtectionMonolith extends Block implements ITileEntityProvider
+public class ProtectionMonolithBlock extends Block implements ITileEntityProvider
 {
 	public static List<ProtectionMonolithTileEntity> monoliths = new ArrayList<ProtectionMonolithTileEntity>();
 	
-	public ProtectionMonolith(int id)
+	public ProtectionMonolithBlock(int id)
 	{
 		super(id, Material.rock);
 		setUnlocalizedName("Protection Monolith");

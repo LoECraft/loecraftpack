@@ -5,14 +5,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import loecraftpack.blocks.BlockBedColor;
-import loecraftpack.blocks.ProtectionMonolith;
+import loecraftpack.blocks.ProtectionMonolithBlock;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.items.Bits;
 import loecraftpack.items.ItemBedColor;
 import loecraftpack.logic.handlers.EventHandler;
 import loecraftpack.logic.handlers.GuiHandler;
-import loecraftpack.packethandling.CPacketHandler;
-import loecraftpack.packethandling.SPacketHandler;
+import loecraftpack.packethandling.ClientPacketHandler;
+import loecraftpack.packethandling.ServerPacketHandler;
 import loecraftpack.proxies.CommonProxy;
 
 import net.minecraft.block.Block;
@@ -40,8 +40,8 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "loecraftpack", name = "LoECraft Pack", version = "1.0")
 
-@NetworkMod(clientSideRequired=true, serverSideRequired=false, clientPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = CPacketHandler.class),
-serverPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = SPacketHandler.class))
+@NetworkMod(clientSideRequired=true, serverSideRequired=false, clientPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = ClientPacketHandler.class),
+serverPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = ServerPacketHandler.class))
 public class LoECraftPack
 {
 	@Instance
@@ -98,7 +98,7 @@ public class LoECraftPack
 	};
 	
 	public static final Bits bits = new Bits(667);
-	public static final ProtectionMonolith monolith = new ProtectionMonolith(666);
+	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	
 	@PreInit
     public void preInit(FMLPreInitializationEvent event) {

@@ -15,7 +15,7 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class CPacketHandler implements IPacketHandler
+public class ClientPacketHandler implements IPacketHandler
 {
 	@Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload payload, Player player)

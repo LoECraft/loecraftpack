@@ -1,6 +1,6 @@
 package loecraftpack.logic.handlers;
 
-import loecraftpack.blocks.ProtectionMonolith;
+import loecraftpack.blocks.ProtectionMonolithBlock;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.logic.DialogLogic;
 import loecraftpack.packethandling.PacketHelper;
@@ -35,7 +35,7 @@ public class EventHandler
 					break;
 			}
 		}
-		for(ProtectionMonolithTileEntity te : ProtectionMonolith.monoliths)
+		for(ProtectionMonolithTileEntity te : ProtectionMonolithBlock.monoliths)
 		{
 			if (te.xCoord == event.x && te.yCoord == event.y && te.zCoord == event.z)
 				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, event.x, event.y, event.z));
@@ -79,7 +79,7 @@ public class EventHandler
 					break;
 			}
 		}
-		for(ProtectionMonolithTileEntity te : ProtectionMonolith.monoliths)
+		for(ProtectionMonolithTileEntity te : ProtectionMonolithBlock.monoliths)
 		{
 			if (te.Owners.size() > 0)
 			{
