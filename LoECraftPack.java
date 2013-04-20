@@ -183,7 +183,7 @@ public class LoECraftPack
 		///Colored Beds///
 		
 		//Bed Items
-        /*LanguageRegistry.addName(iBedWhite,     "Bed : White");
+        LanguageRegistry.addName(iBedWhite,     "Bed : White");
         LanguageRegistry.addName(iBedOrange,    "Bed : Orange");
         LanguageRegistry.addName(iBedMagenta,   "Bed : Magenta");
         LanguageRegistry.addName(iBedLightBlue, "Bed : Light Blue");
@@ -270,7 +270,7 @@ public class LoECraftPack
     	{
     		//test if recipe creates a bed
     		IRecipe ir = (IRecipe)r.next();
-			if( ir != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
+			if( ir != null && ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
 			{
 				//clear old recipe and move on
 				r.remove();
@@ -280,7 +280,7 @@ public class LoECraftPack
     	
     	//add new recipes to replace the old one
     	for (int i = 0; i < 16; i++)
-    		cmi.addRecipe(new ItemStack(bedItems[i], 1), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);*/
+    		cmi.addRecipe(new ItemStack(bedItems[i], 1), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
         
       ///Colored-Beds END///
 		
