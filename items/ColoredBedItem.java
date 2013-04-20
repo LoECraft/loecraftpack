@@ -26,9 +26,9 @@ public class ColoredBedItem extends Item
      * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
      * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
      */
-    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+    public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xCoord, int yCoord, int zCoord, int par7, float par8, float par9, float par10)
     {
-        if (par3World.isRemote)
+        if (world.isRemote)
         {
             return true;
         }
@@ -38,8 +38,8 @@ public class ColoredBedItem extends Item
         }
         else
         {
-            ++par5;
-            int i1 = MathHelper.floor_double((double)(par2EntityPlayer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+            ++yCoord;
+            int i1 = MathHelper.floor_double((double)(player.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
             byte b0 = 0;
             byte b1 = 0;
 
@@ -63,18 +63,18 @@ public class ColoredBedItem extends Item
                 b0 = 1;
             }
 
-            if (par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack) && par2EntityPlayer.canPlayerEdit(par4 + b0, par5, par6 + b1, par7, par1ItemStack))
+            if (player.canPlayerEdit(xCoord, yCoord, zCoord, par7, itemStack) && player.canPlayerEdit(xCoord + b0, yCoord, zCoord + b1, par7, itemStack))
             {
-                if (par3World.isAirBlock(par4, par5, par6) && par3World.isAirBlock(par4 + b0, par5, par6 + b1) && par3World.doesBlockHaveSolidTopSurface(par4, par5 - 1, par6) && par3World.doesBlockHaveSolidTopSurface(par4 + b0, par5 - 1, par6 + b1))
+                if (world.isAirBlock(xCoord, yCoord, zCoord) && world.isAirBlock(xCoord + b0, yCoord, zCoord + b1) && world.doesBlockHaveSolidTopSurface(xCoord, yCoord - 1, zCoord) && world.doesBlockHaveSolidTopSurface(xCoord + b0, yCoord - 1, zCoord + b1))
                 {
-                    par3World.setBlock(par4, par5, par6, block[color.ordinal()].blockID, i1, 3);
+                    world.setBlock(xCoord, yCoord, zCoord, block[color.ordinal()].blockID, i1, 3);
 
-                    if (par3World.getBlockId(par4, par5, par6) == block[color.ordinal()].blockID)
+                    if (world.getBlockId(xCoord, yCoord, zCoord) == block[color.ordinal()].blockID)
                     {
-                        par3World.setBlock(par4 + b0, par5, par6 + b1, block[color.ordinal()].blockID, i1 + 8, 3);
+                        world.setBlock(xCoord + b0, yCoord, zCoord + b1, block[color.ordinal()].blockID, i1 + 8, 3);
                     }
 
-                    --par1ItemStack.stackSize;
+                    --itemStack.stackSize;
                     return true;
                 }
                 else

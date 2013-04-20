@@ -59,17 +59,17 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     /**
      * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
      */
-    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    public Icon getBlockTextureFromSideAndMetadata(int side, int meta)
     {
-        if (par1 == 0)
+        if (side == 0)
         {
-            return Block.planks.getBlockTextureFromSide(par1);
+            return Block.planks.getBlockTextureFromSide(side);
         }
         else
         {
-            int k = getDirection(par2);
-            int l = Direction.bedDirection[k][par1];
-            int i1 = isBlockHeadOfBed(par2) ? 1 : 0;
+            int k = getDirection(meta);
+            int l = Direction.bedDirection[k][side];
+            int i1 = isBlockHeadOfBed(meta) ? 1 : 0;
             return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedtop[color.ordinal()][i1] : this.bedside[color.ordinal()][i1]) : this.bedend[color.ordinal()][i1];
         }
     }
