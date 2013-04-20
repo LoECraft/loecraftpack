@@ -2,6 +2,7 @@ package loecraftpack.items;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.ColoredBedBlock;
+import loecraftpack.enums.Dye;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -12,7 +13,8 @@ public class ColoredBedItem extends Item
 {
 	//test
 	//Associated Block
-	public ColoredBedBlock block;
+	public ColoredBedBlock block[] = new ColoredBedBlock[ColoredBedBlock.bedtypes];
+	public Dye color;//TODO make this more stable
 	
     public ColoredBedItem(int par1)
     {
@@ -65,11 +67,11 @@ public class ColoredBedItem extends Item
             {
                 if (par3World.isAirBlock(par4, par5, par6) && par3World.isAirBlock(par4 + b0, par5, par6 + b1) && par3World.doesBlockHaveSolidTopSurface(par4, par5 - 1, par6) && par3World.doesBlockHaveSolidTopSurface(par4 + b0, par5 - 1, par6 + b1))
                 {
-                    par3World.setBlock(par4, par5, par6, block.blockID, i1, 3);
+                    par3World.setBlock(par4, par5, par6, block[color.ordinal()].blockID, i1, 3);
 
-                    if (par3World.getBlockId(par4, par5, par6) == block.blockID)
+                    if (par3World.getBlockId(par4, par5, par6) == block[color.ordinal()].blockID)
                     {
-                        par3World.setBlock(par4 + b0, par5, par6 + b1, block.blockID, i1 + 8, 3);
+                        par3World.setBlock(par4 + b0, par5, par6 + b1, block[color.ordinal()].blockID, i1 + 8, 3);
                     }
 
                     --par1ItemStack.stackSize;

@@ -1,6 +1,5 @@
 package loecraftpack.blocks;
 
-import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.ColoredBedItem;
@@ -21,18 +20,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
 	// TODO change 16 to a value dependent on the number of types
-	protected static int types = 16;
-	public ColoredBedItem item[] = new ColoredBedItem[types];
-	public Dye color;
+	public static int bedtypes = 16;
+	public ColoredBedItem item[] = new ColoredBedItem[bedtypes];
+	public Dye color;//TODO make this more stable
 	
 	/** Maps the foot-of-bed block to the head-of-bed block. */
     public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedend = new Icon[types][];//end
+    protected static Icon[][] bedend = new Icon[bedtypes][];//end
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedside = new Icon[types][];//side
+    protected static Icon[][] bedside = new Icon[bedtypes][];//side
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedtop = new Icon[types][];//top
+    protected static Icon[][] bedtop = new Icon[bedtypes][];//top
     
     
 	public ColoredBedBlock(int par1) {
@@ -47,7 +46,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
-		for(int i=0; i<types; i++)
+		for(int i=0; i<bedtypes; i++)
 		{
 			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_top")};
 			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_end")};
