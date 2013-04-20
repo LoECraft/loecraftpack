@@ -46,15 +46,9 @@ public class LoECraftPack
 	@Instance
     public static LoECraftPack instance = new LoECraftPack();
 	
-<<<<<<< HEAD
 	//Instantiate bed variables
 	public static ColoredBedItem[] bedItems = new ColoredBedItem[16];
 	public static ColoredBedBlock[] bedBlocks = new ColoredBedBlock[16];
-=======
-	//beds
-	ItemBedColor[] bedItems = new ItemBedColor[16];
-	BlockBedColor[] bedBlocks = new BlockBedColor[16];
->>>>>>> 1cd362e014028fcf68fbfaf3835d21b6b77f6d38
 	String[] colors = new String[]
 	{
 		"White",
@@ -96,11 +90,7 @@ public class LoECraftPack
 	@PreInit
     public void preInit(FMLPreInitializationEvent event)
 	{
-<<<<<<< HEAD
-		//
-=======
 		//Assign Bed IDs
->>>>>>> 1cd362e014028fcf68fbfaf3835d21b6b77f6d38
 		for(int i = 0; i < 16; i++)
 		{
 			bedItems[i] = new ColoredBedItem(670+i);
@@ -136,13 +126,10 @@ public class LoECraftPack
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		
-<<<<<<< HEAD
 		//Bed items and blocks
-=======
 		proxy.doProxyStuff();
 		
 		//Bed Registry
->>>>>>> 1cd362e014028fcf68fbfaf3835d21b6b77f6d38
 		for(int i = 0; i < 16; i++)
 		{
 			LanguageRegistry.addName(bedItems[i].setUnlocalizedName("BedItem"+i), "Bed : " + colors[i]);
