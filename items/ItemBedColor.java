@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 
 public class ItemBedColor extends Item
 {
+	//test
 	//Associated Block
 	public BlockBedColor block;
 	
