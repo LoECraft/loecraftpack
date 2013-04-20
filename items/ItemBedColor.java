@@ -1,5 +1,6 @@
 package loecraftpack.items;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.BlockBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -18,7 +19,7 @@ public class ItemBedColor extends Item
     public ItemBedColor(int par1)
     {
         super(par1);
-        this.setCreativeTab(CreativeTabs.tabDecorations);
+        this.setCreativeTab(LoECraftPack.LoECraftTab);
     }
 
     /**
