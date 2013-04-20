@@ -4,8 +4,10 @@ import loecraftpack.items.ItemBedColor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -59,5 +61,10 @@ public class BlockBedColor extends BlockBed {
             int i1 = isBlockHeadOfBed(par2) ? 1 : 0;
             return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedtop[i1] : this.bedside[i1]) : this.bedend[i1];
         }
+    }
+	
+	public boolean isBed(World world, int x, int y, int z, EntityLiving player)
+    {
+        return true;
     }
 }
