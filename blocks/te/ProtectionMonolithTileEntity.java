@@ -27,8 +27,6 @@ public class ProtectionMonolithTileEntity extends TileEntity
 			 
 	public List<String> Owners = new ArrayList<String>();
 	
-	public boolean isMine = false;
-	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
     {
@@ -60,13 +58,9 @@ public class ProtectionMonolithTileEntity extends TileEntity
     }
 	
 	@Override
-	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet) {
-		readFromNBT(packet.customParam1);
-	}
-	
-	@Override
-	public void updateEntity()
+	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet)
 	{
+		readFromNBT(packet.customParam1);
 	}
 	
 	@SideOnly(Side.CLIENT)

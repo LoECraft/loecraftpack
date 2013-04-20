@@ -1,20 +1,20 @@
 package loecraftpack.items;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.blocks.BlockBedColor;
+import loecraftpack.blocks.ColoredBedBlock;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemBedColor extends Item
+public class ColoredBedItem extends Item
 {
 	//test
 	//Associated Block
-	public BlockBedColor block;
+	public ColoredBedBlock block;
 	
-    public ItemBedColor(int par1)
+    public ColoredBedItem(int par1)
     {
         super(par1);
         this.setCreativeTab(LoECraftPack.LoECraftTab);

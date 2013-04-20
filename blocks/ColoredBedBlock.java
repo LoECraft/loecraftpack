@@ -1,19 +1,26 @@
 package loecraftpack.blocks;
 
-import loecraftpack.items.ItemBedColor;
+import loecraftpack.blocks.te.ColoredBedTileEntity;
+import loecraftpack.enums.Dye;
+import loecraftpack.items.ColoredBedItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockBedColor extends BlockBed {
+public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
-	public ItemBedColor item;
+	public ColoredBedItem item;
+	public Dye color;
 	
 	/** Maps the foot-of-bed block to the head-of-bed block. */
     public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
@@ -26,7 +33,7 @@ public class BlockBedColor extends BlockBed {
     
     
     // TODO  update constructor to accept Icons, to simply changing render.
-	public BlockBedColor(int par1) {
+	public ColoredBedBlock(int par1) {
 		super(par1);
 	}
 	
@@ -63,8 +70,21 @@ public class BlockBedColor extends BlockBed {
         }
     }
 	
+	@Override
+	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
+    {
+		return new ItemStack(item);
+    }
+	
+	@Override
 	public boolean isBed(World world, int x, int y, int z, EntityLiving player)
     {
         return true;
     }
+
+	@Override
+	public TileEntity createNewTileEntity(World world)
+	{
+		return new ColoredBedTileEntity(this);
+	}
 }

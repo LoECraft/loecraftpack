@@ -1,14 +1,14 @@
 package loecraftpack;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import loecraftpack.blocks.BlockBedColor;
+import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.ProtectionMonolithBlock;
+import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.items.Bits;
-import loecraftpack.items.ItemBedColor;
+import loecraftpack.items.ColoredBedItem;
 import loecraftpack.logic.handlers.EventHandler;
 import loecraftpack.logic.handlers.GuiHandler;
 import loecraftpack.packethandling.ClientPacketHandler;
@@ -46,8 +46,15 @@ public class LoECraftPack
 	@Instance
     public static LoECraftPack instance = new LoECraftPack();
 	
+<<<<<<< HEAD
+	//Instantiate bed variables
+	public static ColoredBedItem[] bedItems = new ColoredBedItem[16];
+	public static ColoredBedBlock[] bedBlocks = new ColoredBedBlock[16];
+=======
+	//beds
 	ItemBedColor[] bedItems = new ItemBedColor[16];
 	BlockBedColor[] bedBlocks = new BlockBedColor[16];
+>>>>>>> 1cd362e014028fcf68fbfaf3835d21b6b77f6d38
 	String[] colors = new String[]
 	{
 		"White",
@@ -68,10 +75,11 @@ public class LoECraftPack
 		"Black"
 	};
 	
-	
+	//Register proxies
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;
 	
+	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
 	{
         public ItemStack getIconItemStack()
@@ -80,16 +88,23 @@ public class LoECraftPack
         }
 	};
 	
+	//Register immutable items and blocks
 	public static final Bits bits = new Bits(667);
 	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	
+	//Handle configuration and initialize iterable variables
 	@PreInit
     public void preInit(FMLPreInitializationEvent event)
 	{
+<<<<<<< HEAD
+		//
+=======
+		//Assign Bed IDs
+>>>>>>> 1cd362e014028fcf68fbfaf3835d21b6b77f6d38
 		for(int i = 0; i < 16; i++)
 		{
-			bedItems[i] = new ItemBedColor(670+i);
-			bedBlocks[i] = new BlockBedColor(670+i);
+			bedItems[i] = new ColoredBedItem(670+i);
+			bedBlocks[i] = new ColoredBedBlock(670+i);
 			bedItems[i].block = bedBlocks[i];
 			bedBlocks[i].item = bedItems[i];
 		}
@@ -98,22 +113,36 @@ public class LoECraftPack
 	@Init
 	public void load(FMLInitializationEvent e)
 	{
+		/****************************/
+		/**Register everything else**/
+		/****************************/
+		
+		//Creative tab
 		LanguageRegistry.instance().addStringLocalization("itemGroup.LoECraftTab", "LoECraft");
 		
+		//Items
 		for(int i = 0; i < Bits.names.length; i++ )
 			LanguageRegistry.instance().addStringLocalization("item.itemBits." + Bits.iconNames[i] + ".name", Bits.names[i]);
 		
+		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
 		
+		//Tile Entities
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");
+		GameRegistry.registerTileEntity(ColoredBedTileEntity.class, "ColoredBedTileEntity");
 		
+		//Handlers
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		
+<<<<<<< HEAD
+		//Bed items and blocks
+=======
 		proxy.doProxyStuff();
 		
-		//Bed Items
+		//Bed Registry
+>>>>>>> 1cd362e014028fcf68fbfaf3835d21b6b77f6d38
 		for(int i = 0; i < 16; i++)
 		{
 			LanguageRegistry.addName(bedItems[i].setUnlocalizedName("BedItem"+i), "Bed : " + colors[i]);
@@ -121,7 +150,12 @@ public class LoECraftPack
 			GameRegistry.registerBlock(bedBlocks[i], "bed" + colors[i]);
 		}
 		
-        ///Update Recipes
+		//Schtuff
+		proxy.doProxyStuff();
+		
+		/******************/
+		/**Update Recipes**/
+		/******************/
         
         //get CraftingManager
     	CraftingManager cmi = CraftingManager.getInstance();
@@ -137,7 +171,7 @@ public class LoECraftPack
 			{
 				//clear old recipe and move on
 				r.remove();
-				break;//there really should only be one vanilla bed to remove
+				break;//there really should only be one vanilla bed to remove, so stop once we find it
 			}
     	}
     	
@@ -146,23 +180,11 @@ public class LoECraftPack
     	{
     		cmi.addRecipe(new ItemStack(bedItems[i]), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
     	}
-        
-      ///Colored-Beds END///
-		
 	}
 	
 	@PostInit
 	public void postLoad(FMLPostInitializationEvent e)
 	{
-		List recipeList = new ArrayList();
-		recipeList.addAll(CraftingManager.getInstance().getRecipeList());
 		
-		for(int i = 0; i < recipeList.size(); i++)
-		{
-			IRecipe recipe = (IRecipe)recipeList.get(i);
-			ItemStack output = recipe.getRecipeOutput();
-			if (output != null && output.itemID == 130)
-				CraftingManager.getInstance().getRecipeList().remove(recipe);
-		}
 	}
 }
