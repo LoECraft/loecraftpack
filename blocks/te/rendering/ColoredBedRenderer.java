@@ -1,13 +1,44 @@
 package loecraftpack.blocks.te.rendering;
 
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Icon;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.world.IBlockAccess;
+import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
-public class ColoredBedRenderer
+@SideOnly(Side.CLIENT)
+public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 {
+	public int RenderID;
 
+	@Override
+	public void renderInventoryBlock(Block block, int metadata, int modelID,
+			RenderBlocks renderer)
+	{
+	}
+
+	@Override
+	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
+			Block block, int modelId, RenderBlocks renderer)
+	{
+		
+		// TODO RENDER THE BEDS
+		return false;
+	}
+
+	@Override
+	public boolean shouldRender3DInInventory()
+	{
+		return false;
+	}
+
+	@Override
+	public int getRenderId()
+	{
+		return RenderID;
+	}
+	
 }
 
 
