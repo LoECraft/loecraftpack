@@ -256,9 +256,9 @@ public class LoECraftPack
         bedItems [10] = iBedPurple;
         bedItems [11] = iBedBlue;
         bedItems [12] = iBedBrown;
-        bedItems [13] = iBedGreen;
+        bedItems [15] = iBedGreen;
         bedItems [14] = iBedRed;
-        bedItems [15] = iBedBlack;
+        bedItems [13] = iBedBlack;
         
         //get CraftingManager
     	CraftingManager cmi = CraftingManager.getInstance();
@@ -280,7 +280,7 @@ public class LoECraftPack
     	
     	//add new recipes to replace the old one
     	for (int i = 0; i < 16; i++)
-    		cmi.addRecipe(new ItemStack(bedItems[i], 1), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
+    		cmi.addRecipe(new ItemStack(bedItems[i]), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
         
       ///Colored-Beds END///
 		
