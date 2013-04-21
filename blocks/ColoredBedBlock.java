@@ -31,11 +31,11 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	/** Maps the foot-of-bed block to the head-of-bed block. */
     public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedend = new Icon[bedTypes][];//end
+    public static Icon[][] bedend = new Icon[bedTypes][];//end
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedside = new Icon[bedTypes][];//side
+    public static Icon[][] bedside = new Icon[bedTypes][];//side
     @SideOnly(Side.CLIENT)
-    protected static Icon[][] bedtop = new Icon[bedTypes][];//top
+    public static Icon[][] bedtop = new Icon[bedTypes][];//top
     
     
 	public ColoredBedBlock(int par1) {
@@ -63,20 +63,22 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     /**
      * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
      */
-    public Icon getBlockTextureFromSideAndMetadata(int side, int meta)
+    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
     {
-        if (side == 0)
+        if (par1 == 0)
         {
-            return Block.planks.getBlockTextureFromSide(side);
+            return Block.planks.getBlockTextureFromSide(par1);
         }
         else
         {
-            int k = getDirection(meta);
-            int l = Direction.bedDirection[k][side];
-            int i1 = isBlockHeadOfBed(meta) ? 1 : 0;
+            int k = getDirection(par2);
+            int l = Direction.bedDirection[k][par1];
+            int i1 = isBlockHeadOfBed(par2) ? 1 : 0;
             return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedtop[color.ordinal()][i1] : this.bedside[color.ordinal()][i1]) : this.bedend[color.ordinal()][i1];
         }
     }
+	
+	
 	
 	@Override
 	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
