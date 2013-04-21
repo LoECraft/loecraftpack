@@ -106,7 +106,7 @@ public class ColoredBedItem extends Item
     @Override
 	public void getSubItems(int id, CreativeTabs tab, List list)
 	{
-		for (int j = 0; j < ColoredBedBlock.bedTypes+1; ++j)
+		for (int j = 0; j < ColoredBedBlock.bedTypes; ++j)
     	{
     		list.add(new ItemStack(id, 1, j));
     	}
