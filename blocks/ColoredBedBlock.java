@@ -69,7 +69,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
     {
-		return return Block.planks.getBlockTextureFromSide(par1);
+		return Block.planks.getBlockTextureFromSide(par1);
     }
 		
 	@Override
