@@ -1,6 +1,5 @@
 package loecraftpack.blocks.te;
 
-import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.enums.Dye;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -12,6 +11,9 @@ import net.minecraft.util.MathHelper;
 public class ColoredBedTileEntity extends TileEntity
 {
 	public Dye color = Dye.White;
+	
+	public ColoredBedTileEntity()
+	{}
 	
 	public ColoredBedTileEntity(Dye color)
 	{
@@ -43,6 +45,7 @@ public class ColoredBedTileEntity extends TileEntity
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet)
 	{
+		System.out.println("onDataPacket");
 		readFromNBT(packet.customParam1);
 	}
 }

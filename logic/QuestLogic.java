@@ -1,5 +1,7 @@
 package loecraftpack.logic;
 
+import java.util.Arrays;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.gui.DialogGUI;
 import loecraftpack.gui.GuiIds;
@@ -28,7 +30,7 @@ public class QuestLogic
 					try
 					{
 						int bits = Integer.parseInt(rewardText[i]);
-						rewardText[i] = "§e" + bits + " §lBits";
+						rewardText[i] = DialogLogic.TranslateChatColor("&e" + bits + " &lBits");
 					}
 					catch(Exception e)
 					{}
@@ -39,7 +41,7 @@ public class QuestLogic
 					{
 						String[] split = rewardText[i].split(" ");
 						int amount = Integer.parseInt(split[0]);
-						rewardText[i] = "§e" + amount + " §f§n" + rewardText[i].substring(split[0].length() + 1);
+						rewardText[i] = DialogLogic.TranslateChatColor("&e" + amount + " &f&n" + rewardText[i].substring(split[0].length() + 1));
 					}
 					catch(Exception e)
 					{}

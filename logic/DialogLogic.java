@@ -118,6 +118,11 @@ public class DialogLogic
 	{
 		return button.ordinal();
 	}
+	
+	public static String TranslateChatColor(String msg)
+	{
+		return msg.replaceAll("&((?i)[0-9a-fk-or])", "\u00A7$1");
+	}
 }
 
 class Message
@@ -135,7 +140,7 @@ class Message
 		this.doneButtonText = doneButtonText;
 		this.button = button;
 		
-		dialogText = dialogText.replaceAll("&((?i)[0-9a-fk-or])", "\u00A7$1");
+		dialogText = DialogLogic.TranslateChatColor(dialogText);
 		String str = "";
 		List<String> temp = new ArrayList<String>();
 		for(int i = 0; i < dialogText.length(); i ++ )

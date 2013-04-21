@@ -2,6 +2,7 @@ package loecraftpack.gui;
 
 import java.awt.Color;
 
+import loecraftpack.logic.DialogLogic;
 import loecraftpack.logic.QuestLogic;
 
 import net.minecraft.client.gui.GuiButton;
@@ -55,7 +56,7 @@ public class QuestGUI extends GuiScreen
 		drawDefaultBackground();
 	
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/tekner/loecraftpack/gui/quest.png");
+		mc.renderEngine.bindTexture("/loecraftpack/gui/quest.png");
 	
 		int posX = (this.width - xSizeOfTexture) / 2;
 		int posY = (this.height - ySizeOfTexture) / 2;
@@ -65,10 +66,10 @@ public class QuestGUI extends GuiScreen
 		
 		int e = 0;
 		for(int i = 0; i < QuestLogic.questTask.length; i++ )
-			drawString(fontRenderer, "§l§0*§r " + QuestLogic.questTask[i], posX + 16, posY + 52 + i*12, white);
+			drawString(fontRenderer, DialogLogic.TranslateChatColor("&l&0*&r " + QuestLogic.questTask[i]), posX + 16, posY + 52 + i*12, white);
 		
 		for(int i = 0; i < QuestLogic.rewardText.length; i++ )
-			drawString(fontRenderer, "§l§0*§r " + QuestLogic.rewardText[i], posX + 16, posY + 144 + i*12, white);
+			drawString(fontRenderer, DialogLogic.TranslateChatColor("&l&0*&r " + QuestLogic.rewardText[i]), posX + 16, posY + 144 + i*12, white);
 		
 		super.drawScreen(x, y, f);
 	}
