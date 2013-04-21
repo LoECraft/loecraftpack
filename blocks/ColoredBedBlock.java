@@ -26,14 +26,13 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
 	// TODO change 16 to a value dependent on the number of types
 	public static int bedTypes = 16;
-	public Dye color = Dye.White;//TODO make this more stable
 	
     @SideOnly(Side.CLIENT)
-    public Icon[][] bedend = new Icon[bedTypes][];//end
+    public Icon[][] bedend;
     @SideOnly(Side.CLIENT)
-    public Icon[][] bedside = new Icon[bedTypes][];//side
+    public Icon[][] bedside;
     @SideOnly(Side.CLIENT)
-    public Icon[][] bedtop = new Icon[bedTypes][];//top
+    public Icon[][] bedtop;
     
     public int renderID = 14;
     
@@ -58,6 +57,9 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
+		bedend = new Icon[bedTypes][];//end
+		bedside = new Icon[bedTypes][];//side
+		bedtop = new Icon[bedTypes][];//top
 		for(int i=0; i<bedTypes; i++)
 		{
 			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_top")};
@@ -65,6 +67,10 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_side")};
 		}
     }
+	
+	//TODO remove the following variable, and function
+	//moved this to here, as it is to be removed once the following function is no longer called
+	public Dye color = Dye.White;
 	
 	@SideOnly(Side.CLIENT)
 
@@ -121,7 +127,11 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	@Override
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
-		return new ItemStack(LoECraftPack.bedItems, 1, color.ordinal());
+		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		if( tile instanceof ColoredBedTileEntity)
+			return new ItemStack(LoECraftPack.bedItems, 1, ((ColoredBedTileEntity)tile).color.ordinal());
+		else
+		    return new ItemStack(LoECraftPack.bedItems, 1, Dye.White.ordinal());
     }
 	
 	@Override
