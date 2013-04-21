@@ -6,16 +6,12 @@ import java.util.Random;
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
-import loecraftpack.items.ColoredBedItem;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -67,33 +63,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")};
 		}
     }
-	
-	//TODO remove the following variable, and function
-	//moved this to here, as it is to be removed once the following function is no longer called
-	public Dye color = Dye.White;
-	
-	@SideOnly(Side.CLIENT)
-
-    /**
-     * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
-     */
-    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
-    {
-        if (par1 == 0)
-        {
-            return Block.planks.getBlockTextureFromSide(par1);
-        }
-        else
-        {
-            int k = getDirection(par2);
-            int l = Direction.bedDirection[k][par1];
-            int i1 = isBlockHeadOfBed(par2) ? 1 : 0;
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? this.bedtop[color.ordinal()][i1] : this.bedside[color.ordinal()][i1]) : this.bedend[color.ordinal()][i1];
-        }
-    }
-	
-	
-	
+		
 	@Override
 	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
     {
