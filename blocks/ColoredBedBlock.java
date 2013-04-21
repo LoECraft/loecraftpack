@@ -29,13 +29,13 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	public Dye color = Dye.White;//TODO make this more stable
 	
     @SideOnly(Side.CLIENT)
-    public static Icon[][] bedend = new Icon[bedTypes][];//end
+    public Icon[][] bedend = new Icon[bedTypes][];//end
     @SideOnly(Side.CLIENT)
-    public static Icon[][] bedside = new Icon[bedTypes][];//side
+    public Icon[][] bedside = new Icon[bedTypes][];//side
     @SideOnly(Side.CLIENT)
-    public static Icon[][] bedtop = new Icon[bedTypes][];//top
+    public Icon[][] bedtop = new Icon[bedTypes][];//top
     
-    public int renderID;
+    public int renderID = 14;
     
 	public ColoredBedBlock(int par1) {
 		super(par1);
