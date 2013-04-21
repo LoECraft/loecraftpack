@@ -1,10 +1,12 @@
 package loecraftpack.blocks.te.rendering;
 
 import loecraftpack.blocks.ColoredBedBlock;
+import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
@@ -17,7 +19,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 {
     
-	public int RenderID;
+	public int renderID;
 	
 	public Icon getBlockIcon(ColoredBedBlock block ,int side, int meta, Dye color)
     {
@@ -45,9 +47,11 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 			Block block, int modelId, RenderBlocks renderer)
 	{
 		// TODO RENDER THE BEDS
-		System.out.println("Custom Rneder Code");
-		
+		System.out.println("Custom Render Code");
+		TileEntity colorTile = world.getBlockTileEntity(x, y, z);
 		Dye color = Dye.White;//set by tile entity
+		if(colorTile instanceof ColoredBedTileEntity)
+			color = ((ColoredBedTileEntity)colorTile).color;
 		int metadata = world.getBlockMetadata(x, y, z);
 		
 		
@@ -195,7 +199,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 	@Override
 	public int getRenderId()
 	{
-		return RenderID;
+		return renderID;
 	}
 	
 }

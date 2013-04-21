@@ -28,8 +28,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	public static int bedTypes = 16;
 	public Dye color = Dye.White;//TODO make this more stable
 	
-	/** Maps the foot-of-bed block to the head-of-bed block. */
-    public static final int[][] footBlockToHeadBlockMap = new int[][] {{0, 1}, { -1, 0}, {0, -1}, {1, 0}};
     @SideOnly(Side.CLIENT)
     public static Icon[][] bedend = new Icon[bedTypes][];//end
     @SideOnly(Side.CLIENT)
@@ -37,10 +35,20 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     @SideOnly(Side.CLIENT)
     public static Icon[][] bedtop = new Icon[bedTypes][];//top
     
+    public int renderID;
     
 	public ColoredBedBlock(int par1) {
 		super(par1);
 	}
+	
+	/**
+     * The type of render function that is called for this block
+     */
+	@Override
+    public int getRenderType()
+    {
+        return renderID;
+    }
 	
 	@SideOnly(Side.CLIENT)
 

@@ -1,5 +1,6 @@
 package loecraftpack.proxies;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.blocks.te.rendering.ColoredBedRenderer;
 import loecraftpack.blocks.te.rendering.ProtectionMonolithRenderer;
@@ -18,7 +19,7 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(ProtectionMonolithTileEntity.class, new ProtectionMonolithRenderer());
 		KeyBindingRegistry.registerKeyBinding(new LoECraftKeyHandler());
 		ColoredBedRenderer cbr = new ColoredBedRenderer();
-		RenderingRegistry.registerBlockHandler(cbr.RenderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)cbr);
-		
+		RenderingRegistry.registerBlockHandler(cbr.renderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)cbr);
+		LoECraftPack.bedBlock.renderID = cbr.renderID;
 	}
 }
