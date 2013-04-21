@@ -79,20 +79,11 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
         
         int damageValue=0;
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        if (tile != null && tile instanceof ColoredBedTileEntity)
+        if (tile instanceof ColoredBedTileEntity)
         {
         	damageValue = ((ColoredBedTileEntity)tile).color.ordinal();
         }
-
-        int count = quantityDropped(metadata, fortune, world.rand);
-        for(int i = 0; i < count; i++)
-        {
-            int id = idDropped(metadata, world.rand, fortune);
-            if (id > 0)
-            {
-                ret.add(new ItemStack(id, 1, damageValue));
-            }
-        }
+        ret.add(new ItemStack(idDropped(metadata, world.rand, fortune), 1, damageValue));
         return ret;
     }
 	
