@@ -62,9 +62,9 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		bedtop = new Icon[bedTypes][];//top
 		for(int i=0; i<bedTypes; i++)
 		{
-			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_top")};
-			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_end")};
-			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("bed_"+Dye.values()[i]+"_head_side")};
+			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_top")};
+			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_end")};
+			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")};
 		}
     }
 	
