@@ -46,8 +46,6 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer)
 	{
-		// TODO RENDER THE BEDS
-		System.out.println("Custom Render Code");
 		TileEntity colorTile = world.getBlockTileEntity(x, y, z);
 		Dye color = Dye.White;//set by tile entity
 		if(colorTile instanceof ColoredBedTileEntity)

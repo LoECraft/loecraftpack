@@ -78,7 +78,23 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
         
         int damageValue=0;
-        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        int direct = this.getDirection(metadata);
+        TileEntity tile;
+        if( isBlockHeadOfBed(metadata) )
+        	tile = world.getBlockTileEntity(x + footBlockToHeadBlockMap[direct][0], y, z + footBlockToHeadBlockMap[direct][1]);
+        else
+        	tile = world.getBlockTileEntity(x, y, z);
+        System.out.println("d:"+direct);
+        System.out.println("0:"+footBlockToHeadBlockMap[direct][0]);
+        System.out.println("1:"+footBlockToHeadBlockMap[direct][1]);
+        for(int ix = x-1; ix< x+2; ix++)
+        {
+        	for(int iz = z-1; iz< z+2; iz++)
+        	{
+        		System.out.println("x:"+ ix + " z:"+ iz +" exist:"+ (world.getBlockTileEntity(ix, y, iz)!=null) );
+        	}
+        }
+        
         if (tile instanceof ColoredBedTileEntity)
         {
         	damageValue = ((ColoredBedTileEntity)tile).color.ordinal();
@@ -88,9 +104,9 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     }
 	
 	@Override
-	public int idDropped(int par1, Random par2Random, int par3)
+	public int idDropped(int meta, Random par2Random, int par3)
     {
-        return isBlockHeadOfBed(par1) ? 0 : LoECraftPack.bedItems.itemID;
+        return isBlockHeadOfBed(meta) ? 0 : LoECraftPack.bedItems.itemID;
     }
 	
 	@Override
