@@ -12,10 +12,13 @@ import loecraftpack.items.Bits;
 import loecraftpack.items.ColoredBedItem;
 import loecraftpack.logic.handlers.EventHandler;
 import loecraftpack.logic.handlers.GuiHandler;
+import loecraftpack.logic.handlers.KeysHandler;
+import loecraftpack.logic.handlers.PlayerHandler;
 import loecraftpack.packethandling.ClientPacketHandler;
 import loecraftpack.packethandling.ServerPacketHandler;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -81,7 +84,7 @@ public class LoECraftPack
 	/****************************/
 	
 	@PreInit
-    public void preInit(FMLPreInitializationEvent event)
+    public void preLoad(FMLPreInitializationEvent event)
 	{
 		/***************/
 		/**Load Config**/
@@ -127,6 +130,7 @@ public class LoECraftPack
 		
 		//Handlers
 		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
+		GameRegistry.registerPlayerTracker(new PlayerHandler());
 		MinecraftForge.EVENT_BUS.register(new EventHandler());
 		
 		/******************/
@@ -172,5 +176,6 @@ public class LoECraftPack
 	public void postLoad(FMLPostInitializationEvent e)
 	{
 		//TODO: POST-LOAD STUFF
+		Minecraft.getMinecraft().gameSettings.keyBindJump = KeysHandler.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
 	}
 }

@@ -1,7 +1,7 @@
 package loecraftpack.blocks.te.rendering;
 
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
-import loecraftpack.logic.handlers.LoECraftKeyHandler;
+import loecraftpack.logic.handlers.KeysHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -37,7 +37,7 @@ public class ProtectionMonolithRenderer extends TileEntitySpecialRenderer
       	renderPlane(x, y, z+1, 1, 1, Orientation.South, new Color(128, 128, 128));
       	renderPlane(x, y+1, z, 1, 1, Orientation.Up, new Color(128, 128, 128));
       	renderPlane(x, y, z, 1, 1, Orientation.Down, new Color(128, 128, 128));
-      	if (LoECraftKeyHandler.renderMonolith)
+      	if (KeysHandler.renderMonolith)
 		{
       		x += te.offsetX;
 	        z += te.offsetZ;

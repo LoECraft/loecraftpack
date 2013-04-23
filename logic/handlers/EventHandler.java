@@ -5,14 +5,22 @@ import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.logic.DialogLogic;
 import loecraftpack.packethandling.PacketHelper;
 import loecraftpack.packethandling.PacketIds;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class EventHandler
 {
+	/*@ForgeSubscribe
+	public void onJump(LivingJumpEvent event)
+	{
+		event.entityLiving.motionY += 1;
+	}*/
+	
 	@ForgeSubscribe
 	public void onBlock(PlayerInteractEvent event)
 	{
@@ -43,12 +51,15 @@ public class EventHandler
 			{
 				if (!te.Owners.contains(event.entityPlayer.username) && te.pointIsProtected(x, z))
 				{
+					//event.entityPlayer.skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes("Tekner") + ".png";
+					//Minecraft.getMinecraft().renderEngine.obtainImageData(event.entityPlayer.skinUrl, new ImageBufferDownload());
 					//event.setCanceled(true);
+					
+					event.entityPlayer.setMoveForward(5);
 				}
 			}
 			else if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getDistanceSq(te.xCoord, te.yCoord, te.zCoord) <= 100)
 			{
-				System.out.println("Adding player");
 				te.Owners.add(event.entityPlayer.username);
 				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.monolithSetOwner, te.xCoord, te.yCoord, te.zCoord, te.getOwners()));
 				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, event.x, event.y, event.z));
