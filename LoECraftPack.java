@@ -179,35 +179,21 @@ public class LoECraftPack
     	ColoredBedHandler.addCustomBed("Pinkie Pie", Dye.Pink);
     	ColoredBedHandler.addCustomBed("Muffin", Dye.Brown);
     	
-    	/*Add combo-color beds
-    	L/LB/Pk   :Celestia
-    	W/R/W     :Faust
-    	R/Bl/Y    :CMC
-    	W/Pk/M    :Sweetie Belle
-    	O/P/O     :Scootaloo
-    	O/R/Pk    :Babs Seed
-    	Y/R/Y     :Apple Bloom
-    	G/Lg/Pk   :Silver Spoon
-    	Pk/P/W    :Diamond Tiara
-    	L/Y/C     :Lyra
-    	Y/O/Y     :Spit Fire
-    	W/B/P     :Shining Armor
-    	Pk/M/Y    :Cadence
-    	W/Bl/C    :Colgate*/
+    	//Add combo-color beds
     	ColoredBedHandler.addCustomBed("Celestia", Dye.Lime, Dye.LightBlue, Dye.Pink);
     	ColoredBedHandler.addCustomBed("Fausticorn", Dye.White, Dye.Red, Dye.White);
     	ColoredBedHandler.addCustomBed("CMC", Dye.Red, Dye.Blue, Dye.Yellow);
     	ColoredBedHandler.addCustomBed("Sweetie Belle", Dye.White, Dye.Pink, Dye.Magenta);
     	ColoredBedHandler.addCustomBed("Scootaloo", Dye.Orange, Dye.Purple, Dye.Orange);
-    	ColoredBedHandler.addCustomBed("Babs Seed", Dye.Orange, Dye.Red, Dye.Pink);
+    	ColoredBedHandler.addCustomBed("Babs Seed", Dye.Brown, Dye.Red, Dye.Pink);
     	ColoredBedHandler.addCustomBed("Apple Bloom", Dye.Yellow, Dye.Red, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Silver Spoon", Dye.Gray, Dye.LightGray, Dye.Pink);
+    	ColoredBedHandler.addCustomBed("Silver Spoon", Dye.Gray, Dye.LightGray, Dye.LightBlue);
     	ColoredBedHandler.addCustomBed("Diamond Tiara", Dye.Pink, Dye.Purple, Dye.White);
     	ColoredBedHandler.addCustomBed("Lyra", Dye.Lime, Dye.Yellow, Dye.Cyan);
     	ColoredBedHandler.addCustomBed("Bon Bon", Dye.Blue, Dye.Pink, Dye.Yellow);
     	ColoredBedHandler.addCustomBed("Spitfire", Dye.Yellow, Dye.Orange, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Shining Armor", Dye.White, Dye.Blue, Dye.Purple);
-    	ColoredBedHandler.addCustomBed("Cadence", Dye.Pink, Dye.Magenta, Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Shining Armor", Dye.White, Dye.LightBlue, Dye.Blue);
+    	ColoredBedHandler.addCustomBed("Cadence", Dye.Purple, Dye.Magenta, Dye.Yellow);
     	ColoredBedHandler.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
 	}
 	

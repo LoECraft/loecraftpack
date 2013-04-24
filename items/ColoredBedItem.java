@@ -2,22 +2,28 @@ package loecraftpack.items;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.logic.handlers.ColoredBedHandler;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ColoredBedItem extends Item
 {
 	//TODO  render appearance based on item damage
-	//Associated Block
+	@SideOnly(Side.CLIENT)
+	private Icon[] icons;
 	
     public ColoredBedItem(int par1)
     {
@@ -27,11 +33,27 @@ public class ColoredBedItem extends Item
         this.setCreativeTab(LoECraftPack.LoECraftTab);
         this.setUnlocalizedName("coloredBed");
     }
-
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
+    
+    @Override
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int index)
+	{
+		return icons[index];
+	}
+    
+    @Override
+	@SideOnly(Side.CLIENT)
+	public void updateIcons(IconRegister iconRegister)
+	{
+	    icons = new Icon[ColoredBedHandler.numBeds];
+	        
+		for (int i = 0; i < ColoredBedHandler.numBeds; ++i)
+		{
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:" + ColoredBedHandler.customBedIconNames.get(i) + "bed");
+	    	iconIndex = icons[i];
+		}
+	}
+    
     public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xCoord, int yCoord, int zCoord, int par7, float par8, float par9, float par10)
     {
         if (world.isRemote)
