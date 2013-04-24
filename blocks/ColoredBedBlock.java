@@ -31,6 +31,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     public List<Icon[]> bedtop = new ArrayList<Icon[]>();
     
     public int renderID = 14;
+    private int bedDropID = -1;//default is the null instance
     
 	public ColoredBedBlock(int par1) {
 		super(par1);
@@ -71,35 +72,48 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     {
 		return Block.planks.getBlockTextureFromSide(par1);
     }
-		
+	
+	/* bug fix : dropping only white beds */
+	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
+    {
+		System.out.println("destroy tile");
+		TileEntity tile = world.getBlockTileEntity(x, y, z);
+		if(tile != null && tile instanceof ColoredBedTileEntity)
+		{
+			bedDropID = ((ColoredBedTileEntity)tile).id;
+		}
+		else
+			bedDropID = -1;
+		world.removeBlockTileEntity(x, y, z);
+    }
+	
 	@Override
 	public ArrayList<ItemStack> getBlockDropped(World world, int x, int y, int z, int metadata, int fortune)
     {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
         
         int damageValue=0;
-        int direct = this.getDirection(metadata);
-        TileEntity tile;
+        //int direct = this.getDirection(metadata);
+        TileEntity tile = world.getBlockTileEntity(x, y, z);
+        /*
         if( isBlockHeadOfBed(metadata) )
         	tile = world.getBlockTileEntity(x + footBlockToHeadBlockMap[direct][0], y, z + footBlockToHeadBlockMap[direct][1]);
         else
-        	tile = world.getBlockTileEntity(x, y, z);
-        System.out.println("d:"+direct);
-        System.out.println("0:"+footBlockToHeadBlockMap[direct][0]);
-        System.out.println("1:"+footBlockToHeadBlockMap[direct][1]);
-        for(int ix = x-1; ix< x+2; ix++)
-        {
-        	for(int iz = z-1; iz< z+2; iz++)
-        	{
-        		System.out.println("x:"+ ix + " z:"+ iz +" exist:"+ (world.getBlockTileEntity(ix, y, iz)!=null) );
-        	}
-        }
+        	tile = world.getBlockTileEntity(x, y, z);*/
         
-        if (tile instanceof ColoredBedTileEntity)
+        System.out.println("x:"+ x + " z:"+ z +" exist:"+ (world.getBlockTileEntity(x, y, z)!=null) );
+        
+        if (tile != null && tile instanceof ColoredBedTileEntity)
         {
         	damageValue = ((ColoredBedTileEntity)tile).id;
         }
-        ret.add(new ItemStack(idDropped(metadata, world.rand, fortune), 1, damageValue));
+        else
+        	damageValue = bedDropID;
+        
+        if (damageValue == -1)//null instance
+        	ret.add(new ItemStack(Block.bed.blockID, 1, 0));
+        else
+        	ret.add(new ItemStack(idDropped(metadata, world.rand, fortune), 1, damageValue));
         return ret;
     }
 	
