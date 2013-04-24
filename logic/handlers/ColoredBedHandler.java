@@ -18,12 +18,13 @@ public class ColoredBedHandler
 	public static int numBeds = 0;
 	public static List<String> customBedIconNames = new ArrayList<String>();
 	
-	static void addBedRecipe(Dye color1, Dye color2, Dye color3)
+	private static void addBedRecipe(Dye color1, Dye color2, Dye color3)
 	{
-		CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.bedItems, 1, numBeds), "ABC", "XXX", 'A', new ItemStack(Block.cloth, 1, color1.ordinal()),
-				                                                                    'B', new ItemStack(Block.cloth, 1, color2.ordinal()),
-				                                                                    'C', new ItemStack(Block.cloth, 1, color3.ordinal()),
-				                                                                    'X', Block.planks);
+		CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.bedItems, 1, numBeds), "ABC", "XXX",
+				                                     'A', new ItemStack(Block.cloth, 1, color1.ordinal()),
+				                                     'B', new ItemStack(Block.cloth, 1, color2.ordinal()),
+				                                     'C', new ItemStack(Block.cloth, 1, color3.ordinal()),
+				                                     'X', Block.planks);
 		numBeds++;
 	}
 	
