@@ -10,6 +10,7 @@ import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.Bits;
 import loecraftpack.items.ColoredBedItem;
+import loecraftpack.logic.handlers.ColoredBedHandler;
 import loecraftpack.logic.handlers.EventHandler;
 import loecraftpack.logic.handlers.GuiHandler;
 import loecraftpack.logic.handlers.KeysHandler;
@@ -121,11 +122,7 @@ public class LoECraftPack
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
-		
-		//Bed items and blocks
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
-		for(int i = 0; i < ColoredBedBlock.dyeTypes; i++)
-			LanguageRegistry.instance().addStringLocalization("item.coloredBed." + Dye.values()[i] + ".name", "Bed : " + Dye.values()[i]);
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");
@@ -163,12 +160,55 @@ public class LoECraftPack
 				break; //there really should only be one vanilla bed to remove, so stop once we find it
 			}
     	}
-    	//add the new bed recipes to replace the old one we just removed
-    	for (int i = 0; i < 16; i++)
-    	{
-    		ColoredBedBlock.addRecipe(i);//main colors
-    	}
-    	//TODO add a list of combo beds
+    	
+    	//Add base-color beds
+    	ColoredBedHandler.addCustomBed("Rarity", Dye.White);
+    	ColoredBedHandler.addCustomBed("Octavia", Dye.LightGray);
+    	ColoredBedHandler.addCustomBed("Derpy", Dye.Gray);
+    	ColoredBedHandler.addCustomBed("Discord", Dye.Black);
+    	ColoredBedHandler.addCustomBed("Big Mac", Dye.Red);
+    	ColoredBedHandler.addCustomBed("Applejack", Dye.Orange);
+    	ColoredBedHandler.addCustomBed("Fluttershy", Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Granny Smith", Dye.Lime);
+    	ColoredBedHandler.addCustomBed("Spike", Dye.Green);
+    	ColoredBedHandler.addCustomBed("Trixie", Dye.Cyan);
+    	ColoredBedHandler.addCustomBed("Rainbow Dash", Dye.LightBlue);
+    	ColoredBedHandler.addCustomBed("Luna", Dye.Blue);
+    	ColoredBedHandler.addCustomBed("Twilight Sparkle", Dye.Purple);
+    	ColoredBedHandler.addCustomBed("Cheerilee", Dye.Magenta);
+    	ColoredBedHandler.addCustomBed("Pinkie Pie", Dye.Pink);
+    	ColoredBedHandler.addCustomBed("Muffin", Dye.Brown);
+    	
+    	/*Add combo-color beds
+    	L/LB/Pk   :Celestia
+    	W/R/W     :Faust
+    	R/Bl/Y    :CMC
+    	W/Pk/M    :Sweetie Belle
+    	O/P/O     :Scootaloo
+    	O/R/Pk    :Babs Seed
+    	Y/R/Y     :Apple Bloom
+    	G/Lg/Pk   :Silver Spoon
+    	Pk/P/W    :Diamond Tiara
+    	L/Y/C     :Lyra
+    	Y/O/Y     :Spit Fire
+    	W/B/P     :Shining Armor
+    	Pk/M/Y    :Cadence
+    	W/Bl/C    :Colgate*/
+    	ColoredBedHandler.addCustomBed("Celestia", Dye.Lime, Dye.LightBlue, Dye.Pink);
+    	ColoredBedHandler.addCustomBed("Fausticorn", Dye.White, Dye.Red, Dye.White);
+    	ColoredBedHandler.addCustomBed("CMC", Dye.Red, Dye.Blue, Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Sweetie Belle", Dye.White, Dye.Pink, Dye.Magenta);
+    	ColoredBedHandler.addCustomBed("Scootaloo", Dye.Orange, Dye.Purple, Dye.Orange);
+    	ColoredBedHandler.addCustomBed("Babs Seed", Dye.Orange, Dye.Red, Dye.Pink);
+    	ColoredBedHandler.addCustomBed("Apple Bloom", Dye.Yellow, Dye.Red, Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Silver Spoon", Dye.Gray, Dye.LightGray, Dye.Pink);
+    	ColoredBedHandler.addCustomBed("Diamond Tiara", Dye.Pink, Dye.Purple, Dye.White);
+    	ColoredBedHandler.addCustomBed("Lyra", Dye.Lime, Dye.Yellow, Dye.Cyan);
+    	ColoredBedHandler.addCustomBed("Bon Bon", Dye.Blue, Dye.Pink, Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Spitfire", Dye.Yellow, Dye.Orange, Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Shining Armor", Dye.White, Dye.Blue, Dye.Purple);
+    	ColoredBedHandler.addCustomBed("Cadence", Dye.Pink, Dye.Magenta, Dye.Yellow);
+    	ColoredBedHandler.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
 	}
 	
 	/*****************************/

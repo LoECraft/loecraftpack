@@ -7,27 +7,23 @@ import java.util.Random;
 import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
+import loecraftpack.logic.handlers.ColoredBedHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 
-	// TODO change 16 to a value dependent on the number of types
-	public static int dyeTypes = 16;
-	
-    @SideOnly(Side.CLIENT)
+	@SideOnly(Side.CLIENT)
     public List<Icon[]> bedend = new ArrayList<Icon[]>();
     @SideOnly(Side.CLIENT)
     public List<Icon[]> bedside = new ArrayList<Icon[]>();
@@ -35,7 +31,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     public List<Icon[]> bedtop = new ArrayList<Icon[]>();
     
     public int renderID = 14;
-    protected static List<String> customBedIconNames = new ArrayList<String>();
     
 	public ColoredBedBlock(int par1) {
 		super(par1);
@@ -62,45 +57,13 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		this.bedend.clear();
 		this.bedside.clear();
 		
-		for(int i=0; i<dyeTypes; i++)
-		{
-			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_top")} );
-			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_end")} );
-			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")} );
-		}
-		int i=dyeTypes;
-		for(String name : customBedIconNames)
+		for(String name : ColoredBedHandler.customBedIconNames)
 		{
 			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
 			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
 			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
-			i++;
 		}
     }
-	
-	
-	
-	public static void addRecipe(int color)
-	{
-		CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.bedItems, 1, color), "###", "XXX", '#', new ItemStack(Block.cloth, 1, color), 'X', Block.planks);
-	}
-	
-	public static void addCustomBed(String name, String display, int bedID, Dye color1, Dye color2, Dye color3)
-	{
-		LanguageRegistry.instance().addStringLocalization("item.coloredBed." + name + ".name", "Bed : " + display);
-		customBedIconNames.add(name);
-		addRecipe(bedID, color1, color2, color3);
-	}
-	
-	protected static void addRecipe(int bedID, Dye color1, Dye color2, Dye color3)
-	{
-		CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.bedItems, 1, bedID), "ABC", "XXX", 'A', new ItemStack(Block.cloth, 1, color1.ordinal()),
-				                                                                    'B', new ItemStack(Block.cloth, 1, color2.ordinal()),
-				                                                                    'C', new ItemStack(Block.cloth, 1, color3.ordinal()),
-				                                                                    'X', Block.planks);
-	}
-	
-	
 	
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -134,7 +97,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
         
         if (tile instanceof ColoredBedTileEntity)
         {
-        	damageValue = ((ColoredBedTileEntity)tile).color.ordinal();
+        	damageValue = ((ColoredBedTileEntity)tile).id;
         }
         ret.add(new ItemStack(idDropped(metadata, world.rand, fortune), 1, damageValue));
         return ret;
@@ -151,7 +114,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 		if( tile instanceof ColoredBedTileEntity)
-			return new ItemStack(LoECraftPack.bedItems, 1, ((ColoredBedTileEntity)tile).color.ordinal());
+			return new ItemStack(LoECraftPack.bedItems, 1, ((ColoredBedTileEntity)tile).id);
 		else
 		    return new ItemStack(LoECraftPack.bedItems, 1, Dye.White.ordinal());
     }
@@ -165,7 +128,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	@Override
 	public TileEntity createNewTileEntity(World world)
 	{
-		System.out.println("create tile");
-		return new ColoredBedTileEntity(Dye.White);
+		return new ColoredBedTileEntity(0);
 	}
 }

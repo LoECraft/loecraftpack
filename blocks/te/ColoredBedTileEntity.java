@@ -10,28 +10,28 @@ import net.minecraft.util.MathHelper;
 
 public class ColoredBedTileEntity extends TileEntity
 {
-	public Dye color = Dye.White;
+	public int id = 0;
 	
 	public ColoredBedTileEntity()
 	{}
 	
-	public ColoredBedTileEntity(Dye color)
+	public ColoredBedTileEntity(int id)
 	{
-		this.color = color;
+		this.id = id;
 	}
 	
 	@Override
 	public void readFromNBT(NBTTagCompound nbt)
     {
 		super.readFromNBT(nbt);
-		color = Dye.values()[MathHelper.clamp_int(nbt.getInteger("color"), 0, 15)];
+		id = nbt.getInteger("bedId");
     }
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
     {
 		super.writeToNBT(nbt);
-		nbt.setInteger("color", color.ordinal());
+		nbt.setInteger("bedId", id);
     }
 	
 	@Override
@@ -45,7 +45,6 @@ public class ColoredBedTileEntity extends TileEntity
 	@Override
 	public void onDataPacket(INetworkManager net, Packet132TileEntityData packet)
 	{
-		System.out.println("onDataPacket");
 		readFromNBT(packet.customParam1);
 	}
 }

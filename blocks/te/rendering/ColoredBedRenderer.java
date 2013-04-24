@@ -21,7 +21,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
     
 	public int renderID;
 	
-	public Icon getBlockIcon(ColoredBedBlock block ,int side, int meta, Dye color)
+	public Icon getBlockIcon(ColoredBedBlock block ,int side, int meta, int id)
     {
         if (side == 0)
         {
@@ -32,7 +32,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             int k = meta & 3;//get direction
             int l = Direction.bedDirection[k][side];
             int i1 = ( (meta & 8) != 0  ) ? 1 : 0; //isBlockHeadOfBed
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? block.bedtop.get(color.ordinal())[i1] : block.bedside.get(color.ordinal())[i1]) : block.bedend.get(color.ordinal())[i1];
+            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? block.bedtop.get(id)[i1] : block.bedside.get(id)[i1]) : block.bedend.get(id)[i1];
         }
     }
 
@@ -47,9 +47,9 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 			Block block, int modelId, RenderBlocks renderer)
 	{
 		TileEntity colorTile = world.getBlockTileEntity(x, y, z);
-		Dye color = Dye.White;//set by tile entity
+		int id = 0;//set by tile entity
 		if(colorTile instanceof ColoredBedTileEntity)
-			color = ((ColoredBedTileEntity)colorTile).color;
+			id = ((ColoredBedTileEntity)colorTile).id;
 		int metadata = world.getBlockMetadata(x, y, z);
 		
 		
@@ -64,7 +64,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
         int j1 = block.getMixedBrightnessForBlock(world, x, y, z);
         tessellator.setBrightness(j1);
         tessellator.setColorOpaque_F(f, f, f);
-        Icon icon = this.getBlockIcon((ColoredBedBlock)block, 0, metadata, color);
+        Icon icon = this.getBlockIcon((ColoredBedBlock)block, 0, metadata, id);
         double d0 = (double)icon.getMinU();
         double d1 = (double)icon.getMaxU();
         double d2 = (double)icon.getMinV();
@@ -80,7 +80,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
         tessellator.addVertexWithUV(d5, d6, d8, d1, d3);
         tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y + 1, z));
         tessellator.setColorOpaque_F(f1, f1, f1);
-        icon = this.getBlockIcon((ColoredBedBlock)block, 1, metadata, color);
+        icon = this.getBlockIcon((ColoredBedBlock)block, 1, metadata, id);
         d0 = (double)icon.getMinU();
         d1 = (double)icon.getMaxU();
         d2 = (double)icon.getMinV();
@@ -157,7 +157,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMinZ > 0.0D ? j1 : block.getMixedBrightnessForBlock(world, x, y, z - 1));
             tessellator.setColorOpaque_F(f2, f2, f2);
             renderer.flipTexture = b0 == 2;
-            renderer.renderEastFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 2, metadata, color));
+            renderer.renderEastFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 2, metadata, id));
         }
 
         if (k1 != 3 && (renderer.renderAllFaces || block.shouldSideBeRendered(world, x, y, z + 1, 3)))
@@ -165,7 +165,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMaxZ < 1.0D ? j1 : block.getMixedBrightnessForBlock(world, x, y, z + 1));
             tessellator.setColorOpaque_F(f2, f2, f2);
             renderer.flipTexture = b0 == 3;
-            renderer.renderWestFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 3, metadata, color));
+            renderer.renderWestFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 3, metadata, id));
         }
 
         if (k1 != 4 && (renderer.renderAllFaces || block.shouldSideBeRendered(world, x - 1, y, z, 4)))
@@ -173,7 +173,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMinZ > 0.0D ? j1 : block.getMixedBrightnessForBlock(world, x - 1, y, z));
             tessellator.setColorOpaque_F(f3, f3, f3);
             renderer.flipTexture = b0 == 4;
-            renderer.renderNorthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 4, metadata, color));
+            renderer.renderNorthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 4, metadata, id));
         }
 
         if (k1 != 5 && (renderer.renderAllFaces || block.shouldSideBeRendered(world, x + 1, y, z, 5)))
@@ -181,7 +181,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMaxZ < 1.0D ? j1 : block.getMixedBrightnessForBlock(world, x + 1, y, z));
             tessellator.setColorOpaque_F(f3, f3, f3);
             renderer.flipTexture = b0 == 5;
-            renderer.renderSouthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 5, metadata, color));
+            renderer.renderSouthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 5, metadata, id));
         }
 
         renderer.flipTexture = false;
