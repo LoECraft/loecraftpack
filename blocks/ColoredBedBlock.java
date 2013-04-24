@@ -1,6 +1,7 @@
 package loecraftpack.blocks;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -9,7 +10,6 @@ import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
-import net.minecraft.block.BlockCloth;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
@@ -68,7 +68,17 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_end")};
 			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")};
 		}
+		int i=dyeTypes;
+		for(String name : customBedIconNames)
+		{
+			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")};
+			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")};
+			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")};
+			i++;
+		}
     }
+	
+	
 	
 	public static void addRecipe(int color)
 	{
@@ -89,6 +99,8 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 				                                                                    'C', new ItemStack(Block.cloth, 1, color3.ordinal()),
 				                                                                    'X', Block.planks);
 	}
+	
+	
 	
 	@Override
 	@SideOnly(Side.CLIENT)
