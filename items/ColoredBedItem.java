@@ -74,12 +74,12 @@ public class ColoredBedItem extends Item
                 {
                 	System.out.println("place bed");
                     world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.bedBlock.blockID, i1, 3);
-                    world.setBlockTileEntity(xCoord, yCoord, zCoord, (new ColoredBedTileEntity(Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1)])));
+                    world.setBlockTileEntity(xCoord, yCoord, zCoord, (new ColoredBedTileEntity(Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.dyeTypes-1)])));
 
                     if (world.getBlockId(xCoord, yCoord, zCoord) == LoECraftPack.bedBlock.blockID)
                     {
                         world.setBlock(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID, i1 + 8, 3);
-                        world.setBlockTileEntity(xCoord + b0, yCoord, zCoord + b1, (new ColoredBedTileEntity(Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1)])));
+                        world.setBlockTileEntity(xCoord + b0, yCoord, zCoord + b1, (new ColoredBedTileEntity(Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.dyeTypes-1)])));
                     }
 
                     --itemStack.stackSize;
@@ -100,13 +100,13 @@ public class ColoredBedItem extends Item
     @Override
     public String getUnlocalizedName(ItemStack itemStack)
     {
-    	return super.getUnlocalizedName() + "." + Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.bedTypes-1)];
+    	return super.getUnlocalizedName() + "." + Dye.values()[MathHelper.clamp_int(itemStack.getItemDamage(), 0, ColoredBedBlock.dyeTypes-1)];
     }
     
     @Override
 	public void getSubItems(int id, CreativeTabs tab, List list)
 	{
-		for (int j = 0; j < ColoredBedBlock.bedTypes; ++j)
+		for (int j = 0; j < ColoredBedBlock.dyeTypes; ++j)
     	{
     		list.add(new ItemStack(id, 1, j));
     	}

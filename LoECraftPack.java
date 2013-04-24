@@ -98,6 +98,7 @@ public class LoECraftPack
 		/************************/
 		/**Initialize Variables**/
 		/************************/
+		System.out.println("---PRE-INIT---");
     }
 	
 	/************************/
@@ -124,7 +125,7 @@ public class LoECraftPack
 		
 		//Bed items and blocks
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
-		for(int i = 0; i < ColoredBedBlock.bedTypes; i++)
+		for(int i = 0; i < ColoredBedBlock.dyeTypes; i++)
 			LanguageRegistry.instance().addStringLocalization("item.coloredBed." + Dye.values()[i] + ".name", "Bed : " + Dye.values()[i]);
 		
 		//Tile Entities
@@ -163,11 +164,11 @@ public class LoECraftPack
 				break; //there really should only be one vanilla bed to remove, so stop once we find it
 			}
     	}
-    	
+    	System.out.println("---INIT---");
     	//add the new bed recipes to replace the old one we just removed
     	for (int i = 0; i < 16; i++)
     	{
-    		ColoredBedBlock.addRecipe(cmi, i);//main colors
+    		ColoredBedBlock.addRecipe(i);//main colors
     	}
     	//TODO add a list of combo beds
 	}
