@@ -98,7 +98,6 @@ public class LoECraftPack
 		/************************/
 		/**Initialize Variables**/
 		/************************/
-		System.out.println("---PRE-INIT---");
     }
 	
 	/************************/
@@ -164,7 +163,6 @@ public class LoECraftPack
 				break; //there really should only be one vanilla bed to remove, so stop once we find it
 			}
     	}
-    	System.out.println("---INIT---");
     	//add the new bed recipes to replace the old one we just removed
     	for (int i = 0; i < 16; i++)
     	{

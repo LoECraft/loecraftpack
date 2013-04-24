@@ -59,7 +59,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
-		System.out.println("---ICON---");
 		bedend = new Icon[dyeTypes][];//end
 		bedside = new Icon[dyeTypes][];//side
 		bedtop = new Icon[dyeTypes][];//top
