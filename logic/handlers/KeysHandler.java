@@ -2,10 +2,11 @@ package loecraftpack.logic.handlers;
 
 import java.util.EnumSet;
 
+import loecraftpack.LoECraftPack;
+import loecraftpack.enums.Race;
 import loecraftpack.gui.DialogGUI;
 import loecraftpack.logic.DialogLogic;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
@@ -44,8 +45,8 @@ public class KeysHandler extends KeyHandler
 			if (kb.equals(jump))
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				if (player.motionY > 0)
-					player.motionY += Minecraft.getMinecraft().thePlayer.motionY * 0.175f;
+				if (LoECraftPack.StatHandler.isRace(player, Race.Earth) && player.motionY > 0)
+					player.motionY *= 1.175f;
 			}
 			else if (kb.equals(renderMonolithKeybind))
 				renderMonolith = !renderMonolith;

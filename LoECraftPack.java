@@ -16,6 +16,7 @@ import loecraftpack.logic.handlers.KeysHandler;
 import loecraftpack.logic.handlers.PlayerHandler;
 import loecraftpack.packethandling.ClientPacketHandler;
 import loecraftpack.packethandling.ServerPacketHandler;
+import loecraftpack.ponies.stats.ServerStatHandler;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -62,6 +63,8 @@ public class LoECraftPack
 	//Register proxies
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;
+	@SidedProxy(clientSide = "loecraftpack.ponies.stats.ClientStatHandler", serverSide = "loecraftpack.ponies.stats.ServerStatHandler")
+    public static ServerStatHandler StatHandler;
 	
 	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
