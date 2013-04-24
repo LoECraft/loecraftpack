@@ -167,8 +167,9 @@ public class LoECraftPack
     	//add the new bed recipes to replace the old one we just removed
     	for (int i = 0; i < 16; i++)
     	{
-    		cmi.addRecipe(new ItemStack(bedItems, 1, i), "###", "XXX", '#', new ItemStack(Block.cloth, 1, i), 'X', Block.planks);
+    		ColoredBedBlock.addRecipe(cmi, i);//main colors
     	}
+    	//TODO add a list of combo beds
 	}
 	
 	/*****************************/

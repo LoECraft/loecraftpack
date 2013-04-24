@@ -8,10 +8,12 @@ import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
+import net.minecraft.block.BlockCloth;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MovingObjectPosition;
@@ -64,6 +66,16 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")};
 		}
     }
+	
+	public static void addRecipe(CraftingManager cmi, int color)
+	{
+		cmi.addRecipe(new ItemStack(LoECraftPack.bedItems, 1, color), "###", "XXX", '#', new ItemStack(Block.cloth, 1, color), 'X', Block.planks);
+	}
+	
+	public static void addRecipe(CraftingManager cmi, int bedID, Dye color1, Dye color2, Dye color3)
+	{
+		
+	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
