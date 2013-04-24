@@ -32,7 +32,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             int k = meta & 3;//get direction
             int l = Direction.bedDirection[k][side];
             int i1 = ( (meta & 8) != 0  ) ? 1 : 0; //isBlockHeadOfBed
-            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? block.bedtop[color.ordinal()][i1] : block.bedside[color.ordinal()][i1]) : block.bedend[color.ordinal()][i1];
+            return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? block.bedtop.get(color.ordinal())[i1] : block.bedside.get(color.ordinal())[i1]) : block.bedend.get(color.ordinal())[i1];
         }
     }
 

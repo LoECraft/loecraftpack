@@ -1,7 +1,6 @@
 package loecraftpack.blocks;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -29,11 +28,11 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	public static int dyeTypes = 16;
 	
     @SideOnly(Side.CLIENT)
-    public Icon[][] bedend;
+    public List<Icon[]> bedend = new ArrayList<Icon[]>();
     @SideOnly(Side.CLIENT)
-    public Icon[][] bedside;
+    public List<Icon[]> bedside = new ArrayList<Icon[]>();
     @SideOnly(Side.CLIENT)
-    public Icon[][] bedtop;
+    public List<Icon[]> bedtop = new ArrayList<Icon[]>();
     
     public int renderID = 14;
     protected static List<String> customBedIconNames = new ArrayList<String>();
@@ -59,21 +58,22 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
      */
     public void registerIcons(IconRegister par1IconRegister)
     {
-		bedend = new Icon[dyeTypes][];//end
-		bedside = new Icon[dyeTypes][];//side
-		bedtop = new Icon[dyeTypes][];//top
+		this.bedtop.clear();
+		this.bedend.clear();
+		this.bedside.clear();
+		
 		for(int i=0; i<dyeTypes; i++)
 		{
-			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_top")};
-			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_end")};
-			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")};
+			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_top")} );
+			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_end")} );
+			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+Dye.values()[i]+"_head_side")} );
 		}
 		int i=dyeTypes;
 		for(String name : customBedIconNames)
 		{
-			this.bedtop[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")};
-			this.bedend[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")};
-			this.bedside[i] = new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")};
+			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
+			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
+			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
 			i++;
 		}
     }
