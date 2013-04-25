@@ -195,6 +195,9 @@ public class LoECraftPack
     	ColoredBedHandler.addCustomBed("Shining Armor", Dye.White, Dye.LightBlue, Dye.Blue);
     	ColoredBedHandler.addCustomBed("Cadence", Dye.Purple, Dye.Magenta, Dye.Yellow);
     	ColoredBedHandler.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
+    	
+    	//Register bed pairs
+    	ColoredBedHandler.addBedPair("Alicorn Sisters", "Celestia", "Luna");
 	}
 	
 	/*****************************/

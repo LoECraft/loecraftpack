@@ -58,7 +58,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		this.bedend.clear();
 		this.bedside.clear();
 		
-		for(String name : ColoredBedHandler.customBedIconNames)
+		for(String name : ColoredBedHandler.iconNames)
 		{
 			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
 			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
@@ -115,6 +115,34 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
         else
         	ret.add(new ItemStack(idDropped(metadata, world.rand, fortune), 1, damageValue));
         return ret;
+    }
+	
+	@Override
+	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+    {
+        int i1 = par1World.getBlockMetadata(par2, par3, par4);
+        int j1 = getDirection(i1);
+        
+        if (isBlockHeadOfBed(i1))
+        {
+            if (par1World.getBlockId(par2 - footBlockToHeadBlockMap[j1][0], par3, par4 - footBlockToHeadBlockMap[j1][1]) != this.blockID)
+            {
+                par1World.setBlockToAir(par2, par3, par4);
+            }
+        }
+        else if (par1World.getBlockId(par2 + footBlockToHeadBlockMap[j1][0], par3, par4 + footBlockToHeadBlockMap[j1][1]) != this.blockID)
+        {
+            par1World.setBlockToAir(par2, par3, par4);
+
+            if (!par1World.isRemote)
+            {
+                this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
+            }
+        }
+        
+        TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
+        if (te instanceof ColoredBedTileEntity)
+        	((ColoredBedTileEntity)te).updatePairName();
     }
 	
 	@Override

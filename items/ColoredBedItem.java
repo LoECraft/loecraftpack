@@ -49,7 +49,7 @@ public class ColoredBedItem extends Item
 	        
 		for (int i = 0; i < ColoredBedHandler.numBeds; ++i)
 		{
-	    	icons[i] = iconRegister.registerIcon("loecraftpack:" + ColoredBedHandler.customBedIconNames.get(i) + "bed");
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:" + ColoredBedHandler.iconNames.get(i) + "bed");
 	    	iconIndex = icons[i];
 		}
 	}
