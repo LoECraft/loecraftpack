@@ -95,15 +95,16 @@ public class ColoredBedItem extends Item
             {
                 if (world.isAirBlock(xCoord, yCoord, zCoord) && world.isAirBlock(xCoord + b0, yCoord, zCoord + b1) && world.doesBlockHaveSolidTopSurface(xCoord, yCoord - 1, zCoord) && world.doesBlockHaveSolidTopSurface(xCoord + b0, yCoord - 1, zCoord + b1))
                 {
-                	System.out.println("place bed");
+                	//place foot
                     world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.bedBlock.blockID, i1, 3);
                     world.setBlockTileEntity(xCoord, yCoord, zCoord, new ColoredBedTileEntity(itemStack.getItemDamage()));
-
-                    if (world.getBlockId(xCoord, yCoord, zCoord) == LoECraftPack.bedBlock.blockID)
-                    {
-                        world.setBlock(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID, i1 + 8, 3);
-                        world.setBlockTileEntity(xCoord + b0, yCoord, zCoord + b1, new ColoredBedTileEntity(itemStack.getItemDamage()));
-                    }
+                    //place head
+                    world.setBlock(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID, i1 + 8, 3);
+                    world.setBlockTileEntity(xCoord + b0, yCoord, zCoord + b1, new ColoredBedTileEntity(itemStack.getItemDamage()));
+                    
+                    /**properly update pair names**/
+                    world.notifyBlockChange(xCoord, yCoord, zCoord, LoECraftPack.bedBlock.blockID);
+                    world.notifyBlockChange(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID);
 
                     --itemStack.stackSize;
                     return true;
