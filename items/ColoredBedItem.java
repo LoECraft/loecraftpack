@@ -101,10 +101,8 @@ public class ColoredBedItem extends Item
                     //place head
                     world.setBlock(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID, i1 + 8, 3);
                     world.setBlockTileEntity(xCoord + b0, yCoord, zCoord + b1, new ColoredBedTileEntity(itemStack.getItemDamage()));
-                    
-                    /**properly update pair names**/
-                    world.notifyBlockChange(xCoord, yCoord, zCoord, LoECraftPack.bedBlock.blockID);
-                    world.notifyBlockChange(xCoord + b0, yCoord, zCoord + b1, LoECraftPack.bedBlock.blockID);
+                    //Perform final block update
+                    ColoredBedTileEntity.finishTileCreation(world, xCoord, yCoord, zCoord, xCoord + b0, yCoord, zCoord + b1);
 
                     --itemStack.stackSize;
                     return true;

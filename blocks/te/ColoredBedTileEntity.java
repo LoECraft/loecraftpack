@@ -28,22 +28,12 @@ public class ColoredBedTileEntity extends TileEntity
     {
 		super.readFromNBT(nbt);
 		id = nbt.getInteger("bedId");
-		if (nbt.getString("pair").equals(""))
-		{
-			updatePairName();
-			if (!pairName.equals(""))
-				updateAdjacentBedPairName();
-		}
-		else
-			pairName = nbt.getString("pair");
+		pairName = nbt.getString("pair");			
     }
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt)
-    {
-		updatePairName();
-		updateAdjacentBedPairName();
-		
+    {		
 		super.writeToNBT(nbt);
 		nbt.setInteger("bedId", id);
 		nbt.setString("pair", pairName);
@@ -63,72 +53,165 @@ public class ColoredBedTileEntity extends TileEntity
 		readFromNBT(packet.customParam1);
 	}
 	
-	public void updateAdjacentBedPairName()
+	
+	
+	public static TileEntity locateAdjacentTile(World world, int x, int y, int z, int dir)
 	{
-		int dir = BlockDirectional.getDirection(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-		
-		if (++dir > 3) //rotate left
-        	dir = 0;
-        
-		TileEntity te = worldObj.getBlockTileEntity(xCoord - BlockBed.footBlockToHeadBlockMap[dir][0], yCoord, zCoord - BlockBed.footBlockToHeadBlockMap[dir][1]);
-        
-        if (te instanceof ColoredBedTileEntity)
-        	((ColoredBedTileEntity)te).updatePairName();
-        
-        dir -= 2;
-        
-        if (dir < 0) //rotate right
+        if (dir > 3)
+        	dir -= 4;
+        else if (dir < 0)
         	dir += 4;
-        
-        te = worldObj.getBlockTileEntity(xCoord - BlockBed.footBlockToHeadBlockMap[dir][0], yCoord, zCoord - BlockBed.footBlockToHeadBlockMap[dir][1]);
-        
-        if (te instanceof ColoredBedTileEntity)
-        	((ColoredBedTileEntity)te).updatePairName();
+		return world.getBlockTileEntity(x + BlockBed.footBlockToHeadBlockMap[dir][0], y, z + BlockBed.footBlockToHeadBlockMap[dir][1]);
 	}
 	
+	
+	
+	
+	
+	public static void finishTileCreation(World world, int xFoot, int yFoot, int zFoot, int xHead, int yHead, int zHead)
+	{
+		//TODO Compact separate checks into one
+	    TileEntity te = world.getBlockTileEntity(xFoot, yFoot, zFoot);
+	    if (te != null && te instanceof ColoredBedTileEntity)
+	    	((ColoredBedTileEntity)te).updatePairName();
+	    te = world.getBlockTileEntity(xHead, yHead, zHead);
+	    if (te != null && te instanceof ColoredBedTileEntity)
+	    	((ColoredBedTileEntity)te).updatePairName();
+	}
+	
+	public static void finishTileRemoval(World world, int x, int y, int z, int meta)
+	{
+		//DO NOT compact this
+		int dir = BlockBed.getDirection(meta);
+		
+		TileEntity te = ColoredBedTileEntity.locateAdjacentTile(world, x, y, z, dir + 1);
+		if (te != null && te instanceof ColoredBedTileEntity)
+	    	((ColoredBedTileEntity)te).updatePairName();
+		
+		te = ColoredBedTileEntity.locateAdjacentTile(world, x, y, z, dir - 1);
+		if (te != null && te instanceof ColoredBedTileEntity)
+	    	((ColoredBedTileEntity)te).updatePairName();
+	}
+	
+	//is only to be called, if a bed triggers a block update.  ONLY!!!!!
 	public void updatePairName()
 	{
 		if (worldObj == null)
 			return;
-		pairName = getPairName();
+		updatePairNameLogic();
 		System.out.println("Pair (" + worldObj.isRemote + "): " + pairName);
 	}
 	
-	private String getPairName()
+	private void updatePairNameLogic()
 	{
-		if (worldObj == null)
-			return "";
+		if (worldObj == null)//how did this bug occur?
+			return;
 		
         int dir = BlockDirectional.getDirection(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+        
+		String name = ColoredBedHandler.iconNames.get(id);; //This bed's name
 		
-		String name; //This bed's name
-		String pairName = ""; //Adjacent bed's name
-		
-        TileEntity te = worldObj.getBlockTileEntity(xCoord - BlockBed.footBlockToHeadBlockMap[dir][0], yCoord, zCoord - BlockBed.footBlockToHeadBlockMap[dir][1]);
-        if (te != null)
-        	name = ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id);
-        else
-        	name = "";
-        
-        
-        if (++dir > 3) //rotate left
-        	dir = 0;
-        
-        te = worldObj.getBlockTileEntity(xCoord - BlockBed.footBlockToHeadBlockMap[dir][0], yCoord, zCoord - BlockBed.footBlockToHeadBlockMap[dir][1]);
-        
-        if (te instanceof ColoredBedTileEntity)
-        	pairName = ColoredBedHandler.getPairName(ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id), name);
-        
-        dir -= 2;
-        
-        if (dir < 0) //rotate right
-        	dir += 4;
-        
-        te = worldObj.getBlockTileEntity(xCoord - BlockBed.footBlockToHeadBlockMap[dir][0], yCoord, zCoord - BlockBed.footBlockToHeadBlockMap[dir][1]);
-        
-        if (te instanceof ColoredBedTileEntity)
-        	pairName = ColoredBedHandler.getPairName(name, ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id));
-        
+		if(this.pairName != "")
+		{
+			/**do the following if assigned already**/
+			
+			int dirPre = ColoredBedHandler.findPairDirection(this.pairName, name);// -1: left , 0: null , 1: right
+			if(dirPre != 0)
+			{
+				//check if it's still there
+				String pairName = checkSideForPossiblePairName(dirPre, dir, name);
+				
+	        	if(pairName == this.pairName)
+        		{
+	        		//partner still exists - nothing changes
+	        		System.out.println("maintaing :" + pairName + "   head:" + BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
+	        		return; 
+        		}
+	        	else
+	        		System.out.println();
+	        	
+	        	//Attempt to rebond to target
+	        	if(attemptToBond(dirPre, dir, name))return;
+	        	
+		        //no partner found at intended location - check other side for new partner
+		        if(dirPre == 1)
+		        	dirPre = -1;
+		        else
+		        	dirPre = 1;
+		        //Attempt to bond on other side
+		        if(attemptToBond(dirPre, dir, name))return;
+		        
+		        //no pairs available - reset pairName to ""
+		        System.out.print("no avail - 1");
+		        this.pairName = "";
+			}
+			
+		}
+		else
+		{
+			/**do the following if not assigned**/
+			
+			//try to bind to the right
+			if(attemptToBond(1, dir, name))return;
+	        
+			//try to bond to the left
+			if(attemptToBond(-1, dir, name))return;
+			System.out.print("no avail - 2");
+		}
+		return;
+	}
+	
+	private String checkSideForPossiblePairName(int side, int dir, String name)
+	{
+		System.out.print("still bonded?   ");
+		String pairName = "";
+        TileEntity te = ColoredBedTileEntity.locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir + side);
+        if (te !=null && te instanceof ColoredBedTileEntity)
+        {
+        	if (side == 1) pairName = ColoredBedHandler.getPairName(name, ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id));
+        	if (side == -1) pairName = ColoredBedHandler.getPairName(ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id), name);
+        }
         return pairName;
 	}
+	
+	private boolean attemptToBond(int side, int dir, String name)
+	{
+		boolean head = BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
+		String pairName = "";
+		int dirT = side + dir;
+        if (dirT > 3)
+        	dirT -= 4;
+        else if (dirT < 0)
+        	dirT += 4;
+        TileEntity te = worldObj.getBlockTileEntity(xCoord + BlockBed.footBlockToHeadBlockMap[dirT][0], yCoord, zCoord + BlockBed.footBlockToHeadBlockMap[dirT][1]);
+        if (te !=null && te instanceof ColoredBedTileEntity)
+        {
+        	ColoredBedTileEntity cte = (ColoredBedTileEntity)te;
+        	
+        	if (side == 1) pairName = ColoredBedHandler.getPairName(name, ColoredBedHandler.iconNames.get((cte).id));
+        	if (side == -1) pairName = ColoredBedHandler.getPairName(ColoredBedHandler.iconNames.get((cte).id), name);
+        	System.out.print("target: "+(cte).pairName+" - ");
+        	  /*valid pairing*/   /*available*/                    /*Facing the right direction*/                     /*correct part of bed*/
+        	if(pairName != "" && (cte).pairName == "" && BlockBed.getDirection(cte.getBlockMetadata()) == dir  &&  head == BlockBed.isBlockHeadOfBed(cte.getBlockMetadata()))
+        	{
+        		//new partner - make sure this new partner is aware of the change
+                this.pairName = pairName;
+                setAdjacentBedPairName(dirT, pairName);
+                System.out.println("bonding :" + pairName + "   side:" + side + "   head:" + head);
+        		return true;
+        	}
+        	System.out.println();
+        }
+        return false;
+	}
+	
+	private void setAdjacentBedPairName(int dir, String newPairName)
+	{
+		System.out.print("setting adjacent   R:"+worldObj.isRemote+"  ");
+		TileEntity te = ColoredBedTileEntity.locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir);
+		if (te != null && te instanceof ColoredBedTileEntity)
+        	((ColoredBedTileEntity)te).pairName = newPairName;
+	}
+	
+	
 }

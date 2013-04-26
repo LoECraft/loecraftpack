@@ -1,16 +1,19 @@
 package loecraftpack.logic.handlers;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ColoredBedHandler
@@ -64,5 +67,24 @@ public class ColoredBedHandler
 		}
 		
 		return "";
+	}
+	
+	public static int findPairDirection(String pairName, String scourceName)
+	{
+		//search for pair and return direction the partner would be in.  1 for right, -1 for left
+		for(int i = 0; i < bedPairs.size(); i++ )
+		{
+			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
+			
+			if( bedPairs.keySet().toArray(new String[0])[i] == pairName)
+			{
+				if (pairs[i][0].equals(scourceName))
+					return 1; //to the right
+				else if (pairs[i][1].equals(scourceName))
+					return -1; //to the left
+			}
+		}
+		
+		return 0;//none
 	}
 }

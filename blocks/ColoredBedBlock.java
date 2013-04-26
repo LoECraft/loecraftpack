@@ -74,7 +74,8 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     }
 	
 	/* bug fix : dropping only white beds */
-	public void breakBlock(World world, int x, int y, int z, int par5, int par6)
+	@Override
+	public void breakBlock(World world, int x, int y, int z, int blockID, int meta)
     {
 		System.out.println("destroy tile");
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
@@ -85,6 +86,8 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		else
 			bedDropID = -1;
 		world.removeBlockTileEntity(x, y, z);
+		ColoredBedTileEntity.finishTileRemoval(world, x, y, z, meta);
+		
     }
 	
 	@Override
@@ -93,13 +96,8 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
         ArrayList<ItemStack> ret = new ArrayList<ItemStack>();
         
         int damageValue=0;
-        //int direct = this.getDirection(metadata);
+
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        /*
-        if( isBlockHeadOfBed(metadata) )
-        	tile = world.getBlockTileEntity(x + footBlockToHeadBlockMap[direct][0], y, z + footBlockToHeadBlockMap[direct][1]);
-        else
-        	tile = world.getBlockTileEntity(x, y, z);*/
         
         System.out.println("x:"+ x + " z:"+ z +" exist:"+ (world.getBlockTileEntity(x, y, z)!=null) );
         
@@ -118,31 +116,37 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     }
 	
 	@Override
-	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5)
+	public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int scourceID)
     {
         int i1 = par1World.getBlockMetadata(par2, par3, par4);
         int j1 = getDirection(i1);
+        boolean flag = false;
         
         if (isBlockHeadOfBed(i1))
         {
             if (par1World.getBlockId(par2 - footBlockToHeadBlockMap[j1][0], par3, par4 - footBlockToHeadBlockMap[j1][1]) != this.blockID)
             {
                 par1World.setBlockToAir(par2, par3, par4);
+                flag=true;
             }
         }
         else if (par1World.getBlockId(par2 + footBlockToHeadBlockMap[j1][0], par3, par4 + footBlockToHeadBlockMap[j1][1]) != this.blockID)
         {
             par1World.setBlockToAir(par2, par3, par4);
-
+            flag=true;
+            
             if (!par1World.isRemote)
             {
                 this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
             }
         }
-        
-        TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
-        if (te instanceof ColoredBedTileEntity)
-        	((ColoredBedTileEntity)te).updatePairName();
+        /*
+        if(!flag && scourceID==this.blockID)
+        {
+		    TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
+		    if (te != null && te instanceof ColoredBedTileEntity)
+		    	((ColoredBedTileEntity)te).updatePairName();
+        }*/
     }
 	
 	@Override
