@@ -71,12 +71,13 @@ public class ColoredBedHandler
 	
 	public static int findPairDirection(String pairName, String scourceName)
 	{
+		System.out.println("FPD:"+pairName+" | "+scourceName);
 		//search for pair and return direction the partner would be in.  1 for right, -1 for left
 		for(int i = 0; i < bedPairs.size(); i++ )
 		{
 			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
 			
-			if( bedPairs.keySet().toArray(new String[0])[i] == pairName)
+			if( bedPairs.keySet().toArray(new String[0])[i].equals(pairName))
 			{
 				if (pairs[i][0].equals(scourceName))
 					return 1; //to the right

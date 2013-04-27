@@ -86,6 +86,7 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		else
 			bedDropID = -1;
 		world.removeBlockTileEntity(x, y, z);
+		System.out.println("BREAK BED!");
 		ColoredBedTileEntity.finishTileRemoval(world, x, y, z, meta);
 		
     }

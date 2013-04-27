@@ -28,7 +28,8 @@ public class ColoredBedTileEntity extends TileEntity
     {
 		super.readFromNBT(nbt);
 		id = nbt.getInteger("bedId");
-		pairName = nbt.getString("pair");			
+		pairName = nbt.getString("pair");
+		System.out.println("READ  x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
 	@Override
@@ -37,6 +38,7 @@ public class ColoredBedTileEntity extends TileEntity
 		super.writeToNBT(nbt);
 		nbt.setInteger("bedId", id);
 		nbt.setString("pair", pairName);
+		System.out.println("WRITE x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
 	@Override
@@ -116,6 +118,7 @@ public class ColoredBedTileEntity extends TileEntity
 			/**do the following if assigned already**/
 			
 			int dirPre = ColoredBedHandler.findPairDirection(this.pairName, name);// -1: left , 0: null , 1: right
+			System.out.println("Direct ----- "+dirPre);
 			if(dirPre != 0)
 			{
 				//check if it's still there
@@ -124,11 +127,11 @@ public class ColoredBedTileEntity extends TileEntity
 	        	if(pairName == this.pairName)
         		{
 	        		//partner still exists - nothing changes
-	        		System.out.println("maintaing :" + pairName + "   head:" + BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
+	        		System.out.println("maintaining :" + pairName + "   head:" + BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
 	        		return; 
         		}
 	        	else
-	        		System.out.println();
+	        		System.out.println("no maintain");
 	        	
 	        	//Attempt to rebond to target
 	        	if(attemptToBond(dirPre, dir, name))return;
