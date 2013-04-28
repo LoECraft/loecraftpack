@@ -21,7 +21,8 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
     
 	public int renderID;
 	
-	public Icon getBlockIcon(ColoredBedBlock block ,int side, int meta, int id)
+	//TODO include pair code
+	public Icon getBlockIcon(ColoredBedBlock block ,int side, int meta, int id, boolean isPair)
     {
         if (side == 0)
         {
@@ -48,8 +49,17 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 	{
 		TileEntity colorTile = world.getBlockTileEntity(x, y, z);
 		int id = 0;//set by tile entity
-		if(colorTile instanceof ColoredBedTileEntity)
-			id = ((ColoredBedTileEntity)colorTile).id;
+		boolean isPair = false;
+		if(colorTile != null && colorTile instanceof ColoredBedTileEntity)
+		{
+			if( ((ColoredBedTileEntity)colorTile).pairName != "" )
+			{
+				isPair = true;
+				id = ((ColoredBedTileEntity)colorTile).pairID;
+			}
+			else
+				id = ((ColoredBedTileEntity)colorTile).id;
+		}
 		int metadata = world.getBlockMetadata(x, y, z);
 		
 		
@@ -64,7 +74,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
         int j1 = block.getMixedBrightnessForBlock(world, x, y, z);
         tessellator.setBrightness(j1);
         tessellator.setColorOpaque_F(f, f, f);
-        Icon icon = this.getBlockIcon((ColoredBedBlock)block, 0, metadata, id);
+        Icon icon = this.getBlockIcon((ColoredBedBlock)block, 0, metadata, id, isPair);
         double d0 = (double)icon.getMinU();
         double d1 = (double)icon.getMaxU();
         double d2 = (double)icon.getMinV();
@@ -80,7 +90,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
         tessellator.addVertexWithUV(d5, d6, d8, d1, d3);
         tessellator.setBrightness(block.getMixedBrightnessForBlock(world, x, y + 1, z));
         tessellator.setColorOpaque_F(f1, f1, f1);
-        icon = this.getBlockIcon((ColoredBedBlock)block, 1, metadata, id);
+        icon = this.getBlockIcon((ColoredBedBlock)block, 1, metadata, id, isPair);
         d0 = (double)icon.getMinU();
         d1 = (double)icon.getMaxU();
         d2 = (double)icon.getMinV();
@@ -157,7 +167,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMinZ > 0.0D ? j1 : block.getMixedBrightnessForBlock(world, x, y, z - 1));
             tessellator.setColorOpaque_F(f2, f2, f2);
             renderer.flipTexture = b0 == 2;
-            renderer.renderEastFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 2, metadata, id));
+            renderer.renderEastFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 2, metadata, id, isPair));
         }
 
         if (k1 != 3 && (renderer.renderAllFaces || block.shouldSideBeRendered(world, x, y, z + 1, 3)))
@@ -165,7 +175,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMaxZ < 1.0D ? j1 : block.getMixedBrightnessForBlock(world, x, y, z + 1));
             tessellator.setColorOpaque_F(f2, f2, f2);
             renderer.flipTexture = b0 == 3;
-            renderer.renderWestFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 3, metadata, id));
+            renderer.renderWestFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 3, metadata, id, isPair));
         }
 
         if (k1 != 4 && (renderer.renderAllFaces || block.shouldSideBeRendered(world, x - 1, y, z, 4)))
@@ -173,7 +183,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMinZ > 0.0D ? j1 : block.getMixedBrightnessForBlock(world, x - 1, y, z));
             tessellator.setColorOpaque_F(f3, f3, f3);
             renderer.flipTexture = b0 == 4;
-            renderer.renderNorthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 4, metadata, id));
+            renderer.renderNorthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 4, metadata, id, isPair));
         }
 
         if (k1 != 5 && (renderer.renderAllFaces || block.shouldSideBeRendered(world, x + 1, y, z, 5)))
@@ -181,7 +191,7 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
             tessellator.setBrightness(renderer.renderMaxZ < 1.0D ? j1 : block.getMixedBrightnessForBlock(world, x + 1, y, z));
             tessellator.setColorOpaque_F(f3, f3, f3);
             renderer.flipTexture = b0 == 5;
-            renderer.renderSouthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 5, metadata, id));
+            renderer.renderSouthFace(block, (double)x, (double)y, (double)z, getBlockIcon((ColoredBedBlock)block, 5, metadata, id, isPair));
         }
 
         renderer.flipTexture = false;

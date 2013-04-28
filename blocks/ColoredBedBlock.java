@@ -30,6 +30,19 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
     @SideOnly(Side.CLIENT)
     public List<Icon[]> bedtop = new ArrayList<Icon[]>();
     
+    @SideOnly(Side.CLIENT)
+    public List<Icon[]> bedPairTopLeft = new ArrayList<Icon[]>();
+    @SideOnly(Side.CLIENT)
+    public List<Icon[]> bedPairEndLeft = new ArrayList<Icon[]>();
+    @SideOnly(Side.CLIENT)
+    public List<Icon[]> bedPairSideLeft = new ArrayList<Icon[]>();
+    @SideOnly(Side.CLIENT)
+    public List<Icon[]> bedPairTopRight = new ArrayList<Icon[]>();
+    @SideOnly(Side.CLIENT)
+    public List<Icon[]> bedPairEndRight = new ArrayList<Icon[]>();
+    @SideOnly(Side.CLIENT)
+    public List<Icon[]> bedPairSideRight = new ArrayList<Icon[]>();
+    
     public int renderID = 14;
     private int bedDropID = -1;//default is the null instance
     
@@ -58,11 +71,29 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		this.bedend.clear();
 		this.bedside.clear();
 		
+		this.bedPairTopLeft.clear();
+		this.bedPairEndLeft.clear();
+		this.bedPairSideLeft.clear();
+		this.bedPairTopRight.clear();
+		this.bedPairEndRight.clear();
+		this.bedPairSideRight.clear();
+		
 		for(String name : ColoredBedHandler.iconNames)
 		{
 			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
 			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
 			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
+		}
+		
+		for(String name : ColoredBedHandler.bedPairs.keySet())
+		{
+			this.bedPairTopLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name+"_feet_top_left"), par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_head_top_left")} );
+			this.bedPairEndLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name+"_feet_end_left"), par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_head_end_left")} );
+			this.bedPairSideLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name+"_feet_side_left"), par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_head_side_left")} );
+			
+			this.bedPairTopRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_feet_top_right"), par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_head_top_right")} );
+			this.bedPairEndRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_feet_end_right"), par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_head_end_right")} );
+			this.bedPairSideRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_feet_side_right"), par1IconRegister.registerIcon("loecraftpack:bed_Pair_"+name+"_head_side_right")} );
 		}
     }
 	

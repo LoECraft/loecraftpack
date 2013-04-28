@@ -1,5 +1,7 @@
 package loecraftpack.blocks.te;
 
+import java.util.Iterator;
+
 import loecraftpack.logic.handlers.ColoredBedHandler;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
@@ -14,6 +16,7 @@ public class ColoredBedTileEntity extends TileEntity
 {
 	public int id = 0;
 	public String pairName = "";
+	public int pairID = 0;
 	
 	public ColoredBedTileEntity()
 	{}
@@ -29,6 +32,8 @@ public class ColoredBedTileEntity extends TileEntity
 		super.readFromNBT(nbt);
 		id = nbt.getInteger("bedId");
 		pairName = nbt.getString("pair");
+		generatePairID();
+		
 		System.out.println("READ  x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
@@ -68,7 +73,24 @@ public class ColoredBedTileEntity extends TileEntity
 	
 	
 	
-	
+	private void generatePairID()
+	{
+		if(pairName != "")
+		{
+			Iterator i = ColoredBedHandler.bedPairs.keySet().iterator();
+			int id = 0;
+			while (i.hasNext())
+			{
+				String s = String.valueOf(i.next());
+				if( s.equals(pairName) )
+				{
+					pairID = id;
+					break;
+				}
+				id++;
+			}
+		}
+	}
 	
 	public static void finishTileCreation(World world, int xFoot, int yFoot, int zFoot, int xHead, int yHead, int zHead)
 	{
@@ -95,12 +117,12 @@ public class ColoredBedTileEntity extends TileEntity
 	    	((ColoredBedTileEntity)te).updatePairName();
 	}
 	
-	//is only to be called, if a bed triggers a block update.  ONLY!!!!!
 	public void updatePairName()
 	{
 		if (worldObj == null)
 			return;
 		updatePairNameLogic();
+		generatePairID();
 		System.out.println("Pair (" + worldObj.isRemote + "): " + pairName);
 	}
 	
