@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.ponies.spells.projectiles.Fireball;
 
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +30,11 @@ public class ServerPacketHandler implements IPacketHandler
             {
             	switch(data.readByte())
             	{
+            		case PacketIds.fireball:
+            			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
+            			sender.worldObj.spawnEntityInWorld(fireball);
+            			break;
+            		
             		case PacketIds.monolithEdit:
             			int x = data.readInt(),
             			    y = data.readInt(),

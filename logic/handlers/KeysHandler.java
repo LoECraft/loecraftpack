@@ -6,15 +6,20 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
 import loecraftpack.gui.DialogGUI;
 import loecraftpack.logic.DialogLogic;
+import loecraftpack.packethandling.PacketHelper;
+import loecraftpack.packethandling.PacketIds;
+import loecraftpack.ponies.spells.projectiles.Fireball;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
 
 import org.lwjgl.input.Keyboard;
 
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -64,6 +69,10 @@ public class KeysHandler extends KeyHandler
 						Minecraft.getMinecraft().thePlayer.sendChatMessage("done");
 						Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
 					}
+				}
+				else
+				{
+					PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.fireball));
 				}
 			}
 		}
