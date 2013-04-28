@@ -2,18 +2,17 @@ package loecraftpack.logic.handlers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.enums.Dye;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBed;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
+import net.minecraft.item.crafting.IRecipe;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ColoredBedHandler
@@ -22,7 +21,7 @@ public class ColoredBedHandler
 	
 	public static int numBeds = 0;
 	public static List<String> iconNames = new ArrayList<String>();
-	private static Map<String, String[]> bedPairs = new HashMap<String, String[]>();
+	public static Map<String, String[]> bedPairs = new HashMap<String, String[]>();
 	
 	private static void addBedRecipe(Dye color1, Dye color2, Dye color3)
 	{
@@ -32,6 +31,22 @@ public class ColoredBedHandler
 				                                     'C', new ItemStack(Block.cloth, 1, color3.ordinal()),
 				                                     'X', Block.planks);
 		numBeds++;
+	}
+	
+	//locate and remove old bed recipe
+	public static void cleanBedRecipe()
+	{
+    	Iterator r = CraftingManager.getInstance().getRecipeList().iterator();
+    	while (r.hasNext())
+    	{
+    		IRecipe ir = (IRecipe)r.next();
+    		//if the recipe outputs a bed, remove it
+			if(ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
+			{
+				r.remove();
+				break; //there really should only be one vanilla bed to remove, so stop once we find it
+			}
+    	}
 	}
 	
 	public static void addCustomBed(String display, Dye color)
