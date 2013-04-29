@@ -16,7 +16,7 @@ public class ColoredBedTileEntity extends TileEntity
 {
 	public int id = 0;
 	public String pairName = "";
-	public int pairID = 0;
+	public int pairID = -1;
 	
 	public ColoredBedTileEntity()
 	{}
@@ -31,6 +31,8 @@ public class ColoredBedTileEntity extends TileEntity
     {
 		super.readFromNBT(nbt);
 		id = nbt.getInteger("bedId");
+		//pairID = nbt.getInteger("pairId");
+		//pairName = ColoredBedHandler.getPairName(pairID);
 		pairName = nbt.getString("pair");
 		generatePairID();
 		
@@ -43,6 +45,7 @@ public class ColoredBedTileEntity extends TileEntity
 		super.writeToNBT(nbt);
 		nbt.setInteger("bedId", id);
 		nbt.setString("pair", pairName);
+		//nbt.setInteger("pairId", pairID);
 		System.out.println("WRITE x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
@@ -71,8 +74,7 @@ public class ColoredBedTileEntity extends TileEntity
 		return world.getBlockTileEntity(x + BlockBed.footBlockToHeadBlockMap[dir][0], y, z + BlockBed.footBlockToHeadBlockMap[dir][1]);
 	}
 	
-	
-	
+	//TODO remove this during conversion
 	private void generatePairID()
 	{
 		if(pairName != "")
@@ -94,7 +96,7 @@ public class ColoredBedTileEntity extends TileEntity
 	
 	public static void finishTileCreation(World world, int xFoot, int yFoot, int zFoot, int xHead, int yHead, int zHead)
 	{
-		//TODO Compact separate checks into one
+		//TODO Compact separate checks into one,   Maybe
 	    TileEntity te = world.getBlockTileEntity(xFoot, yFoot, zFoot);
 	    if (te != null && te instanceof ColoredBedTileEntity)
 	    	((ColoredBedTileEntity)te).updatePairName();
@@ -122,7 +124,8 @@ public class ColoredBedTileEntity extends TileEntity
 		if (worldObj == null)
 			return;
 		updatePairNameLogic();
-		generatePairID();
+		//pairName = ColoredBedHandler.getPairName(pairID);
+		generatePairID();//TODO remove this during conversion
 		System.out.println("Pair (" + worldObj.isRemote + "): " + pairName);
 	}
 	

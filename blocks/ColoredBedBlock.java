@@ -172,13 +172,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
                 this.dropBlockAsItem(par1World, par2, par3, par4, i1, 0);
             }
         }
-        /*
-        if(!flag && scourceID==this.blockID)
-        {
-		    TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
-		    if (te != null && te instanceof ColoredBedTileEntity)
-		    	((ColoredBedTileEntity)te).updatePairName();
-        }*/
     }
 	
 	@Override

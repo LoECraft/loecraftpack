@@ -2,7 +2,6 @@ package loecraftpack.blocks.te.rendering;
 
 import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
-import loecraftpack.enums.Dye;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
@@ -52,12 +51,14 @@ public class ColoredBedRenderer implements ISimpleBlockRenderingHandler
 		boolean isPair = false;
 		if(colorTile != null && colorTile instanceof ColoredBedTileEntity)
 		{
+			//TODO remove use of pairName
+			/*
 			if( ((ColoredBedTileEntity)colorTile).pairName != "" )
 			{
 				isPair = true;
 				id = ((ColoredBedTileEntity)colorTile).pairID;
 			}
-			else
+			else*/
 				id = ((ColoredBedTileEntity)colorTile).id;
 		}
 		int metadata = world.getBlockMetadata(x, y, z);

@@ -68,6 +68,9 @@ public class ColoredBedHandler
 		bedPairs.put(name, new String[] {bedLeft.replace(" ", "").toLowerCase(), bedRight.replace(" ", "").toLowerCase()});
 	}
 	
+	
+	
+	
 	public static String getPairName(String bedLeft, String bedRight)
 	{
 		for(int i = 0; i < bedPairs.size(); i++ )
@@ -82,6 +85,42 @@ public class ColoredBedHandler
 		}
 		
 		return "";
+	}
+	
+	public static String getPairName(int iD)
+	{
+		if ( iD >= 0 && iD < bedPairs.size() )
+			return bedPairs.keySet().toArray(new String[0])[iD];
+		return "";
+	}
+	
+	public static int getPairID(String bedLeft, String bedRight)
+	{
+		for(int i = 0; i < bedPairs.size(); i++ )
+		{
+			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
+			
+			if (pairs[i][0].equals(bedLeft) && pairs[i][1].equals(bedRight))
+			{
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	
+	
+	public static int findPairDirection(int pairID, String scourceName)
+	{
+		System.out.println("FPD:"+pairID+" | "+scourceName);
+		//return direction the partner would be in.  1 for right, -1 for left
+		String[][] pairs = bedPairs.values().toArray(new String[0][0]);
+		if (pairs[pairID][0].equals(scourceName))
+			return 1; //to the right
+		else if (pairs[pairID][1].equals(scourceName))
+			return -1; //to the left
+		return 0;//none
 	}
 	
 	public static int findPairDirection(String pairName, String scourceName)
