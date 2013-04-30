@@ -10,6 +10,7 @@ import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.Bits;
 import loecraftpack.items.ColoredBedItem;
+import loecraftpack.items.musicdiscs.LoEMusicDisc;
 import loecraftpack.logic.handlers.ColoredBedHandler;
 import loecraftpack.logic.handlers.EventHandler;
 import loecraftpack.logic.handlers.GuiHandler;
@@ -118,6 +119,8 @@ public class LoECraftPack
 		//Items
 		for(int i = 0; i < Bits.names.length; i++ )
 			LanguageRegistry.instance().addStringLocalization("item.itemBits." + Bits.iconNames[i] + ".name", Bits.names[i]);
+		LoEMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme"); //This is just a test. I do not yet have permission to use this song publicly.
+		LoEMusicDisc.AddMusicDisc("MLP:FiM", "What My Cutie Mark Is Telling Me");
 		
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
