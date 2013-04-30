@@ -70,37 +70,22 @@ public class ColoredBedHandler
 	
 	
 	
-	
-	public static String getPairName(String bedLeft, String bedRight)
+	public static String getPairName(int id)
 	{
+		if ( id >= 0 && id < bedPairs.size() )
+			return bedPairs.keySet().toArray(new String[0])[id];
+		return "";
+	}
+	
+	public static int getPairID(int bedLeftID, int bedRightID)
+	{
+		String bedLeftName = iconNames.get(bedLeftID);
+		String bedRightName = iconNames.get(bedRightID);
 		for(int i = 0; i < bedPairs.size(); i++ )
 		{
 			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
 			
-			if (pairs[i][0].equals(bedLeft) && pairs[i][1].equals(bedRight))
-			{
-				String[] names = bedPairs.keySet().toArray(new String[0]);
-				return names[i];
-			}
-		}
-		
-		return "";
-	}
-	
-	public static String getPairName(int iD)
-	{
-		if ( iD >= 0 && iD < bedPairs.size() )
-			return bedPairs.keySet().toArray(new String[0])[iD];
-		return "";
-	}
-	
-	public static int getPairID(String bedLeft, String bedRight)
-	{
-		for(int i = 0; i < bedPairs.size(); i++ )
-		{
-			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
-			
-			if (pairs[i][0].equals(bedLeft) && pairs[i][1].equals(bedRight))
+			if (pairs[i][0].equals(bedLeftName) && pairs[i][1].equals(bedRightName))
 			{
 				return i;
 			}
@@ -109,10 +94,9 @@ public class ColoredBedHandler
 		return -1;
 	}
 	
-	
-	
-	public static int findPairDirection(int pairID, String scourceName)
+	public static int findPairDirection(int pairID, int scourceID)
 	{
+		String scourceName = iconNames.get(scourceID);
 		System.out.println("FPD:"+pairID+" | "+scourceName);
 		//return direction the partner would be in.  1 for right, -1 for left
 		String[][] pairs = bedPairs.values().toArray(new String[0][0]);
@@ -120,26 +104,6 @@ public class ColoredBedHandler
 			return 1; //to the right
 		else if (pairs[pairID][1].equals(scourceName))
 			return -1; //to the left
-		return 0;//none
-	}
-	
-	public static int findPairDirection(String pairName, String scourceName)
-	{
-		System.out.println("FPD:"+pairName+" | "+scourceName);
-		//search for pair and return direction the partner would be in.  1 for right, -1 for left
-		for(int i = 0; i < bedPairs.size(); i++ )
-		{
-			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
-			
-			if( bedPairs.keySet().toArray(new String[0])[i].equals(pairName))
-			{
-				if (pairs[i][0].equals(scourceName))
-					return 1; //to the right
-				else if (pairs[i][1].equals(scourceName))
-					return -1; //to the left
-			}
-		}
-		
 		return 0;//none
 	}
 }

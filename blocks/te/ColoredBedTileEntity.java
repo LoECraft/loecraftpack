@@ -15,8 +15,9 @@ import net.minecraft.world.World;
 public class ColoredBedTileEntity extends TileEntity
 {
 	public int id = 0;
-	public String pairName = "";
 	public int pairID = -1;
+	public int pairSide = 0;//1 for right, -1 for left
+	public String pairName = "";
 	
 	public ColoredBedTileEntity()
 	{}
@@ -31,10 +32,8 @@ public class ColoredBedTileEntity extends TileEntity
     {
 		super.readFromNBT(nbt);
 		id = nbt.getInteger("bedId");
-		//pairID = nbt.getInteger("pairId");
-		//pairName = ColoredBedHandler.getPairName(pairID);
-		pairName = nbt.getString("pair");
-		generatePairID();
+		pairID = nbt.getInteger("pairId");
+		findPairData();
 		
 		System.out.println("READ  x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
@@ -44,8 +43,7 @@ public class ColoredBedTileEntity extends TileEntity
     {		
 		super.writeToNBT(nbt);
 		nbt.setInteger("bedId", id);
-		nbt.setString("pair", pairName);
-		//nbt.setInteger("pairId", pairID);
+		nbt.setInteger("pairId", pairID);
 		System.out.println("WRITE x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
@@ -74,35 +72,15 @@ public class ColoredBedTileEntity extends TileEntity
 		return world.getBlockTileEntity(x + BlockBed.footBlockToHeadBlockMap[dir][0], y, z + BlockBed.footBlockToHeadBlockMap[dir][1]);
 	}
 	
-	//TODO remove this during conversion
-	private void generatePairID()
-	{
-		if(pairName != "")
-		{
-			Iterator i = ColoredBedHandler.bedPairs.keySet().iterator();
-			int id = 0;
-			while (i.hasNext())
-			{
-				String s = String.valueOf(i.next());
-				if( s.equals(pairName) )
-				{
-					pairID = id;
-					break;
-				}
-				id++;
-			}
-		}
-	}
-	
 	public static void finishTileCreation(World world, int xFoot, int yFoot, int zFoot, int xHead, int yHead, int zHead)
 	{
 		//TODO Compact separate checks into one,   Maybe
 	    TileEntity te = world.getBlockTileEntity(xFoot, yFoot, zFoot);
 	    if (te != null && te instanceof ColoredBedTileEntity)
-	    	((ColoredBedTileEntity)te).updatePairName();
+	    	((ColoredBedTileEntity)te).updatePairData();
 	    te = world.getBlockTileEntity(xHead, yHead, zHead);
 	    if (te != null && te instanceof ColoredBedTileEntity)
-	    	((ColoredBedTileEntity)te).updatePairName();
+	    	((ColoredBedTileEntity)te).updatePairData();
 	}
 	
 	public static void finishTileRemoval(World world, int x, int y, int z, int meta)
@@ -112,21 +90,38 @@ public class ColoredBedTileEntity extends TileEntity
 		
 		TileEntity te = ColoredBedTileEntity.locateAdjacentTile(world, x, y, z, dir + 1);
 		if (te != null && te instanceof ColoredBedTileEntity)
-	    	((ColoredBedTileEntity)te).updatePairName();
+	    	((ColoredBedTileEntity)te).updatePairData();
 		
 		te = ColoredBedTileEntity.locateAdjacentTile(world, x, y, z, dir - 1);
 		if (te != null && te instanceof ColoredBedTileEntity)
-	    	((ColoredBedTileEntity)te).updatePairName();
+	    	((ColoredBedTileEntity)te).updatePairData();
 	}
 	
-	public void updatePairName()
+	
+	
+	public void updatePairData()
 	{
 		if (worldObj == null)
 			return;
 		updatePairNameLogic();
-		//pairName = ColoredBedHandler.getPairName(pairID);
-		generatePairID();//TODO remove this during conversion
+		findPairData();
 		System.out.println("Pair (" + worldObj.isRemote + "): " + pairName);
+	}
+	
+	public void findPairData()
+	{
+		if(pairID != -1)
+		{
+			pairName = ColoredBedHandler.getPairName(pairID);
+			pairSide = -ColoredBedHandler.findPairDirection(pairID, id);
+			System.out.println("SET SIDE:"+pairSide+"  for:"+ColoredBedHandler.iconNames.get(id));
+		}
+		else
+		{
+			pairName = "";
+			pairSide = 0;
+			System.out.println("SET DEFAULT:"+ColoredBedHandler.iconNames.get(id));
+		}
 	}
 	
 	private void updatePairNameLogic()
@@ -136,30 +131,30 @@ public class ColoredBedTileEntity extends TileEntity
 		
         int dir = BlockDirectional.getDirection(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
         
-		String name = ColoredBedHandler.iconNames.get(id);; //This bed's name
+		String name = ColoredBedHandler.iconNames.get(id); //This bed's name
 		
-		if(this.pairName != "")
+		if(this.pairID != -1)
 		{
 			/**do the following if assigned already**/
 			
-			int dirPre = ColoredBedHandler.findPairDirection(this.pairName, name);// -1: left , 0: null , 1: right
+			int dirPre = ColoredBedHandler.findPairDirection(this.pairID, id);// -1: left , 0: null , 1: right
 			System.out.println("Direct ----- "+dirPre);
 			if(dirPre != 0)
 			{
 				//check if it's still there
-				String pairName = checkSideForPossiblePairName(dirPre, dir, name);
+				int pairID = checkSideForPossiblePairID(dirPre, dir);
 				
-	        	if(pairName == this.pairName)
+	        	if( pairID == this.pairID )
         		{
 	        		//partner still exists - nothing changes
-	        		System.out.println("maintaining :" + pairName + "   head:" + BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
+	        		System.out.println("maintaining pair:" + pairID + "   head:" + BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
 	        		return; 
         		}
 	        	else
 	        		System.out.println("no maintain");
 	        	
 	        	//Attempt to rebond to target
-	        	if(attemptToBond(dirPre, dir, name))return;
+	        	if(attemptToBond(dirPre, dir))return;
 	        	
 		        //no partner found at intended location - check other side for new partner
 		        if(dirPre == 1)
@@ -167,11 +162,11 @@ public class ColoredBedTileEntity extends TileEntity
 		        else
 		        	dirPre = 1;
 		        //Attempt to bond on other side
-		        if(attemptToBond(dirPre, dir, name))return;
+		        if(attemptToBond(dirPre, dir))return;
 		        
 		        //no pairs available - reset pairName to ""
 		        System.out.print("no avail - 1");
-		        this.pairName = "";
+		        this.pairID = -1;
 			}
 			
 		}
@@ -180,32 +175,32 @@ public class ColoredBedTileEntity extends TileEntity
 			/**do the following if not assigned**/
 			
 			//try to bind to the right
-			if(attemptToBond(1, dir, name))return;
+			if(attemptToBond(1, dir))return;
 	        
 			//try to bond to the left
-			if(attemptToBond(-1, dir, name))return;
+			if(attemptToBond(-1, dir))return;
 			System.out.print("no avail - 2");
 		}
 		return;
 	}
-	
-	private String checkSideForPossiblePairName(int side, int dir, String name)
+
+	private int checkSideForPossiblePairID(int side, int dir)
 	{
 		System.out.print("still bonded?   ");
-		String pairName = "";
-        TileEntity te = ColoredBedTileEntity.locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir + side);
+		int pairID = -1;
+        TileEntity te = locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir + side);
         if (te !=null && te instanceof ColoredBedTileEntity)
         {
-        	if (side == 1) pairName = ColoredBedHandler.getPairName(name, ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id));
-        	if (side == -1) pairName = ColoredBedHandler.getPairName(ColoredBedHandler.iconNames.get(((ColoredBedTileEntity)te).id), name);
+        	if (side == 1) pairID = ColoredBedHandler.getPairID(id, ((ColoredBedTileEntity)te).id);
+        	if (side == -1) pairID = ColoredBedHandler.getPairID(((ColoredBedTileEntity)te).id, id);
         }
-        return pairName;
+        return pairID;
 	}
 	
-	private boolean attemptToBond(int side, int dir, String name)
+	private boolean attemptToBond(int side, int dir)
 	{
 		boolean head = BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-		String pairName = "";
+		int pairID = -1;
 		int dirT = side + dir;
         if (dirT > 3)
         	dirT -= 4;
@@ -216,16 +211,16 @@ public class ColoredBedTileEntity extends TileEntity
         {
         	ColoredBedTileEntity cte = (ColoredBedTileEntity)te;
         	
-        	if (side == 1) pairName = ColoredBedHandler.getPairName(name, ColoredBedHandler.iconNames.get((cte).id));
-        	if (side == -1) pairName = ColoredBedHandler.getPairName(ColoredBedHandler.iconNames.get((cte).id), name);
+        	if (side == 1) pairID = ColoredBedHandler.getPairID(id, cte.id);
+        	if (side == -1) pairID = ColoredBedHandler.getPairID(cte.id, id);
         	System.out.print("target: "+(cte).pairName+" - ");
         	  /*valid pairing*/   /*available*/                    /*Facing the right direction*/                     /*correct part of bed*/
-        	if(pairName != "" && (cte).pairName == "" && BlockBed.getDirection(cte.getBlockMetadata()) == dir  &&  head == BlockBed.isBlockHeadOfBed(cte.getBlockMetadata()))
+        	if(pairID != -1 && (cte).pairID == -1 && BlockBed.getDirection(cte.getBlockMetadata()) == dir  &&  head == BlockBed.isBlockHeadOfBed(cte.getBlockMetadata()))
         	{
         		//new partner - make sure this new partner is aware of the change
-                this.pairName = pairName;
-                setAdjacentBedPairName(dirT, pairName);
-                System.out.println("bonding :" + pairName + "   side:" + side + "   head:" + head);
+                this.pairID = pairID;
+                setAdjacentBedPair(dirT, pairID);
+                System.out.println("bonding :" + pairID + "   side:" + side + "   head:" + head);
         		return true;
         	}
         	System.out.println();
@@ -233,12 +228,21 @@ public class ColoredBedTileEntity extends TileEntity
         return false;
 	}
 	
-	private void setAdjacentBedPairName(int dir, String newPairName)
+	private void setAdjacentBedPair(int dir, int newPairID)
 	{
 		System.out.print("setting adjacent   R:"+worldObj.isRemote+"  ");
-		TileEntity te = ColoredBedTileEntity.locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir);
+		TileEntity te = locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir);
 		if (te != null && te instanceof ColoredBedTileEntity)
-        	((ColoredBedTileEntity)te).pairName = newPairName;
+		{
+			((ColoredBedTileEntity)te).pairID = newPairID;
+        	((ColoredBedTileEntity)te).findPairData();
+        	((ColoredBedTileEntity)te).markRenderAsDirty();
+		}
+	}
+	
+	private void markRenderAsDirty()
+	{
+		
 	}
 	
 	
