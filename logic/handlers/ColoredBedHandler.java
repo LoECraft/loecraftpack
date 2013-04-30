@@ -97,7 +97,6 @@ public class ColoredBedHandler
 	public static int findPairDirection(int pairID, int scourceID)
 	{
 		String scourceName = iconNames.get(scourceID);
-		System.out.println("FPD:"+pairID+" | "+scourceName);
 		//return direction the partner would be in.  1 for right, -1 for left
 		String[][] pairs = bedPairs.values().toArray(new String[0][0]);
 		if (pairs[pairID][0].equals(scourceName))

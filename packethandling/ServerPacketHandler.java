@@ -3,17 +3,13 @@ package loecraftpack.packethandling;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
+import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.ponies.spells.projectiles.Fireball;
-
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.tileentity.TileEntity;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -34,10 +30,24 @@ public class ServerPacketHandler implements IPacketHandler
             			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
             			sender.worldObj.spawnEntityInWorld(fireball);
             			break;
-            		
-            		case PacketIds.monolithEdit:
+            			
+            		case PacketIds.bedEdit:
             			int x = data.readInt(),
-            			    y = data.readInt(),
+        			    	y = data.readInt(),
+        			    	z = data.readInt();
+            			ColoredBedTileEntity cb = (ColoredBedTileEntity)sender.worldObj.getBlockTileEntity(x, y, z);
+            			if (cb != null)
+            			{
+            				int i = data.readInt();
+            				int s = data.readInt();
+            				cb.pairID = i;
+            				cb.pairSide = s;
+            				System.out.println("client bed update: " + cb.worldObj.isRemote + "  ID:"+ cb.id);
+            			}
+            			break;
+            		case PacketIds.monolithEdit:
+            				x = data.readInt();
+            			    y = data.readInt();
             			    z = data.readInt();
             			ProtectionMonolithTileEntity te = (ProtectionMonolithTileEntity)sender.worldObj.getBlockTileEntity(x, y, z);
             			if (te != null)

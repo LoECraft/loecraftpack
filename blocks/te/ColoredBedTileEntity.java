@@ -1,8 +1,8 @@
 package loecraftpack.blocks.te;
 
-import java.util.Iterator;
-
 import loecraftpack.logic.handlers.ColoredBedHandler;
+import loecraftpack.packethandling.PacketHelper;
+import loecraftpack.packethandling.PacketIds;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.BlockDirectional;
 import net.minecraft.nbt.NBTTagCompound;
@@ -11,6 +11,7 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class ColoredBedTileEntity extends TileEntity
 {
@@ -110,6 +111,8 @@ public class ColoredBedTileEntity extends TileEntity
 	
 	public void findPairData()
 	{
+		if (worldObj != null)
+			System.out.print("find Data   R:"+worldObj.isRemote+"  ");
 		if(pairID != -1)
 		{
 			pairName = ColoredBedHandler.getPairName(pairID);
@@ -186,7 +189,6 @@ public class ColoredBedTileEntity extends TileEntity
 
 	private int checkSideForPossiblePairID(int side, int dir)
 	{
-		System.out.print("still bonded?   ");
 		int pairID = -1;
         TileEntity te = locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir + side);
         if (te !=null && te instanceof ColoredBedTileEntity)
@@ -213,7 +215,6 @@ public class ColoredBedTileEntity extends TileEntity
         	
         	if (side == 1) pairID = ColoredBedHandler.getPairID(id, cte.id);
         	if (side == -1) pairID = ColoredBedHandler.getPairID(cte.id, id);
-        	System.out.print("target: "+(cte).pairName+" - ");
         	  /*valid pairing*/   /*available*/                    /*Facing the right direction*/                     /*correct part of bed*/
         	if(pairID != -1 && (cte).pairID == -1 && BlockBed.getDirection(cte.getBlockMetadata()) == dir  &&  head == BlockBed.isBlockHeadOfBed(cte.getBlockMetadata()))
         	{
@@ -223,26 +224,33 @@ public class ColoredBedTileEntity extends TileEntity
                 System.out.println("bonding :" + pairID + "   side:" + side + "   head:" + head);
         		return true;
         	}
-        	System.out.println();
         }
         return false;
 	}
 	
 	private void setAdjacentBedPair(int dir, int newPairID)
 	{
-		System.out.print("setting adjacent   R:"+worldObj.isRemote+"  ");
+		System.out.print("setting adjacent | ");
 		TileEntity te = locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir);
 		if (te != null && te instanceof ColoredBedTileEntity)
 		{
 			((ColoredBedTileEntity)te).pairID = newPairID;
         	((ColoredBedTileEntity)te).findPairData();
-        	((ColoredBedTileEntity)te).markRenderAsDirty();
+        	((ColoredBedTileEntity)te).tellClientOfChange();
 		}
 	}
 	
-	private void markRenderAsDirty()
+	//used to tell the client that, the bed has had data changed by the adjacent bed
+	private void tellClientOfChange()
 	{
-		
+		if (worldObj != null && !worldObj.isRemote)
+		{
+			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64.0D, worldObj.provider.dimensionId,
+					                               PacketHelper.Make("loecraftpack", PacketIds.bedEdit,
+					                                                 xCoord, yCoord, zCoord,
+					                                                 pairID, pairSide));
+			System.out.println("tell cleint of change");
+		}
 	}
 	
 	
