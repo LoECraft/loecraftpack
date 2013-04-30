@@ -88,11 +88,17 @@ public class ColoredBedTileEntity extends TileEntity
 		
 		TileEntity te = ColoredBedTileEntity.locateAdjacentTile(world, x, y, z, dir + 1);
 		if (te != null && te instanceof ColoredBedTileEntity)
+		{
 	    	((ColoredBedTileEntity)te).updatePairData();
+	    	((ColoredBedTileEntity)te).tellClientOfChange();//bug fix: client update on block break
+		}
 		
 		te = ColoredBedTileEntity.locateAdjacentTile(world, x, y, z, dir - 1);
 		if (te != null && te instanceof ColoredBedTileEntity)
+		{
 	    	((ColoredBedTileEntity)te).updatePairData();
+	    	((ColoredBedTileEntity)te).tellClientOfChange();//bug fix: client update on block break
+		}
 	}
 	
 	
@@ -116,7 +122,6 @@ public class ColoredBedTileEntity extends TileEntity
 		{
 			pairName = "";
 			pairSide = 0;
-			tellClientOfChange();//bug fix: client update on block break
 		}
 	}
 	
