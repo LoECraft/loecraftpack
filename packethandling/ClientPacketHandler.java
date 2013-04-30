@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import loecraftpack.blocks.te.ColoredBedTileEntity;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 
 
@@ -43,6 +44,19 @@ public class ClientPacketHandler implements IPacketHandler
 	        				te.offsetZ = oz;
 	        				te.setOwners(PacketHelper.readString(data));
 	        			}
+            			break;
+            		case PacketIds.bedUpdate:
+            			 	x = data.readInt();
+        			    	y = data.readInt();
+        			    	z = data.readInt();
+            			ColoredBedTileEntity cb = (ColoredBedTileEntity)Minecraft.getMinecraft().theWorld.getBlockTileEntity(x, y, z);
+            			if (cb != null)
+            			{
+            				int i = data.readInt();
+            				int s = data.readInt();
+            				cb.pairID = i;
+            				cb.pairSide = s;
+            			}
             			break;
             	}
             }

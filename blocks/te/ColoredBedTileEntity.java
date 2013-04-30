@@ -35,8 +35,6 @@ public class ColoredBedTileEntity extends TileEntity
 		id = nbt.getInteger("bedId");
 		pairID = nbt.getInteger("pairId");
 		findPairData();
-		
-		System.out.println("READ  x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
 	@Override
@@ -45,7 +43,6 @@ public class ColoredBedTileEntity extends TileEntity
 		super.writeToNBT(nbt);
 		nbt.setInteger("bedId", id);
 		nbt.setInteger("pairId", pairID);
-		System.out.println("WRITE x:" + xCoord + "y:" + yCoord + "z:" + zCoord + " pair name:"+ pairName);
     }
 	
 	@Override
@@ -106,24 +103,20 @@ public class ColoredBedTileEntity extends TileEntity
 			return;
 		updatePairNameLogic();
 		findPairData();
-		System.out.println("Pair (" + worldObj.isRemote + "): " + pairName);
 	}
 	
 	public void findPairData()
 	{
-		if (worldObj != null)
-			System.out.print("find Data   R:"+worldObj.isRemote+"  ");
 		if(pairID != -1)
 		{
 			pairName = ColoredBedHandler.getPairName(pairID);
 			pairSide = -ColoredBedHandler.findPairDirection(pairID, id);
-			System.out.println("SET SIDE:"+pairSide+"  for:"+ColoredBedHandler.iconNames.get(id));
 		}
 		else
 		{
 			pairName = "";
 			pairSide = 0;
-			System.out.println("SET DEFAULT:"+ColoredBedHandler.iconNames.get(id));
+			tellClientOfChange();//bug fix: client update on block break
 		}
 	}
 	
@@ -133,28 +126,19 @@ public class ColoredBedTileEntity extends TileEntity
 			return;
 		
         int dir = BlockDirectional.getDirection(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
-        
-		String name = ColoredBedHandler.iconNames.get(id); //This bed's name
 		
 		if(this.pairID != -1)
 		{
 			/**do the following if assigned already**/
 			
 			int dirPre = ColoredBedHandler.findPairDirection(this.pairID, id);// -1: left , 0: null , 1: right
-			System.out.println("Direct ----- "+dirPre);
 			if(dirPre != 0)
 			{
 				//check if it's still there
 				int pairID = checkSideForPossiblePairID(dirPre, dir);
 				
 	        	if( pairID == this.pairID )
-        		{
-	        		//partner still exists - nothing changes
-	        		System.out.println("maintaining pair:" + pairID + "   head:" + BlockBed.isBlockHeadOfBed(worldObj.getBlockMetadata(xCoord, yCoord, zCoord)));
-	        		return; 
-        		}
-	        	else
-	        		System.out.println("no maintain");
+	        		return; //partner still exists - nothing changes
 	        	
 	        	//Attempt to rebond to target
 	        	if(attemptToBond(dirPre, dir))return;
@@ -168,7 +152,6 @@ public class ColoredBedTileEntity extends TileEntity
 		        if(attemptToBond(dirPre, dir))return;
 		        
 		        //no pairs available - reset pairName to ""
-		        System.out.print("no avail - 1");
 		        this.pairID = -1;
 			}
 			
@@ -182,7 +165,6 @@ public class ColoredBedTileEntity extends TileEntity
 	        
 			//try to bond to the left
 			if(attemptToBond(-1, dir))return;
-			System.out.print("no avail - 2");
 		}
 		return;
 	}
@@ -221,7 +203,6 @@ public class ColoredBedTileEntity extends TileEntity
         		//new partner - make sure this new partner is aware of the change
                 this.pairID = pairID;
                 setAdjacentBedPair(dirT, pairID);
-                System.out.println("bonding :" + pairID + "   side:" + side + "   head:" + head);
         		return true;
         	}
         }
@@ -230,7 +211,6 @@ public class ColoredBedTileEntity extends TileEntity
 	
 	private void setAdjacentBedPair(int dir, int newPairID)
 	{
-		System.out.print("setting adjacent | ");
 		TileEntity te = locateAdjacentTile(worldObj, xCoord, yCoord, zCoord, dir);
 		if (te != null && te instanceof ColoredBedTileEntity)
 		{
@@ -246,10 +226,9 @@ public class ColoredBedTileEntity extends TileEntity
 		if (worldObj != null && !worldObj.isRemote)
 		{
 			PacketDispatcher.sendPacketToAllAround(xCoord, yCoord, zCoord, 64.0D, worldObj.provider.dimensionId,
-					                               PacketHelper.Make("loecraftpack", PacketIds.bedEdit,
+					                               PacketHelper.Make("loecraftpack", PacketIds.bedUpdate,
 					                                                 xCoord, yCoord, zCoord,
 					                                                 pairID, pairSide));
-			System.out.println("tell cleint of change");
 		}
 	}
 	

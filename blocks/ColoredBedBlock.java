@@ -108,7 +108,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int blockID, int meta)
     {
-		System.out.println("destroy tile");
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 		if(tile != null && tile instanceof ColoredBedTileEntity)
 		{
@@ -117,7 +116,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
 		else
 			bedDropID = -1;
 		world.removeBlockTileEntity(x, y, z);
-		System.out.println("BREAK BED!");
 		ColoredBedTileEntity.finishTileRemoval(world, x, y, z, meta);
 		
     }
@@ -130,8 +128,6 @@ public class ColoredBedBlock extends BlockBed implements ITileEntityProvider {
         int damageValue=0;
 
         TileEntity tile = world.getBlockTileEntity(x, y, z);
-        
-        System.out.println("x:"+ x + " z:"+ z +" exist:"+ (world.getBlockTileEntity(x, y, z)!=null) );
         
         if (tile != null && tile instanceof ColoredBedTileEntity)
         {
