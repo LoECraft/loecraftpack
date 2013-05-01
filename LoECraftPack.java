@@ -1,5 +1,8 @@
 package loecraftpack;
 
+import loecraftpack.blocks.BlockZapAppleLeaves;
+import loecraftpack.blocks.BlockZapAppleLog;
+import loecraftpack.blocks.BlockZapAppleSapling;
 import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.ProtectionMonolithBlock;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
@@ -19,6 +22,7 @@ import loecraftpack.packethandling.ClientPacketHandler;
 import loecraftpack.packethandling.ServerPacketHandler;
 import loecraftpack.ponies.stats.ServerStatHandler;
 import loecraftpack.proxies.CommonProxy;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -78,10 +82,16 @@ public class LoECraftPack
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final Bits bits = new Bits(667);
 	public static final ColoredBedItem bedItems = new ColoredBedItem(670);
-	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
-	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
 	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setPotionEffect(Potion.moveSpeed.id, 10, 0, 1.0F).setUnlocalizedName("appleZap");
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
+	
+	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
+	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
+	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
+	public static final BlockZapAppleLog blockZapApplelog = (BlockZapAppleLog)(new BlockZapAppleLog(672)).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
+	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(673)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("leaveszap");
+
+	
 	//zap apple leaves : 671
 	//zap apple wood   : 672
 	
