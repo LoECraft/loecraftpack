@@ -1,8 +1,5 @@
 package loecraftpack;
 
-import java.util.Iterator;
-import java.util.List;
-
 import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.ProtectionMonolithBlock;
 import loecraftpack.blocks.te.ColoredBedTileEntity;
@@ -10,6 +7,8 @@ import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.Bits;
 import loecraftpack.items.ColoredBedItem;
+import loecraftpack.items.ItemZapApple;
+import loecraftpack.items.ItemZapAppleJam;
 import loecraftpack.items.musicdiscs.LoEMusicDisc;
 import loecraftpack.logic.handlers.ColoredBedHandler;
 import loecraftpack.logic.handlers.EventHandler;
@@ -20,13 +19,11 @@ import loecraftpack.packethandling.ClientPacketHandler;
 import loecraftpack.packethandling.ServerPacketHandler;
 import loecraftpack.ponies.stats.ServerStatHandler;
 import loecraftpack.proxies.CommonProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -83,6 +80,11 @@ public class LoECraftPack
 	public static final ColoredBedItem bedItems = new ColoredBedItem(670);
 	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
+	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setPotionEffect(Potion.moveSpeed.id, 10, 0, 1.0F).setUnlocalizedName("appleZap");
+	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
+	//zap apple leaves : 671
+	//zap apple wood   : 672
+	
 	
 	/****************************/
 	/**Forge Pre-Initialization**/
@@ -146,23 +148,9 @@ public class LoECraftPack
 		/******************/
 		/**Update Recipes**/
 		/******************/
-        
-        //get CraftingManager
-    	CraftingManager cmi = CraftingManager.getInstance();
-    	
+          	
     	//locate and remove old bed recipe
-    	List recipes = cmi.getRecipeList();
-    	Iterator r = recipes.iterator();
-    	while (r.hasNext())
-    	{
-    		IRecipe ir = (IRecipe)r.next();
-    		//if the recipe outputs a bed, remove it
-			if(ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
-			{
-				r.remove();
-				break; //there really should only be one vanilla bed to remove, so stop once we find it
-			}
-    	}
+		ColoredBedHandler.cleanBedRecipe();
     	
     	//Add base-color beds
     	ColoredBedHandler.addCustomBed("Rarity", Dye.White);
