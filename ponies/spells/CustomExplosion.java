@@ -35,12 +35,9 @@ public class CustomExplosion extends Explosion
 		this.damage = damage;
 	}
 
-	public void DestroyBlocks(boolean doThis, boolean dropBlocks, float chanceToDrop)
+	public void DestroyBlocks(boolean destroyBlocks, boolean dropBlocks, float chanceToDrop)
     {
-		if (!doThis)
-			return;
-		
-        float f = this.explosionSize;
+		float f = this.explosionSize;
         HashSet hashset = new HashSet();
         int i;
         int j;
@@ -117,49 +114,48 @@ public class CustomExplosion extends Explosion
         ChunkPosition chunkposition;
         int l;
 
-        if (this.isSmoking)
+        iterator = this.affectedBlockPositions.iterator();
+
+        while (iterator.hasNext())
         {
-            iterator = this.affectedBlockPositions.iterator();
+            chunkposition = (ChunkPosition)iterator.next();
+            i = chunkposition.x;
+            j = chunkposition.y;
+            k = chunkposition.z;
+            l = this.worldObj.getBlockId(i, j, k);
 
-            while (iterator.hasNext())
+            d0 = (double)((float)i + this.worldObj.rand.nextFloat());
+            d1 = (double)((float)j + this.worldObj.rand.nextFloat());
+            d2 = (double)((float)k + this.worldObj.rand.nextFloat());
+            double d3 = d0 - this.explosionX;
+            double d4 = d1 - this.explosionY;
+            double d5 = d2 - this.explosionZ;
+            double d6 = (double)MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5);
+            d3 /= d6;
+            d4 /= d6;
+            d5 /= d6;
+            double d7 = 0.5D / (d6 / (double)this.explosionSize + 0.1D);
+            d7 *= (double)(this.worldObj.rand.nextFloat() * this.worldObj.rand.nextFloat() + 0.3F);
+            d3 *= d7;
+            d4 *= d7;
+            d5 *= d7;
+            if (explodeParticles)
+            	this.worldObj.spawnParticle("explode", (d0 + this.explosionX * 1.0D) / 2.0D, (d1 + this.explosionY * 1.0D) / 2.0D, (d2 + this.explosionZ * 1.0D) / 2.0D, d3, d4, d5);
+            if (isSmoking)
+            	this.worldObj.spawnParticle("smoke", d0, d1, d2, d3, d4, d5);
+
+            if (l > 0)
             {
-                chunkposition = (ChunkPosition)iterator.next();
-                i = chunkposition.x;
-                j = chunkposition.y;
-                k = chunkposition.z;
-                l = this.worldObj.getBlockId(i, j, k);
+                Block block = Block.blocksList[l];
 
-                d0 = (double)((float)i + this.worldObj.rand.nextFloat());
-                d1 = (double)((float)j + this.worldObj.rand.nextFloat());
-                d2 = (double)((float)k + this.worldObj.rand.nextFloat());
-                double d3 = d0 - this.explosionX;
-                double d4 = d1 - this.explosionY;
-                double d5 = d2 - this.explosionZ;
-                double d6 = (double)MathHelper.sqrt_double(d3 * d3 + d4 * d4 + d5 * d5);
-                d3 /= d6;
-                d4 /= d6;
-                d5 /= d6;
-                double d7 = 0.5D / (d6 / (double)this.explosionSize + 0.1D);
-                d7 *= (double)(this.worldObj.rand.nextFloat() * this.worldObj.rand.nextFloat() + 0.3F);
-                d3 *= d7;
-                d4 *= d7;
-                d5 *= d7;
-                if (explodeParticles)
-                	this.worldObj.spawnParticle("explode", (d0 + this.explosionX * 1.0D) / 2.0D, (d1 + this.explosionY * 1.0D) / 2.0D, (d2 + this.explosionZ * 1.0D) / 2.0D, d3, d4, d5);
-                if (isSmoking)
-                	this.worldObj.spawnParticle("smoke", d0, d1, d2, d3, d4, d5);
-
-                if (l > 0)
+                if (block.canDropFromExplosion(this) && dropBlocks)
                 {
-                    Block block = Block.blocksList[l];
-
-                    if (block.canDropFromExplosion(this) && dropBlocks)
-                    {
-                        block.dropBlockAsItemWithChance(this.worldObj, i, j, k, this.worldObj.getBlockMetadata(i, j, k), chanceToDrop, 0);
-                    }
-
-                    this.worldObj.setBlock(i, j, k, 0, 0, 3);
-                    block.onBlockDestroyedByExplosion(this.worldObj, i, j, k, this);
+                    block.dropBlockAsItemWithChance(this.worldObj, i, j, k, this.worldObj.getBlockMetadata(i, j, k), chanceToDrop, 0);
+                }
+                if (destroyBlocks)
+                {
+	                this.worldObj.setBlock(i, j, k, 0, 0, 3);
+	                block.onBlockDestroyedByExplosion(this.worldObj, i, j, k, this);
                 }
             }
         }
@@ -248,7 +244,7 @@ public class CustomExplosion extends Explosion
 	
 	public static void AOEDamage(World world, double x, double y, double z, float size, float damage, boolean flamey)
 	{
-		ExplodeCustomDamage(world, x, y, z, size, damage, flamey, true, false, false, false, false, 0);
+		ExplodeCustomDamage(world, x, y, z, size, damage, flamey, false, true, false, false, false, 0);
 	}
 	
 	public static void ExplodeCustomDamage(World world, double x, double y, double z, float size, float damage, boolean flamey, boolean smokey, boolean explodey, boolean destroyBlocks, boolean dropBlocks, boolean doubleDamageRadius, float chanceToDrop)

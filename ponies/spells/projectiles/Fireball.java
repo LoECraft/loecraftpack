@@ -17,6 +17,7 @@ public class Fireball extends EntityLargeFireball
 		this.accelerationX = xMotion;
         this.accelerationY = yMotion;
         this.accelerationZ = zMotion;
+        this.posY ++;
 	}
 	
 	@Override
