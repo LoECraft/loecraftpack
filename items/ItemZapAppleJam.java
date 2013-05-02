@@ -2,6 +2,7 @@ package loecraftpack.items;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -26,11 +27,18 @@ public class ItemZapAppleJam extends ItemFood {
     {
 		if (!world.isRemote)
         {
-        	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 1000, 3));
-        	entityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 1000, 3));
-        	entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 3));
+        	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 6000, 1));
+        	entityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 6000, 1));
         	entityPlayer.addPotionEffect(new PotionEffect(Potion.nightVision.id, 6000, 0));
+        	entityPlayer.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 2));
         }
     }
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void updateIcons(IconRegister iconRegister)
+	{
+	    iconIndex = iconRegister.registerIcon("loecraftpack:zapAppleJam");
+	}
 
 }

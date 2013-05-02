@@ -2,6 +2,9 @@ package loecraftpack.items;
 
 import java.util.List;
 
+import loecraftpack.logic.handlers.ColoredBedHandler;
+
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
@@ -9,16 +12,19 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemZapApple extends ItemFood {
+public class ItemZapApple extends ItemFood
+{
 	
 	public ItemZapApple(int id, int heal, float saturation, boolean wolf)
     {
         super(id, heal, saturation, wolf);
         this.setHasSubtypes(true);
+        this.setMaxDamage(0);
     }
 
     @SideOnly(Side.CLIENT)
@@ -26,6 +32,7 @@ public class ItemZapApple extends ItemFood {
     {
         return itemStack.getItemDamage() > 0;
     }
+    
 
     @SideOnly(Side.CLIENT)
 
@@ -43,8 +50,8 @@ public class ItemZapApple extends ItemFood {
         {
             if (!world.isRemote)
             {
-            	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 1000, 3));
-            	entityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 1000, 3));
+            	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 3000, 0));
+            	entityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 3000, 0));
             }
         }
         else
@@ -63,5 +70,13 @@ public class ItemZapApple extends ItemFood {
         list.add(new ItemStack(id, 1, 0));
         list.add(new ItemStack(id, 1, 1));
     }
+    
+    
+    @Override
+	@SideOnly(Side.CLIENT)
+	public void updateIcons(IconRegister iconRegister)
+	{
+	    iconIndex = iconRegister.registerIcon("loecraftpack:zapApple");
+	}
 
 }

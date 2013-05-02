@@ -82,7 +82,7 @@ public class LoECraftPack
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final Bits bits = new Bits(667);
 	public static final ColoredBedItem bedItems = new ColoredBedItem(670);
-	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setPotionEffect(Potion.moveSpeed.id, 10, 0, 1.0F).setUnlocalizedName("appleZap");
+	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setPotionEffect(Potion.moveSpeed.id, 30, 0, 1.0F).setUnlocalizedName("appleZap");
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	
 	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
@@ -90,10 +90,6 @@ public class LoECraftPack
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
 	public static final BlockZapAppleLog blockZapApplelog = (BlockZapAppleLog)(new BlockZapAppleLog(672)).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
 	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(673)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("leavesZap");
-
-	
-	//zap apple leaves : 671
-	//zap apple wood   : 672
 	
 	
 	/****************************/
@@ -133,11 +129,18 @@ public class LoECraftPack
 			LanguageRegistry.instance().addStringLocalization("item.itemBits." + Bits.iconNames[i] + ".name", Bits.names[i]);
 		LoEMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme"); //This is just a test. I do not yet have permission to use this song publicly.
 		LoEMusicDisc.AddMusicDisc("MLP:FiM", "What My Cutie Mark Is Telling Me");
+		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
 		
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
+		GameRegistry.registerBlock(blockZapAppleSapling,"ZapAppleSapling");
+		LanguageRegistry.addName(blockZapAppleSapling,"ZapApple Sapling");
+		GameRegistry.registerBlock(blockZapApplelog,"ZapApplelog");
+		LanguageRegistry.addName(blockZapApplelog,"ZapApple log");
+		GameRegistry.registerBlock(blockZapAppleLeaves,"ZapAppleLeaves");
+		LanguageRegistry.addName(blockZapAppleLeaves,"ZapApple Leaves"); 
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");
