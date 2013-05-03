@@ -1,6 +1,7 @@
 package loecraftpack;
 
 import loecraftpack.blocks.BlockZapAppleLeaves;
+import loecraftpack.blocks.BlockZapAppleLeavesCharged;
 import loecraftpack.blocks.BlockZapAppleLog;
 import loecraftpack.blocks.BlockZapAppleSapling;
 import loecraftpack.blocks.ColoredBedBlock;
@@ -10,6 +11,7 @@ import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.enums.Dye;
 import loecraftpack.items.Bits;
 import loecraftpack.items.ColoredBedItem;
+import loecraftpack.items.ItemLeavesZapApple;
 import loecraftpack.items.ItemZapApple;
 import loecraftpack.items.ItemZapAppleJam;
 import loecraftpack.items.musicdiscs.LoEMusicDisc;
@@ -85,8 +87,8 @@ public class LoECraftPack
 	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
 	public static final BlockZapAppleLog blockZapApplelog = (BlockZapAppleLog)(new BlockZapAppleLog(672)).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
-	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(673)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("leavesZap");
-	
+	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(673)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(674)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	
 	/****************************/
 	/**Forge Pre-Initialization**/
@@ -125,6 +127,8 @@ public class LoECraftPack
 			LanguageRegistry.instance().addStringLocalization("item.itemBits." + Bits.iconNames[i] + ".name", Bits.names[i]);
 		LoEMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme"); //This is just a test. I do not yet have permission to use this song publicly.
 		LoEMusicDisc.AddMusicDisc("MLP:FiM", "What My Cutie Mark Is Telling Me");
+		LanguageRegistry.instance().addStringLocalization("item.appleZap.normal.name", "Zap-Apple");
+		LanguageRegistry.instance().addStringLocalization("item.appleZap.charged.name", "Zap-Apple : Charged");
 		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
 		
 		//Blocks
@@ -135,8 +139,11 @@ public class LoECraftPack
 		LanguageRegistry.addName(blockZapAppleSapling,"ZapApple Sapling");
 		GameRegistry.registerBlock(blockZapApplelog,"ZapApplelog");
 		LanguageRegistry.addName(blockZapApplelog,"ZapApple log");
-		GameRegistry.registerBlock(blockZapAppleLeaves,"ZapAppleLeaves");
-		LanguageRegistry.addName(blockZapAppleLeaves,"ZapApple Leaves"); 
+		GameRegistry.registerBlock(blockZapAppleLeaves, ItemLeavesZapApple.class, "ZapAppleLeaves");
+		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.normal.name", "Zap-Apple Leaves");
+		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.blooming.name", "Zap-Apple Leaves : Blooming");
+		GameRegistry.registerBlock(blockZapAppleLeavesCharged, ItemLeavesZapApple.class, "ZapAppleLeavesCharged");
+		LanguageRegistry.instance().addStringLocalization("tile.leavesZapCharged.name", "Zap-Apple Leaves : Charged");
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");

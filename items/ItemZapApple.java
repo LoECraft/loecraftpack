@@ -2,6 +2,7 @@ package loecraftpack.items;
 
 import java.util.List;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.logic.handlers.ColoredBedHandler;
 
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -25,6 +26,7 @@ public class ItemZapApple extends ItemFood
         super(id, heal, saturation, wolf);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
+        this.setCreativeTab(LoECraftPack.LoECraftTab);
     }
 
     @SideOnly(Side.CLIENT)
@@ -78,5 +80,14 @@ public class ItemZapApple extends ItemFood
 	{
 	    iconIndex = iconRegister.registerIcon("loecraftpack:zapApple");
 	}
+    
+    public String getUnlocalizedName(ItemStack par1ItemStack)
+    {
+        int i = par1ItemStack.getItemDamage();
+        
+        if (i == 0)return super.getUnlocalizedName()+".normal";
+        else return super.getUnlocalizedName()+".charged";
+
+    }
 
 }

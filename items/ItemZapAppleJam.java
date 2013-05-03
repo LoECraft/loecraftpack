@@ -1,5 +1,6 @@
 package loecraftpack.items;
 
+import loecraftpack.LoECraftPack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -15,6 +16,7 @@ public class ItemZapAppleJam extends ItemFood {
 	public ItemZapAppleJam(int id, int heal, float saturation, boolean wolf)
     {
         super(id, heal, saturation, wolf);
+        this.setCreativeTab(LoECraftPack.LoECraftTab);
     }
 	
 	@SideOnly(Side.CLIENT)
