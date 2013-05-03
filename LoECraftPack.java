@@ -59,10 +59,6 @@ public class LoECraftPack
 	@Instance
     public static LoECraftPack instance = new LoECraftPack();
 	
-	//Instantiate bed item variables
-	
-	
-	
 	//Register proxies
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;

@@ -1,5 +1,6 @@
 package loecraftpack.logic.handlers;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import loecraftpack.LoECraftPack;
@@ -45,7 +46,7 @@ public class KeysHandler extends KeyHandler
 	@Override
 	public void keyDown(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd, boolean isRepeat)
 	{
-		if (tickEnd)
+		if (tickEnd && Minecraft.getMinecraft().thePlayer != null)
 		{
 			if (kb.equals(jump))
 			{
@@ -70,7 +71,7 @@ public class KeysHandler extends KeyHandler
 						Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
 					}
 				}
-				else
+				else if (Minecraft.getMinecraft().currentScreen == null)
 				{
 					PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.fireball));
 				}
