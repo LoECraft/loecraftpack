@@ -76,7 +76,6 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
     {
         if (!world.isRemote)
         {
-        	System.out.println("tick");
             int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
             boolean flag = true;
             
@@ -200,7 +199,6 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
         	//chance to grow
         	if( random.nextInt(10) == 0 )
         	{
-        		System.out.println("growth "+((meta&3) + 1 ));
         		if(((meta&3) + 1 ) == 4)
         			zapGrow(world, xCoord, yCoord, zCoord);
         		else
@@ -214,7 +212,6 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
 	
 	public void zapGrow(World world, int xCoord, int yCoord, int zCoord)
 	{
-		System.out.println("ZAP");
 		boolean flag = false;
 		int reach = -1;
 		int idTemp;
@@ -227,13 +224,11 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
 				continue;
 			else if(world.canLightningStrikeAt(xCoord, yCoord+reach, zCoord))
 			{
-				System.out.println("EYUP");
 				flag = true;
 				break;
 			}
 			else
 			{
-				System.out.println("ENOPE");
 				break;
 			}
 		}
