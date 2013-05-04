@@ -16,11 +16,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 {
 	private Icon icon[] = new Icon[4];
+	//public int renderID;
 
 	public BlockZapAppleLeavesCharged(int id) {
 		super(id);
 		this.setLightValue(0.5f);
 		this.setUnlocalizedName("leavesZapCharged");
+		this.appleType=1;
 	}
 	
 	@Override
@@ -66,7 +68,7 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
             
             if (!sheared)
     		{
-            	this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(LoECraftPack.itemZapApple, 1, 1));
+            	this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(apple, 1, appleType));
     		}
             //bug fix
             sheared = false;
@@ -117,5 +119,17 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 		icon[0] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_charge");
 		icon[1] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_charge_opaque");
 	}
-
+	/*
+	@Override
+	public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+	
+	@Override
+    public int getRenderType()
+    {
+        return renderID;
+    }
+	*/
 }

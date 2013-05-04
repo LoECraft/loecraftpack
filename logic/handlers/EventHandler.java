@@ -1,5 +1,6 @@
 package loecraftpack.logic.handlers;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.blocks.ProtectionMonolithBlock;
 import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.logic.DialogLogic;
@@ -7,8 +8,10 @@ import loecraftpack.packethandling.PacketHelper;
 import loecraftpack.packethandling.PacketIds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -114,6 +117,19 @@ public class EventHandler
 			}
 			else if (event.message.equals("next") || event.message.equals("done") || event.message.equals("accept") || event.message.equals("decline"))
 				event.setCanceled(true);
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onBonemeal(BonemealEvent event)
+	{
+		if (!event.world.isRemote && event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID )
+		{
+		    if ((double)event.world.rand.nextFloat() < 0.45D)
+		    {
+		    	LoECraftPack.blockZapAppleSapling.grow(event.world, event.X, event.Y, event.Z, event.world.rand);
+		    }
+		    event.setResult(Result.ALLOW);
 		}
 	}
 }

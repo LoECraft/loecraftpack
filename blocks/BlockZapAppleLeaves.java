@@ -13,7 +13,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.ColorizerFoliage;
@@ -31,6 +33,8 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
 	private Icon icon[] = new Icon[4];
 	int[] adjacentTreeBlocks;
 	protected static boolean sheared = false;
+	protected Item apple;
+	protected int appleType;
 	
 	public BlockZapAppleLeaves(int id)
     {
@@ -38,6 +42,8 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
         this.setTickRandomly(true);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
         this.setUnlocalizedName("leavesZap");
+        this.apple = LoECraftPack.itemZapApple;
+        this.appleType=0;
     }
 	
 	public int getcolor(int meta)
@@ -69,6 +75,32 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
 	public int colorMultiplier(IBlockAccess par1IBlockAccess, int xCoord, int yCoord, int zCoord)
     {
 		return getcolor(par1IBlockAccess.getBlockMetadata(xCoord, yCoord, zCoord));//TODO determine foliage color
+    }
+	
+	@Override
+	public void breakBlock(World world, int xCoord, int yCoord, int zCoord, int par5, int par6)
+    {
+        byte b0 = 1;
+        int j1 = b0 + 1;
+
+        if (world.checkChunksExist(xCoord - j1, yCoord - j1, zCoord - j1, xCoord + j1, yCoord + j1, zCoord + j1))
+        {
+            for (int k1 = -b0; k1 <= b0; ++k1)
+            {
+                for (int l1 = -b0; l1 <= b0; ++l1)
+                {
+                    for (int i2 = -b0; i2 <= b0; ++i2)
+                    {
+                        int j2 = world.getBlockId(xCoord + k1, yCoord + l1, zCoord + i2);
+
+                        if (Block.blocksList[j2] != null)
+                        {
+                            Block.blocksList[j2].beginLeavesDecay(world, xCoord + k1, yCoord + l1, zCoord + i2);
+                        }
+                    }
+                }
+            }
+        }
     }
 	
 	@Override
@@ -191,6 +223,12 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
         }
     }
 	
+	private void removeLeaves(World world, int xCoord, int yCoord, int zCoord)
+    {
+        this.dropBlockAsItem(world, xCoord, yCoord, zCoord, world.getBlockMetadata(xCoord, yCoord, zCoord), 0);
+        world.setBlockToAir(xCoord, yCoord, zCoord);
+    }
+	
 	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
 	{
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
@@ -260,60 +298,61 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
 		}
 	}
 	
-	public void buckLeaf(World world, int xCoord, int yCoord, int zCoord)
+	//TODO Move this to a bucking class
+	public static void buckLeaf(World world, int xCoord, int yCoord, int zCoord)
 	{
+		Block hold = Block.blocksList[world.getBlockId(xCoord, yCoord, zCoord)];
+		if(! (hold instanceof BlockZapAppleLeaves) ) return;// not a leaf
+		BlockZapAppleLeaves leaf = (BlockZapAppleLeaves) hold;
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
 		
 		if((meta&4)==1)return;//placed by player
 		if(world.getBlockId(xCoord, yCoord, zCoord) == LoECraftPack.blockZapAppleLeaves.blockID && (meta&3) == 0) return;//no apples
 		
-		this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(LoECraftPack.itemZapApple, 1, 0));
+		leaf.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(leaf.apple, 1, leaf.appleType));
 		if(world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID, 0, 2))
-			tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID);
+			leaf.tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID);
 	}
 	
-	private void removeLeaves(World world, int xCoord, int yCoord, int zCoord)
-    {
-		System.out.println("REMOVE");
-        this.dropBlockAsItem(world, xCoord, yCoord, zCoord, world.getBlockMetadata(xCoord, yCoord, zCoord), 0);
-        world.setBlockToAir(xCoord, yCoord, zCoord);
-    }
-	
-	@Override
-	public void breakBlock(World world, int xCoord, int yCoord, int zCoord, int par5, int par6)
-    {
-		System.out.println("BREAK");
-        byte b0 = 1;
-        int j1 = b0 + 1;
-
-        if (world.checkChunksExist(xCoord - j1, yCoord - j1, zCoord - j1, xCoord + j1, yCoord + j1, zCoord + j1))
+	public void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack)
+	{
+		int id;
+		while(true)
+		{
+			id = world.getBlockId(xCoord, yCoord, zCoord);
+			if(  id == LoECraftPack.blockZapApplelog.blockID ||
+			     id == LoECraftPack.blockZapAppleLeaves.blockID  ||
+			     id == LoECraftPack.blockZapAppleLeavesCharged.blockID)
+				yCoord--;
+			else
+			{
+				yCoord++;
+				break;
+			}
+			if(!world.blockExists(xCoord, yCoord, zCoord))
+			{
+				yCoord++;
+				break;
+			}
+		}
+		if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
         {
-            for (int k1 = -b0; k1 <= b0; ++k1)
-            {
-                for (int l1 = -b0; l1 <= b0; ++l1)
-                {
-                    for (int i2 = -b0; i2 <= b0; ++i2)
-                    {
-                        int j2 = world.getBlockId(xCoord + k1, yCoord + l1, zCoord + i2);
-
-                        if (Block.blocksList[j2] != null)
-                        {
-                            Block.blocksList[j2].beginLeavesDecay(world, xCoord + k1, yCoord + l1, zCoord + i2);
-                        }
-                    }
-                }
-            }
+            float f = 0.7F;
+            double d0 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            double d1 = -0.2D;
+            double d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
+            EntityItem entityitem = new EntityItem(world, (double)xCoord + d0, (double)yCoord + d1, (double)zCoord + d2, itemStack);
+            entityitem.delayBeforeCanPickup = 10;
+            world.spawnEntityInWorld(entityitem);
         }
-    }
+	}
 	
 	@Override
 	public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
     {
-		System.out.println("DESTROY");
 		int meta = world.getBlockMetadata(x, y, z);
 		if((meta&3) != 0 && !sheared)
 		{
-			System.out.println("REPLACE");
 			return world.setBlock(x, y, z, this.blockID, meta&12, 2);
 		}
         return world.setBlockToAir(x, y, z);
@@ -336,7 +375,6 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
 	@Override
 	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int par5, float par6, int par7)
     {
-		System.out.println("DROP");
         if (!world.isRemote)
         {
             int j1 = 20;
@@ -378,7 +416,7 @@ public class BlockZapAppleLeaves extends BlockLeavesBase implements IShearable
     		{
                 if ((par5 & 3) != 0 || world.rand.nextInt(j1) == 0)
                 {
-                    this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(LoECraftPack.itemZapApple, 1, 0));
+                    this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(apple, 1, appleType));
                 }
     		}
             //reset sheared

@@ -25,7 +25,7 @@ public class ItemLeavesZapApple extends ItemBlock
 	
     public int getMetadata(int par1)
     {
-        return par1; //| 4;
+        return par1 | 4;
     }
 
     @SideOnly(Side.CLIENT)

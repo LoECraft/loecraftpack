@@ -20,6 +20,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemZapApple extends ItemFood
 {
+	Icon icons[] = new Icon[2];
 	
 	public ItemZapApple(int id, int heal, float saturation, boolean wolf)
     {
@@ -73,12 +74,19 @@ public class ItemZapApple extends ItemFood
         list.add(new ItemStack(id, 1, 1));
     }
     
+    @Override
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int index)
+	{
+		return icons[index];
+	}
     
     @Override
 	@SideOnly(Side.CLIENT)
 	public void updateIcons(IconRegister iconRegister)
 	{
-	    iconIndex = iconRegister.registerIcon("loecraftpack:zapApple");
+	    icons[0] = iconRegister.registerIcon("loecraftpack:zapApple");
+	    icons[1] = iconRegister.registerIcon("loecraftpack:zapApple_charged");
 	}
     
     public String getUnlocalizedName(ItemStack par1ItemStack)
