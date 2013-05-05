@@ -59,7 +59,7 @@ public class ClientPacketHandler implements IPacketHandler
             				cb.pairSide = s;
             			}
             			break;
-            		case PacketIds.zapAppleUpdate:
+            		case PacketIds.appleBloomUpdate:
             			x = data.readInt();
     			    	y = data.readInt();
     			    	z = data.readInt();

@@ -1,26 +1,26 @@
 package loecraftpack.items;
 
-import java.util.List;
-
 import loecraftpack.LoECraftPack;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
+import loecraftpack.blocks.BlockAppleBloomLeaves;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import net.minecraft.world.ColorizerFoliage;
+import cpw.mods.fml.common.Mod.Block;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemLeavesZapApple extends ItemBlock
+public class ItemLeavesAppleBloom extends ItemBlock
 {
-	public ItemLeavesZapApple(int par1)
+	protected int bloomStage = 2;
+	protected BlockAppleBloomLeaves leaf;
+	
+	public ItemLeavesAppleBloom(int par1, Block leaf)
     {
         super(par1);
         this.setMaxDamage(0);
         this.setHasSubtypes(true);
+        this.leaf = (BlockAppleBloomLeaves)leaf;
+        System.out.println("leaf passed: "+ this.leaf);
     }
 	
     public int getMetadata(int par1)
@@ -35,14 +35,14 @@ public class ItemLeavesZapApple extends ItemBlock
      */
     public Icon getIconFromDamage(int meta)
     {
-    	return LoECraftPack.blockZapAppleLeaves.getBlockTextureFromSideAndMetadata(0, meta);
+    	return leaf.getBlockTextureFromSideAndMetadata(0, meta);
     }
 
     @SideOnly(Side.CLIENT)
     public int getColorFromItemStack(ItemStack par1ItemStack, int par2)
     {
         int meta = par1ItemStack.getItemDamage();
-        return LoECraftPack.blockZapAppleLeaves.getcolor(meta);
+        return leaf.getRenderColor(meta);
     }
     
     public String getUnlocalizedName(ItemStack par1ItemStack)
@@ -51,7 +51,7 @@ public class ItemLeavesZapApple extends ItemBlock
         
         if(this.getBlockID() == LoECraftPack.blockZapAppleLeavesCharged.blockID)
         	return super.getUnlocalizedName();
-        else if (meta == 0)return super.getUnlocalizedName()+".normal";
+        else if (meta < bloomStage)return super.getUnlocalizedName()+".normal";
         else return super.getUnlocalizedName()+".blooming";
 
     }

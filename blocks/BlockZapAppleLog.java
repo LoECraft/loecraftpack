@@ -98,7 +98,7 @@ public class BlockZapAppleLog extends Block
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-        this.iconTop = par1IconRegister.registerIcon("tree_top");
+        this.iconTop = par1IconRegister.registerIcon("loecraftpack:tree_zapapple_top");
         this.iconSide = par1IconRegister.registerIcon("loecraftpack:tree_zapapple");
     }
     
