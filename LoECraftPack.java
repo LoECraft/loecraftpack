@@ -3,7 +3,7 @@ package loecraftpack;
 import loecraftpack.blocks.BlockAppleBloomLeaves;
 import loecraftpack.blocks.BlockZapAppleLeaves;
 import loecraftpack.blocks.BlockZapAppleLeavesCharged;
-import loecraftpack.blocks.BlockZapAppleLog;
+import loecraftpack.blocks.BlockAppleLog;
 import loecraftpack.blocks.BlockZapAppleSapling;
 import loecraftpack.blocks.ColoredBedBlock;
 import loecraftpack.blocks.ProtectionMonolithBlock;
@@ -81,16 +81,21 @@ public class LoECraftPack
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final Bits bits = new Bits(667);
 	public static final ColoredBedItem bedItems = new ColoredBedItem(670);
-	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setPotionEffect(Potion.moveSpeed.id, 30, 0, 1.0F).setUnlocalizedName("appleZap");
+	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setUnlocalizedName("appleZap");
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	
 	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
 	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
-	public static final BlockZapAppleLog blockZapApplelog = (BlockZapAppleLog)(new BlockZapAppleLog(672)).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
-	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(673)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(674)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	public static final BlockAppleBloomLeaves blockAppleBloomLeaves = (BlockAppleBloomLeaves)(new BlockAppleBloomLeaves(675)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	public static final BlockAppleLog blockZapAppleLog = (BlockAppleLog)(new BlockAppleLog(672, "loecraftpack:tree_zapapple", "loecraftpack:tree_zapapple_top" )).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
+	public static final BlockAppleLog blockAppleBloomLog = (BlockAppleLog)(new BlockAppleLog(673, "tree_side", "tree_top")).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logapple");
+	//@Mod.Block(name = "ZapApple Leaves")
+	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(674)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	//@Mod.Block(name = "ZapApple Leaves Charged")
+	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(675)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	
+	//@Mod.Block(name = "AppleBloom Leaves")
+	public static final BlockAppleBloomLeaves blockAppleBloomLeaves = (BlockAppleBloomLeaves)(new BlockAppleBloomLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	
 	/****************************/
 	/**Forge Pre-Initialization**/
@@ -139,8 +144,9 @@ public class LoECraftPack
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
 		GameRegistry.registerBlock(blockZapAppleSapling,"ZapAppleSapling");
 		LanguageRegistry.addName(blockZapAppleSapling,"ZapApple Sapling");
-		GameRegistry.registerBlock(blockZapApplelog,"ZapApplelog");
-		LanguageRegistry.addName(blockZapApplelog,"ZapApple log");
+		GameRegistry.registerBlock(blockZapAppleLog,"ZapApplelog");
+		LanguageRegistry.addName(blockZapAppleLog,"ZapApple log");
+		LanguageRegistry.addName(blockAppleBloomLog,"AppleBloom log");
 		GameRegistry.registerBlock(blockZapAppleLeaves, ItemLeavesAppleBloom.class, "ZapAppleLeaves");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.normal.name", "Zap-Apple Leaves");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.blooming.name", "Zap-Apple Leaves : Blooming");

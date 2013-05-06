@@ -1,35 +1,22 @@
 package loecraftpack.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.packethandling.PacketHelper;
-import loecraftpack.packethandling.PacketIds;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeavesBase;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
-import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IShearable;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 {
 	int[] adjacentTreeBlocks;
-	protected int bloomStage = 2;
+	public int bloomStage = 2;
 	
 	public BlockZapAppleLeaves(int id)
     {
@@ -41,6 +28,23 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
         this.appleType=0;
     }
 	
+	//no color change
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int par1)
+    {
+        return 16777215;
+    }
+	
+	//no color change
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+    {
+        return 16777215;
+    }
+	
+	@Override
 	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
 	{
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
@@ -110,53 +114,13 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 		}
 	}
 	
-	//TODO Move this to a bucking class
-	public static void buckLeaf(World world, int xCoord, int yCoord, int zCoord)
-	{
-		Block hold = Block.blocksList[world.getBlockId(xCoord, yCoord, zCoord)];
-		if(! (hold instanceof BlockZapAppleLeaves) ) return;// not a leaf
-		BlockZapAppleLeaves leaf = (BlockZapAppleLeaves) hold;
-		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
-		
-		if((meta&4)==1)return;//placed by player
-		if(world.getBlockId(xCoord, yCoord, zCoord) == LoECraftPack.blockZapAppleLeaves.blockID && (meta&3) < leaf.bloomStage) return;//no apples
-		
-		leaf.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(leaf.apple, 1, leaf.appleType));
-		if(world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID, 0, 2))
-			leaf.tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID);
-	}
-	
+	@Override
 	public void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack)
 	{
-		int id;
-		while(true)
-		{
-			id = world.getBlockId(xCoord, yCoord, zCoord);
-			if(  id == LoECraftPack.blockZapApplelog.blockID ||
-			     id == LoECraftPack.blockZapAppleLeaves.blockID  ||
-			     id == LoECraftPack.blockZapAppleLeavesCharged.blockID)
-				yCoord--;
-			else
-			{
-				yCoord++;
-				break;
-			}
-			if(!world.blockExists(xCoord, yCoord, zCoord))
-			{
-				yCoord++;
-				break;
-			}
-		}
-		if (!world.isRemote && world.getGameRules().getGameRuleBooleanValue("doTileDrops"))
-        {
-            float f = 0.7F;
-            double d0 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
-            double d1 = -0.2D;
-            double d2 = (double)(world.rand.nextFloat() * f) + (double)(1.0F - f) * 0.5D;
-            EntityItem entityitem = new EntityItem(world, (double)xCoord + d0, (double)yCoord + d1, (double)zCoord + d2, itemStack);
-            entityitem.delayBeforeCanPickup = 10;
-            world.spawnEntityInWorld(entityitem);
-        }
+		dropAppleThruTree(world, xCoord, yCoord, zCoord, itemStack,
+				new int[]{LoECraftPack.blockZapAppleLog.blockID,
+				          LoECraftPack.blockZapAppleLeaves.blockID,
+				          LoECraftPack.blockZapAppleLeavesCharged.blockID});
 	}
 	
 	//TODO adjust drop rate appropriately

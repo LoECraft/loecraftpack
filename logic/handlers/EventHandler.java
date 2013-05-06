@@ -6,6 +6,7 @@ import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
 import loecraftpack.logic.DialogLogic;
 import loecraftpack.packethandling.PacketHelper;
 import loecraftpack.packethandling.PacketIds;
+import loecraftpack.ponies.handlers.AppleFarmer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.Event.Result;
@@ -123,13 +124,24 @@ public class EventHandler
 	@ForgeSubscribe
 	public void onBonemeal(BonemealEvent event)
 	{
-		if (!event.world.isRemote && event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID )
+		if (!event.world.isRemote)
 		{
-		    if ((double)event.world.rand.nextFloat() < 0.45D)
-		    {
-		    	LoECraftPack.blockZapAppleSapling.grow(event.world, event.X, event.Y, event.Z, event.world.rand);
-		    }
-		    event.setResult(Result.ALLOW);
+			//event use on Zap-Apple Sapling
+			if(event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID)
+			{
+			    if ((double)event.world.rand.nextFloat() < 0.45D)
+			    {
+			    	LoECraftPack.blockZapAppleSapling.grow(event.world, event.X, event.Y, event.Z, event.world.rand);
+			    }
+			    event.setResult(Result.ALLOW);
+			}
+			
+			//testing event: use on AppleLogs
+			if(event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleLog.blockID)
+			{
+				AppleFarmer.buckTree(event.world, event.X, event.Y, event.Z);
+			    event.setResult(Result.ALLOW);
+			}
 		}
 	}
 }

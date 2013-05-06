@@ -49,17 +49,18 @@ public class ItemZapApple extends ItemFood
 
     protected void onFoodEaten(ItemStack itemStack, World world, EntityPlayer entityPlayer)
     {
-        if (itemStack.getItemDamage() > 0)
+    	if (!world.isRemote)
         {
-            if (!world.isRemote)
-            {
-            	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 3000, 0));
+	        if (itemStack.getItemDamage() == 0)
+	        {
+            	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 300, 1));
+            	entityPlayer.addPotionEffect(new PotionEffect(Potion.jump.id, 300, 1));
+	        }
+	        else
+	        {
+	        	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 3000, 0));
             	entityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 3000, 0));
-            }
-        }
-        else
-        {
-            super.onFoodEaten(itemStack, world, entityPlayer);
+	        }
         }
     }
 

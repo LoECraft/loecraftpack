@@ -13,14 +13,19 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class BlockZapAppleLog extends Block 
+public class BlockAppleLog extends Block 
 {
+	String iconNameSide;
+	String iconNameTop;
 	Icon iconSide;
 	Icon iconTop;
-	public BlockZapAppleLog(int par1)
+	
+	public BlockAppleLog(int par1, String iconNameSide, String iconNameTop)
     {
         super(par1, Material.wood);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.iconNameSide = iconNameSide;
+        this.iconNameTop = iconNameTop;
     }
 	
 	public int getRenderType()
@@ -35,7 +40,7 @@ public class BlockZapAppleLog extends Block
     
     public int idDropped(int par1, Random par2Random, int par3)
     {
-        return LoECraftPack.blockZapApplelog.blockID;
+        return this.blockID;
     }
     
     public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
@@ -83,7 +88,9 @@ public class BlockZapAppleLog extends Block
             case 5:
                 b0 = 4;
         }
-
+        
+        b0 += 2;//player placed log
+        
         return j1 | b0;
     }
     
@@ -98,8 +105,8 @@ public class BlockZapAppleLog extends Block
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-        this.iconTop = par1IconRegister.registerIcon("loecraftpack:tree_zapapple_top");
-        this.iconSide = par1IconRegister.registerIcon("loecraftpack:tree_zapapple");
+        this.iconTop = par1IconRegister.registerIcon(iconNameTop);
+        this.iconSide = par1IconRegister.registerIcon(iconNameSide);
     }
     
     @Override

@@ -15,7 +15,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 {
-	private Icon icon[] = new Icon[4];
 	//public int renderID;
 
 	public BlockZapAppleLeavesCharged(int id) {

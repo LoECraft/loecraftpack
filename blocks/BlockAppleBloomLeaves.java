@@ -13,7 +13,6 @@ import net.minecraft.block.BlockLeavesBase;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -35,9 +34,9 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	protected Icon icon[] = new Icon[4];
 	int[] adjacentTreeBlocks;
 	protected static boolean sheared = false;
-	protected Item apple;
-	protected int appleType;
-	protected int bloomStage = 2;
+	public Item apple;
+	public int appleType;
+	public int bloomStage = 2;
 	
 	public BlockAppleBloomLeaves(int id)
     {
@@ -47,6 +46,37 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         this.setUnlocalizedName("leavesAppleBloom");
         this.apple = Item.appleRed;
         this.appleType=0;
+    }
+	
+	//inventory 
+	@Override
+	@SideOnly(Side.CLIENT)
+    public int getRenderColor(int par1)
+    {
+        return (par1 & 3) == 1 ? ColorizerFoliage.getFoliageColorPine() : ((par1 & 3) == 2 ? ColorizerFoliage.getFoliageColorBirch() : ColorizerFoliage.getFoliageColorBasic());
+    }
+	
+	//world
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+    {
+        int i1 = 0;
+        int j1 = 0;
+        int k1 = 0;
+
+        for (int l1 = -1; l1 <= 1; ++l1)
+        {
+            for (int i2 = -1; i2 <= 1; ++i2)
+            {
+                int j2 = par1IBlockAccess.getBiomeGenForCoords(par2 + i2, par4 + l1).getBiomeFoliageColor();
+                i1 += (j2 & 16711680) >> 16;
+                j1 += (j2 & 65280) >> 8;
+                k1 += j2 & 255;
+            }
+        }
+
+        return (i1 / 9 & 255) << 16 | (j1 / 9 & 255) << 8 | k1 / 9 & 255;
     }
 	
 	@Override
@@ -211,30 +241,30 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
     	}
 	}
 	
-	//TODO Move this to a bucking class
-	public static void buckLeaf(World world, int xCoord, int yCoord, int zCoord)
+	/*****************************************/
+	/******Drop apple down thru the tree******/
+	/***pass the tree's wood and leaves IDs***/
+	/*****************************************/
+	public void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack)
 	{
-		Block hold = Block.blocksList[world.getBlockId(xCoord, yCoord, zCoord)];
-		if(! (hold instanceof BlockAppleBloomLeaves) ) return;// not a leaf
-		BlockAppleBloomLeaves leaf = (BlockAppleBloomLeaves) hold;
-		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
-		
-		if((meta&4)==1)return;//placed by player
-		if((meta&3) < leaf.bloomStage) return;//no apples
-		
-		leaf.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(leaf.apple, 1, leaf.appleType));
-		if(world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.blockAppleBloomLeaves.blockID, 0, 2))
-			leaf.tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockAppleBloomLeaves.blockID);
+		dropAppleThruTree(world, xCoord, yCoord, zCoord, itemStack,
+				new int[]{Block.wood.blockID,
+				          LoECraftPack.blockAppleBloomLeaves.blockID});
 	}
 	
-	public void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack)
+	protected void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack, int ids[])
 	{
 		int id;
 		while(true)
 		{
 			id = world.getBlockId(xCoord, yCoord, zCoord);
-			if(  id == Block.wood.blockID ||
-			     id == LoECraftPack.blockAppleBloomLeaves.blockID )
+			boolean flag = false;
+			for(int i=0; i<ids.length; i++)
+			{
+				if (id == ids[i])
+					flag=true;
+			}
+			if(flag)
 				yCoord--;
 			else
 			{
@@ -420,7 +450,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
     }
     
   //used to tell the client that the block ID is changed
-  	protected void tellClientOfChange(World world, int xCoord, int yCoord, int zCoord, int newID)
+  	public void tellClientOfChange(World world, int xCoord, int yCoord, int zCoord, int newID)
   	{
   		if (world != null && !world.isRemote)
   		{

@@ -59,7 +59,7 @@ public class BlockZapAppleSapling extends BlockFlower{
         else
         {
         	( new WorldGenZapAppleTree(true, LoECraftPack.blockZapAppleSapling, 
-                                             LoECraftPack.blockZapApplelog,
+                                             LoECraftPack.blockZapAppleLog,
                                              LoECraftPack.blockZapAppleLeaves, 6 ) ).generate(world, random, xCoord, yCoord, zCoord);
         }
     }
