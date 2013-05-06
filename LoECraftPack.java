@@ -1,36 +1,35 @@
 package loecraftpack;
 
-import loecraftpack.blocks.BlockAppleBloomLeaves;
-import loecraftpack.blocks.BlockZapAppleLeaves;
-import loecraftpack.blocks.BlockZapAppleLeavesCharged;
-import loecraftpack.blocks.BlockAppleLog;
-import loecraftpack.blocks.BlockZapAppleSapling;
-import loecraftpack.blocks.ColoredBedBlock;
-import loecraftpack.blocks.ProtectionMonolithBlock;
-import loecraftpack.blocks.te.ColoredBedTileEntity;
-import loecraftpack.blocks.te.ProtectionMonolithTileEntity;
+import loecraftpack.common.blocks.BlockAppleBloomLeaves;
+import loecraftpack.common.blocks.BlockAppleLog;
+import loecraftpack.common.blocks.BlockColoredBed;
+import loecraftpack.common.blocks.BlockProtectionMonolith;
+import loecraftpack.common.blocks.BlockZapAppleLeaves;
+import loecraftpack.common.blocks.BlockZapAppleLeavesCharged;
+import loecraftpack.common.blocks.BlockZapAppleSapling;
+import loecraftpack.common.blocks.TileColoredBed;
+import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.items.ItemBits;
+import loecraftpack.common.items.ItemColoredBed;
+import loecraftpack.common.items.ItemLeavesAppleBloom;
+import loecraftpack.common.items.ItemMusicDisc;
+import loecraftpack.common.items.ItemZapApple;
+import loecraftpack.common.items.ItemZapAppleJam;
+import loecraftpack.common.logic.HandlerColoredBed;
+import loecraftpack.common.logic.HandlerEvent;
+import loecraftpack.common.logic.HandlerGui;
+import loecraftpack.common.logic.HandlerKey;
+import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.enums.Dye;
-import loecraftpack.items.Bits;
-import loecraftpack.items.ColoredBedItem;
-import loecraftpack.items.ItemLeavesAppleBloom;
-import loecraftpack.items.ItemZapApple;
-import loecraftpack.items.ItemZapAppleJam;
-import loecraftpack.items.musicdiscs.LoEMusicDisc;
-import loecraftpack.logic.handlers.ColoredBedHandler;
-import loecraftpack.logic.handlers.EventHandler;
-import loecraftpack.logic.handlers.GuiHandler;
-import loecraftpack.logic.handlers.KeysHandler;
-import loecraftpack.logic.handlers.PlayerHandler;
-import loecraftpack.packethandling.ClientPacketHandler;
-import loecraftpack.packethandling.ServerPacketHandler;
-import loecraftpack.ponies.stats.ServerStatHandler;
+import loecraftpack.packet.PacketHandlerClient;
+import loecraftpack.packet.PacketHandlerServer;
+import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -50,8 +49,8 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = "loecraftpack", name = "LoECraft Pack", version = "1.0")
 
-@NetworkMod(clientSideRequired=true, serverSideRequired=false, clientPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = ClientPacketHandler.class),
-serverPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = ServerPacketHandler.class))
+@NetworkMod(clientSideRequired=true, serverSideRequired=false, clientPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = PacketHandlerClient.class),
+serverPacketHandlerSpec = @SidedPacketHandler(channels = {"loecraftpack" }, packetHandler = PacketHandlerServer.class))
 public class LoECraftPack
 {
 	/***************************/
@@ -66,7 +65,7 @@ public class LoECraftPack
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;
 	@SidedProxy(clientSide = "loecraftpack.ponies.stats.ClientStatHandler", serverSide = "loecraftpack.ponies.stats.ServerStatHandler")
-    public static ServerStatHandler StatHandler;
+    public static StatHandlerServer StatHandler;
 	
 	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
@@ -79,13 +78,13 @@ public class LoECraftPack
 	};
 	
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
-	public static final Bits bits = new Bits(667);
-	public static final ColoredBedItem bedItems = new ColoredBedItem(670);
+	public static final ItemBits bits = new ItemBits(667);
+	public static final ItemColoredBed bedItems = new ItemColoredBed(670);
 	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setUnlocalizedName("appleZap");
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	
-	public static final ProtectionMonolithBlock monolith = new ProtectionMonolithBlock(666);
-	public static final ColoredBedBlock bedBlock = new ColoredBedBlock(670);
+	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
+	public static final BlockColoredBed bedBlock = new BlockColoredBed(670);
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
 	public static final BlockAppleLog blockZapAppleLog = (BlockAppleLog)(new BlockAppleLog(672, "loecraftpack:tree_zapapple", "loecraftpack:tree_zapapple_top" )).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
 	public static final BlockAppleLog blockAppleBloomLog = (BlockAppleLog)(new BlockAppleLog(673, "tree_side", "tree_top")).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logapple");
@@ -130,10 +129,10 @@ public class LoECraftPack
 		LanguageRegistry.instance().addStringLocalization("itemGroup.LoECraftTab", "LoECraft");
 		
 		//Items
-		for(int i = 0; i < Bits.names.length; i++ )
-			LanguageRegistry.instance().addStringLocalization("item.itemBits." + Bits.iconNames[i] + ".name", Bits.names[i]);
-		LoEMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme"); //This is just a test. I do not yet have permission to use this song publicly.
-		LoEMusicDisc.AddMusicDisc("MLP:FiM", "What My Cutie Mark Is Telling Me");
+		for(int i = 0; i < ItemBits.names.length; i++ )
+			LanguageRegistry.instance().addStringLocalization("item.itemBits." + ItemBits.iconNames[i] + ".name", ItemBits.names[i]);
+		ItemMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme"); //This is just a test. I do not yet have permission to use this song publicly.
+		ItemMusicDisc.AddMusicDisc("MLP:FiM", "What My Cutie Mark Is Telling Me");
 		LanguageRegistry.instance().addStringLocalization("item.appleZap.normal.name", "Zap-Apple");
 		LanguageRegistry.instance().addStringLocalization("item.appleZap.charged.name", "Zap-Apple : Charged");
 		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
@@ -157,13 +156,13 @@ public class LoECraftPack
 		LanguageRegistry.instance().addStringLocalization("tile.leavesAppleBloom.blooming.name", "Apple-Bloom Leaves : Blooming");
 		
 		//Tile Entities
-		GameRegistry.registerTileEntity(ProtectionMonolithTileEntity.class, "ProtectionMonolithTileEntity");
-		GameRegistry.registerTileEntity(ColoredBedTileEntity.class, "ColoredBedTileEntity");
+		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");
+		GameRegistry.registerTileEntity(TileColoredBed.class, "ColoredBedTileEntity");
 		
 		//Handlers
-		NetworkRegistry.instance().registerGuiHandler(this, new GuiHandler());
-		GameRegistry.registerPlayerTracker(new PlayerHandler());
-		MinecraftForge.EVENT_BUS.register(new EventHandler());
+		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());
+		GameRegistry.registerPlayerTracker(new HandlerPlayer());
+		MinecraftForge.EVENT_BUS.register(new HandlerEvent());
 		
 		/******************/
 		/**Do Proxy Stuff**/
@@ -177,45 +176,45 @@ public class LoECraftPack
 		/******************/
           	
     	//locate and remove old bed recipe
-		ColoredBedHandler.cleanBedRecipe();
+		HandlerColoredBed.cleanBedRecipe();
     	
     	//Add base-color beds
-    	ColoredBedHandler.addCustomBed("Rarity", Dye.White);
-    	ColoredBedHandler.addCustomBed("Octavia", Dye.LightGray);
-    	ColoredBedHandler.addCustomBed("Derpy", Dye.Gray);
-    	ColoredBedHandler.addCustomBed("Discord", Dye.Black);
-    	ColoredBedHandler.addCustomBed("Big Mac", Dye.Red);
-    	ColoredBedHandler.addCustomBed("Applejack", Dye.Orange);
-    	ColoredBedHandler.addCustomBed("Fluttershy", Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Granny Smith", Dye.Lime);
-    	ColoredBedHandler.addCustomBed("Spike", Dye.Green);
-    	ColoredBedHandler.addCustomBed("Trixie", Dye.Cyan);
-    	ColoredBedHandler.addCustomBed("Rainbow Dash", Dye.LightBlue);
-    	ColoredBedHandler.addCustomBed("Luna", Dye.Blue);
-    	ColoredBedHandler.addCustomBed("Twilight Sparkle", Dye.Purple);
-    	ColoredBedHandler.addCustomBed("Cheerilee", Dye.Magenta);
-    	ColoredBedHandler.addCustomBed("Pinkie Pie", Dye.Pink);
-    	ColoredBedHandler.addCustomBed("Muffin", Dye.Brown);
+    	HandlerColoredBed.addCustomBed("Rarity", Dye.White);
+    	HandlerColoredBed.addCustomBed("Octavia", Dye.LightGray);
+    	HandlerColoredBed.addCustomBed("Derpy", Dye.Gray);
+    	HandlerColoredBed.addCustomBed("Discord", Dye.Black);
+    	HandlerColoredBed.addCustomBed("Big Mac", Dye.Red);
+    	HandlerColoredBed.addCustomBed("Applejack", Dye.Orange);
+    	HandlerColoredBed.addCustomBed("Fluttershy", Dye.Yellow);
+    	HandlerColoredBed.addCustomBed("Granny Smith", Dye.Lime);
+    	HandlerColoredBed.addCustomBed("Spike", Dye.Green);
+    	HandlerColoredBed.addCustomBed("Trixie", Dye.Cyan);
+    	HandlerColoredBed.addCustomBed("Rainbow Dash", Dye.LightBlue);
+    	HandlerColoredBed.addCustomBed("Luna", Dye.Blue);
+    	HandlerColoredBed.addCustomBed("Twilight Sparkle", Dye.Purple);
+    	HandlerColoredBed.addCustomBed("Cheerilee", Dye.Magenta);
+    	HandlerColoredBed.addCustomBed("Pinkie Pie", Dye.Pink);
+    	HandlerColoredBed.addCustomBed("Muffin", Dye.Brown);
     	
     	//Add combo-color beds
-    	ColoredBedHandler.addCustomBed("Celestia", Dye.Lime, Dye.LightBlue, Dye.Pink);
-    	ColoredBedHandler.addCustomBed("Fausticorn", Dye.White, Dye.Red, Dye.White);
-    	ColoredBedHandler.addCustomBed("CMC", Dye.Red, Dye.Blue, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Sweetie Belle", Dye.White, Dye.Pink, Dye.Magenta);
-    	ColoredBedHandler.addCustomBed("Scootaloo", Dye.Orange, Dye.Purple, Dye.Orange);
-    	ColoredBedHandler.addCustomBed("Babs Seed", Dye.Brown, Dye.Red, Dye.Pink);
-    	ColoredBedHandler.addCustomBed("Apple Bloom", Dye.Yellow, Dye.Red, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Silver Spoon", Dye.Gray, Dye.LightGray, Dye.LightBlue);
-    	ColoredBedHandler.addCustomBed("Diamond Tiara", Dye.Pink, Dye.Purple, Dye.White);
-    	ColoredBedHandler.addCustomBed("Lyra", Dye.Lime, Dye.Yellow, Dye.Cyan);
-    	ColoredBedHandler.addCustomBed("Bon Bon", Dye.Blue, Dye.Pink, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Spitfire", Dye.Yellow, Dye.Orange, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Shining Armor", Dye.White, Dye.LightBlue, Dye.Blue);
-    	ColoredBedHandler.addCustomBed("Cadence", Dye.Purple, Dye.Magenta, Dye.Yellow);
-    	ColoredBedHandler.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
+    	HandlerColoredBed.addCustomBed("Celestia", Dye.Lime, Dye.LightBlue, Dye.Pink);
+    	HandlerColoredBed.addCustomBed("Fausticorn", Dye.White, Dye.Red, Dye.White);
+    	HandlerColoredBed.addCustomBed("CMC", Dye.Red, Dye.Blue, Dye.Yellow);
+    	HandlerColoredBed.addCustomBed("Sweetie Belle", Dye.White, Dye.Pink, Dye.Magenta);
+    	HandlerColoredBed.addCustomBed("Scootaloo", Dye.Orange, Dye.Purple, Dye.Orange);
+    	HandlerColoredBed.addCustomBed("Babs Seed", Dye.Brown, Dye.Red, Dye.Pink);
+    	HandlerColoredBed.addCustomBed("Apple Bloom", Dye.Yellow, Dye.Red, Dye.Yellow);
+    	HandlerColoredBed.addCustomBed("Silver Spoon", Dye.Gray, Dye.LightGray, Dye.LightBlue);
+    	HandlerColoredBed.addCustomBed("Diamond Tiara", Dye.Pink, Dye.Purple, Dye.White);
+    	HandlerColoredBed.addCustomBed("Lyra", Dye.Lime, Dye.Yellow, Dye.Cyan);
+    	HandlerColoredBed.addCustomBed("Bon Bon", Dye.Blue, Dye.Pink, Dye.Yellow);
+    	HandlerColoredBed.addCustomBed("Spitfire", Dye.Yellow, Dye.Orange, Dye.Yellow);
+    	HandlerColoredBed.addCustomBed("Shining Armor", Dye.White, Dye.LightBlue, Dye.Blue);
+    	HandlerColoredBed.addCustomBed("Cadence", Dye.Purple, Dye.Magenta, Dye.Yellow);
+    	HandlerColoredBed.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
     	
     	//Register bed pairs
-    	ColoredBedHandler.addBedPair("Alicorn Sisters", "Celestia", "Luna");
+    	HandlerColoredBed.addBedPair("Alicorn Sisters", "Celestia", "Luna");
 	}
 	
 	/*****************************/
@@ -226,6 +225,6 @@ public class LoECraftPack
 	public void postLoad(FMLPostInitializationEvent e)
 	{
 		//TODO: POST-LOAD STUFF
-		Minecraft.getMinecraft().gameSettings.keyBindJump = KeysHandler.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
+		Minecraft.getMinecraft().gameSettings.keyBindJump = HandlerKey.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
 	}
 }
