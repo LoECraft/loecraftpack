@@ -64,7 +64,7 @@ public class LoECraftPack
 	//Register proxies
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;
-	@SidedProxy(clientSide = "loecraftpack.ponies.stats.ClientStatHandler", serverSide = "loecraftpack.ponies.stats.ServerStatHandler")
+	@SidedProxy(clientSide = "loecraftpack.ponies.stats.StatHandlerClient", serverSide = "loecraftpack.ponies.stats.StatHandlerServer")
     public static StatHandlerServer StatHandler;
 	
 	//Create our own creative tab
