@@ -53,7 +53,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	@SideOnly(Side.CLIENT)
     public int getRenderColor(int par1)
     {
-        return (par1 & 3) == 1 ? ColorizerFoliage.getFoliageColorPine() : ((par1 & 3) == 2 ? ColorizerFoliage.getFoliageColorBirch() : ColorizerFoliage.getFoliageColorBasic());
+        return ColorizerFoliage.getFoliageColorBasic();
     }
 	
 	//world
