@@ -61,7 +61,7 @@ public class LoECraftPack
 	/***************************/
 	
 	//Create a singleton
-	@Instance
+	@Instance("loecraftpack")
     public static LoECraftPack instance = new LoECraftPack();
 	
 	//Register proxies

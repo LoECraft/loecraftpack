@@ -14,6 +14,14 @@ public class ItemLeavesAppleBloom extends ItemBlock
 	protected int bloomStage = 2;
 	protected BlockAppleBloomLeaves leaf;
 	
+	public ItemLeavesAppleBloom(int par1)
+    {
+        super(par1);
+        this.setMaxDamage(0);
+        this.setHasSubtypes(true);
+        this.leaf = LoECraftPack.blockAppleBloomLeaves;
+    }
+	
 	public ItemLeavesAppleBloom(int par1, Block leaf)
     {
         super(par1);
