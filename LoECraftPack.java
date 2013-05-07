@@ -23,6 +23,7 @@ import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
+import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
@@ -33,6 +34,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -79,6 +81,9 @@ public class LoECraftPack
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
+	
+	//Declare Potions
+	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(20, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
 	
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final ItemBits bits = new ItemBits(667);
