@@ -68,6 +68,6 @@ public class BlockAppleBloomSapling extends BlockFlower{
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon = iconRegister.registerIcon("loecraftpack:sapling_applebloom");
+		icon = iconRegister.registerIcon("sapling");
 	}
 }
