@@ -3,11 +3,13 @@ package loecraftpack;
 import loecraftpack.common.blocks.BlockAppleBloomLeaves;
 import loecraftpack.common.blocks.BlockAppleLog;
 import loecraftpack.common.blocks.BlockColoredBed;
+import loecraftpack.common.blocks.BlockProjectTable;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.BlockZapAppleLeaves;
 import loecraftpack.common.blocks.BlockZapAppleLeavesCharged;
 import loecraftpack.common.blocks.BlockZapAppleSapling;
 import loecraftpack.common.blocks.TileColoredBed;
+import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
@@ -84,6 +86,7 @@ public class LoECraftPack
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
+	public static final BlockProjectTable table = new BlockProjectTable(667);
 	public static final BlockColoredBed bedBlock = new BlockColoredBed(670);
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
 	public static final BlockAppleLog blockZapAppleLog = (BlockAppleLog)(new BlockAppleLog(672, "loecraftpack:tree_zapapple", "loecraftpack:tree_zapapple_top" )).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
@@ -140,6 +143,8 @@ public class LoECraftPack
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
+		GameRegistry.registerBlock(table, "ProjectTableBlock");
+		LanguageRegistry.addName(table, "Project Table");
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
 		GameRegistry.registerBlock(blockZapAppleSapling,"ZapAppleSapling");
 		LanguageRegistry.addName(blockZapAppleSapling,"ZapApple Sapling");
@@ -158,6 +163,7 @@ public class LoECraftPack
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");
 		GameRegistry.registerTileEntity(TileColoredBed.class, "ColoredBedTileEntity");
+		GameRegistry.registerTileEntity(TileProjectTable.class, "ProjectTableTileEntity");
 		
 		//Handlers
 		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());

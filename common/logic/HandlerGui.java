@@ -1,6 +1,9 @@
 package loecraftpack.common.logic;
 
+import loecraftpack.common.blocks.ContainerProjectTable;
+import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.blocks.gui.GuiProjectTable;
 import loecraftpack.common.blocks.gui.GuiProtectionMonolith;
 import loecraftpack.common.gui.GuiDialog;
 import loecraftpack.common.gui.GuiQuest;
@@ -15,6 +18,14 @@ public class HandlerGui implements IGuiHandler
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z)
 	{
+		switch(ID)
+		{
+			case 1:
+				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+				if(tileEntity instanceof TileProjectTable)
+					return new ContainerProjectTable(player.inventory, (TileProjectTable)tileEntity, world, x, y, z);
+				break;
+		}
 		return null;
 	}
 
@@ -26,17 +37,22 @@ public class HandlerGui implements IGuiHandler
 		case 0:
 			TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 			if(tileEntity instanceof TileProtectionMonolith)
-			{
 	            return new GuiProtectionMonolith((TileProtectionMonolith) tileEntity);
-			}
+			break;
 			
 		case 1:
+			tileEntity = world.getBlockTileEntity(x, y, z);
+				if(tileEntity instanceof TileProjectTable)
+					return new GuiProjectTable(player.inventory, world, x, y, z);
+			break;
+			
+		case 2:
 			return new GuiDialog();
 	            
-		case 2:
+		case 3:
             return new GuiQuest();
             
-		case 3:
+		case 4:
             return new GuiShop();
 		}
 		return null;
