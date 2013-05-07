@@ -14,10 +14,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 /*TODO
-clean code
 make electric cloud entity
-revert charged zap-apple image to non-animation
-adjust zap-apple-leaf texture to more appropriate color
 make charged status effect
 BIOME:
 	add Everfree forest
@@ -34,9 +31,7 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
         this.setCreativeTab(LoECraftPack.LoECraftTab);
         this.setUnlocalizedName("leavesZap");
         this.apple = LoECraftPack.itemZapApple;
-        this.appleType=0;
-        bloomStage = 2;
-        saplingDropRate = 600;//roughly 60 attempts from a single tree
+        saplingDropRate = 600;//roughly 60 leaves on a tree
     }
 	
 	//no color change
@@ -119,49 +114,6 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 	public int idDropped(int par1, Random par2Random, int par3)
     {
         return LoECraftPack.blockZapAppleSapling.blockID;
-    }
-	
-	@Override
-	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int meta, float par6, int fortune)
-    {
-        if (!world.isRemote)
-        {
-            int j1 = saplingDropRate;
-
-            if (fortune > 0)
-            {
-                j1 -= (saplingDropRate/10) << fortune;
-
-                if (j1 < 10)
-                {
-                    j1 = 10;
-                }
-            }
-
-            if (world.rand.nextInt(j1) == 0)
-            {
-                int k1 = this.idDropped(meta, world.rand, fortune);
-                this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(k1, 1, this.damageDropped(meta)));
-            }
-
-            
-            if (!sheared)
-    		{
-                if ((meta & 3) >= bloomStage)
-                {
-                	int j = world.rand.nextInt(fortune + 1) - 1;
-                	
-                    if (j < 0)
-                    {
-                        j = 0;
-                    }
-                    
-                    this.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(apple, j + 1, appleType));
-                }
-    		}
-            //reset sheared
-            sheared = false;
-        }
     }
 	
 	@Override

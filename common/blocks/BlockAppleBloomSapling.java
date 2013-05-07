@@ -17,12 +17,35 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.IPlantable;
 
-public class BlockZapAppleSapling extends BlockAppleBloomSapling
-{
+public class BlockAppleBloomSapling extends BlockFlower{
+	
+	protected Icon icon;
 
-	public BlockZapAppleSapling(int id)
+	public BlockAppleBloomSapling(int id)
     {
         super(id);
+        float f = 0.4F;
+        this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
+        this.setCreativeTab(LoECraftPack.LoECraftTab);
+    }
+	
+	public void updateTick(World world, int xCoord, int yCoord, int zCoord, Random random)
+    {
+        if (!world.isRemote)
+        {
+            super.updateTick(world, xCoord, yCoord, zCoord, random);
+
+            if (world.getBlockLightValue(xCoord, yCoord + 1, zCoord) >= 9 && random.nextInt(7) == 0)
+            {
+                this.grow(world, xCoord, yCoord, zCoord, random);
+            }
+        }
+    }
+	
+	@SideOnly(Side.CLIENT)
+    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    {
+        return this.icon;
     }
 	
 	public void grow(World world, int xCoord, int yCoord, int zCoord, Random random)
@@ -36,8 +59,8 @@ public class BlockZapAppleSapling extends BlockAppleBloomSapling
         else
         {
         	( new WorldGenCustomAppleTree(true, this, 
-                                             LoECraftPack.blockZapAppleLog,
-                                             LoECraftPack.blockZapAppleLeaves, 6 ) ).generate(world, random, xCoord, yCoord, zCoord);
+                                             LoECraftPack.blockAppleBloomLog,
+                                             LoECraftPack.blockAppleBloomLeaves, 6 ) ).generate(world, random, xCoord, yCoord, zCoord);
         }
     }
 	
@@ -45,6 +68,6 @@ public class BlockZapAppleSapling extends BlockAppleBloomSapling
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon = iconRegister.registerIcon("loecraftpack:sapling_zapapple");
+		icon = iconRegister.registerIcon("loecraftpack:sapling_applebloom");
 	}
 }

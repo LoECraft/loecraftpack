@@ -123,6 +123,16 @@ public class HandlerEvent
 	{
 		if (!event.world.isRemote)
 		{
+			//event use on Apple-Bloom Sapling
+			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockAppleBloomSapling.blockID)
+			{
+			    if ((double)event.world.rand.nextFloat() < 0.45D)
+			    {
+			    	LoECraftPack.blockAppleBloomSapling.grow(event.world, event.X, event.Y, event.Z, event.world.rand);
+			    }
+			    event.setResult(Result.ALLOW);
+			}
+			
 			//event use on Zap-Apple Sapling
 			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID)
 			{
@@ -134,8 +144,10 @@ public class HandlerEvent
 			}
 			
 			//testing event: use on AppleLogs
-			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleLog.blockID)
+			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleLog.blockID ||
+				event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
+				System.out.println("BUCK");
 				AppleFarmer.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
 			    event.setResult(Result.ALLOW);
 			}

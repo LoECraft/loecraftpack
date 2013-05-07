@@ -1,6 +1,7 @@
 package loecraftpack;
 
 import loecraftpack.common.blocks.BlockAppleBloomLeaves;
+import loecraftpack.common.blocks.BlockAppleBloomSapling;
 import loecraftpack.common.blocks.BlockAppleLog;
 import loecraftpack.common.blocks.BlockColoredBed;
 import loecraftpack.common.blocks.BlockProjectTable;
@@ -88,12 +89,13 @@ public class LoECraftPack
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
 	public static final BlockColoredBed bedBlock = new BlockColoredBed(670);
-	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
-	public static final BlockAppleLog blockZapAppleLog = (BlockAppleLog)(new BlockAppleLog(672, "loecraftpack:tree_zapapple", "loecraftpack:tree_zapapple_top" )).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
-	public static final BlockAppleLog blockAppleBloomLog = (BlockAppleLog)(new BlockAppleLog(673, "tree_side", "tree_top")).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logapple");
-	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(674)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(675)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	public static final BlockAppleBloomLeaves blockAppleBloomLeaves = (BlockAppleBloomLeaves)(new BlockAppleBloomLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	public static final BlockAppleBloomSapling blockAppleBloomSapling = (BlockAppleBloomSapling)(new BlockAppleBloomSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingBloom");
+	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(672)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
+	public static final BlockAppleLog blockAppleBloomLog = (BlockAppleLog)(new BlockAppleLog(673, "tree_side", "tree_top")).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logApple");
+	public static final BlockAppleLog blockZapAppleLog = (BlockAppleLog)(new BlockAppleLog(674, "loecraftpack:tree_zapapple", "loecraftpack:tree_zapapple_top" )).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
+	public static final BlockAppleBloomLeaves blockAppleBloomLeaves = (BlockAppleBloomLeaves)(new BlockAppleBloomLeaves(675)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
+	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(677)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	
 	/****************************/
 	/**Forge Pre-Initialization**/
@@ -142,19 +144,23 @@ public class LoECraftPack
 		GameRegistry.registerBlock(table, "ProjectTableBlock");
 		LanguageRegistry.addName(table, "Project Table");
 		GameRegistry.registerBlock(bedBlock, "ColoredBed");
+		GameRegistry.registerBlock(blockAppleBloomSapling,"AppleBloomSapling");
+		LanguageRegistry.addName(blockAppleBloomSapling,"Apple-Bloom Sapling");
+		GameRegistry.registerBlock(blockAppleBloomLog,"AppleBloomlog");
+		LanguageRegistry.addName(blockAppleBloomLog,"Apple-Bloom log");
+		GameRegistry.registerBlock(blockAppleBloomLeaves, ItemLeavesAppleBloom.class, "AppleBloomLeaves");
+		LanguageRegistry.instance().addStringLocalization("tile.leavesAppleBloom.normal.name", "Apple-Bloom Leaves");
+		LanguageRegistry.instance().addStringLocalization("tile.leavesAppleBloom.blooming.name", "Apple-Bloom Leaves : Blooming");
 		GameRegistry.registerBlock(blockZapAppleSapling,"ZapAppleSapling");
-		LanguageRegistry.addName(blockZapAppleSapling,"ZapApple Sapling");
+		LanguageRegistry.addName(blockZapAppleSapling,"Zap-Apple Sapling");
 		GameRegistry.registerBlock(blockZapAppleLog,"ZapApplelog");
-		LanguageRegistry.addName(blockZapAppleLog,"ZapApple log");
-		LanguageRegistry.addName(blockAppleBloomLog,"AppleBloom log");
+		LanguageRegistry.addName(blockZapAppleLog,"Zap-Apple log");
 		GameRegistry.registerBlock(blockZapAppleLeaves, ItemLeavesAppleBloom.class, "ZapAppleLeaves");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.normal.name", "Zap-Apple Leaves");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.blooming.name", "Zap-Apple Leaves : Blooming");
 		GameRegistry.registerBlock(blockZapAppleLeavesCharged, ItemLeavesAppleBloom.class, "ZapAppleLeavesCharged");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZapCharged.name", "Zap-Apple Leaves : Charged");
-		GameRegistry.registerBlock(blockAppleBloomLeaves, ItemLeavesAppleBloom.class, "AppleBloomLeaves");
-		LanguageRegistry.instance().addStringLocalization("tile.leavesAppleBloom.normal.name", "Apple-Bloom Leaves");
-		LanguageRegistry.instance().addStringLocalization("tile.leavesAppleBloom.blooming.name", "Apple-Bloom Leaves : Blooming");
+		
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");

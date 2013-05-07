@@ -21,8 +21,9 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 		super(id);
 		this.setLightValue(0.5f);
 		this.setUnlocalizedName("leavesZapCharged");
-		this.appleType=1;
-		bloomStage=4;
+		this.appleType = 1;
+		bloomStage = 4;//no bloom stage
+		growthRate = 150/41;//average of one day(in-game) to reach stage 4
 	}
 	
 	@Override
@@ -71,7 +72,7 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 		if ((meta & 4) == 0)
         {
         	//chance to weaken
-			if (random.nextDouble()*(150/41) <= 1)
+			if (random.nextDouble()*(growthRate) <= 1)
         	{
         		if (meta == 3)
         		{

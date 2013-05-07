@@ -29,15 +29,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SuppressWarnings("all")
 public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable, cpw.mods.fml.common.Mod.Block
 {
+	public int appleType = 0;//item damage
+	public int bloomStage = 2;
+	protected int saplingDropRate = 50;
+	protected double growthRate = 30;//average of 41 minutes(real time) to reach the next stage
+	protected Icon icon[] = new Icon[4];
+	public Item apple;
+	/**flags, etc.**/
 	@SideOnly(Side.CLIENT)
     protected int IconByGraphicsLevel;
-	protected Icon icon[] = new Icon[4];
-	int[] adjacentTreeBlocks;
+	protected int[] adjacentTreeBlocks;
 	protected static boolean sheared = false;
-	public Item apple;
-	public int appleType;
-	public int bloomStage = 2;
-	int saplingDropRate = 50;
+	
 	
 	public BlockAppleBloomLeaves(int id)
     {
@@ -46,9 +49,25 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         this.setCreativeTab(LoECraftPack.LoECraftTab);
         this.setUnlocalizedName("leavesAppleBloom");
         this.apple = Item.appleRed;
-        this.appleType=0;
     }
 	
+	//no color change
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int getRenderColor(int par1)
+    {
+        return 16777215;
+    }
+	
+	//no color change
+	@Override
+	@SideOnly(Side.CLIENT)
+	public int colorMultiplier(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
+    {
+        return 16777215;
+    }
+	
+	/*
 	//inventory 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -79,6 +98,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 
         return (i1 / 9 & 255) << 16 | (j1 / 9 & 255) << 8 | k1 / 9 & 255;
     }
+    */
 	
 	@Override
 	public void breakBlock(World world, int xCoord, int yCoord, int zCoord, int par5, int par6)
@@ -235,7 +255,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
 	{
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
-    	if ( (meta & 4) == 0 && random.nextInt(30) == 0 &&
+    	if ( (meta & 4) == 0 && random.nextDouble()*(growthRate) <= 1 &&
     	     ((meta&3) + 1 ) < 4 && world.setBlock(xCoord, yCoord, zCoord, this.blockID, meta + 1, 2) )
     	{
 			tellClientOfChange(world, xCoord, yCoord, zCoord, this.blockID);
@@ -348,7 +368,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
                         j = 0;
                     }
                     
-                    this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(apple, 1, appleType));
+                    this.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(apple, 1, appleType));
                 }
     		}
             //reset sheared
@@ -405,8 +425,8 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon[0] = iconRegister.registerIcon("leaves");
-		icon[1] = iconRegister.registerIcon("leaves_opaque");
+		icon[0] = iconRegister.registerIcon("loecraftpack:leaves");
+		icon[1] = iconRegister.registerIcon("loecraftpack:leaves_opaque");
 		icon[2] = iconRegister.registerIcon("loecraftpack:leaves_bloom");
 		icon[3] = iconRegister.registerIcon("loecraftpack:leaves_bloom_opaque");
 	}

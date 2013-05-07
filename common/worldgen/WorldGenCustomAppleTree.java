@@ -2,20 +2,20 @@ package loecraftpack.common.worldgen;
 
 import java.util.Random;
 
-import loecraftpack.common.blocks.BlockZapAppleSapling;
+import loecraftpack.common.blocks.BlockAppleBloomSapling;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.ForgeDirection;
 
-public class WorldGenZapAppleTree extends WorldGenerator {
+public class WorldGenCustomAppleTree extends WorldGenerator {
 
 	Block saplingType;
 	Block logType;
 	Block leafType;
 	int minTreeHeight;
 	
-	public WorldGenZapAppleTree(boolean sapling, Block saplingType, Block log, Block leaf, int minTreeHeight) {
+	public WorldGenCustomAppleTree(boolean sapling, Block saplingType, Block log, Block leaf, int minTreeHeight) {
 		super(sapling);
 		this.saplingType = saplingType;
 		this.logType = log;
@@ -84,7 +84,7 @@ public class WorldGenZapAppleTree extends WorldGenerator {
             {
                 i1 = par1World.getBlockId(xCoord, yCoord - 1, zCoord);
                 Block soil = Block.blocksList[i1];
-                boolean isSoil = (soil != null && soil.canSustainPlant(par1World, xCoord, yCoord - 1, zCoord, ForgeDirection.UP, (BlockZapAppleSapling)saplingType ));
+                boolean isSoil = (soil != null && soil.canSustainPlant(par1World, xCoord, yCoord - 1, zCoord, ForgeDirection.UP, (BlockAppleBloomSapling)saplingType ));
                 System.out.println("SOIL: "+ isSoil);
                 if (isSoil && yCoord < 256 - l - 1)
                 {
