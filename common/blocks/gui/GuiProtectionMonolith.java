@@ -115,7 +115,7 @@ public class GuiProtectionMonolith extends GuiScreen
 		drawDefaultBackground();
 	
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture("/loecraftpack/gui/monolith.png");
+		this.mc.renderEngine.bindTexture("/loecraftpack/common/blocks/gui/monolith.png");
 	
 		int posX = (this.width - xSizeOfTexture) / 2;
 		int posY = (this.height - ySizeOfTexture) / 2;
@@ -131,7 +131,7 @@ public class GuiProtectionMonolith extends GuiScreen
 		this.drawString(fontRenderer, ""+(new DecimalFormat("00")).format(te.length+te.lengthInc), posX + 28, posY + 85, white);
 		this.drawString(fontRenderer, String.format("Cost: %s Bits", ((te.widthInc*te.lengthInc)+(te.width*te.lengthInc)+(te.length*te.widthInc))*10 + ((te.width+te.widthInc)*Math.abs(te.offsetZInc))*5 + ((te.length+te.lengthInc)*Math.abs(te.offsetXInc))*5), posX +32, posY + 118, white);
 		super.drawScreen(x, y, f);
-		this.mc.renderEngine.bindTexture("/loecraftpack/gui/monolith.png");
+		this.mc.renderEngine.bindTexture("/loecraftpack/common/blocks/gui/monolith.png");
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 		this.drawTexturedModalRect(posX + 148, posY + 45, 240, 0, 16, 16);  //up
 		this.drawTexturedModalRect(posX + 168, posY + 65, 240, 48, 16, 16); //right

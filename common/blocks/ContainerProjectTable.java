@@ -33,7 +33,7 @@ public class ContainerProjectTable extends Container
         this.posY = par4;
         this.posZ = par5;
         
-        this.addSlotToContainer(new SlotCrafting(par1InventoryPlayer.player, this.inventory, this.craftResult, 0, 124, 35));
+        this.addSlotToContainer(new ResultSlotProjectTable(par1InventoryPlayer.player, this.inventory, this.craftResult, 0, 124, 35));
         int l;
         int i1;
 
@@ -45,17 +45,20 @@ public class ContainerProjectTable extends Container
             }
         }
 
-        for (l = 0; l < 3; ++l)
+        for (l = 0; l < 5; ++l)
         {
             for (i1 = 0; i1 < 9; ++i1)
             {
-                this.addSlotToContainer(new Slot(par1InventoryPlayer, i1 + l * 9 + 9, 8 + i1 * 18, 84 + l * 18));
+            	if (l <= 1)
+            		this.addSlotToContainer(new Slot(inventory, i1 + l * 9 + 9, 8 + i1 * 18, 84 + l * 18));
+            	else
+            		this.addSlotToContainer(new Slot(par1InventoryPlayer, i1 + (l-2) * 9 + 9, 8 + i1 * 18, 133 + (l-2) * 18));
             }
         }
 
         for (l = 0; l < 9; ++l)
         {
-            this.addSlotToContainer(new Slot(par1InventoryPlayer, l, 8 + l * 18, 142));
+            this.addSlotToContainer(new Slot(par1InventoryPlayer, l, 8 + l * 18, 191));
         }
 
         this.onCraftMatrixChanged(inventory);
@@ -85,33 +88,37 @@ public class ContainerProjectTable extends Container
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if (par2 == 0)
+            if (par2 < 10)
             {
-                if (!this.mergeItemStack(itemstack1, 10, 46, true))
+                if (!this.mergeItemStack(itemstack1, 10, 64, false))
                 {
                     return null;
                 }
 
                 slot.onSlotChange(itemstack1, itemstack);
             }
-            else if (par2 >= 10 && par2 < 37)
+            else if (par2 >= 10 && par2 < 28)
             {
-                if (!this.mergeItemStack(itemstack1, 37, 46, false))
-                {
-                    return null;
-                }
-            }
-            else if (par2 >= 37 && par2 < 46)
-            {
-                if (!this.mergeItemStack(itemstack1, 10, 37, false))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 10, 46, false))
-            {
+            	if (!this.mergeItemStack(itemstack1, 28, 64, false))
+            	{
                 return null;
+            	}
             }
+            else if (par2 >= 28 && par2 < 55)
+            {
+                if (!this.mergeItemStack(itemstack1, 10, 28, false))
+                {
+                    return null;
+                }
+            }
+            else if (par2 >= 55 && par2 < 64)
+            {
+                if (!this.mergeItemStack(itemstack1, 10, 55, true))
+                {
+                    return null;
+                }
+            }
+            
 
             if (itemstack1.stackSize == 0)
             {

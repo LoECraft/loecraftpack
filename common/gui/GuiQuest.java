@@ -55,7 +55,7 @@ public class GuiQuest extends GuiScreen
 		drawDefaultBackground();
 	
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/loecraftpack/gui/quest.png");
+		mc.renderEngine.bindTexture("/loecraftpack/common/gui/quest.png");
 	
 		int posX = (this.width - xSizeOfTexture) / 2;
 		int posY = (this.height - ySizeOfTexture) / 2;
