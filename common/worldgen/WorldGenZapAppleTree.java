@@ -21,7 +21,6 @@ public class WorldGenZapAppleTree extends WorldGenerator {
 		this.logType = log;
 		this.leafType = leaf;
 		this.minTreeHeight = minTreeHeight;
-		// TODO set defaults
 	}
 	
 	@Override
@@ -60,12 +59,12 @@ public class WorldGenZapAppleTree extends WorldGenerator {
                             k1 = par1World.getBlockId(l1, i1, j1);
                             Block block = Block.blocksList[k1];
                             
-                            if (   k1 != saplingType.blockID &&
-                            	   k1 != 0 &&
-                                   !block.isLeaves(par1World, l1, i1, j1) &&
-                                   k1 != Block.grass.blockID &&
-                                   k1 != Block.dirt.blockID &&
-                                   !block.isWood(par1World, l1, i1, j1) )
+                            if (k1 != saplingType.blockID &&
+                            	k1 != 0 &&
+                                !block.isLeaves(par1World, l1, i1, j1) &&
+                                k1 != Block.grass.blockID &&
+                                k1 != Block.dirt.blockID &&
+                                !block.isWood(par1World, l1, i1, j1) )
                             {
                                 flag = false;
                             }

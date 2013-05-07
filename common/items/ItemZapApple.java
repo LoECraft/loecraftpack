@@ -49,6 +49,7 @@ public class ItemZapApple extends ItemFood
     {
     	if (!world.isRemote)
         {
+    		//TODO Define Effects
 	        if (itemStack.getItemDamage() == 0)
 	        {
             	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSlowdown.id, 300, 1));

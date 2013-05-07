@@ -20,10 +20,9 @@ public class RenderColoredBed implements ISimpleBlockRenderingHandler
     
 	public int renderID;
 	
-	//TODO include pair code
 	public Icon getBlockIcon(BlockColoredBed block ,int side, int meta, int id, int pairSide)
     {
-        if (side == 0)
+        if(side == 0)
         {
             return Block.planks.getBlockTextureFromSide(side);
         }
@@ -32,11 +31,11 @@ public class RenderColoredBed implements ISimpleBlockRenderingHandler
             int k = meta & 3;//get direction
             int l = Direction.bedDirection[k][side];
             int i1 = ( (meta & 8) != 0  ) ? 1 : 0; //isBlockHeadOfBed
-            if(pairSide == 0)//normal
+            if (pairSide == 0)//normal
             {
             	return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? block.bedtop.get(id)[i1] : block.bedside.get(id)[i1]) : block.bedend.get(id)[i1];
             }
-            else if(pairSide == 1)//right pair
+            else if (pairSide == 1)//right pair
             {
             	return (i1 != 1 || l != 2) && (i1 != 0 || l != 3) ? (l != 5 && l != 4 ? block.bedPairTopRight.get(id)[i1] : block.bedPairSideRight.get(id)[i1]) : block.bedPairEndRight.get(id)[i1];
             }
@@ -62,9 +61,7 @@ public class RenderColoredBed implements ISimpleBlockRenderingHandler
 		int id = 0;//set by tile entity
 		int pairSide = 0;
 		if(colorTile != null && colorTile instanceof TileColoredBed)
-		{
-			//TODO remove use of pairName
-			
+		{			
 			if( ((TileColoredBed)colorTile).pairID == -1 )
 				id = ((TileColoredBed)colorTile).id;
 			else

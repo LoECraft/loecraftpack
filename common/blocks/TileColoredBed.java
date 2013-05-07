@@ -72,7 +72,7 @@ public class TileColoredBed extends TileEntity
 	
 	public static void finishTileCreation(World world, int xFoot, int yFoot, int zFoot, int xHead, int yHead, int zHead)
 	{
-		//TODO Compact separate checks into one,   Maybe
+		//optional: Compact separate checks into one
 	    TileEntity te = world.getBlockTileEntity(xFoot, yFoot, zFoot);
 	    if (te != null && te instanceof TileColoredBed)
 	    	((TileColoredBed)te).updatePairData();
@@ -113,7 +113,7 @@ public class TileColoredBed extends TileEntity
 	
 	public void findPairData()
 	{
-		if(pairID != -1)
+		if (pairID != -1)
 		{
 			pairName = HandlerColoredBed.getPairName(pairID);
 			pairSide = -HandlerColoredBed.findPairDirection(pairID, id);
@@ -132,7 +132,7 @@ public class TileColoredBed extends TileEntity
 		
         int dir = BlockDirectional.getDirection(worldObj.getBlockMetadata(xCoord, yCoord, zCoord));
 		
-		if(this.pairID != -1)
+		if (this.pairID != -1)
 		{
 			/**do the following if assigned already**/
 			
@@ -142,11 +142,11 @@ public class TileColoredBed extends TileEntity
 				//check if it's still there
 				int pairID = checkSideForPossiblePairID(dirPre, dir);
 				
-	        	if( pairID == this.pairID )
+	        	if (pairID == this.pairID)
 	        		return; //partner still exists - nothing changes
 	        	
 	        	//Attempt to rebond to target
-	        	if(attemptToBond(dirPre, dir))return;
+	        	if (attemptToBond(dirPre, dir))return;
 	        	
 		        //no partner found at intended location - check other side for new partner
 		        if(dirPre == 1)
@@ -154,7 +154,7 @@ public class TileColoredBed extends TileEntity
 		        else
 		        	dirPre = 1;
 		        //Attempt to bond on other side
-		        if(attemptToBond(dirPre, dir))return;
+		        if (attemptToBond(dirPre, dir))return;
 		        
 		        //no pairs available - reset pairName to ""
 		        this.pairID = -1;
@@ -166,10 +166,10 @@ public class TileColoredBed extends TileEntity
 			/**do the following if not assigned**/
 			
 			//try to bind to the right
-			if(attemptToBond(1, dir))return;
+			if (attemptToBond(1, dir))return;
 	        
 			//try to bond to the left
-			if(attemptToBond(-1, dir))return;
+			if (attemptToBond(-1, dir))return;
 		}
 		return;
 	}

@@ -29,6 +29,7 @@ public class ItemZapAppleJam extends ItemFood {
     {
 		if (!world.isRemote)
         {
+			//TODO define effects
         	entityPlayer.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 6000, 1));
         	entityPlayer.addPotionEffect(new PotionEffect(Potion.digSpeed.id, 6000, 1));
         	entityPlayer.addPotionEffect(new PotionEffect(Potion.nightVision.id, 6000, 0));

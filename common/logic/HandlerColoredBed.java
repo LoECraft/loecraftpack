@@ -41,7 +41,7 @@ public class HandlerColoredBed
     	{
     		IRecipe ir = (IRecipe)r.next();
     		//if the recipe outputs a bed, remove it
-			if(ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID )
+			if (ir.getRecipeOutput() != null && ir.getRecipeOutput().itemID == Item.bed.itemID)
 			{
 				r.remove();
 				break; //there really should only be one vanilla bed to remove, so stop once we find it
@@ -72,7 +72,7 @@ public class HandlerColoredBed
 	
 	public static String getPairName(int id)
 	{
-		if ( id >= 0 && id < bedPairs.size() )
+		if (id >= 0 && id < bedPairs.size())
 			return bedPairs.keySet().toArray(new String[0])[id];
 		return "";
 	}
@@ -81,7 +81,7 @@ public class HandlerColoredBed
 	{
 		String bedLeftName = iconNames.get(bedLeftID);
 		String bedRightName = iconNames.get(bedRightID);
-		for(int i = 0; i < bedPairs.size(); i++ )
+		for (int i = 0; i < bedPairs.size(); i++)
 		{
 			String[][] pairs = bedPairs.values().toArray(new String[0][0]);
 			

@@ -49,9 +49,10 @@ public class ItemLeavesAppleBloom extends ItemBlock
     {
         int meta = par1ItemStack.getItemDamage() & 3;
         
-        if(this.getBlockID() == LoECraftPack.blockZapAppleLeavesCharged.blockID)
+        if (this.getBlockID() == LoECraftPack.blockZapAppleLeavesCharged.blockID)
         	return super.getUnlocalizedName();
-        else if (meta < bloomStage)return super.getUnlocalizedName()+".normal";
+        else if (meta < bloomStage)
+        	return super.getUnlocalizedName()+".normal";
         else return super.getUnlocalizedName()+".blooming";
 
     }

@@ -6,6 +6,7 @@ import java.util.Random;
 import loecraftpack.LoECraftPack;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -15,31 +16,25 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 {
-	//public int renderID;
-
+	
 	public BlockZapAppleLeavesCharged(int id) {
 		super(id);
 		this.setLightValue(0.5f);
 		this.setUnlocalizedName("leavesZapCharged");
 		this.appleType=1;
+		bloomStage=4;
 	}
 	
 	@Override
-	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int par5, float par6, int par7)
+	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int meta, float par6, int fortune)
     {
-		System.out.println("DROP");
         if (!world.isRemote)
         {
-            int j1 = 20;
+        	int j1 = saplingDropRate;
 
-            if ((par5 & 3) == 3)
+            if (fortune > 0)
             {
-                j1 = 40;
-            }
-
-            if (par7 > 0)
-            {
-                j1 -= 2 << par7;
+                j1 -= (saplingDropRate/10) << fortune;
 
                 if (j1 < 10)
                 {
@@ -49,40 +44,55 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 
             if (world.rand.nextInt(j1) == 0)
             {
-                int k1 = this.idDropped(par5, world.rand, par7);
-                this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(k1, 1, this.damageDropped(par5)));
-            }
-
-            j1 = 200;
-
-            if (par7 > 0)
-            {
-                j1 -= 10 << par7;
-
-                if (j1 < 40)
-                {
-                    j1 = 40;
-                }
+                int k1 = this.idDropped(meta, world.rand, fortune);
+                this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(k1, 1, this.damageDropped(meta)));
             }
             
             if (!sheared)
     		{
-            	this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(apple, 1, appleType));
+            	int j = world.rand.nextInt(fortune + 1) - 1;
+            	
+                if (j < 0)
+                {
+                    j = 0;
+                }
+                
+            	this.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(apple, j + 1, appleType));
     		}
-            //bug fix
+            //reset sheared
             sheared = false;
         }
     }
 	
 	@Override
-	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random){}
+	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
+	{
+		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
+		if ((meta & 4) == 0)
+        {
+        	//chance to weaken
+			if (random.nextDouble()*(150/41) <= 1)
+        	{
+        		if (meta == 3)
+        		{
+        			if (world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID, LoECraftPack.blockZapAppleLeaves.bloomStage, 2))
+        				tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeaves.blockID);
+    			}
+        		else
+        		{
+        			if (world.setBlock(xCoord, yCoord, zCoord, this.blockID, meta + 1, 2))
+        				tellClientOfChange(world, xCoord, yCoord, zCoord, this.blockID);
+        		}
+        	}
+        }
+	}
 	
 	@Override
 	public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
     {
 		System.out.println("DESTROY");
 		int meta = world.getBlockMetadata(x, y, z);
-		if(!sheared)
+		if (!sheared &&  (meta&4)==0)
 		{
 			System.out.println("REPLACE");
 			return world.setBlock(x, y, z, LoECraftPack.blockZapAppleLeaves.blockID, meta&12, 2);
@@ -118,17 +128,4 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 		icon[0] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_charge");
 		icon[1] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_charge_opaque");
 	}
-	/*
-	@Override
-	public boolean renderAsNormalBlock()
-    {
-        return false;
-    }
-	
-	@Override
-    public int getRenderType()
-    {
-        return renderID;
-    }
-	*/
 }

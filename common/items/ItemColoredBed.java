@@ -18,7 +18,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemColoredBed extends Item
 {
-	//TODO  render appearance based on item damage
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 	

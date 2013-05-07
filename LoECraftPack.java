@@ -91,12 +91,8 @@ public class LoECraftPack
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
 	public static final BlockAppleLog blockZapAppleLog = (BlockAppleLog)(new BlockAppleLog(672, "loecraftpack:tree_zapapple", "loecraftpack:tree_zapapple_top" )).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logZap");
 	public static final BlockAppleLog blockAppleBloomLog = (BlockAppleLog)(new BlockAppleLog(673, "tree_side", "tree_top")).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logapple");
-	//@Mod.Block(name = "ZapApple Leaves")
 	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(674)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	//@Mod.Block(name = "ZapApple Leaves Charged")
 	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(675)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	
-	//@Mod.Block(name = "AppleBloom Leaves")
 	public static final BlockAppleBloomLeaves blockAppleBloomLeaves = (BlockAppleBloomLeaves)(new BlockAppleBloomLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	
 	/****************************/

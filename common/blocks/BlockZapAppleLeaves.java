@@ -13,10 +13,19 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/*TODO
+clean code
+make electric cloud entity
+revert charged zap-apple image to non-animation
+adjust zap-apple-leaf texture to more appropriate color
+make charged status effect
+BIOME:
+	add Everfree forest
+	add Biome generation code
+		-zap apple trees
+*/
 public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 {
-	int[] adjacentTreeBlocks;
-	public int bloomStage = 2;
 	
 	public BlockZapAppleLeaves(int id)
     {
@@ -26,6 +35,8 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
         this.setUnlocalizedName("leavesZap");
         this.apple = LoECraftPack.itemZapApple;
         this.appleType=0;
+        bloomStage = 2;
+        saplingDropRate = 600;//roughly 60 attempts from a single tree
     }
 	
 	//no color change
@@ -48,16 +59,16 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
 	{
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
-		if( (meta & 4) == 0 )
+		if ((meta&4) == 0)
         {
         	//chance to grow
-        	if( random.nextInt(30) == 0 )
+        	if (random.nextInt(30) == 0)
         	{
-        		if(((meta&3) + 1 ) == 4)
+        		if (meta == 3)
         			zapGrow(world, xCoord, yCoord, zCoord);
         		else
         		{
-        			if(world.setBlock(xCoord, yCoord, zCoord, this.blockID, meta + 1, 2))
+        			if (world.setBlock(xCoord, yCoord, zCoord, this.blockID, meta + 1, 2))
         				tellClientOfChange(world, xCoord, yCoord, zCoord, this.blockID);
         		}
         	}
@@ -66,47 +77,28 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 	
 	public void zapGrow(World world, int xCoord, int yCoord, int zCoord)
 	{
-		boolean flag = false;
-		int reach = -1;
+		if (!world.isRaining())return;
+		
 		int idTemp;
-		while(true)
+
+		world.addWeatherEffect(new EntityLightningBolt(world, xCoord, yCoord, zCoord));
+		if (world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeavesCharged.blockID, 0, 2))
+			tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeavesCharged.blockID);
+		
+		for (int xMod = -3; xMod <4; xMod++)
 		{
-			reach += 1;
-			if(!world.blockExists(xCoord, yCoord+reach, zCoord))break;
-			idTemp = world.getBlockId(xCoord, yCoord+reach, zCoord);
-			if(idTemp == LoECraftPack.blockZapAppleLeaves.blockID || idTemp == LoECraftPack.blockZapAppleLeavesCharged.blockID)
-				continue;
-			else if(world.canLightningStrikeAt(xCoord, yCoord+reach, zCoord))
+			for (int yMod = -3; yMod <4; yMod++)
 			{
-				flag = true;
-				break;
-			}
-			else
-			{
-				break;
-			}
-		}
-		if(flag)
-		{
-			world.addWeatherEffect(new EntityLightningBolt(world, xCoord, yCoord+reach, zCoord));
-			if(world.setBlock(xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeavesCharged.blockID, 0, 2))
-				tellClientOfChange(world, xCoord, yCoord, zCoord, LoECraftPack.blockZapAppleLeavesCharged.blockID);
-			
-			for(int xMod = -3; xMod <4; xMod++)
-			{
-				for(int yMod = -3; yMod <4; yMod++)
+				for (int zMod = -3; zMod <4; zMod++)
 				{
-					for(int zMod = -3; zMod <4; zMod++)
+					if (world.blockExists(xCoord+xMod, yCoord+yMod, zCoord+zMod) 
+							&& world.getBlockId(xCoord+xMod, yCoord+yMod, zCoord+zMod) == LoECraftPack.blockZapAppleLeaves.blockID)
 					{
-						if(world.blockExists(xCoord+xMod, yCoord+yMod, zCoord+zMod) 
-								&& world.getBlockId(xCoord+xMod, yCoord+yMod, zCoord+zMod) == LoECraftPack.blockZapAppleLeaves.blockID)
+						int meta = world.getBlockMetadata(xCoord+xMod, yCoord+yMod, zCoord+zMod);
+						if ((meta&3) >= bloomStage && (meta & 4) == 0)
 						{
-							int meta = world.getBlockMetadata(xCoord+xMod, yCoord+yMod, zCoord+zMod);
-							if( (meta&3) >= bloomStage && (meta & 4) == 0)
-							{
-								if(world.setBlock(xCoord+xMod, yCoord+yMod, zCoord+zMod, LoECraftPack.blockZapAppleLeavesCharged.blockID, 0, 2))
-									tellClientOfChange(world, xCoord+xMod, yCoord+yMod, zCoord+zMod, LoECraftPack.blockZapAppleLeavesCharged.blockID);
-							}
+							if (world.setBlock(xCoord+xMod, yCoord+yMod, zCoord+zMod, LoECraftPack.blockZapAppleLeavesCharged.blockID, 0, 2))
+								tellClientOfChange(world, xCoord+xMod, yCoord+yMod, zCoord+zMod, LoECraftPack.blockZapAppleLeavesCharged.blockID);
 						}
 					}
 				}
@@ -123,17 +115,53 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 				          LoECraftPack.blockZapAppleLeavesCharged.blockID});
 	}
 	
-	//TODO adjust drop rate appropriately
-	@Override
-	public int quantityDropped(Random random)
-    {
-        return random.nextInt(20) == 0 ? 1 : 0;
-    }
-	
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
     {
         return LoECraftPack.blockZapAppleSapling.blockID;
+    }
+	
+	@Override
+	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int meta, float par6, int fortune)
+    {
+        if (!world.isRemote)
+        {
+            int j1 = saplingDropRate;
+
+            if (fortune > 0)
+            {
+                j1 -= (saplingDropRate/10) << fortune;
+
+                if (j1 < 10)
+                {
+                    j1 = 10;
+                }
+            }
+
+            if (world.rand.nextInt(j1) == 0)
+            {
+                int k1 = this.idDropped(meta, world.rand, fortune);
+                this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(k1, 1, this.damageDropped(meta)));
+            }
+
+            
+            if (!sheared)
+    		{
+                if ((meta & 3) >= bloomStage)
+                {
+                	int j = world.rand.nextInt(fortune + 1) - 1;
+                	
+                    if (j < 0)
+                    {
+                        j = 0;
+                    }
+                    
+                    this.dropAppleThruTree(world, xCoord, yCoord, zCoord, new ItemStack(apple, j + 1, appleType));
+                }
+    		}
+            //reset sheared
+            sheared = false;
+        }
     }
 	
 	@Override

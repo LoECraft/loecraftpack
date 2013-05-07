@@ -37,6 +37,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	public Item apple;
 	public int appleType;
 	public int bloomStage = 2;
+	int saplingDropRate = 50;
 	
 	public BlockAppleBloomLeaves(int id)
     {
@@ -218,7 +219,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
                     flag = false;
                 }
             }
-            if(flag)
+            if (flag)
             {
             	attemptGrow(world, xCoord, yCoord, zCoord, random);
             }
@@ -234,8 +235,8 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
 	{
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
-    	if( (meta & 4) == 0 && random.nextInt(30) == 0 &&
-    	    ((meta&3) + 1 ) < 4 && world.setBlock(xCoord, yCoord, zCoord, this.blockID, meta + 1, 2))
+    	if ( (meta & 4) == 0 && random.nextInt(30) == 0 &&
+    	     ((meta&3) + 1 ) < 4 && world.setBlock(xCoord, yCoord, zCoord, this.blockID, meta + 1, 2) )
     	{
 			tellClientOfChange(world, xCoord, yCoord, zCoord, this.blockID);
     	}
@@ -255,23 +256,23 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	protected void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack, int ids[])
 	{
 		int id;
-		while(true)
+		while (true)
 		{
 			id = world.getBlockId(xCoord, yCoord, zCoord);
 			boolean flag = false;
-			for(int i=0; i<ids.length; i++)
+			for (int i=0; i<ids.length; i++)
 			{
 				if (id == ids[i])
 					flag=true;
 			}
-			if(flag)
+			if (flag)
 				yCoord--;
 			else
 			{
 				yCoord++;
 				break;
 			}
-			if(!world.blockExists(xCoord, yCoord, zCoord))
+			if (!world.blockExists(xCoord, yCoord, zCoord))
 			{
 				yCoord++;
 				break;
@@ -293,7 +294,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
     {
 		int meta = world.getBlockMetadata(x, y, z);
-		if((meta&3) >= bloomStage && !sheared)
+		if ((meta&3) >= bloomStage && !sheared && (meta&4)==0 )
 		{
 			return world.setBlock(x, y, z, this.blockID, meta&12, 2);
 		}
@@ -301,7 +302,6 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
     }
 	
 	
-	//TODO adjust drop rate appropriately
 	@Override
 	public int quantityDropped(Random random)
     {
@@ -315,20 +315,15 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
     }
 	
 	@Override
-	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int par5, float par6, int par7)
+	public void dropBlockAsItemWithChance(World world, int xCoord, int yCoord, int zCoord, int meta, float par6, int fortune)
     {
         if (!world.isRemote)
         {
-            int j1 = 20;
+        	int j1 = saplingDropRate;
 
-            if ((par5 & 3) == 3)
+            if (fortune > 0)
             {
-                j1 = 40;
-            }
-
-            if (par7 > 0)
-            {
-                j1 -= 2 << par7;
+                j1 -= (saplingDropRate/10) << fortune;
 
                 if (j1 < 10)
                 {
@@ -338,26 +333,21 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 
             if (world.rand.nextInt(j1) == 0)
             {
-                int k1 = this.idDropped(par5, world.rand, par7);
-                this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(k1, 1, this.damageDropped(par5)));
-            }
-
-            j1 = 200;
-
-            if (par7 > 0)
-            {
-                j1 -= 10 << par7;
-
-                if (j1 < 40)
-                {
-                    j1 = 40;
-                }
+                int k1 = this.idDropped(meta, world.rand, fortune);
+                this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(k1, 1, this.damageDropped(meta)));
             }
             
             if (!sheared)
     		{
-                if ((par5 & 3) >= bloomStage || world.rand.nextInt(j1) == 0)
+                if ((meta & 3) >= bloomStage)
                 {
+                	int j = world.rand.nextInt(fortune + 1) - 1;
+                	
+                    if (j < 0)
+                    {
+                        j = 0;
+                    }
+                    
                     this.dropBlockAsItem_do(world, xCoord, yCoord, zCoord, new ItemStack(apple, 1, appleType));
                 }
     		}
@@ -387,13 +377,12 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 		setGraphicsLevel(Block.leaves.graphicsLevel);
     }
 	
-	//TODO  might change this for charged appearance
 	@Override
 	@SideOnly(Side.CLIENT)
 	public Icon getBlockTextureFromSideAndMetadata(int side, int meta)
 	{
 		findGraphicsLevel();
-		if((meta&3) < bloomStage)
+		if ((meta&3) < bloomStage)
 			return icon[IconByGraphicsLevel];
 		return icon[IconByGraphicsLevel+2];
 	}
@@ -449,7 +438,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         return true;
     }
     
-  //used to tell the client that the block ID is changed
+    //used to tell the client that the block ID is changed
   	public void tellClientOfChange(World world, int xCoord, int yCoord, int zCoord, int newID)
   	{
   		if (world != null && !world.isRemote)

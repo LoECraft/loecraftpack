@@ -77,14 +77,14 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 		this.bedPairEndRight.clear();
 		this.bedPairSideRight.clear();
 		
-		for(String name : HandlerColoredBed.iconNames)
+		for (String name : HandlerColoredBed.iconNames)
 		{
 			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
 			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
 			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
 		}
 		
-		for(String name : HandlerColoredBed.bedPairs.keySet())
+		for (String name : HandlerColoredBed.bedPairs.keySet())
 		{
 			this.bedPairTopLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_top_left"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_top_left")} );
 			this.bedPairEndLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_end_left"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_end_left")} );
@@ -108,7 +108,7 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 	public void breakBlock(World world, int x, int y, int z, int blockID, int meta)
     {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		if(tile != null && tile instanceof TileColoredBed)
+		if (tile != null && tile instanceof TileColoredBed)
 		{
 			bedDropID = ((TileColoredBed)tile).id;
 		}
@@ -179,7 +179,7 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 	public ItemStack getPickBlock(MovingObjectPosition target, World world, int x, int y, int z)
     {
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
-		if( tile instanceof TileColoredBed)
+		if (tile instanceof TileColoredBed)
 			return new ItemStack(LoECraftPack.bedItems, 1, ((TileColoredBed)tile).id);
 		else
 		    return new ItemStack(LoECraftPack.bedItems, 1, Dye.White.ordinal());

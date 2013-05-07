@@ -124,7 +124,7 @@ public class HandlerEvent
 		if (!event.world.isRemote)
 		{
 			//event use on Zap-Apple Sapling
-			if(event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID)
+			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID)
 			{
 			    if ((double)event.world.rand.nextFloat() < 0.45D)
 			    {
@@ -134,9 +134,9 @@ public class HandlerEvent
 			}
 			
 			//testing event: use on AppleLogs
-			if(event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleLog.blockID)
+			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleLog.blockID)
 			{
-				AppleFarmer.buckTree(event.world, event.X, event.Y, event.Z);
+				AppleFarmer.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
 			    event.setResult(Result.ALLOW);
 			}
 		}
