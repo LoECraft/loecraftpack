@@ -18,12 +18,17 @@ import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
 import loecraftpack.common.items.ItemZapApple;
 import loecraftpack.common.items.ItemZapAppleJam;
+import loecraftpack.common.logic.GenLayerHandler;
 import loecraftpack.common.logic.HandlerColoredBed;
 import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.potions.PotionCharged;
+import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
+import loecraftpack.common.worldgen.BiomeGenZapAppleForest;
+import loecraftpack.common.worldgen.GenLayerAddZapApples;
+import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
@@ -34,7 +39,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -102,6 +106,11 @@ public class LoECraftPack
 	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(677)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	
+	//declare Generators
+	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);
+	public static final BiomeGenZapAppleForest biomeGeneratorZapAppleForest = (BiomeGenZapAppleForest)new BiomeGenZapAppleForest(51).setColor(5).setBiomeName("ZapApple").setTemperatureRainfall(0.5f, 0.7f);
+	public static final WorldGenCustomForest worldGeneratorZapAppleForest = new WorldGenCustomForest(false, blockZapAppleSapling, blockZapAppleLog, blockZapAppleLeaves);
+	
 	/****************************/
 	/**Forge Pre-Initialization**/
 	/****************************/
@@ -166,11 +175,15 @@ public class LoECraftPack
 		GameRegistry.registerBlock(blockZapAppleLeavesCharged, ItemLeavesAppleBloom.class, "ZapAppleLeavesCharged");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZapCharged.name", "Zap-Apple Leaves : Charged");
 		
-		
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");
 		GameRegistry.registerTileEntity(TileColoredBed.class, "ColoredBedTileEntity");
 		GameRegistry.registerTileEntity(TileProjectTable.class, "ProjectTableTileEntity");
+		
+		//World Generators/Biomes/Layers
+		GenLayerHandler.addCustomBiomeSubLayerClass(GenLayerAddZapApples.class);
+		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
+		//TODO add AppleBloom generator
 		
 		//Handlers
 		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());

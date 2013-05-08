@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import loecraftpack.LoECraftPack;
-import net.minecraft.client.particle.EntityCloudFX;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
