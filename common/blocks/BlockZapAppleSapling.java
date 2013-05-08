@@ -45,6 +45,6 @@ public class BlockZapAppleSapling extends BlockAppleBloomSapling
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon = iconRegister.registerIcon("loecraftpack:sapling_zapapple");
+		icon = iconRegister.registerIcon("loecraftpack:trees/sapling_zapapple");
 	}
 }

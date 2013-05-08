@@ -79,20 +79,20 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 		
 		for (String name : HandlerColoredBed.iconNames)
 		{
-			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
-			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
-			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
+			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
+			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
+			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
 		}
 		
 		for (String name : HandlerColoredBed.bedPairs.keySet())
 		{
-			this.bedPairTopLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_top_left"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_top_left")} );
-			this.bedPairEndLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_end_left"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_end_left")} );
-			this.bedPairSideLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_side_left"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_side_left")} );
+			this.bedPairTopLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_top_left"), par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_top_left")} );
+			this.bedPairEndLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_end_left"), par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_end_left")} );
+			this.bedPairSideLeft.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_side_left"), par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_side_left")} );
 			
-			this.bedPairTopRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_top_right"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_top_right")} );
-			this.bedPairEndRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_end_right"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_end_right")} );
-			this.bedPairSideRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_side_right"), par1IconRegister.registerIcon("loecraftpack:bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_side_right")} );
+			this.bedPairTopRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_top_right"), par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_top_right")} );
+			this.bedPairEndRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_end_right"), par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_end_right")} );
+			this.bedPairSideRight.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_feet_side_right"), par1IconRegister.registerIcon("loecraftpack:beds/bed_pair_"+name.replace(" ", "").toLowerCase()+"_head_side_right")} );
 		}
     }
 	

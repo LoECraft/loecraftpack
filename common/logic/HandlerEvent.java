@@ -5,7 +5,7 @@ import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.AppleFarmer;
+import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -148,7 +148,7 @@ public class HandlerEvent
 				event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
 				System.out.println("BUCK");
-				AppleFarmer.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
+				MechanicTreeBucking.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
 			    event.setResult(Result.ALLOW);
 			}
 		}

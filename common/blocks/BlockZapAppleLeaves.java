@@ -120,9 +120,9 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon[0] = iconRegister.registerIcon("loecraftpack:leaves_zapapple");
-		icon[1] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_opaque");
-		icon[2] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_bloom");
-		icon[3] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_bloom_opaque");
+		icon[0] = iconRegister.registerIcon("loecraftpack:trees/leaves_zapapple");
+		icon[1] = iconRegister.registerIcon("loecraftpack:trees/leaves_zapapple_opaque");
+		icon[2] = iconRegister.registerIcon("loecraftpack:trees/leaves_zapapple_bloom");
+		icon[3] = iconRegister.registerIcon("loecraftpack:trees/leaves_zapapple_bloom_opaque");
 	}
 }

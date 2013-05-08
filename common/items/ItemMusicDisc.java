@@ -40,7 +40,7 @@ public class ItemMusicDisc extends ItemRecord
 	@SideOnly(Side.CLIENT)
 	public void updateIcons(IconRegister iconRegister)
 	{
-		this.iconIndex = iconRegister.registerIcon("loecraftpack:record_" + this.recordName);
+		this.iconIndex = iconRegister.registerIcon("loecraftpack:records/record_" + this.recordName);
 	}
 	
 	public static void AddMusicDisc(String composer, String recordName)

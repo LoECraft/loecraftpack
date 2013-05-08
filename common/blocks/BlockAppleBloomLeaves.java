@@ -425,10 +425,10 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon[0] = iconRegister.registerIcon("loecraftpack:leaves");
-		icon[1] = iconRegister.registerIcon("loecraftpack:leaves_opaque");
-		icon[2] = iconRegister.registerIcon("loecraftpack:leaves_bloom");
-		icon[3] = iconRegister.registerIcon("loecraftpack:leaves_bloom_opaque");
+		icon[0] = iconRegister.registerIcon("loecraftpack:trees/leaves");
+		icon[1] = iconRegister.registerIcon("loecraftpack:trees/leaves_opaque");
+		icon[2] = iconRegister.registerIcon("loecraftpack:trees/leaves_bloom");
+		icon[3] = iconRegister.registerIcon("loecraftpack:trees/leaves_bloom_opaque");
 	}
 	
 	@Override

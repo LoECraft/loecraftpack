@@ -1,4 +1,4 @@
-package loecraftpack.ponies.abilities;
+package loecraftpack.ponies.abilities.mechanics;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockAppleBloomLeaves;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 /*****interactions with custom apple trees********/
 /*************************************************/
 
-public class AppleFarmer
+public class MechanicTreeBucking
 {
 	/*************************************/
 	/*****handles gentle Tree bucking*****/

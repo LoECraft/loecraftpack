@@ -84,8 +84,8 @@ public class ItemZapApple extends ItemFood
 	@SideOnly(Side.CLIENT)
 	public void updateIcons(IconRegister iconRegister)
 	{
-	    icons[0] = iconRegister.registerIcon("loecraftpack:zapApple");
-	    icons[1] = iconRegister.registerIcon("loecraftpack:zapApple_charged");
+	    icons[0] = iconRegister.registerIcon("loecraftpack:zap/zapApple");
+	    icons[1] = iconRegister.registerIcon("loecraftpack:zap/zapApple_charged");
 	}
     
     public String getUnlocalizedName(ItemStack par1ItemStack)

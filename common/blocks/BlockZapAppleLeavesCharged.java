@@ -126,7 +126,7 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		icon[0] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_charge");
-		icon[1] = iconRegister.registerIcon("loecraftpack:leaves_zapapple_charge_opaque");
+		icon[0] = iconRegister.registerIcon("loecraftpack:trees/leaves_zapapple_charge");
+		icon[1] = iconRegister.registerIcon("loecraftpack:trees/leaves_zapapple_charge_opaque");
 	}
 }
