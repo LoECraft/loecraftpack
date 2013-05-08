@@ -15,7 +15,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 /*TODO
 make electric cloud entity
-make charged status effect
 BIOME:
 	add Everfree forest
 	add Biome generation code

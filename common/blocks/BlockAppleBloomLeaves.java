@@ -29,12 +29,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SuppressWarnings("all")
 public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable, cpw.mods.fml.common.Mod.Block
 {
+	public Item apple;
 	public int appleType = 0;//item damage
 	public int bloomStage = 2;
 	protected int saplingDropRate = 50;
 	protected double growthRate = 30;//average of 41 minutes(real time) to reach the next stage
 	protected Icon icon[] = new Icon[4];
-	public Item apple;
 	/**flags, etc.**/
 	@SideOnly(Side.CLIENT)
     protected int IconByGraphicsLevel;
