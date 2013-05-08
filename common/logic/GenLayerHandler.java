@@ -5,7 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
-import loecraftpack.common.worldgen.CustomBiomeGenLayer;
+import loecraftpack.common.worldgen.GenCustomBiomeLayer;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.layer.GenLayer;
 
@@ -22,7 +22,7 @@ public class GenLayerHandler {
 	
 	public static boolean addCustomBiomeLayerClass(Class layerClass)
 	{
-		if(!CustomBiomeGenLayer.class.isAssignableFrom(layerClass))
+		if(!GenCustomBiomeLayer.class.isAssignableFrom(layerClass))
 		{
 			System.out.println("-----!!!!!---invaled biomelayer--"+layerClass.getName()+"---!!!!-----");
 			return false;
@@ -32,7 +32,7 @@ public class GenLayerHandler {
 	
 	public static boolean addCustomBiomeSubLayerClass(Class layerClass)
 	{
-		if(!CustomBiomeGenLayer.class.isAssignableFrom(layerClass))
+		if(!GenCustomBiomeLayer.class.isAssignableFrom(layerClass))
 		{
 			System.out.println("-----!!!!!---invaled biomelayer--"+layerClass.getName()+"---!!!!-----");
 			return false;
@@ -58,7 +58,7 @@ public class GenLayerHandler {
 			try 
 			{
 				Constructor con = layerClass.getConstructor(long.class, GenLayer.class, WorldType.class);
-				layers = (CustomBiomeGenLayer)con.newInstance(par1, layers, worldType);
+				layers = (GenCustomBiomeLayer)con.newInstance(par1, layers, worldType);
 				System.out.println("  -GOOD");
 			} catch (InstantiationException e) {
 				System.out.println("  -BAD1");
@@ -87,7 +87,7 @@ public class GenLayerHandler {
 			try 
 			{
 				Constructor con = layerClass.getConstructor(long.class, GenLayer.class, WorldType.class);
-				layers = (CustomBiomeGenLayer)con.newInstance(par1, layers, worldType);
+				layers = (GenCustomBiomeLayer)con.newInstance(par1, layers, worldType);
 				System.out.println("  -GOOD");
 			} catch (InstantiationException e) {
 				System.out.println("  -BAD1");

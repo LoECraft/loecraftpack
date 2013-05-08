@@ -5,7 +5,7 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-public class GenLayerAddZapApples extends CustomBiomeGenLayer
+public class GenLayerAddZapApples extends GenCustomBiomeLayer
 {
     public GenLayerAddZapApples(long par1, GenLayer par3GenLayer, WorldType worldType)
     {
