@@ -3,15 +3,19 @@ package loecraftpack.common.logic;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class HandlerEvent
@@ -151,6 +155,34 @@ public class HandlerEvent
 				MechanicTreeBucking.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
 			    event.setResult(Result.ALLOW);
 			}
+		}
+	}
+	
+	
+	//the following cannot be called because forge hasn't enable the terrain_gen bus (the Dastards)
+	@ForgeSubscribe
+	public void onDecorateTree(Decorate event)
+	{
+		BiomeGenBase biome = event.world.getBiomeGenForCoords(event.chunkX, event.chunkZ);
+		
+		if (biome.biomeID == LoECraftPack.biomeGeneratorEverFreeForest.biomeID && event.type == Decorate.EventType.TREE)
+		{
+			if (BiomeDecoratorEverFree.growZapApples(event.world, event.rand, event.chunkX, event.chunkZ))
+			{
+				event.setResult(Result.DENY);
+				int i = biome.theBiomeDecorator.treesPerChunk;
+				
+				for (int j = 0; j < i; ++j)
+		        {
+		            int k = event.chunkX + event.rand.nextInt(16) + 8;
+		            int l = event.chunkZ + event.rand.nextInt(16) + 8;
+		            WorldGenerator worldgenerator = LoECraftPack.worldGeneratorZapAppleForest;
+		            worldgenerator.setScale(1.0D, 1.0D, 1.0D);
+		            worldgenerator.generate(event.world, event.rand, k, event.world.getHeightValue(k, l), l);
+		        }
+				 
+			}
+			
 		}
 	}
 }

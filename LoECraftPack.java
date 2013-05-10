@@ -18,7 +18,6 @@ import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
 import loecraftpack.common.items.ItemZapApple;
 import loecraftpack.common.items.ItemZapAppleJam;
-import loecraftpack.common.logic.GenLayerHandler;
 import loecraftpack.common.logic.HandlerColoredBed;
 import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
@@ -27,7 +26,6 @@ import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.BiomeGenZapAppleForest;
-import loecraftpack.common.worldgen.GenLayerAddZapApples;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
@@ -181,7 +179,6 @@ public class LoECraftPack
 		GameRegistry.registerTileEntity(TileProjectTable.class, "ProjectTableTileEntity");
 		
 		//World Generators/Biomes/Layers
-		GenLayerHandler.addCustomBiomeSubLayerClass(GenLayerAddZapApples.class);
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
 		//TODO add AppleBloom generator
 		
