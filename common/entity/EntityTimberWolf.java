@@ -26,6 +26,8 @@ import net.minecraft.world.World;
 
 public class EntityTimberWolf extends EntityMob {
 	
+	float size = 3.0f;
+	
 	private float field_70926_e;
     private float field_70924_f;
     
@@ -40,7 +42,7 @@ public class EntityTimberWolf extends EntityMob {
 	public EntityTimberWolf(World par1World) {
 		super(par1World);
 		this.texture = "/mods/loecraftpack/mob/timberwolf.png";
-        this.setSize(1.2F, 1.6F);
+        this.setSize(size*0.6F, size*0.8F);
         this.moveSpeed = 0.3F;
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));

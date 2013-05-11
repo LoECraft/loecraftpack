@@ -73,7 +73,7 @@ public class ModelTimberWolf extends ModelBase
         super.render(par1Entity, par2, par3, par4, par5, par6, par7);
         this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
         
-        float size = 2.0F;
+        float size = 3.0F;
         GL11.glPushMatrix();
         GL11.glTranslatef(0.0F, -1.5F * (size-1.0f), 0.0F);
         GL11.glScalef(size, size, size);
