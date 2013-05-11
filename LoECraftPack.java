@@ -12,6 +12,9 @@ import loecraftpack.common.blocks.BlockZapAppleSapling;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.entity.EntityTimberWolf;
+import loecraftpack.common.entity.render.ModelTimberWolf;
+import loecraftpack.common.entity.render.RenderTimberWolf;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
@@ -25,7 +28,6 @@ import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
-import loecraftpack.common.worldgen.BiomeGenZapAppleForest;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
@@ -38,6 +40,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -50,6 +53,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -106,7 +110,6 @@ public class LoECraftPack
 	
 	//declare Generators
 	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);
-	public static final BiomeGenZapAppleForest biomeGeneratorZapAppleForest = (BiomeGenZapAppleForest)new BiomeGenZapAppleForest(51).setColor(5).setBiomeName("ZapApple").setTemperatureRainfall(0.5f, 0.7f);
 	public static final WorldGenCustomForest worldGeneratorZapAppleForest = new WorldGenCustomForest(false, blockZapAppleSapling, blockZapAppleLog, blockZapAppleLeaves);
 	
 	/****************************/
@@ -178,6 +181,10 @@ public class LoECraftPack
 		GameRegistry.registerTileEntity(TileColoredBed.class, "ColoredBedTileEntity");
 		GameRegistry.registerTileEntity(TileProjectTable.class, "ProjectTableTileEntity");
 		
+		//Entities
+		EntityRegistry.registerGlobalEntityID(EntityTimberWolf.class, "timberwolf", 100, 12422002, 5651507);
+		LanguageRegistry.instance().addStringLocalization("entity.timberwolf.name", "Timber Wolf");
+		
 		//World Generators/Biomes/Layers
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
 		//TODO add AppleBloom generator
@@ -186,6 +193,9 @@ public class LoECraftPack
 		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());
 		GameRegistry.registerPlayerTracker(new HandlerPlayer());
 		MinecraftForge.EVENT_BUS.register(new HandlerEvent());
+		
+		//Renders
+		RenderingRegistry.registerEntityRenderingHandler(EntityTimberWolf.class, new RenderTimberWolf(new ModelTimberWolf(), new ModelTimberWolf(), 0.5F));
 		
 		/******************/
 		/**Do Proxy Stuff**/
