@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import loecraftpack.LoECraftPack;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCloth;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -67,8 +68,14 @@ public class EntityTimberWolf extends EntityMob {
 	@Override
 	public int getMaxHealth() {
 		
-		return 30;
+		return 40;
 	}
+	
+	@Override
+	public int getAttackStrength(Entity par1Entity)
+    {
+        return 5;
+    }
 	
 	@Override
 	protected void entityInit()

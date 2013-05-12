@@ -3,7 +3,9 @@ package loecraftpack.proxies;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.blocks.render.RenderColoredBed;
+import loecraftpack.common.blocks.render.RenderElectricBlock;
 import loecraftpack.common.blocks.render.RenderProtectionMonolith;
+import loecraftpack.common.entity.EntityElectricBlock;
 import loecraftpack.common.logic.HandlerKey;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
@@ -21,5 +23,6 @@ public class ClientProxy extends CommonProxy
 		RenderColoredBed cbr = new RenderColoredBed();
 		RenderingRegistry.registerBlockHandler(cbr.renderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)cbr);
 		LoECraftPack.bedBlock.renderID = cbr.renderID;
+		RenderingRegistry.registerEntityRenderingHandler(EntityElectricBlock.class, new RenderElectricBlock());
 	}
 }

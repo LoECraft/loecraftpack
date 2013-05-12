@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.common.entity.EntityElectricBlock;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -105,9 +106,12 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 	public void randomDisplayTick(World world, int xCoord, int yCoord, int zCoord, Random random)
     {
 		//charged apple effect
-		if (random.nextInt(15) == 1)
+		if (random.nextInt(1) == 0)
 		{
 			//spawn electric animation
+			EntityElectricBlock eleField = new EntityElectricBlock(world);
+			eleField.setPosition(xCoord+0.5, yCoord-0.1, zCoord+0.5);
+			world.spawnEntityInWorld(eleField);
 		}
 				
 		//water droplet code
