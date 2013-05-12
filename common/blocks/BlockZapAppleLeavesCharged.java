@@ -106,7 +106,7 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 	public void randomDisplayTick(World world, int xCoord, int yCoord, int zCoord, Random random)
     {
 		//charged apple effect
-		if (random.nextInt(1) == 0)
+		if (random.nextInt(5) == 0)
 		{
 			//spawn electric animation
 			EntityElectricBlock eleField = new EntityElectricBlock(world);

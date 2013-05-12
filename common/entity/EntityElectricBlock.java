@@ -19,6 +19,16 @@ public class EntityElectricBlock extends Entity
 		PrivateAccessor.setPrivateVariable(Entity.class, this, "invulnerable", true);
 	}
 	
+	public int getAge()
+	{
+		return age;
+	}
+	
+	public int getMaxAge()
+	{
+		return maxAge;
+	}
+	
 	@Override
 	public void onUpdate()
     {
@@ -38,7 +48,12 @@ public class EntityElectricBlock extends Entity
 	@Override
 	public String getTexture()
     {
-        return "/mods/loecraftpack/misc/static.png";
+        return "/mods/loecraftpack/misc/electricSide.png";
+    }
+	
+	public String getTextureSub()
+    {
+        return "/mods/loecraftpack/misc/electricBottom.png";
     }
 
 	@Override
