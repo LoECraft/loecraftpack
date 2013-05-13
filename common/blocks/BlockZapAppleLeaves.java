@@ -11,13 +11,6 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-/*TODO
-make electric cloud entity
-BIOME:
-	add Everfree forest
-	add Biome generation code
-		-zap apple trees
-*/
 public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
 {
 	

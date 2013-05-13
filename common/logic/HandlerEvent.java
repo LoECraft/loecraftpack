@@ -7,7 +7,9 @@ import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
+import net.minecraft.block.Block;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.event.Event.Result;
@@ -15,6 +17,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -157,6 +160,29 @@ public class HandlerEvent
 			}
 		}
 	}
+	
+	@ForgeSubscribe
+	public void onDecorateWorldPre(DecorateBiomeEvent.Pre event)
+	{
+		System.out.println("sneaky sneaky sneaky");
+		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 0, Block.stone.blockID), 17, 128);
+		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 1, Block.stone.blockID), 17, 128);
+		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 2, Block.stone.blockID), 17, 128);
+		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 3, Block.stone.blockID), 17, 128);
+	}
+	
+	protected void generateOre(int sets, DecorateBiomeEvent event, WorldGenerator worldGenerator, int minHeight, int maxHeight)
+	{
+		for(int i=0; i<sets; i++)
+		{
+			int x = event.chunkX + event.rand.nextInt(16);
+	        int y = event.rand.nextInt(maxHeight - minHeight) + minHeight;
+	        int z = event.chunkZ + event.rand.nextInt(16);
+	        worldGenerator.generate(event.world, event.rand, x, y, z);
+		}
+	}
+	
+	
 	
 	
 	//the following cannot be called because forge hasn't enable the terrain_gen bus (the Dastards)
