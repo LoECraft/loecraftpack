@@ -1,11 +1,15 @@
 package loecraftpack.common.items;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import loecraftpack.LoECraftPack;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
+import net.minecraft.util.Icon;
 
 public class ItemPickaxeGem extends ItemTool {
 	
@@ -35,6 +39,21 @@ public class ItemPickaxeGem extends ItemTool {
 	public ItemPickaxeGem(int par1, EnumToolMaterial par2EnumToolMaterial, Block[] blocksEffectiveAgainst) {
 		super(par1, 2, par2EnumToolMaterial, blocksEffectiveAgainst);
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int index)
+	{
+		return iconIndex;
+	}
+    
+    @Override
+	@SideOnly(Side.CLIENT)
+	public void updateIcons(IconRegister iconRegister)
+	{
+    	iconIndex = iconRegister.registerIcon("loecraftpack:tools/gemPickaxe");
+	}
+	
 	
 	public boolean canHarvestBlock(Block block)
     {
