@@ -38,10 +38,10 @@ public class BlockHiddenOre extends Block {
 	public void registerIcons(IconRegister par1IconRegister)
     {
         this.blockIcon = par1IconRegister.registerIcon("stone");
-        hiddenIcons[0] = par1IconRegister.registerIcon("loecraftpack:textures/blocks/ores/hiddenore1");
-        hiddenIcons[1] = par1IconRegister.registerIcon("loecraftpack:textures/blocks/ores/hiddenore2");
-        hiddenIcons[2] = par1IconRegister.registerIcon("loecraftpack:textures/blocks/ores/hiddenore3");
-        hiddenIcons[3] = par1IconRegister.registerIcon("loecraftpack:textures/blocks/ores/hiddenore4");
+        hiddenIcons[0] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore1");
+        hiddenIcons[1] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore2");
+        hiddenIcons[2] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore3");
+        hiddenIcons[3] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore4");
     }
 	
 	@Override

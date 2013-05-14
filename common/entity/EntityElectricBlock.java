@@ -14,7 +14,7 @@ public class EntityElectricBlock extends Entity
 		super(par1World);
 		this.setSize(1.2f, 1.2f);
 		age = 0;
-		maxAge = 10;//ticks
+		maxAge = 10;//ticks & frames
 		this.isImmuneToFire = true;
 		PrivateAccessor.setPrivateVariable(Entity.class, this, "invulnerable", true);
 	}

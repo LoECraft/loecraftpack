@@ -29,11 +29,6 @@ public class PrivateAccessor {
 		return null;
 	}
 	
-	public static boolean setPrivateVariable(Object instance, String varName, Object value)
-	{
-		return setPrivateVariable(instance.getClass(), instance, varName, value);
-	}
-	
 	public static boolean setPrivateVariable(Class sourceClass, Object instance, String varName, Object value)
 	{
 		try

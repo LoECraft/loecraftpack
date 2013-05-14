@@ -180,7 +180,6 @@ public class LoECraftPack
 		GameRegistry.registerBlock(blockZapAppleLeavesCharged, ItemLeavesAppleBloom.class, "ZapAppleLeavesCharged");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZapCharged.name", "Zap-Apple Leaves : Charged");
 		GameRegistry.registerBlock(blockGemOre, ItemHiddenOre.class, "HiddenGemBlock");
-		LanguageRegistry.instance().addStringLocalization("tile.oreGem.name", "Hidden Gem Block : global");
 		LanguageRegistry.instance().addStringLocalization("tile.oreGem.0.name", "Hidden Gem Block : type 1");
 		LanguageRegistry.instance().addStringLocalization("tile.oreGem.1.name", "Hidden Gem Block : type 2");
 		LanguageRegistry.instance().addStringLocalization("tile.oreGem.2.name", "Hidden Gem Block : type 3");

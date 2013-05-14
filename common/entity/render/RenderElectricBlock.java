@@ -29,7 +29,7 @@ public class RenderElectricBlock extends Render {
 			frame = ((EntityElectricBlock)entity).getAge();
 			frameTotal = ((EntityElectricBlock)entity).getMaxAge();
 		}
-		if (frame >= frameTotal)
+		if (frame >= frameTotal || frame < 0)
 			return;
 		minV = frame/frameTotal;
 		maxV = (frame+1.0f)/frameTotal;
