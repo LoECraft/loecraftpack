@@ -1,4 +1,4 @@
-package loecraftpack.common.blocks.render;
+package loecraftpack.common.entity.render;
 
 import loecraftpack.common.entity.EntityElectricBlock;
 import net.minecraft.client.renderer.Tessellator;
@@ -29,7 +29,7 @@ public class RenderElectricBlock extends Render {
 			frame = ((EntityElectricBlock)entity).getAge();
 			frameTotal = ((EntityElectricBlock)entity).getMaxAge();
 		}
-		if (frame == frameTotal)
+		if (frame >= frameTotal)
 			return;
 		minV = frame/frameTotal;
 		maxV = (frame+1.0f)/frameTotal;

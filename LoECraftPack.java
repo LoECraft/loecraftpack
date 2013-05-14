@@ -4,7 +4,7 @@ import loecraftpack.common.blocks.BlockAppleBloomLeaves;
 import loecraftpack.common.blocks.BlockAppleBloomSapling;
 import loecraftpack.common.blocks.BlockAppleLog;
 import loecraftpack.common.blocks.BlockColoredBed;
-import loecraftpack.common.blocks.BlockGemOre;
+import loecraftpack.common.blocks.BlockHiddenOre;
 import loecraftpack.common.blocks.BlockProjectTable;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.BlockZapAppleLeaves;
@@ -14,10 +14,9 @@ import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityTimberWolf;
-import loecraftpack.common.entity.render.ModelTimberWolf;
-import loecraftpack.common.entity.render.RenderTimberWolf;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
+import loecraftpack.common.items.ItemHiddenOre;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
 import loecraftpack.common.items.ItemPickaxeGem;
@@ -42,7 +41,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -110,7 +108,7 @@ public class LoECraftPack
 	public static final BlockAppleBloomLeaves blockAppleBloomLeaves = (BlockAppleBloomLeaves)(new BlockAppleBloomLeaves(675)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(677)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
-	public static final BlockGemOre blockGemOre = (BlockGemOre)(new BlockGemOre(678)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("oreGem");
+	public static final BlockHiddenOre blockGemOre = (BlockHiddenOre)(new BlockHiddenOre(678)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("oreGem");
 	
 	//declare Generators
 	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);
@@ -181,8 +179,12 @@ public class LoECraftPack
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZap.blooming.name", "Zap-Apple Leaves : Blooming");
 		GameRegistry.registerBlock(blockZapAppleLeavesCharged, ItemLeavesAppleBloom.class, "ZapAppleLeavesCharged");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZapCharged.name", "Zap-Apple Leaves : Charged");
-		GameRegistry.registerBlock(blockGemOre, "HiddenGemBlock");
-		LanguageRegistry.addName(blockGemOre, "Hidden Gem Block");
+		GameRegistry.registerBlock(blockGemOre, ItemHiddenOre.class, "HiddenGemBlock");
+		LanguageRegistry.instance().addStringLocalization("tile.oreGem.name", "Hidden Gem Block : global");
+		LanguageRegistry.instance().addStringLocalization("tile.oreGem.0.name", "Hidden Gem Block : type 1");
+		LanguageRegistry.instance().addStringLocalization("tile.oreGem.1.name", "Hidden Gem Block : type 2");
+		LanguageRegistry.instance().addStringLocalization("tile.oreGem.2.name", "Hidden Gem Block : type 3");
+		LanguageRegistry.instance().addStringLocalization("tile.oreGem.3.name", "Hidden Gem Block : type 4");
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");
@@ -202,8 +204,6 @@ public class LoECraftPack
 		GameRegistry.registerPlayerTracker(new HandlerPlayer());
 		MinecraftForge.EVENT_BUS.register(new HandlerEvent());
 		
-		//Renders
-		RenderingRegistry.registerEntityRenderingHandler(EntityTimberWolf.class, new RenderTimberWolf(new ModelTimberWolf(), new ModelTimberWolf(), 0.5F));
 		
 		/******************/
 		/**Do Proxy Stuff**/

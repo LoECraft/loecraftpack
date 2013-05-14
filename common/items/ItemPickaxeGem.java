@@ -51,7 +51,7 @@ public class ItemPickaxeGem extends ItemTool {
 	@SideOnly(Side.CLIENT)
 	public void updateIcons(IconRegister iconRegister)
 	{
-    	iconIndex = iconRegister.registerIcon("loecraftpack:tools/gemPickaxe");
+    	iconIndex = iconRegister.registerIcon("loecraftpack:tools/gempickaxe");
 	}
 	
 	
