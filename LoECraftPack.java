@@ -16,6 +16,7 @@ import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityTimberWolf;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
+import loecraftpack.common.items.ItemGemStones;
 import loecraftpack.common.items.ItemHiddenOre;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
@@ -97,6 +98,7 @@ public class LoECraftPack
 	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setUnlocalizedName("appleZap");
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	public static final ItemPickaxeGem itemPickaxeGem = (ItemPickaxeGem)(new ItemPickaxeGem(673)).setUnlocalizedName("pickaxeGem");
+	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(674)).setUnlocalizedName("gemstones");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
@@ -180,10 +182,11 @@ public class LoECraftPack
 		GameRegistry.registerBlock(blockZapAppleLeavesCharged, ItemLeavesAppleBloom.class, "ZapAppleLeavesCharged");
 		LanguageRegistry.instance().addStringLocalization("tile.leavesZapCharged.name", "Zap-Apple Leaves : Charged");
 		GameRegistry.registerBlock(blockGemOre, ItemHiddenOre.class, "HiddenGemBlock");
-		LanguageRegistry.instance().addStringLocalization("tile.oreGem.0.name", "Hidden Gem Block : type 1");
-		LanguageRegistry.instance().addStringLocalization("tile.oreGem.1.name", "Hidden Gem Block : type 2");
-		LanguageRegistry.instance().addStringLocalization("tile.oreGem.2.name", "Hidden Gem Block : type 3");
-		LanguageRegistry.instance().addStringLocalization("tile.oreGem.3.name", "Hidden Gem Block : type 4");
+		for(int i=0; i<16; i++)
+		{
+			LanguageRegistry.instance().addStringLocalization("tile.oreGem."+i+".name", "Hidden Gem Block : "+itemGemStones.gemDisplayNames[i]);
+			LanguageRegistry.instance().addStringLocalization("item.gemstones."+itemGemStones.gemDataNames[i]+".name", itemGemStones.gemDisplayNames[i]);
+		}
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");

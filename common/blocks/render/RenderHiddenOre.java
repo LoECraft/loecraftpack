@@ -16,7 +16,7 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 {
 	public int renderID;
-	public boolean revealeHiddenGems = false;//TODO move this to player logic
+	public boolean revealeHiddenGems = true;//TODO move this to player logic
 	
 	@Override
 	public void renderInventoryBlock(Block blockBase, int metadata, int modelID,

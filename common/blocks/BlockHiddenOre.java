@@ -19,18 +19,20 @@ import net.minecraft.world.World;
 
 public class BlockHiddenOre extends Block {
 	
-	Icon[] hiddenIcons = new Icon[4];
+	int types = 16;
+	Icon[] hiddenIcons;
 	public int renderID = 0;
 
 	public BlockHiddenOre(int id) {
 		super(id, Material.rock);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
+        hiddenIcons = new Icon[types];
 	}
 	
 	@SideOnly(Side.CLIENT)
 	public Icon getHiddenBlockTextureFromSideAndMetadata(int side, int meta)
     {
-		return hiddenIcons[meta&3];
+		return hiddenIcons[meta];
     }
 	
 	@Override
@@ -38,10 +40,10 @@ public class BlockHiddenOre extends Block {
 	public void registerIcons(IconRegister par1IconRegister)
     {
         this.blockIcon = par1IconRegister.registerIcon("stone");
-        hiddenIcons[0] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore1");
-        hiddenIcons[1] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore2");
-        hiddenIcons[2] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore3");
-        hiddenIcons[3] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore4");
+        for(int i=0; i<types; i++)
+        {
+        	hiddenIcons[i] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore"+i);
+        }
     }
 	
 	@Override
@@ -54,10 +56,10 @@ public class BlockHiddenOre extends Block {
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List)
     {
-        par3List.add(new ItemStack(par1, 1, 0));
-        par3List.add(new ItemStack(par1, 1, 1));
-        par3List.add(new ItemStack(par1, 1, 2));
-        par3List.add(new ItemStack(par1, 1, 3));
+		for(int i=0; i<types; i++)
+		{
+			par3List.add(new ItemStack(par1, 1, i));
+		}
     }
 	
 	@Override
@@ -74,7 +76,7 @@ public class BlockHiddenOre extends Block {
 		
 		if(entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
 		{
-			results = new ItemStack(this.blockID, 1, meta);
+			results = new ItemStack(LoECraftPack.itemGemStones.itemID, 1, meta);
 		}
 		else if (this.canSilkHarvest(world, entityPlayer, xCoord, yCoord, zCoord, meta) && EnchantmentHelper.getSilkTouchModifier(entityPlayer))
 			results = new ItemStack(Block.stone, 1, 0);

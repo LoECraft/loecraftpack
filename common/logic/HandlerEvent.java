@@ -165,10 +165,24 @@ public class HandlerEvent
 	public void onDecorateWorldPre(DecorateBiomeEvent.Pre event)
 	{
 		System.out.println("sneaky sneaky sneaky");
-		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 0, Block.stone.blockID), 17, 128);
-		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 1, Block.stone.blockID), 17, 128);
-		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 2, Block.stone.blockID), 17, 128);
-		generateOre(20, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 3, Block.stone.blockID), 17, 128);
+		//Common
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 0, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 1, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 2, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 3, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 4, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 5, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 6, Block.stone.blockID), 17, 128);
+		generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 7, Block.stone.blockID), 17, 128);
+		//rare
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 8 , Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 9 , Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 10, Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 11, Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 12, Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 13, Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 14, Block.stone.blockID), 17, 128);
+		generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 15, Block.stone.blockID), 17, 128);
 	}
 	
 	protected void generateOre(int sets, DecorateBiomeEvent event, WorldGenerator worldGenerator, int minHeight, int maxHeight)
