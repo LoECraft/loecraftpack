@@ -19,6 +19,8 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 
 public class ClientProxy extends CommonProxy
 {
+	public static RenderElectricBlock renderEleBlock;
+	
 	@Override
 	public void doProxyStuff()
 	{
@@ -30,7 +32,7 @@ public class ClientProxy extends CommonProxy
 		RenderHiddenOre hor = new RenderHiddenOre();
 		RenderingRegistry.registerBlockHandler(hor.renderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)hor);
 		LoECraftPack.blockGemOre.renderID = hor.renderID;
-		RenderingRegistry.registerEntityRenderingHandler(EntityElectricBlock.class, new RenderElectricBlock());
+		RenderingRegistry.registerEntityRenderingHandler(EntityElectricBlock.class, renderEleBlock = new RenderElectricBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTimberWolf.class, new RenderTimberWolf(new ModelTimberWolf(), new ModelTimberWolf(), 0.5F));
 	}
 }

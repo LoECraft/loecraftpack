@@ -1,13 +1,19 @@
 package loecraftpack.common.logic;
 
+import java.util.List;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -17,6 +23,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -158,6 +165,37 @@ public class HandlerEvent
 				MechanicTreeBucking.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
 			    event.setResult(Result.ALLOW);
 			}
+		}
+	}
+	
+	
+	@ForgeSubscribe
+	public void onPlayerInteract(PlayerInteractEvent event)
+	{
+		System.out.print("click - ");
+		//test code
+		if (event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID && event.action != Action.LEFT_CLICK_BLOCK)
+		{
+			switchHiddenOreRevealState(event.entityPlayer);
+		}
+		System.out.println();
+	}
+	
+	//client side code
+	public void switchHiddenOreRevealState(EntityPlayer player)
+	{
+		//switch visual mode, and refresh render
+		if(player.worldObj.isRemote)
+		{
+			MechanicHiddenOres.revealHiddenGems = !MechanicHiddenOres.revealHiddenGems;
+			WorldRenderer[] worldRenderer = (WorldRenderer[])PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderers");
+			for(int i=0; i < worldRenderer.length; i++)
+			{
+				((List)PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderersToUpdate")).add(worldRenderer[i]);
+				if(worldRenderer[i] != null)worldRenderer[i].markDirty();
+			}
+			//
+			System.out.print("mode switch - "+ MechanicHiddenOres.revealHiddenGems+" - got list - "+(worldRenderer != null));
 		}
 	}
 	

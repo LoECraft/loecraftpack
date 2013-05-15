@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockHiddenOre;
+import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -16,7 +17,6 @@ import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 {
 	public int renderID;
-	public boolean revealeHiddenGems = true;//TODO move this to player logic
 	
 	@Override
 	public void renderInventoryBlock(Block blockBase, int metadata, int modelID,
@@ -103,7 +103,7 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 			Block block, int modelId, RenderBlocks renderer) {
 		Icon iconPre = renderer.overrideBlockTexture;
 		
-		if(iconPre == null && revealeHiddenGems)
+		if(revealed())
 		{
 			Icon icon;
 			icon = ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, world.getBlockMetadata(x, y, z));
@@ -125,6 +125,11 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 	public int getRenderId()
 	{
 		return renderID;
+	}
+	
+	protected boolean revealed()
+	{
+		return MechanicHiddenOres.revealHiddenGems;
 	}
 
 }
