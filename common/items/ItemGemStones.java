@@ -14,8 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemGemStones extends Item {
 	
-	public String[] gemDataNames =    {"saphire", "fireruby" , "2", "3", "4", "5", "6", "7", "tom", "shardHeart"    , "shardlaughter"    , "shardgenerosity"    , "shardkindness"    , "shardmagic"    , "shardloyalty"    , "shardhonesty"};
-	public String[] gemDisplayNames = {"Saphire", "Fire Ruby", "2", "3", "4", "5", "6", "7", "Tom", "piece of Heart", "piece of Laughter", "piece of Generosity", "piece of Kindness", "piece of Magic", "piece of Loyalty", "piece of Honesty"};
+	public String[] gemDataNames =    {"sapphire", "fireruby" , "2", "3", "4", "5", "6", "onyx", "tom", "shardheart"    , "shardlaughter"    , "shardgenerosity"    , "shardkindness"    , "shardmagic"    , "shardloyalty"    , "shardhonesty"};
+	public String[] gemDisplayNames = {"Sapphire", "Fire Ruby", "2", "3", "4", "5", "6", "Onyx", "Tom", "piece of Heart", "piece of Laughter", "piece of Generosity", "piece of Kindness", "piece of Magic", "piece of Loyalty", "piece of Honesty"};
 	protected Icon[] icons;
 	
 	public ItemGemStones(int par1)
