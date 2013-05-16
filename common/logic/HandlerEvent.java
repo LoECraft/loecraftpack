@@ -9,7 +9,9 @@ import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -167,52 +169,81 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
+		EntityPlayer entityPlayer = event.entityPlayer;
 		System.out.print("click - ");
 		//test code
-		if (event.entityPlayer.getHeldItem() != null && event.entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID && event.action != Action.LEFT_CLICK_BLOCK)
+		if (entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID && event.action != Action.LEFT_CLICK_BLOCK)
 		{
-			MechanicHiddenOres.switchHiddenOreRevealState(event.entityPlayer);
+			MechanicHiddenOres.switchHiddenOreRevealState(entityPlayer);
+		}
+		if (entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID && event.action == Action.RIGHT_CLICK_BLOCK)
+		{
+			int countR = 0;
+			int countC = 0;
+			Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
+			for (int y = 0; y<256; y++)
+			{
+				for (int x = 0; x<16; x++)
+				{
+					for (int z = 0; z<16; z++)
+					{
+						if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
+						{
+							if (chunk.getBlockMetadata(x, y, z)>7)
+								countR++;
+							else
+								countC++;
+						}
+					}
+				}
+			}
+			System.out.println("common ores: "+countC);
+			System.out.println("rare   ores: "+countR);
 		}
 		System.out.println();
 	}
 	
+	
+	/*
+	 * NOTE (WorldGenMinable):
+	 * the value number is actually 2 greater than the amount that can be generated in a cluster
+	 * so compensate for that.
+	 */
 	@ForgeSubscribe
 	public void onDecorateWorldPre(DecorateBiomeEvent.Pre event)
 	{
-		System.out.print("DecoChunk: Pre");
 		BiomeGenBase biome = event.world.getBiomeGenForCoords(event.chunkX, event.chunkZ);
 		
 		if(biome.biomeID != BiomeGenBase.hell.biomeID)
 		{
 			//rare
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 8 , Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 9 , Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 10, Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 11, Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 12, Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 13, Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 14, Block.stone.blockID), 17, 128);
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 15, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 8 , 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 9 , 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 10, 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 11, 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 12, 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 13, 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 14, 3, Block.stone.blockID), 17, 128);
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 15, 3, Block.stone.blockID), 17, 128);
 		}
 	}
 	
 	@ForgeSubscribe
 	public void onDecorateWorldPost(DecorateBiomeEvent.Post event)
 	{
-		System.out.print("DecoChunk: Post");
 		BiomeGenBase biome = event.world.getBiomeGenForCoords(event.chunkX, event.chunkZ);
 		
 		if(biome.biomeID != BiomeGenBase.hell.biomeID)
 		{
 			//Common
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 0, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 1, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 2, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 3, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 4, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 5, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 6, Block.stone.blockID), 17, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 7, Block.stone.blockID), 17, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 0, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 2, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 3, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 4, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 5, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 6, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 7, 4, Block.stone.blockID), 5, 128);
 			
 			//random apple blooms
 			if (biome.biomeID != 0 && biome.biomeID != BiomeGenBase.desert.biomeID && biome.biomeID != BiomeGenBase.frozenOcean.biomeID)
