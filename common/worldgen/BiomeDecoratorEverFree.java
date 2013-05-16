@@ -34,7 +34,7 @@ public class BiomeDecoratorEverFree extends BiomeDecorator {
 				validZapApple(world, xChunk-3*16, zChunk+3*16) &&
 				validZapApple(world, xChunk+3*16, zChunk+3*16) &&
 				validZapApple(world, xChunk, zChunk) &&
-				random.nextInt(4) == 0;
+				random.nextInt(5) == 0;
 	}
 	
 	private static boolean validZapApple(World world, int xChunk, int zChunk)

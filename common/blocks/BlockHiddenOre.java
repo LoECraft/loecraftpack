@@ -76,7 +76,16 @@ public class BlockHiddenOre extends Block {
 		
 		if(entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
 		{
-			results = new ItemStack(LoECraftPack.itemGemStones.itemID, 1, meta);
+			int fortune = EnchantmentHelper.getFortuneModifier(entityPlayer);
+			if (fortune > 0)
+			{
+				fortune = world.rand.nextInt(fortune + 2);
+				if (fortune < 1)
+					fortune = 1;
+			}
+			else
+				fortune = 1;
+			results = new ItemStack(LoECraftPack.itemGemStones.itemID, fortune, meta);
 		}
 		else if (this.canSilkHarvest(world, entityPlayer, xCoord, yCoord, zCoord, meta) && EnchantmentHelper.getSilkTouchModifier(entityPlayer))
 			results = new ItemStack(Block.stone, 1, 0);

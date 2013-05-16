@@ -30,6 +30,7 @@ import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
+import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
@@ -115,6 +116,7 @@ public class LoECraftPack
 	//declare Generators
 	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);
 	public static final WorldGenCustomForest worldGeneratorZapAppleForest = new WorldGenCustomForest(false, blockZapAppleSapling, blockZapAppleLog, blockZapAppleLeaves);
+	public static final WorldGenCustomAppleTree worldGeneratorAppleBloom = new WorldGenCustomAppleTree(false, blockAppleBloomSapling, blockAppleBloomLog, blockAppleBloomLeaves, 5);
 	
 	/****************************/
 	/**Forge Pre-Initialization**/

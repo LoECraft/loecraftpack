@@ -103,7 +103,7 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 			Block block, int modelId, RenderBlocks renderer) {
 		Icon iconPre = renderer.overrideBlockTexture;
 		
-		if(revealed())
+		if(revealed() && iconPre == null)
 		{
 			Icon icon;
 			icon = ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, world.getBlockMetadata(x, y, z));
