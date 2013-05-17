@@ -10,6 +10,7 @@ import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -67,8 +68,9 @@ public class HandlerEvent
 					//Minecraft.getMinecraft().renderEngine.obtainImageData(event.entityPlayer.skinUrl, new ImageBufferDownload());
 					//event.setCanceled(true);
 					
-					//event.entityPlayer.setMoveForward(5);
+					event.entityPlayer.timeUntilPortal = event.entityPlayer.getPortalCooldown();
 					event.entityPlayer.travelToDimension(8);
+					
 				}
 			}
 			else if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getDistanceSq(te.xCoord, te.yCoord, te.zCoord) <= 100)

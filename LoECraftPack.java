@@ -203,9 +203,8 @@ public class LoECraftPack
 		
 		//World Generators/Biomes/Layers
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
-		DimensionManager.registerProviderType(8, DimensionSkyland.class, false);
+		DimensionManager.registerProviderType(8, DimensionSkyland.class, true);
 		DimensionManager.registerDimension(8, 8);
-		//TODO add AppleBloom generator
 		
 		//Handlers
 		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());
