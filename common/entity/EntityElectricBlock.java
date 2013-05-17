@@ -32,7 +32,6 @@ public class EntityElectricBlock extends Entity
 	@Override
 	public void onUpdate()
     {
-
         if (this.age++ >= this.maxAge)
         {
             this.setDead();
@@ -62,14 +61,8 @@ public class EntityElectricBlock extends Entity
 	}
 
 	@Override
-	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) {
-		System.out.println("back from the dead!!!!");
-		
-	}
+	protected void readEntityFromNBT(NBTTagCompound nbttagcompound){}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) {
-		
-	}
-
+	protected void writeEntityToNBT(NBTTagCompound nbttagcompound){}
 }

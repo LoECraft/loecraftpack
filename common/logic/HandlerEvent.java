@@ -67,7 +67,8 @@ public class HandlerEvent
 					//Minecraft.getMinecraft().renderEngine.obtainImageData(event.entityPlayer.skinUrl, new ImageBufferDownload());
 					//event.setCanceled(true);
 					
-					event.entityPlayer.setMoveForward(5);
+					//event.entityPlayer.setMoveForward(5);
+					event.entityPlayer.travelToDimension(8);
 				}
 			}
 			else if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getDistanceSq(te.xCoord, te.yCoord, te.zCoord) <= 100)
