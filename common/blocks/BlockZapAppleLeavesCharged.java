@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -90,11 +91,12 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 	@Override
 	public boolean removeBlockByPlayer(World world, EntityPlayer player, int x, int y, int z)
     {
-		System.out.println("DESTROY");
+		for (Object spark : world.getEntitiesWithinAABB(EntityElectricBlock.class, AxisAlignedBB.getBoundingBox(x, y, z, x+1, y+1, z+1)))
+			((EntityElectricBlock)spark).setDead(); //Remove spark effect entities
+		
 		int meta = world.getBlockMetadata(x, y, z);
 		if (!sheared &&  (meta&4)==0)
 		{
-			System.out.println("REPLACE");
 			return world.setBlock(x, y, z, LoECraftPack.blockZapAppleLeaves.blockID, meta&12, 2);
 		}
         return world.setBlockToAir(x, y, z);
@@ -106,7 +108,7 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
 	public void randomDisplayTick(World world, int xCoord, int yCoord, int zCoord, Random random)
     {
 		//charged apple effect
-		if (random.nextInt(30) == 0)
+		if (random.nextInt(30) <= 25)
 		{
 			//spawn electric animation
 			EntityElectricBlock eleField = new EntityElectricBlock(world);
