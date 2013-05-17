@@ -30,6 +30,7 @@ import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
+import loecraftpack.common.worldgen.DimensionSkyland;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
@@ -42,6 +43,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -201,6 +203,8 @@ public class LoECraftPack
 		
 		//World Generators/Biomes/Layers
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
+		DimensionManager.registerProviderType(8, DimensionSkyland.class, false);
+		DimensionManager.registerDimension(8, 8);
 		//TODO add AppleBloom generator
 		
 		//Handlers
