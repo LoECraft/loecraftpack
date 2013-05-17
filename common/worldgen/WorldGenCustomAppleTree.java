@@ -85,7 +85,6 @@ public class WorldGenCustomAppleTree extends WorldGenerator {
                 i1 = par1World.getBlockId(xCoord, yCoord - 1, zCoord);
                 Block soil = Block.blocksList[i1];
                 boolean isSoil = (soil != null && soil.canSustainPlant(par1World, xCoord, yCoord - 1, zCoord, ForgeDirection.UP, (BlockAppleBloomSapling)saplingType ));
-                System.out.println("SOIL: "+ isSoil);
                 if (isSoil && yCoord < 256 - l - 1)
                 {
                     soil.onPlantGrow(par1World, xCoord, yCoord - 1, zCoord, xCoord, yCoord, zCoord);

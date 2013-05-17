@@ -218,14 +218,15 @@ public class HandlerEvent
 		if(biome.biomeID != BiomeGenBase.hell.biomeID)
 		{
 			//rare
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 8 , 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 9 , 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 10, 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 11, 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 12, 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 13, 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 14, 3, Block.stone.blockID), 17, 128);
-			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 15, 3, Block.stone.blockID), 17, 128);
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 10, 3, Block.stone.blockID), 17, 128);//Laughter
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 11, 3, Block.stone.blockID), 17, 128);//Generosity
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 12, 3, Block.stone.blockID), 17, 128);//Kindness
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 13, 3, Block.stone.blockID), 17, 128);//Magic
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 14, 3, Block.stone.blockID), 17, 128);//Loyalty
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 15, 3, Block.stone.blockID), 17, 128);//Honesty
+			
+			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  9, 3, Block.stone.blockID), 17, 128);//Heart
+			generateOre(6, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  8, 3, Block.stone.blockID), 17, 128);//Tom
 		}
 	}
 	
@@ -237,14 +238,14 @@ public class HandlerEvent
 		if(biome.biomeID != BiomeGenBase.hell.biomeID)
 		{
 			//Common
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 0, 4, Block.stone.blockID), 5, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 0, 6, Block.stone.blockID), 5, 128);//Sapphire
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 4, Block.stone.blockID), 5, 128);//Fire Ruby
 			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 2, 4, Block.stone.blockID), 5, 128);
 			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 3, 4, Block.stone.blockID), 5, 128);
 			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 4, 4, Block.stone.blockID), 5, 128);
 			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 5, 4, Block.stone.blockID), 5, 128);
 			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 6, 4, Block.stone.blockID), 5, 128);
-			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 7, 4, Block.stone.blockID), 5, 128);
+			generateOre(10, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 7, 6, Block.stone.blockID), 5, 128);//Onyx
 			
 			//random apple blooms
 			if (biome.biomeID != 0 && biome.biomeID != BiomeGenBase.desert.biomeID && biome.biomeID != BiomeGenBase.frozenOcean.biomeID)
