@@ -11,14 +11,11 @@ import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.WorldServerMulti;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -73,6 +70,7 @@ public class HandlerEvent
 					//event.setCanceled(true);
 					
 					event.entityPlayer.timeUntilPortal = event.entityPlayer.getPortalCooldown();
+					TeleporterCustom.varifyTeleporter(LoECraftPack.teleporterSkyLands, 8);
 					LoECraftPack.teleporterSkyLands.travelToDimension(event.entityPlayer);
 					
 				}
@@ -282,12 +280,16 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onWorldLoad(WorldEvent.Load event)
 	{
-		if (event.world == DimensionManager.getWorld(8))
-		{
-			System.out.println("world 8 found: creating teleporter");
-			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(8),8);
-		}
+		TeleporterCustom.buildTeleporters(event.world);
 	}
+	
+	@ForgeSubscribe
+	public void onWorldUnload(WorldEvent.Unload event)
+	{
+		TeleporterCustom.clearTeleporters(event.world);
+	}
+	
+	
 	
 	
 	

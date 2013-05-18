@@ -1,7 +1,7 @@
 package loecraftpack.dimensionaltransfer;
 
-import java.util.Random;
-
+import loecraftpack.LoECraftPack;
+import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -11,7 +11,9 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.AchievementList;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.DimensionManager;
 
 public class TeleporterCustom extends Teleporter {
 
@@ -36,6 +38,38 @@ public class TeleporterCustom extends Teleporter {
 		}
 	}
 	
+	//clever piece of code that causes the custom teleporter to be rebuilt. will also load the dimension as well
+	public static void varifyTeleporter(TeleporterCustom teleporter, int dimensionID)
+	{
+		if( teleporter == null)
+		{
+			World world = DimensionManager.getWorld(dimensionID);
+			if (world == null)
+				DimensionManager.initDimension(dimensionID);
+			else
+				buildTeleporters(world);
+		}
+		else if (DimensionManager.getWorld(teleporter.dimensionID) == null )
+			DimensionManager.initDimension(teleporter.dimensionID);
+	}
+	
+	public static void buildTeleporters(World world)
+	{
+		if (world == DimensionManager.getWorld(8))
+		{
+			System.out.println("world 8 found: creating teleporter");
+			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(8),8);
+		}
+	}
+	
+	public static void clearTeleporters(World world)
+	{
+		if (world == DimensionManager.getWorld(8))
+		{
+			System.out.println("world 8 found: clearing teleporter");
+			LoECraftPack.teleporterSkyLands = null;
+		}
+	}
 	
 	
 	

@@ -211,7 +211,7 @@ public class LoECraftPack
 		
 		//World Generators/Biomes/Layers/dimensional stuff/ etc.
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
-		DimensionManager.registerProviderType(8, DimensionSkyland.class, true);
+		DimensionManager.registerProviderType(8, DimensionSkyland.class, false);
 		DimensionManager.registerDimension(8, 8);
 		
 		
