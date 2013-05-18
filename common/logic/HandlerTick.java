@@ -15,21 +15,18 @@ import cpw.mods.fml.common.TickType;
 public class HandlerTick implements ITickHandler {
 	
 	@Override
-	public void tickStart(EnumSet<TickType> type, Object... tickData) {
-		System.out.println("tick S");
-		
-	}
+	public void tickStart(EnumSet<TickType> type, Object... tickData) {}
 	
 	@Override
     public void tickEnd(EnumSet<TickType> type, Object... tickData)
     {
-		System.out.println("tick E");
         if (tickData != null && tickData[0] != null && tickData[0] instanceof EntityPlayer)
         {
         	
         	EntityPlayer player = (EntityPlayer)tickData[0];
         	if(player.worldObj==DimensionManager.getWorld(8) && player.posY<-20)
         	{
+        		player.timeUntilPortal = player.getPortalCooldown();
         		TeleporterCustom.varifyTeleporter(LoECraftPack.teleporterSkyLandsFalling, 0);
 				LoECraftPack.teleporterSkyLandsFalling.travelToDimension(player);
         	}
@@ -38,14 +35,12 @@ public class HandlerTick implements ITickHandler {
 	
 	@Override
 	public EnumSet<TickType> ticks() {
-		// TODO Auto-generated method stub
-		return null;
+		return EnumSet.of(TickType.PLAYER);
 	}
 
 	@Override
 	public String getLabel() {
-		// TODO Auto-generated method stub
-		return null;
+		return "LoeCraftPackTickHandler";
 	}
 
 }

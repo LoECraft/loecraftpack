@@ -16,7 +16,7 @@ import net.minecraftforge.common.DimensionManager;
 
 public class TeleporterCustom extends Teleporter {
 
-	public enum Method {Surface, Sky};
+	public enum Method {Surface, Sky, Portal};
 	
 	protected final WorldServer worldServerInstance2;
 	protected final int dimensionID;
@@ -32,8 +32,7 @@ public class TeleporterCustom extends Teleporter {
 	//or place player at location, with sky elevation
 	public void placeInPortal(Entity entity, double x, double y, double z, float yaw)
 	{
-		int id = worldServerInstance2.provider.dimensionId;
-		if( id == 0 || id == -1)
+		if(method == Method.Portal)
 			super.placeInPortal(entity, x, y, z, yaw);
 		else
 		{
@@ -95,11 +94,11 @@ public class TeleporterCustom extends Teleporter {
 	public void travelToDimension(Entity entity)
 	{
 		System.out.println("To infinity and Beyond!!!!");
-		int par1 = dimensionID;
+		int id = dimensionID;
 		if (entity instanceof EntityPlayerMP)
 		{
 			EntityPlayerMP entityPlayer = (EntityPlayerMP) entity;
-	        if (entityPlayer.dimension == 1 && par1 == 1)
+	        if (entityPlayer.dimension == 1 && id == 1)
 	        {
 	            entityPlayer.triggerAchievement(AchievementList.theEnd2);
 	            entityPlayer.worldObj.removeEntity(entityPlayer);
@@ -108,24 +107,24 @@ public class TeleporterCustom extends Teleporter {
 	        }
 	        else
 	        {
-	            if (entityPlayer.dimension == 1 && par1 == 0)
+	            if (entityPlayer.dimension == 1 && id == 0)
 	            {
 	                entityPlayer.triggerAchievement(AchievementList.theEnd);
-	                ChunkCoordinates chunkcoordinates = entityPlayer.mcServer.worldServerForDimension(par1).getEntrancePortalLocation();
+	                ChunkCoordinates chunkcoordinates = entityPlayer.mcServer.worldServerForDimension(id).getEntrancePortalLocation();
 
 	                if (chunkcoordinates != null)
 	                {
 	                    entityPlayer.playerNetServerHandler.setPlayerLocation((double)chunkcoordinates.posX, (double)chunkcoordinates.posY, (double)chunkcoordinates.posZ, 0.0F, 0.0F);
 	                }
 
-	                par1 = 1;
+	                id = 1;
 	            }
 	            else
 	            {
 	                entityPlayer.triggerAchievement(AchievementList.portal);
 	            }
 
-	            entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, par1, this);
+	            entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, id, this);
 	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
 	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
 	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
@@ -139,8 +138,8 @@ public class TeleporterCustom extends Teleporter {
 	            MinecraftServer minecraftserver = MinecraftServer.getServer();
 	            int j = entity.dimension;
 	            WorldServer worldserver = minecraftserver.worldServerForDimension(j);
-	            WorldServer worldserver1 = minecraftserver.worldServerForDimension(par1);
-	            entity.dimension = par1;
+	            WorldServer worldserver1 = minecraftserver.worldServerForDimension(id);
+	            entity.dimension = id;
 	            entity.worldObj.removeEntity(entity);
 	            entity.isDead = false;
 	            entity.worldObj.theProfiler.startSection("reposition");
