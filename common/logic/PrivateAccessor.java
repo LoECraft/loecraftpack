@@ -6,10 +6,15 @@ public class PrivateAccessor {
 	
 	public static Object getPrivateObject(Object instance, String name)
 	{
+		return getPrivateObject(instance.getClass(), instance, name);
+	}
+	
+	public static Object getPrivateObject(Class sourceClass, Object instance, String name)
+	{
 		Field hold;
 		try
 		{
-			hold = instance.getClass().getDeclaredField(name);
+			hold = sourceClass.getDeclaredField(name);
 			hold.setAccessible(true);
 			return hold.get(instance);
 		}
