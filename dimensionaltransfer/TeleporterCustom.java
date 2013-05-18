@@ -76,7 +76,7 @@ public class TeleporterCustom extends Teleporter {
 		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
 		{
 			System.out.println("world "+LoECraftPack.SkylandDimensionID+": creating teleporter");
-			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(8), 8, Method.Surface);
+			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
 			
 		}
 	}
