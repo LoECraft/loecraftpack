@@ -28,7 +28,7 @@ import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
-import loecraftpack.common.logic.PrivateAccessor;
+import loecraftpack.common.logic.HandlerTick;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.DimensionSkyland;
@@ -45,7 +45,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
@@ -63,6 +62,8 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 
 @Mod(modid = "loecraftpack", name = "LoECraft Pack", version = "1.0")
@@ -97,6 +98,7 @@ public class LoECraftPack
 	
 	//teleporter
 	public static TeleporterCustom teleporterSkyLands;
+	public static TeleporterCustom teleporterSkyLandsFalling;
 	
 	//Declare Potions
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(20, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
@@ -219,6 +221,7 @@ public class LoECraftPack
 		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());
 		GameRegistry.registerPlayerTracker(new HandlerPlayer());
 		MinecraftForge.EVENT_BUS.register(new HandlerEvent());
+		TickRegistry.registerTickHandler(new HandlerTick(), Side.SERVER);
 		
 		
 		/******************/

@@ -1,7 +1,6 @@
 package loecraftpack.dimensionaltransfer;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
@@ -17,15 +16,20 @@ import net.minecraftforge.common.DimensionManager;
 
 public class TeleporterCustom extends Teleporter {
 
+	public enum Method {Surface, Sky};
+	
 	protected final WorldServer worldServerInstance2;
 	protected final int dimensionID;
+	private final Method method;
 	
-	public TeleporterCustom(WorldServer par1WorldServer, int dimensionID) {
+	public TeleporterCustom(WorldServer par1WorldServer, int dimensionID, Method method) {
 		super(par1WorldServer);
 		worldServerInstance2 = (WorldServer)PrivateAccessor.getPrivateObject(Teleporter.class, this, "worldServerInstance");
 		this.dimensionID = dimensionID;
+		this.method = method;
 	}
 	
+	//or place player at location, with sky elevation
 	public void placeInPortal(Entity entity, double x, double y, double z, float yaw)
 	{
 		int id = worldServerInstance2.provider.dimensionId;
@@ -33,12 +37,16 @@ public class TeleporterCustom extends Teleporter {
 			super.placeInPortal(entity, x, y, z, yaw);
 		else
 		{
-			y = worldServerInstance2.getHeightValue((int)x, (int)z);
+			if(method == Method.Surface)
+				y = worldServerInstance2.getHeightValue((int)x, (int)z);
+			else
+				y = worldServerInstance2.getHeight()+10;
+			
 			entity.setLocationAndAngles(x, y, z, yaw, entity.rotationPitch);
 		}
 	}
 	
-	//clever piece of code that causes the custom teleporter to be rebuilt. will also load the dimension as well
+	//clever piece of code that causes the custom teleporter to be rebuilt. will also load the dimension as well if needed
 	public static void varifyTeleporter(TeleporterCustom teleporter, int dimensionID)
 	{
 		if( teleporter == null)
@@ -49,22 +57,33 @@ public class TeleporterCustom extends Teleporter {
 			else
 				buildTeleporters(world);
 		}
-		else if (DimensionManager.getWorld(teleporter.dimensionID) == null )
+		else if (DimensionManager.getWorld(teleporter.dimensionID) == null)
 			DimensionManager.initDimension(teleporter.dimensionID);
 	}
 	
 	public static void buildTeleporters(World world)
 	{
-		if (world == DimensionManager.getWorld(8))
+		if(world == DimensionManager.getWorld(0))
+		{
+			System.out.println("world 0 found: creating teleporter");
+			LoECraftPack.teleporterSkyLandsFalling = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(0), 0, Method.Sky);
+		}
+		else if (world == DimensionManager.getWorld(8))
 		{
 			System.out.println("world 8 found: creating teleporter");
-			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(8),8);
+			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(8), 8, Method.Surface);
+			
 		}
 	}
 	
 	public static void clearTeleporters(World world)
 	{
-		if (world == DimensionManager.getWorld(8))
+		if(world == DimensionManager.getWorld(0))
+		{
+			System.out.println("world 0 found: clearing teleporter");
+			LoECraftPack.teleporterSkyLandsFalling = null;
+		}
+		else if (world == DimensionManager.getWorld(8))
 		{
 			System.out.println("world 8 found: clearing teleporter");
 			LoECraftPack.teleporterSkyLands = null;
