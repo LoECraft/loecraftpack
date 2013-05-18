@@ -210,7 +210,7 @@ public class HandlerEvent
 					 entityPlayer.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
 					 event.action == Action.LEFT_CLICK_BLOCK)
 			{
-				TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLands, 8);
+				TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLands, LoECraftPack.SkylandDimensionID);
 				LoECraftPack.teleporterSkyLands.travelToDimension(event.entityPlayer);
 				event.setResult(Result.DENY);
 			}

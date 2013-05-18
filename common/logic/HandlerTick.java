@@ -17,16 +17,23 @@ public class HandlerTick implements ITickHandler {
 	@Override
     public void tickEnd(EnumSet<TickType> type, Object... tickData)
     {
-        if (tickData != null && tickData[0] != null && tickData[0] instanceof EntityPlayer)
-        {
-        	
-        	EntityPlayer player = (EntityPlayer)tickData[0];
-        	if(player.worldObj==DimensionManager.getWorld(8) && player.posY<-20)
-        	{
-        		TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLandsFalling, 0);
-				LoECraftPack.teleporterSkyLandsFalling.travelToDimension(player);
-        	}
-        }
+		if (tickData != null)
+		{
+			for(Object entry : tickData)
+			{
+		        if(entry instanceof EntityPlayer)
+		        {
+		        	EntityPlayer player = (EntityPlayer)entry;
+		        	
+		        	//check if player is fallen thru the bottom of skyland.
+		        	if(player.worldObj==DimensionManager.getWorld(LoECraftPack.SkylandDimensionID) && player.posY<-20)
+		        	{
+		        		TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLandsFalling, 0);
+						LoECraftPack.teleporterSkyLandsFalling.travelToDimension(player);
+		        	}
+		        }
+			}
+		}
     }
 	
 	@Override

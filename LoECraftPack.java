@@ -95,6 +95,9 @@ public class LoECraftPack
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
+	//IDs
+	public static final int SkylandDimensionID = 8;
+	public static final int SkylandProviderID = 8;
 	
 	//teleporter
 	public static TeleporterCustom teleporterSkyLands;
@@ -213,8 +216,8 @@ public class LoECraftPack
 		
 		//World Generators/Biomes/Layers/dimensional stuff/ etc.
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
-		DimensionManager.registerProviderType(8, DimensionSkyland.class, false);
-		DimensionManager.registerDimension(8, 8);
+		DimensionManager.registerProviderType(SkylandProviderID, DimensionSkyland.class, false);
+		DimensionManager.registerDimension(SkylandDimensionID, SkylandProviderID);
 		
 		
 		//Handlers
