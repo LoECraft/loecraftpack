@@ -28,13 +28,13 @@ public class HandlerTick implements ITickHandler {
 		        	//check if player is fallen thru the bottom of skyland.
 		        	if(player.worldObj==DimensionManager.getWorld(LoECraftPack.SkylandDimensionID) && player.posY<-10)
 		        	{
-		        		TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLandsFalling, 0);
-						LoECraftPack.teleporterSkyLandsFalling.travelToDimension(player);
+		        		TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsFalling, 0);
+						TeleporterCustom.teleporterSkyLandsFalling.travelToDimension(player);
 		        	}
 		        	else if(player.worldObj==DimensionManager.getWorld(0) && player.posY > player.worldObj.getHeight()+10)
 		        	{
-		        		TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLandsRising, LoECraftPack.SkylandDimensionID);
-						LoECraftPack.teleporterSkyLandsRising.travelToDimension(player);
+		        		TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsRising, LoECraftPack.SkylandDimensionID);
+						TeleporterCustom.teleporterSkyLandsRising.travelToDimension(player);
 		        	}
 		        }
 			}

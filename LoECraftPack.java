@@ -34,7 +34,6 @@ import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.DimensionSkyland;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
-import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
@@ -98,11 +97,6 @@ public class LoECraftPack
 	//IDs
 	public static final int SkylandDimensionID = 8;
 	public static final int SkylandProviderID = 8;
-	
-	//teleporter
-	public static TeleporterCustom teleporterSkyLands;
-	public static TeleporterCustom teleporterSkyLandsFalling;
-	public static TeleporterCustom teleporterSkyLandsRising;
 	
 	//Declare Potions
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(20, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);

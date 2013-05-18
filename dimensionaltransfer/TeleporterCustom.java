@@ -24,12 +24,20 @@ import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 public class TeleporterCustom extends Teleporter {
-
+	
+	//instances
+	public static TeleporterCustom teleporterSkyLandsRising;
+	public static TeleporterCustom teleporterSkyLandsFalling;
+	public static TeleporterCustom teleporterSkyLands;
+	
+	//versions
 	public enum Method {Portal, Surface, Sky, Abyss};
 	
+	//instance data
 	protected final WorldServer worldServerInstance2;
 	protected final int dimensionID;
 	private final Method method;
+	
 	
 	public TeleporterCustom(WorldServer par1WorldServer, int dimensionID, Method method) {
 		super(par1WorldServer);
@@ -38,7 +46,9 @@ public class TeleporterCustom extends Teleporter {
 		this.method = method;
 	}
 	
-	//or place player at location, with sky elevation
+	/**
+	 * code executed to determine the location and events that occur when a player enters a dimension
+	 */
 	public void placeInPortal(Entity entity, double x, double y, double z, float yaw)
 	{
 		if(entity instanceof EntityPlayer)
@@ -61,7 +71,11 @@ public class TeleporterCustom extends Teleporter {
 		}
 	}
 	
-	//clever piece of code that causes the custom teleporter to be rebuilt. will also load the dimension as well if needed
+	/**
+	 * Call this function before using a CustomTeleporter, that goes to a world that can unload.
+	 * @param teleporter - the CustomTeleporter you want to use
+	 * @param dimensionID - the dimension who's CustomTeleporter's are to be rebuilt, if the CustomTeleporter is null
+	 */
 	public static void refreshTeleporter(TeleporterCustom teleporter, int dimensionID)
 	{
 		if( teleporter == null)
@@ -76,38 +90,50 @@ public class TeleporterCustom extends Teleporter {
 			DimensionManager.initDimension(teleporter.dimensionID);
 	}
 	
+	/**
+	 * rebuilds all CustomTeleporter's to that world.
+	 * @param world
+	 */
 	public static void buildTeleporters(World world)
 	{
 		if(world == DimensionManager.getWorld(0))
 		{
 			System.out.println("world Overworld: creating teleporter");
-			LoECraftPack.teleporterSkyLandsFalling = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(0), 0, Method.Sky);
+			TeleporterCustom.teleporterSkyLandsFalling = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(0), 0, Method.Sky);
 		}
 		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
 		{
 			System.out.println("world "+LoECraftPack.SkylandDimensionID+": creating teleporter");
-			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
-			LoECraftPack.teleporterSkyLandsRising = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Abyss);
+			TeleporterCustom.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
+			TeleporterCustom.teleporterSkyLandsRising = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Abyss);
 		}
 	}
 	
+	/**
+	 * null's all CustomTeleporter's to that world.   call this function when a world unloads, to prevent leakage.
+	 * @param world
+	 */
 	public static void clearTeleporters(World world)
 	{
 		if(world == DimensionManager.getWorld(0))
 		{
 			System.out.println("world Overworld: clearing teleporter");
-			LoECraftPack.teleporterSkyLandsFalling = null;
+			TeleporterCustom.teleporterSkyLandsFalling = null;
 		}
 		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
 		{
 			System.out.println("world "+LoECraftPack.SkylandDimensionID+": clearing teleporters");
-			LoECraftPack.teleporterSkyLands = null;
-			LoECraftPack.teleporterSkyLandsRising = null;
+			TeleporterCustom.teleporterSkyLands = null;
+			TeleporterCustom.teleporterSkyLandsRising = null;
 		}
 	}
 	
 	
-	//code modified from both Entity & EntityPlayerMP
+	/**
+	 * modified code from Entity & EntityPlayerMP. It handles the transfer of a entity from one dimension to the next.
+	 *   this version enables custom teleporting methods, assigned by, Enum Method.
+	 * @param entity
+	 */
 	public void travelToDimension(Entity entity)
 	{
 		System.out.println("To infinity and Beyond!!!!");
@@ -194,15 +220,21 @@ public class TeleporterCustom extends Teleporter {
 	    }
 	}
 	
-	//code modified from ServerConfigurationManager
-	public void transferPlayerToDimension(EntityPlayerMP par1EntityPlayerMP, int par2, Teleporter teleporter)
+	/**
+	 * modified code from ServerConfigurationManager; part of the transfer process.
+	 *   this version enables retaining flying mode, if the method is either Abyss or Sky.
+	 * @param par1EntityPlayerMP
+	 * @param targetDimensionID
+	 * @param teleporter
+	 */
+	public void transferPlayerToDimension(EntityPlayerMP par1EntityPlayerMP, int targetDimensionID, Teleporter teleporter)
     {
 		ServerConfigurationManager scm = par1EntityPlayerMP.mcServer.getConfigurationManager();
 		MinecraftServer ms = (MinecraftServer)PrivateAccessor.getPrivateObject(ServerConfigurationManager.class, scm, "mcServer");
 		
         int j = par1EntityPlayerMP.dimension;
         WorldServer worldserver = ms.worldServerForDimension(par1EntityPlayerMP.dimension);
-        par1EntityPlayerMP.dimension = par2;
+        par1EntityPlayerMP.dimension = targetDimensionID;
         WorldServer worldserver1 = ms.worldServerForDimension(par1EntityPlayerMP.dimension);
         par1EntityPlayerMP.playerNetServerHandler.sendPacketToPlayer(new Packet9Respawn(par1EntityPlayerMP.dimension, (byte)par1EntityPlayerMP.worldObj.difficultySetting, worldserver1.getWorldInfo().getTerrainType(), worldserver1.getHeight(), par1EntityPlayerMP.theItemInWorldManager.getGameType()));
         worldserver.removePlayerEntityDangerously(par1EntityPlayerMP);
