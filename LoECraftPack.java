@@ -102,6 +102,7 @@ public class LoECraftPack
 	//teleporter
 	public static TeleporterCustom teleporterSkyLands;
 	public static TeleporterCustom teleporterSkyLandsFalling;
+	public static TeleporterCustom teleporterSkyLandsRising;
 	
 	//Declare Potions
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(20, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
