@@ -28,11 +28,13 @@ import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
+import loecraftpack.common.logic.PrivateAccessor;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.DimensionSkyland;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
+import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
@@ -43,6 +45,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
@@ -92,6 +95,9 @@ public class LoECraftPack
         }
 	};
 	
+	//teleporter
+	public static TeleporterCustom teleporterSkyLands;
+	
 	//Declare Potions
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(20, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
 	
@@ -127,6 +133,8 @@ public class LoECraftPack
 	@PreInit
     public void preLoad(FMLPreInitializationEvent event)
 	{
+			
+		
 		/***************/
 		/**Load Config**/
 		/***************/
@@ -201,10 +209,11 @@ public class LoECraftPack
 		EntityRegistry.registerGlobalEntityID(EntityTimberWolf.class, "timberwolf", 100, 12422002, 5651507);
 		LanguageRegistry.instance().addStringLocalization("entity.timberwolf.name", "Timber Wolf");
 		
-		//World Generators/Biomes/Layers
+		//World Generators/Biomes/Layers/dimensional stuff/ etc.
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
-		DimensionManager.registerProviderType(8, DimensionSkyland.class, false);
+		DimensionManager.registerProviderType(8, DimensionSkyland.class, true);
 		DimensionManager.registerDimension(8, 8);
+		
 		
 		//Handlers
 		NetworkRegistry.instance().registerGuiHandler(this, new HandlerGui());

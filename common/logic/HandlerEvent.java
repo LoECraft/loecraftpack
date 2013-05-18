@@ -4,18 +4,21 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
+import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServerMulti;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -24,6 +27,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate;
+import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class HandlerEvent
@@ -69,7 +73,7 @@ public class HandlerEvent
 					//event.setCanceled(true);
 					
 					event.entityPlayer.timeUntilPortal = event.entityPlayer.getPortalCooldown();
-					event.entityPlayer.travelToDimension(8);
+					LoECraftPack.teleporterSkyLands.travelToDimension(event.entityPlayer);
 					
 				}
 			}
@@ -272,6 +276,16 @@ public class HandlerEvent
 	        int y = event.rand.nextInt(maxHeight - minHeight) + minHeight;
 	        int z = event.chunkZ + event.rand.nextInt(16);
 	        worldGenerator.generate(event.world, event.rand, x, y, z);
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onWorldLoad(WorldEvent.Load event)
+	{
+		if (event.world == DimensionManager.getWorld(8))
+		{
+			System.out.println("world 8 found: creating teleporter");
+			LoECraftPack.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(8),8);
 		}
 	}
 	
