@@ -4,6 +4,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.logic.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.packet.Packet70GameEvent;
 import net.minecraft.server.MinecraftServer;
@@ -32,6 +33,11 @@ public class TeleporterCustom extends Teleporter {
 	//or place player at location, with sky elevation
 	public void placeInPortal(Entity entity, double x, double y, double z, float yaw)
 	{
+		if(entity instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)entity;
+			player.timeUntilPortal = player.getPortalCooldown();
+		}
 		if(method == Method.Portal)
 			super.placeInPortal(entity, x, y, z, yaw);
 		else

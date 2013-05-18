@@ -69,7 +69,6 @@ public class HandlerEvent
 					//Minecraft.getMinecraft().renderEngine.obtainImageData(event.entityPlayer.skinUrl, new ImageBufferDownload());
 					//event.setCanceled(true);
 					
-					event.entityPlayer.timeUntilPortal = event.entityPlayer.getPortalCooldown();
 					TeleporterCustom.varifyTeleporter(LoECraftPack.teleporterSkyLands, 8);
 					LoECraftPack.teleporterSkyLands.travelToDimension(event.entityPlayer);
 					

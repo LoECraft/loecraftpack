@@ -26,7 +26,6 @@ public class HandlerTick implements ITickHandler {
         	EntityPlayer player = (EntityPlayer)tickData[0];
         	if(player.worldObj==DimensionManager.getWorld(8) && player.posY<-20)
         	{
-        		player.timeUntilPortal = player.getPortalCooldown();
         		TeleporterCustom.varifyTeleporter(LoECraftPack.teleporterSkyLandsFalling, 0);
 				LoECraftPack.teleporterSkyLandsFalling.travelToDimension(player);
         	}
