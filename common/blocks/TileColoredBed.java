@@ -225,7 +225,9 @@ public class TileColoredBed extends TileEntity
 		}
 	}
 	
-	//used to tell the client that, the bed has had data changed by the adjacent bed
+	/**
+	 * used to tell the client that, the bed has had data changed by the adjacent bed
+	 */
 	private void tellClientOfChange()
 	{
 		if (worldObj != null && !worldObj.isRemote)

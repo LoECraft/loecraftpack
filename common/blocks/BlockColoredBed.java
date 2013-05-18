@@ -49,21 +49,19 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 		super(par1);
 	}
 	
-	/**
-     * The type of render function that is called for this block
-     */
+	
 	@Override
     public int getRenderType()
     {
         return renderID;
     }
 	
-	@SideOnly(Side.CLIENT)
-
+	
     /**
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
      */
+	@SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
 		this.bedtop.clear();

@@ -6,9 +6,13 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
+/** 
+ * This effect causes players to randomly take tiny damage, unless it's raining and they are outside; 
+ * to which they randomly get hit by lightning
+ */
 public class PotionCharged extends Potion {
 
-								     /*TRUE*/
+	/*bad: TRUE*/
 	public PotionCharged(int potionID, boolean bad, int color) {
 		super(potionID, bad, color);
 		

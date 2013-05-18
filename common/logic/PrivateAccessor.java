@@ -1,7 +1,9 @@
 package loecraftpack.common.logic;
 
 import java.lang.reflect.Field;
-
+/**
+ * This class was created, to deal with vanilla Minecraft over-using private variables.
+ */
 public class PrivateAccessor {
 	
 	public static Object getPrivateObject(Object instance, String name)

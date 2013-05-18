@@ -23,6 +23,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.registry.GameRegistry;
 
+/**
+ * This class allows players to be teleported in various ways, as opposed to the overly restricted Defaults.
+ */
 public class TeleporterCustom extends Teleporter {
 	
 	//instances
@@ -103,7 +106,7 @@ public class TeleporterCustom extends Teleporter {
 		}
 		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
 		{
-			System.out.println("world "+LoECraftPack.SkylandDimensionID+": creating teleporter");
+			System.out.println("world Skyland: creating teleporter");
 			TeleporterCustom.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
 			TeleporterCustom.teleporterSkyLandsRising = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Abyss);
 		}
@@ -122,7 +125,7 @@ public class TeleporterCustom extends Teleporter {
 		}
 		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
 		{
-			System.out.println("world "+LoECraftPack.SkylandDimensionID+": clearing teleporters");
+			System.out.println("world Skyland: clearing teleporters");
 			TeleporterCustom.teleporterSkyLands = null;
 			TeleporterCustom.teleporterSkyLandsRising = null;
 		}

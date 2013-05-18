@@ -10,11 +10,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 
+/**
+ * This class handles code regarding the visibility of hidden ores.
+ */
 public class MechanicHiddenOres {
 	
 	@SideOnly(Side.CLIENT)
 	public static boolean revealHiddenGems = false;
-
+	
+	//TODO make this part, controlled more effectively by the server side
 	//client side code
 	public static void switchHiddenOreRevealState(EntityPlayer player)
 	{

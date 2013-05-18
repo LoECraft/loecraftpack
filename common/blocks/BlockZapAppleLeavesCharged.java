@@ -102,7 +102,6 @@ public class BlockZapAppleLeavesCharged extends BlockZapAppleLeaves
         return world.setBlockToAir(x, y, z);
     }
 	
-	//TODO add spark effect, when charged
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void randomDisplayTick(World world, int xCoord, int yCoord, int zCoord, Random random)

@@ -251,6 +251,9 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         world.setBlockToAir(xCoord, yCoord, zCoord);
     }
 	
+	/**
+	 * this is called during updateTick. it attempts to progress the leaves growth stage.
+	 */
 	public void attemptGrow(World world, int xCoord, int yCoord, int zCoord, Random random)
 	{
 		int meta = world.getBlockMetadata(xCoord, yCoord, zCoord);
@@ -261,10 +264,9 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
     	}
 	}
 	
-	/*****************************************/
-	/******Drop apple down thru the tree******/
-	/***pass the tree's wood and leaves IDs***/
-	/*****************************************/
+	/**
+	 * Drop apple down thru the tree.  The wood and leaves IDs are passed by the class.
+	 */
 	public void dropAppleThruTree(World world, int xCoord, int yCoord, int zCoord, ItemStack itemStack)
 	{
 		dropAppleThruTree(world, xCoord, yCoord, zCoord, itemStack,
@@ -457,7 +459,9 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         return true;
     }
     
-    //used to tell the client that the block ID is changed
+    /**
+     * used to tell the client that the block ID is changed
+     */
   	public void tellClientOfChange(World world, int xCoord, int yCoord, int zCoord, int newID)
   	{
   		if (world != null && !world.isRemote)

@@ -6,11 +6,9 @@ import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-/*************************************************/
-/*****This class handles code regarding the*******/
-/*****interactions with custom apple trees********/
-/*************************************************/
-
+/**
+ * This class handles code regarding the interactions with custom apple trees
+ */
 public class MechanicTreeBucking
 {
 	/*************************************/

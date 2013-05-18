@@ -22,6 +22,7 @@ public class ItemHiddenOre extends ItemBlock
         this.ore = LoECraftPack.blockGemOre;
     }
 	
+	//This constructor needs to be usable in-order to have more than 1 blockID
 	public ItemHiddenOre(int par1, Block ore)
     {
         super(par1);

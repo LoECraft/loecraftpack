@@ -22,6 +22,7 @@ public class ItemLeavesAppleBloom extends ItemBlock
         this.leaf = LoECraftPack.blockAppleBloomLeaves;
     }
 	
+	//Preffered constructor, to allow more than 1 blockID
 	public ItemLeavesAppleBloom(int par1, Block leaf)
     {
         super(par1);

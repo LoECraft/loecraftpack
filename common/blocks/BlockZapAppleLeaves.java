@@ -60,6 +60,10 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
         }
 	}
 	
+	
+	/**
+	 * Performs lightning animation and converts nearby valid leaves, into charged leaves.
+	 */
 	public void zapGrow(World world, int xCoord, int yCoord, int zCoord)
 	{
 		if (!world.isRaining())return;

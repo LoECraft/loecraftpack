@@ -26,7 +26,9 @@ public class BiomeDecoratorEverFree extends BiomeDecorator {
 	}
 	
 	
-	
+	/**
+	 * Determines if the chunk is deep enough within the Everfree Biome, and then randomly tests for a success.
+	 */
 	public static boolean growZapApples(World world, Random random, int xChunk, int zChunk)
 	{
 		return	validZapApple(world, xChunk-3*16, zChunk-3*16) &&
@@ -43,7 +45,9 @@ public class BiomeDecoratorEverFree extends BiomeDecorator {
     }
 
 	
-
+	/**
+	 * @Override It has been modified to create Zap-Apple trees within the Biome.
+	 */
 	@Override
 	protected void decorate()
     {

@@ -68,6 +68,9 @@ public class BlockHiddenOre extends Block {
         return Block.cobblestone.blockID;
     }
 	
+	/**
+	 * Called when the player destroys a block with an item that can harvest it.
+	 */
 	@Override
 	public void harvestBlock(World world, EntityPlayer entityPlayer, int xCoord, int yCoord, int zCoord, int meta)
 	{
