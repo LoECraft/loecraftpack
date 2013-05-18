@@ -4,12 +4,9 @@ import java.util.EnumSet;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.DimensionManager;
-import cpw.mods.fml.common.IScheduledTickHandler;
 import cpw.mods.fml.common.ITickHandler;
-import cpw.mods.fml.common.SingleIntervalHandler;
 import cpw.mods.fml.common.TickType;
 
 public class HandlerTick implements ITickHandler {

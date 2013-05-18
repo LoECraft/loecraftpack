@@ -11,6 +11,7 @@ import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -68,10 +69,6 @@ public class HandlerEvent
 					//event.entityPlayer.skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes("Tekner") + ".png";
 					//Minecraft.getMinecraft().renderEngine.obtainImageData(event.entityPlayer.skinUrl, new ImageBufferDownload());
 					//event.setCanceled(true);
-					
-					TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLands, 8);
-					LoECraftPack.teleporterSkyLands.travelToDimension(event.entityPlayer);
-					
 				}
 			}
 			else if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK && event.entityPlayer.getDistanceSq(te.xCoord, te.yCoord, te.zCoord) <= 100)
@@ -176,33 +173,47 @@ public class HandlerEvent
 		EntityPlayer entityPlayer = event.entityPlayer;
 		System.out.print("click - ");
 		//test code
-		if (entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID && event.action != Action.LEFT_CLICK_BLOCK)
+		if (entityPlayer.getHeldItem() != null)
 		{
-			MechanicHiddenOres.switchHiddenOreRevealState(entityPlayer);
-		}
-		if (entityPlayer.getHeldItem() != null && entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID && event.action == Action.RIGHT_CLICK_BLOCK)
-		{
-			int countR = 0;
-			int countC = 0;
-			Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
-			for (int y = 0; y<256; y++)
+			if (entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
 			{
-				for (int x = 0; x<16; x++)
+				if (event.action != Action.LEFT_CLICK_BLOCK)
 				{
-					for (int z = 0; z<16; z++)
+					MechanicHiddenOres.switchHiddenOreRevealState(entityPlayer);
+				}
+				if (event.action == Action.RIGHT_CLICK_BLOCK)
+				{
+					int countR = 0;
+					int countC = 0;
+					Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
+					for (int y = 0; y<256; y++)
 					{
-						if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
+						for (int x = 0; x<16; x++)
 						{
-							if (chunk.getBlockMetadata(x, y, z)>7)
-								countR++;
-							else
-								countC++;
+							for (int z = 0; z<16; z++)
+							{
+								if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
+								{
+									if (chunk.getBlockMetadata(x, y, z)>7)
+										countR++;
+									else
+										countC++;
+								}
+							}
 						}
 					}
+					System.out.println("common ores: "+countC);
+					System.out.println("rare   ores: "+countR);
 				}
 			}
-			System.out.println("common ores: "+countC);
-			System.out.println("rare   ores: "+countR);
+			else if (entityPlayer.getHeldItem().itemID == Item.stick.itemID &&
+					 entityPlayer.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
+					 event.action == Action.LEFT_CLICK_BLOCK)
+			{
+				TeleporterCustom.refreshTeleporter(LoECraftPack.teleporterSkyLands, 8);
+				LoECraftPack.teleporterSkyLands.travelToDimension(event.entityPlayer);
+				event.setResult(Result.DENY);
+			}
 		}
 		System.out.println();
 	}
