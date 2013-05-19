@@ -1,5 +1,7 @@
 package loecraftpack.common.logic;
 
+import java.util.List;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
@@ -58,7 +60,10 @@ public class HandlerEvent
 					break;
 			}
 		}
-		for(TileProtectionMonolith te : BlockProtectionMonolith.monoliths)
+
+		List<TileProtectionMonolith> list = BlockProtectionMonolith.monoliths.get(event.entityPlayer.worldObj.getWorldInfo().getDimension());
+		if (list != null)
+		for(TileProtectionMonolith te : list)
 		{
 			if (te.xCoord == event.x && te.yCoord == event.y && te.zCoord == event.z)
 				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, event.x, event.y, event.z));
@@ -103,7 +108,10 @@ public class HandlerEvent
 					break;
 			}
 		}
-		for(TileProtectionMonolith te : BlockProtectionMonolith.monoliths)
+
+		List<TileProtectionMonolith> list = BlockProtectionMonolith.monoliths.get(event.entityPlayer.worldObj.getWorldInfo().getDimension());
+		if (list != null)
+		for(TileProtectionMonolith te : list)
 		{
 			if (te.Owners.size() > 0)
 			{

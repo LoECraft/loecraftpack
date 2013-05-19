@@ -1,7 +1,9 @@
 package loecraftpack.common.blocks;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.gui.GuiIds;
@@ -14,7 +16,7 @@ import net.minecraft.world.World;
 
 public class BlockProtectionMonolith extends Block implements ITileEntityProvider
 {
-	public static List<TileProtectionMonolith> monoliths = new ArrayList<TileProtectionMonolith>();
+	public static Map<Integer, List<TileProtectionMonolith>> monoliths = new HashMap<Integer, List<TileProtectionMonolith>>();
 	
 	public BlockProtectionMonolith(int id)
 	{
@@ -26,18 +28,27 @@ public class BlockProtectionMonolith extends Block implements ITileEntityProvide
 	@Override
 	public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
     {
-		int i;
-		for(i = 0; i < monoliths.size(); i++)
+		int dim = par1World.getWorldInfo().getDimension();
+		List<TileProtectionMonolith> list = monoliths.get(dim);
+		if (list == null)
+			list = new ArrayList<TileProtectionMonolith>();
+		else
+			monoliths.remove(dim);
+		
+		for(int i = 0; i < list.size(); i++)
 		{
-			TileProtectionMonolith te = monoliths.get(i);
+			TileProtectionMonolith te = list.get(i);
 			if (te.xCoord == par2 &&
 				te.yCoord == par3 &&
 				te.zCoord == par4)
 			{
-				monoliths.remove(i);
+				list.remove(i);
 				break;
 			}
 		}
+		
+		monoliths.put(dim, list);
+		
         super.breakBlock(par1World, par2, par3, par4, par5, par6);
     }
 	
@@ -52,8 +63,9 @@ public class BlockProtectionMonolith extends Block implements ITileEntityProvide
     public TileEntity createNewTileEntity(World world)
     {
     	TileProtectionMonolith te = new TileProtectionMonolith();
-    	if (world.isRemote)
-    		monoliths.add(te);
+    	if (world.isRemote && monoliths.get(world.getWorldInfo().getDimension()) != null)
+    		monoliths.get(world.getWorldInfo().getDimension()).add(te);
+    	
     	return te;
     }
     
