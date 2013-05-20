@@ -99,12 +99,12 @@ public class TeleporterCustom extends Teleporter {
 	 */
 	public static void buildTeleporters(World world)
 	{
-		if(world == DimensionManager.getWorld(0))
+		if(world.getWorldInfo().getDimension() == 0)
 		{
 			System.out.println("world Overworld: creating teleporter");
 			TeleporterCustom.teleporterSkyLandsFalling = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(0), 0, Method.Sky);
 		}
-		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
+		else if (world.getWorldInfo().getDimension() == LoECraftPack.SkylandDimensionID)
 		{
 			System.out.println("world Skyland: creating teleporter");
 			TeleporterCustom.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
@@ -118,12 +118,12 @@ public class TeleporterCustom extends Teleporter {
 	 */
 	public static void clearTeleporters(World world)
 	{
-		if(world == DimensionManager.getWorld(0))
+		if(world.getWorldInfo().getDimension() == 0)
 		{
 			System.out.println("world Overworld: clearing teleporter");
 			TeleporterCustom.teleporterSkyLandsFalling = null;
 		}
-		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
+		else if (world.getWorldInfo().getDimension() == LoECraftPack.SkylandDimensionID)
 		{
 			System.out.println("world Skyland: clearing teleporters");
 			TeleporterCustom.teleporterSkyLands = null;
