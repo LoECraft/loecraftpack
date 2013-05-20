@@ -9,6 +9,8 @@ import loecraftpack.ponies.abilities.projectiles.Fireball;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -66,6 +68,9 @@ public class PacketHandlerServer implements IPacketHandler
 	        			te = (TileProtectionMonolith)sender.worldObj.getBlockTileEntity(x, y, z);
 	        			if (te != null)
 	        				PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, x, y, z, te.width, te.length, te.offsetX, te.offsetZ, te.getOwners()), player);
+            			break;
+            		case PacketIds.applyPotionEffect:
+            			sender.addPotionEffect(new PotionEffect((Integer)NetworkedPotions.potions.get(data.readByte()), data.readByte(), data.readInt()));
             			break;
             	}
             }

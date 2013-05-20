@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.gui.GuiDialog;
 import loecraftpack.enums.Race;
+import loecraftpack.packet.NetworkedPotions;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import net.minecraft.client.Minecraft;
@@ -25,12 +26,13 @@ public class HandlerKey extends KeyHandler
 {
 	static KeyBinding renderMonolithKeybind = new KeyBinding("RenderMonolith", Keyboard.KEY_F12);
 	static KeyBinding dialogShortcut = new KeyBinding("DialogShortcut", Keyboard.KEY_F);
+	static KeyBinding oreVision = new KeyBinding("OreVision", Keyboard.KEY_O);
 	public static KeyBinding jump = new KeyBinding("Jump", Keyboard.KEY_SPACE);
 	public static boolean renderMonolith = false;
 	
 	public HandlerKey()
 	{
-		super(new KeyBinding[] {renderMonolithKeybind, dialogShortcut, jump}, new boolean[] {false, false, true});
+		super(new KeyBinding[] {renderMonolithKeybind, dialogShortcut, jump, oreVision}, new boolean[] {false, false, true, false});
 	}
 
 	@Override
@@ -71,6 +73,11 @@ public class HandlerKey extends KeyHandler
 				{
 					PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.fireball));
 				}
+			}
+			else if (kb.equals(oreVision))
+			{
+				System.out.println("Ore Vision: " + LoECraftPack.potionOreVision.id);
+				NetworkedPotions.ApplyEffect(NetworkedPotions.oreVision, 5, 1000);
 			}
 		}
 	}
