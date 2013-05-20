@@ -43,7 +43,7 @@ public class MechanicHiddenOres {
 		List worldRenderersToUpdate = (List)PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderersToUpdate");
 		for (int i=0; i < worldRenderer.length; i++)
 		{
-			if (worldRenderer[i] != null && inRangeForRefresh(player, worldRenderer[i]))
+			if (worldRenderer[i] != null && inRange(player, worldRenderer[i]))
 			{
 				worldRenderersToUpdate.add(worldRenderer[i]);
 				worldRenderer[i].markDirty();
@@ -52,19 +52,14 @@ public class MechanicHiddenOres {
 		System.out.print("ore mode - "+ revealHiddenGems);
 	}
 	
-	//world renders that need to be updated
-	@SideOnly(Side.CLIENT)
-	protected static boolean inRangeForRefresh(EntityPlayer player, WorldRenderer worldRenderer)
+	protected static boolean inRange(EntityPlayer player, WorldRenderer worldRenderer)
 	{
-		float buffer = 5;//Dependent on move speed
-		
 		return inRange(Math.floor(player.posX)+0.5, Math.floor(player.posY)+0.5, Math.floor(player.posZ)+0.5,
 					   worldRenderer.posX,    worldRenderer.posY,    worldRenderer.posZ,
 					   worldRenderer.posX+16, worldRenderer.posY+16, worldRenderer.posZ+16,
-					   (powerLevel+1)*10+buffer);
+					   (powerLevel+1)*10);
 	}
 	
-	//blocks in range of the player
 	@SideOnly(Side.CLIENT)
 	public static boolean inRangeofClientPlayer(int x, int y, int z)
 	{
