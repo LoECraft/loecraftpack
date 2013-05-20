@@ -103,7 +103,7 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 			Block block, int modelId, RenderBlocks renderer) {
 		Icon iconPre = renderer.overrideBlockTexture;
 		
-		if(revealed() && iconPre == null)
+		if(revealed(x, y, z) && iconPre == null)
 		{
 			Icon icon;
 			icon = ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, world.getBlockMetadata(x, y, z));
@@ -127,9 +127,9 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 		return renderID;
 	}
 	
-	protected boolean revealed()
+	protected boolean revealed(int x, int y, int z)
 	{
-		return MechanicHiddenOres.revealHiddenGems;
+		return MechanicHiddenOres.revealHiddenGems? MechanicHiddenOres.inRangeofClientPlayer(x, y, z) : false;
 	}
 
 }

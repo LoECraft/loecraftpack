@@ -34,5 +34,13 @@ public class PotionCharged extends Potion {
 				entityLiving.attackEntityFrom(DamageSource.magic, 2 << level);
 		}
     }
+	
+	public boolean isReady(int par1, int par2)
+    {
+        int k;
+        
+        k = 40 >> par2;
+        return k > 0 ? par1 % k == 0 : true;
+    }
 
 }

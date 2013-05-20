@@ -9,11 +9,11 @@ import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -185,9 +185,12 @@ public class HandlerEvent
 		{
 			if (entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
 			{
-				if (event.action != Action.LEFT_CLICK_BLOCK)
+				if (event.action == Action.RIGHT_CLICK_AIR)
 				{
-					MechanicHiddenOres.switchHiddenOreRevealState(entityPlayer);
+					if (!entityPlayer.worldObj.isRemote)
+					{
+						entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, 0));
+					}
 				}
 				if (event.action == Action.RIGHT_CLICK_BLOCK)
 				{

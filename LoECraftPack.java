@@ -30,6 +30,7 @@ import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.logic.HandlerTick;
 import loecraftpack.common.potions.PotionCharged;
+import loecraftpack.common.potions.PotionOreVision;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.DimensionSkyland;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
@@ -99,7 +100,8 @@ public class LoECraftPack
 	public static final int SkylandProviderID = 8;
 	
 	//Declare Potions
-	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(20, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
+	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(21, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
+	public static final PotionOreVision potionOreVision = (PotionOreVision)(new PotionOreVision(22, false, 0)).setPotionName("Ore Vision").setIconIndex(0, 0);
 	
 	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final ItemBits bits = new ItemBits(667);
@@ -220,6 +222,7 @@ public class LoECraftPack
 		GameRegistry.registerPlayerTracker(new HandlerPlayer());
 		MinecraftForge.EVENT_BUS.register(new HandlerEvent());
 		TickRegistry.registerTickHandler(new HandlerTick(), Side.SERVER);
+		TickRegistry.registerTickHandler(new HandlerTick(), Side.CLIENT);
 		
 		
 		/******************/
