@@ -43,23 +43,27 @@ public class MechanicHiddenOres {
 		List worldRenderersToUpdate = (List)PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderersToUpdate");
 		for (int i=0; i < worldRenderer.length; i++)
 		{
-			if (worldRenderer[i] != null && inRange(player, worldRenderer[i]))
+			if (worldRenderer[i] != null && inRangeForRefresh(player, worldRenderer[i]))
 			{
 				worldRenderersToUpdate.add(worldRenderer[i]);
 				worldRenderer[i].markDirty();
 			}
 		}
-		System.out.print("ore mode - "+ revealHiddenGems);
 	}
 	
-	protected static boolean inRange(EntityPlayer player, WorldRenderer worldRenderer)
+	//world renders that need to be updated
+	@SideOnly(Side.CLIENT)
+	protected static boolean inRangeForRefresh(EntityPlayer player, WorldRenderer worldRenderer)
 	{
+		float buffer = 5;//Dependent on move speed
+		
 		return inRange(Math.floor(player.posX)+0.5, Math.floor(player.posY)+0.5, Math.floor(player.posZ)+0.5,
 					   worldRenderer.posX,    worldRenderer.posY,    worldRenderer.posZ,
 					   worldRenderer.posX+16, worldRenderer.posY+16, worldRenderer.posZ+16,
-					   (powerLevel+1)*10);
+					   (powerLevel+1)*10+buffer);
 	}
 	
+	//blocks in range of the player
 	@SideOnly(Side.CLIENT)
 	public static boolean inRangeofClientPlayer(int x, int y, int z)
 	{
@@ -103,34 +107,12 @@ public class MechanicHiddenOres {
 			{
 				if(closestZ==0)
 				{
-					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(xPlus, yPlus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xPlus, yMinus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xPlus, yPlus, zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xPlus, yMinus, zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, yPlus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, yMinus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, yPlus, zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, yMinus, zMinus);
-					if (center.distanceTo(target) <= range)return true;
+					return true;
 				}
 				else
 				{
 					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(xPlus, yPlus, closestZ==1? zPlus: zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xPlus, yMinus, closestZ==1? zPlus: zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, yPlus, closestZ==1? zPlus: zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, yMinus, closestZ==1? zPlus: zMinus);
+					target = Vec3.createVectorHelper(xPos, yPos, closestZ==1? zPlus: zMinus);
 					if (center.distanceTo(target) <= range)return true;
 				}
 			}
@@ -139,21 +121,13 @@ public class MechanicHiddenOres {
 				if(closestZ==0)
 				{
 					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(xPlus, closestY==1? yPlus: yMinus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xPlus, closestY==1? yPlus: yMinus, zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, closestY==1? yPlus: yMinus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, closestY==1? yPlus: yMinus, zMinus);
+					target = Vec3.createVectorHelper(xPlus, closestY==1? yPlus: yPos, zPos);
 					if (center.distanceTo(target) <= range)return true;
 				}
 				else
 				{
 					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(xPlus, closestY==1? yPlus: yMinus, closestZ==1? zPlus: zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(xMinus, closestY==1? yPlus: yMinus, closestZ==1? zPlus: zMinus);
+					target = Vec3.createVectorHelper(xPos, closestY==1? yPlus: yMinus, closestZ==1? zPlus: zMinus);
 					if (center.distanceTo(target) <= range)return true;
 				}
 			}
@@ -165,21 +139,13 @@ public class MechanicHiddenOres {
 				if(closestZ==0)
 				{
 					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yPlus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yMinus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yPlus, zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yMinus, zMinus);
+					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yPos, zPos);
 					if (center.distanceTo(target) <= range)return true;
 				}
 				else
 				{
 					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yPlus, closestZ==1? zPlus: zMinus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yMinus, closestZ==1? zPlus: zMinus);
+					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, yPos, closestZ==1? zPlus: zMinus);
 					if (center.distanceTo(target) <= range)return true;
 				}
 			}
@@ -188,9 +154,7 @@ public class MechanicHiddenOres {
 				if(closestZ==0)
 				{
 					center = Vec3.createVectorHelper(xPos, yPos, zPos);
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, closestY==1? yPlus: yMinus, zPlus);
-					if (center.distanceTo(target) <= range)return true;
-					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, closestY==1? yPlus: yMinus, zMinus);
+					target = Vec3.createVectorHelper(closestX==1? xPlus: xMinus, closestY==1? yPlus: yMinus, zPos);
 					if (center.distanceTo(target) <= range)return true;
 				}
 				else

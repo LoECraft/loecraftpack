@@ -70,7 +70,7 @@ public class PacketHandlerServer implements IPacketHandler
 	        				PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, x, y, z, te.width, te.length, te.offsetX, te.offsetZ, te.getOwners()), player);
             			break;
             		case PacketIds.applyPotionEffect:
-            			sender.addPotionEffect(new PotionEffect((Integer)NetworkedPotions.potions.get(data.readByte()), data.readByte(), data.readInt()));
+            			sender.addPotionEffect(new PotionEffect((Integer)NetworkedPotions.potions.get(data.readByte()), data.readInt(), data.readByte()));
             			break;
             	}
             }

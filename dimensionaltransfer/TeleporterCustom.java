@@ -8,7 +8,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet202PlayerAbilities;
+import net.minecraft.network.packet.Packet28EntityVelocity;
 import net.minecraft.network.packet.Packet41EntityEffect;
 import net.minecraft.network.packet.Packet70GameEvent;
 import net.minecraft.network.packet.Packet9Respawn;
@@ -66,9 +68,9 @@ public class TeleporterCustom extends Teleporter {
 			if(method == Method.Surface)
 				y = worldServerInstance2.getHeightValue((int)x, (int)z);
 			else if(method == Method.Sky)
-				y = worldServerInstance2.getHeight()+1;
+				y = worldServerInstance2.getHeight()-0.6;
 			else
-				y = -1;
+				y = 0;
 			
 			entity.setLocationAndAngles(x, y, z, yaw, entity.rotationPitch);
 		}
@@ -141,8 +143,10 @@ public class TeleporterCustom extends Teleporter {
 	{
 		System.out.println("To infinity and Beyond!!!!");
 		int id = dimensionID;
+		
 		if (entity instanceof EntityPlayerMP)
 		{
+			
 			EntityPlayerMP entityPlayer = (EntityPlayerMP) entity;
 			if(method == Method.Portal)
 			{
@@ -180,12 +184,15 @@ public class TeleporterCustom extends Teleporter {
 			}
 			else
 			{
-				//entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, id, this);
+				//Packet velocity = new Packet28EntityVelocity(entityPlayer);
 				this.transferPlayerToDimension(entityPlayer, id, this);
 	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
 	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
 	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
+	            /*if (method==Method.Abyss || method==Method.Sky)
+	            	entityPlayer.playerNetServerHandler.sendPacketToPlayer(velocity);*/
 			}
+			
 		}
 		else
 		{

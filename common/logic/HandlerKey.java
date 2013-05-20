@@ -77,7 +77,7 @@ public class HandlerKey extends KeyHandler
 			else if (kb.equals(oreVision))
 			{
 				System.out.println("Ore Vision: " + LoECraftPack.potionOreVision.id);
-				NetworkedPotions.ApplyEffect(NetworkedPotions.oreVision, 5, 1000);
+				NetworkedPotions.applyEffect(NetworkedPotions.oreVision, 1000, 1);
 			}
 		}
 	}
