@@ -1,7 +1,6 @@
 package loecraftpack.common.blocks.render;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import loecraftpack.common.blocks.BlockHiddenOre;
@@ -186,11 +185,13 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
             par1Tessellator.startDrawingQuads();
             par1Tessellator.setTranslation(-d0, -d1, -d2);
             par1Tessellator.disableColor();
+            
+            int[][] locations = this.phantomBlocks.toArray(new int[phantomBlocks.size()][]);
 
-            Iterator iterator = this.phantomBlocks.iterator();
-            while (iterator.hasNext())
+            for (int i=0; i<locations.length; i++)
             {
-                int[] location = (int[])iterator.next();
+                int[] location = locations[i];
+                
                 int id = event.context.theWorld.getBlockId(location[0], location[1], location[2]);
                 Block block = Block.blocksList[id];
 

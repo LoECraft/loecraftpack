@@ -2,10 +2,8 @@ package loecraftpack.ponies.abilities.mechanics;
 
 import java.util.List;
 
-import loecraftpack.common.blocks.render.RenderHiddenOre;
 import loecraftpack.common.logic.PrivateAccessor;
 import loecraftpack.proxies.ClientProxy;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,7 +35,17 @@ public class MechanicHiddenOres {
 		if (!player.worldObj.isRemote)
 			return;
 		
-		ClientProxy.renderHiddenOre.phantomBlocks.clear();
+		List<int[]> list = ClientProxy.renderHiddenOre.phantomBlocks;
+		int[][] locations = list.toArray(new int[list.size()][]);
+        for (int i=0; i<locations.length; i++)
+        {
+            int[] location = locations[i];
+			if (!MechanicHiddenOres.inRangeofClientPlayer(location[0], location[1], location[2]) || !MechanicHiddenOres.revealHiddenGems)
+	        {
+				list.remove(location);
+	        	continue;
+	        }
+        }
 		
 		xPos = (int) player.posX;
 		yPos = (int) player.posY;
