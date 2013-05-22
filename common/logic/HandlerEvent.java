@@ -2,15 +2,20 @@ package loecraftpack.common.logic;
 
 import java.util.List;
 
+import org.lwjgl.opengl.GL11;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.blocks.render.RenderHiddenOre;
 import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
+import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
@@ -19,6 +24,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -310,6 +316,16 @@ public class HandlerEvent
 		TeleporterCustom.clearTeleporters(event.world);
 	}
 	
+	@ForgeSubscribe
+	public void onfinalRender(RenderWorldLastEvent event)
+	{
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        ClientProxy.renderHiddenOre.drawBlockPhantomTexture(event);
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+	}
 	
 	
 	

@@ -2,7 +2,9 @@ package loecraftpack.ponies.abilities.mechanics;
 
 import java.util.List;
 
+import loecraftpack.common.blocks.render.RenderHiddenOre;
 import loecraftpack.common.logic.PrivateAccessor;
+import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -35,6 +37,8 @@ public class MechanicHiddenOres {
 		if (!player.worldObj.isRemote)
 			return;
 		
+		ClientProxy.renderHiddenOre.phantomBlocks.clear();
+		
 		xPos = (int) player.posX;
 		yPos = (int) player.posY;
 		zPos = (int) player.posZ;
@@ -55,7 +59,7 @@ public class MechanicHiddenOres {
 	@SideOnly(Side.CLIENT)
 	protected static boolean inRangeForRefresh(EntityPlayer player, WorldRenderer worldRenderer)
 	{
-		float buffer = 5;//Dependent on move speed
+		float buffer = 30;//Dependent on move speed
 		
 		return inRange(Math.floor(player.posX)+0.5, Math.floor(player.posY)+0.5, Math.floor(player.posZ)+0.5,
 					   worldRenderer.posX,    worldRenderer.posY,    worldRenderer.posZ,

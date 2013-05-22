@@ -20,6 +20,7 @@ import cpw.mods.fml.client.registry.RenderingRegistry;
 public class ClientProxy extends CommonProxy
 {
 	public static RenderElectricBlock renderEleBlock;
+	public static RenderHiddenOre renderHiddenOre;
 	
 	@Override
 	public void doProxyStuff()
@@ -29,9 +30,9 @@ public class ClientProxy extends CommonProxy
 		RenderColoredBed cbr = new RenderColoredBed();
 		RenderingRegistry.registerBlockHandler(cbr.renderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)cbr);
 		LoECraftPack.bedBlock.renderID = cbr.renderID;
-		RenderHiddenOre hor = new RenderHiddenOre();
-		RenderingRegistry.registerBlockHandler(hor.renderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)hor);
-		LoECraftPack.blockGemOre.renderID = hor.renderID;
+		renderHiddenOre = new RenderHiddenOre();
+		RenderingRegistry.registerBlockHandler(renderHiddenOre.renderID = RenderingRegistry.getNextAvailableRenderId(), (ISimpleBlockRenderingHandler)renderHiddenOre);
+		LoECraftPack.blockGemOre.renderID = renderHiddenOre.renderID;
 		RenderingRegistry.registerEntityRenderingHandler(EntityElectricBlock.class, renderEleBlock = new RenderElectricBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTimberWolf.class, new RenderTimberWolf(new ModelTimberWolf(), new ModelTimberWolf(), 0.5F));
 	}

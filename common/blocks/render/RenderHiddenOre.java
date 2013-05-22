@@ -1,22 +1,41 @@
 package loecraftpack.common.blocks.render;
 
-import org.lwjgl.opengl.GL11;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
-import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockHiddenOre;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+
+import org.lwjgl.opengl.GL11;
+
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
 public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 {
 	public int renderID;
+	public static boolean phantomPass = false;
+	
+	public List<int[]> phantomBlocks = new ArrayList<int[]>();
+	
+	public void addPhantomBlock(int x, int y, int z)
+	{
+		for(int[] coords : phantomBlocks)
+		{
+			if (coords[0] == x && coords[1] == y && coords[2] == z)
+			{
+				return;
+			}
+		}
+		phantomBlocks.add(new int[]{x, y, z});
+	}
 	
 	@Override
 	public void renderInventoryBlock(Block blockBase, int metadata, int modelID,
@@ -101,17 +120,29 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 	@Override
 	public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z,
 			Block block, int modelId, RenderBlocks renderer) {
-		Icon iconPre = renderer.overrideBlockTexture;
-		
-		if(revealed(x, y, z) && iconPre == null)
+		if(phantomPass)
 		{
-			Icon icon;
-			icon = ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, world.getBlockMetadata(x, y, z));
-			renderer.setOverrideBlockTexture(icon);
+			//phantom render
+			renderer.renderStandardBlock(block, x, y, z);
 		}
-		renderer.renderStandardBlock(block, x, y, z);
-		
-		renderer.overrideBlockTexture = iconPre;
+		else
+		{
+			Icon iconPre = renderer.overrideBlockTexture;
+			
+			if (MechanicHiddenOres.revealHiddenGems && iconPre == null && MechanicHiddenOres.inRangeofClientPlayer(x, y, z))
+			{
+				//apply normal render override
+				Icon icon;
+				icon = ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, world.getBlockMetadata(x, y, z));
+				renderer.setOverrideBlockTexture(icon);
+				addPhantomBlock(x, y, z);
+			}
+			
+			//normal render, and breaking render
+			renderer.renderStandardBlock(block, x, y, z);
+			
+			renderer.overrideBlockTexture = iconPre;
+		}
 		return true;
 	}
 
@@ -127,9 +158,61 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 		return renderID;
 	}
 	
-	protected boolean revealed(int x, int y, int z)
-	{
-		return MechanicHiddenOres.revealHiddenGems? MechanicHiddenOres.inRangeofClientPlayer(x, y, z) : false;
-	}
+	public void drawBlockPhantomTexture(RenderWorldLastEvent event)
+    {
+		phantomPass = true;
+		boolean hold = event.context.globalRenderBlocks.renderAllFaces;
+		event.context.globalRenderBlocks.renderAllFaces = true;
+		
+		Tessellator par1Tessellator = Tessellator.instance;
+		EntityLiving par2EntityPlayer = event.context.mc.renderViewEntity;
+		float partialTicks = event.partialTicks;
+		
+		
+        double d0 = par2EntityPlayer.lastTickPosX + (par2EntityPlayer.posX - par2EntityPlayer.lastTickPosX) * (double)partialTicks;
+        double d1 = par2EntityPlayer.lastTickPosY + (par2EntityPlayer.posY - par2EntityPlayer.lastTickPosY) * (double)partialTicks;
+        double d2 = par2EntityPlayer.lastTickPosZ + (par2EntityPlayer.posZ - par2EntityPlayer.lastTickPosZ) * (double)partialTicks;
+        
+        if (!this.phantomBlocks.isEmpty())
+        {
+            GL11.glBlendFunc(GL11.GL_DST_COLOR, GL11.GL_SRC_COLOR);
+            event.context.renderEngine.bindTexture("/terrain.png");
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
+            GL11.glPushMatrix();
+            GL11.glDisable(GL11.GL_ALPHA_TEST);
+            GL11.glPolygonOffset(-3.0F, -3.0F);
+            GL11.glEnable(GL11.GL_POLYGON_OFFSET_FILL);
+            GL11.glEnable(GL11.GL_ALPHA_TEST);
+            par1Tessellator.startDrawingQuads();
+            par1Tessellator.setTranslation(-d0, -d1, -d2);
+            par1Tessellator.disableColor();
+
+            Iterator iterator = this.phantomBlocks.iterator();
+            while (iterator.hasNext())
+            {
+                int[] location = (int[])iterator.next();
+                int id = event.context.theWorld.getBlockId(location[0], location[1], location[2]);
+                Block block = Block.blocksList[id];
+
+                if (block instanceof BlockHiddenOre)
+                {
+                	event.context.globalRenderBlocks.renderBlockUsingTexture(block, location[0], location[1], location[2],
+							 ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, event.context.theWorld.getBlockMetadata(location[0], location[1], location[2])));
+                }
+            }
+
+            par1Tessellator.draw();
+            par1Tessellator.setTranslation(0.0D, 0.0D, 0.0D);
+            GL11.glDisable(GL11.GL_ALPHA_TEST);
+            GL11.glPolygonOffset(0.0F, 0.0F);
+            GL11.glDisable(GL11.GL_POLYGON_OFFSET_FILL);
+            GL11.glEnable(GL11.GL_ALPHA_TEST);
+            GL11.glDepthMask(true);
+            GL11.glPopMatrix();
+        }
+        
+        event.context.globalRenderBlocks.renderAllFaces = hold;
+        phantomPass = false;
+    }
 
 }
