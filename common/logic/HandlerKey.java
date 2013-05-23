@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 
 import org.lwjgl.input.Keyboard;
 
@@ -78,6 +79,10 @@ public class HandlerKey extends KeyHandler
 			{
 				System.out.println("Ore Vision: " + LoECraftPack.potionOreVision.id);
 				NetworkedPotions.applyEffect(NetworkedPotions.oreVision, 1000, 1);
+				
+				ItemStack item = Minecraft.getMinecraft().thePlayer.getHeldItem();
+				if (item != null)
+					System.out.println("damage "+item.getItemDamage());
 			}
 		}
 	}

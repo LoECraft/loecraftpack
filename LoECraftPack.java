@@ -16,6 +16,7 @@ import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityTimberWolf;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
+import loecraftpack.common.items.ItemCrystalHeart;
 import loecraftpack.common.items.ItemGemStones;
 import loecraftpack.common.items.ItemHiddenOre;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
@@ -45,6 +46,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.potion.Potion;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
@@ -110,6 +113,7 @@ public class LoECraftPack
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	public static final ItemPickaxeGem itemPickaxeGem = (ItemPickaxeGem)(new ItemPickaxeGem(673)).setUnlocalizedName("pickaxeGem");
 	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(674)).setUnlocalizedName("gemstones");
+	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(675)).setUnlocalizedName("cyrstalheart");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
@@ -172,6 +176,7 @@ public class LoECraftPack
 		LanguageRegistry.instance().addStringLocalization("item.appleZap.charged.name", "Zap-Apple : Charged");
 		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
 		LanguageRegistry.instance().addStringLocalization("item.pickaxeGem.name", "Gem Pickaxe");
+		LanguageRegistry.addName(itemCrystalHeart, "Crystal Heart Container");
 		
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
@@ -276,6 +281,16 @@ public class LoECraftPack
     	
     	//Register bed pairs
     	HandlerColoredBed.addBedPair("Alicorn Sisters", "Celestia", "Luna");
+    	
+    	//Crystal Heart
+    	CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), "XX", "XX",
+    											'X', new ItemStack(LoECraftPack.itemGemStones, 1, 9));
+    	CraftingManager.getInstance().addShapelessRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 2),
+    														new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), new ItemStack(Item.potion, 1, 8197));
+    	CraftingManager.getInstance().addShapelessRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 2),
+															new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), new ItemStack(Item.potion, 1, 8261));
+		CraftingManager.getInstance().addShapelessRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 2),
+															new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), new ItemStack(Item.potion, 1, 8229));
 	}
 	
 	/*****************************/

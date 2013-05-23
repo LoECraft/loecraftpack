@@ -40,7 +40,7 @@ public class MechanicHiddenOres {
         for (int i=0; i<locations.length; i++)
         {
             int[] location = locations[i];
-			if (!MechanicHiddenOres.inRangeofClientPlayer(location[0], location[1], location[2]) || !MechanicHiddenOres.revealHiddenGems)
+			if (!MechanicHiddenOres.revealHiddenGems || !MechanicHiddenOres.inRangeofClientPlayer(location[0], location[1], location[2]))
 	        {
 				list.remove(location);
 	        	continue;
@@ -72,7 +72,7 @@ public class MechanicHiddenOres {
 		return inRange(Math.floor(player.posX)+0.5, Math.floor(player.posY)+0.5, Math.floor(player.posZ)+0.5,
 					   worldRenderer.posX,    worldRenderer.posY,    worldRenderer.posZ,
 					   worldRenderer.posX+16, worldRenderer.posY+16, worldRenderer.posZ+16,
-					   (powerLevel+1)*10+buffer);
+					   range()+buffer);
 	}
 	
 	//blocks in range of the player
@@ -81,7 +81,13 @@ public class MechanicHiddenOres {
 	{
 		return inRange(xPos+0.5, yPos+0.5, zPos+0.5,
 				       x, y, z, x+1, y+1, z+1,
-				       (powerLevel+1)*10);
+				       range());
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static int range()
+	{
+		return (powerLevel+1)*4+4;
 	}
 	
 	/**

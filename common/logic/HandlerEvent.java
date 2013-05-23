@@ -1,13 +1,12 @@
 package loecraftpack.common.logic;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
-
-import org.lwjgl.opengl.GL11;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
-import loecraftpack.common.blocks.render.RenderHiddenOre;
 import loecraftpack.common.worldgen.BiomeDecoratorEverFree;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.packet.PacketHelper;
@@ -15,10 +14,13 @@ import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.CombatTracker;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -27,6 +29,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -195,7 +198,15 @@ public class HandlerEvent
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
-						entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, 0));
+						PotionEffect effect = entityPlayer.getActivePotionEffect(LoECraftPack.potionOreVision);
+						if (effect!= null)
+						{
+							System.out.println("hi");
+							
+							entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, effect.getAmplifier()+1));
+						}
+						else
+							entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, 0));
 					}
 				}
 				if (event.action == Action.RIGHT_CLICK_BLOCK)
@@ -248,16 +259,25 @@ public class HandlerEvent
 		
 		if(biome.biomeID != BiomeGenBase.hell.biomeID)
 		{
-			//rare
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 10, 3, Block.stone.blockID), 17, 128);//Laughter
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 11, 3, Block.stone.blockID), 17, 128);//Generosity
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 12, 3, Block.stone.blockID), 17, 128);//Kindness
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 13, 3, Block.stone.blockID), 17, 128);//Magic
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 14, 3, Block.stone.blockID), 17, 128);//Loyalty
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 15, 3, Block.stone.blockID), 17, 128);//Honesty
+			//rare - lower elevation
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 10, 3, Block.stone.blockID), 17,  40);//Laughter
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 11, 3, Block.stone.blockID), 17,  40);//Generosity
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 12, 3, Block.stone.blockID), 17,  40);//Kindness
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 13, 3, Block.stone.blockID), 17,  40);//Magic
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 14, 3, Block.stone.blockID), 17,  40);//Loyalty
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 15, 3, Block.stone.blockID), 17,  40);//Honesty
 			
-			generateOre(2, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  9, 3, Block.stone.blockID), 17, 128);//Heart
-			generateOre(4, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  8, 3, Block.stone.blockID), 17, 128);//Tom
+			//rare - higher elevation
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 10, 3, Block.stone.blockID), 41, 128);//Laughter
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 11, 3, Block.stone.blockID), 41, 128);//Generosity
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 12, 3, Block.stone.blockID), 41, 128);//Kindness
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 13, 3, Block.stone.blockID), 41, 128);//Magic
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 14, 3, Block.stone.blockID), 41, 128);//Loyalty
+			generateOre(1, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 15, 3, Block.stone.blockID), 41, 128);//Honesty
+			
+			//rare - general
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  9, 3, Block.stone.blockID), 17, 128);//Heart
+			
 		}
 	}
 	
@@ -269,14 +289,17 @@ public class HandlerEvent
 		if(biome.biomeID != BiomeGenBase.hell.biomeID)
 		{
 			//Common
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 0, 6, Block.stone.blockID), 5, 128);//Sapphire
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 1, 4, Block.stone.blockID), 5, 128);//Fire Ruby
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 2, 4, Block.stone.blockID), 5, 128);
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 3, 4, Block.stone.blockID), 5, 128);
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 4, 4, Block.stone.blockID), 5, 128);
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 5, 4, Block.stone.blockID), 5, 128);
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 6, 4, Block.stone.blockID), 5, 128);
-			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID, 7, 6, Block.stone.blockID), 5, 128);//Onyx
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  0, 6, Block.stone.blockID),  5, 128);//Sapphire
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  1, 4, Block.stone.blockID),  5, 128);//Fire Ruby
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  2, 4, Block.stone.blockID),  5, 128);
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  3, 4, Block.stone.blockID),  5, 128);
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  4, 4, Block.stone.blockID),  5, 128);
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  5, 4, Block.stone.blockID),  5, 128);
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  6, 4, Block.stone.blockID),  5, 128);
+			generateOre(7, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  7, 6, Block.stone.blockID),  5, 128);//Onyx
+			
+			//Tom
+			generateOre(3, event, new WorldGenMinable(LoECraftPack.blockGemOre.blockID,  8, 5, Block.stone.blockID),  5,  16);//Tom
 			
 			//random apple blooms
 			if (biome.biomeID != 0 && biome.biomeID != BiomeGenBase.desert.biomeID && biome.biomeID != BiomeGenBase.frozenOcean.biomeID)
@@ -319,12 +342,83 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onfinalRender(RenderWorldLastEvent event)
 	{
-		GL11.glDisable(GL11.GL_DEPTH_TEST);
-		GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         ClientProxy.renderHiddenOre.drawBlockPhantomTexture(event);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+	}
+	
+	@ForgeSubscribe
+	public void onOuch(LivingHurtEvent event)
+	{
+		
+		if (event.entityLiving instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)event.entityLiving;
+			Class livingClass = player.getClass();
+			Method armor = PrivateAccessor.getMethod(livingClass, "applyArmorCalculations", DamageSource.class, int.class);
+			if(armor==null)
+				return;
+			Method potion = PrivateAccessor.getMethod(livingClass, "applyPotionDamageCalculations", DamageSource.class, int.class);
+			if(potion==null)
+				return;
+			Object health = PrivateAccessor.getPrivateObject(EntityLiving.class, player, "health");
+			if(health==null)
+				return;
+			CombatTracker combat = (CombatTracker) PrivateAccessor.getPrivateObject(EntityLiving.class, player, "field_94063_bt");
+			if(combat==null)
+				return;
+			
+			event.ammount = (Integer) PrivateAccessor.invokeMethod(armor, player, event.source, event.ammount);
+			event.ammount = (Integer) PrivateAccessor.invokeMethod(potion, player, event.source, event.ammount);
+	        int j = player.getHealth();
+	        
+	        if (event.ammount>0)
+	        {
+	        	ItemStack[] inv = player.inventory.mainInventory;
+	        	List<Integer> fullSlots = new ArrayList<Integer>();
+	        	List<Integer> halfSlots = new ArrayList<Integer>();
+	        	
+		        for (int i=0; i<inv.length; i++)
+		        {
+		        	if (inv[i] != null && inv[i].getItem() != null && inv[i].getItem().itemID == LoECraftPack.itemCrystalHeart.itemID)
+		        	{
+		        		if(inv[i].getItemDamage()==1)
+		        			halfSlots.add(i);
+		        		if(inv[i].getItemDamage()==2)
+		        			fullSlots.add(i);
+		        	}
+		        }
+		        
+		        for (int i : halfSlots)
+		        {
+		        	if (event.ammount<=0)
+		        		break;
+		        	inv[i].setItemDamage(0);
+		        	event.ammount--;
+		        }
+		        
+		        for (int i : fullSlots)
+		        {
+		        	if (event.ammount<=0)
+		        		break;
+		        	else if (event.ammount==1)
+		        	{
+		        		inv[i].setItemDamage(1);
+			        	event.ammount--;
+		        	}
+		        	else
+		        	{
+			        	inv[i].setItemDamage(0);
+			        	event.ammount-=2;
+		        	}
+		        }
+	        }
+	        
+	        PrivateAccessor.setPrivateVariable(EntityLiving.class, player, "health", j - event.ammount);
+	        combat.func_94547_a(event.source, j, event.ammount);
+	        
+	        event.ammount = 0;
+	        System.out.println("ouch");
+		}
+		
 	}
 	
 	

@@ -22,11 +22,18 @@ public class BlockHiddenOre extends Block {
 	int types = 16;
 	Icon[] hiddenIcons;
 	public int renderID = 0;
+	boolean tom = true;
 
 	public BlockHiddenOre(int id) {
 		super(id, Material.rock);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
         hiddenIcons = new Icon[types];
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public boolean hidden(int meta)
+	{
+		return tom ? meta!=8 : true;//Tom
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -42,7 +49,10 @@ public class BlockHiddenOre extends Block {
         this.blockIcon = par1IconRegister.registerIcon("stone");
         for(int i=0; i<types; i++)
         {
-        	hiddenIcons[i] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore"+i);
+        	if(i!=8)
+        		hiddenIcons[i] = par1IconRegister.registerIcon("loecraftpack:ores/hiddenore"+i);
+        	else
+        		hiddenIcons[i] = par1IconRegister.registerIcon("oreDiamond");
         }
     }
 	
@@ -77,7 +87,7 @@ public class BlockHiddenOre extends Block {
 		System.out.println("harvest");
 		ItemStack results;
 		
-		if(entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
+		if(entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID || (tom && meta==8))
 		{
 			int fortune = EnchantmentHelper.getFortuneModifier(entityPlayer);
 			if (fortune > 0)

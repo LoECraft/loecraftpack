@@ -3,6 +3,7 @@ package loecraftpack.common.blocks.render;
 import java.util.ArrayList;
 import java.util.List;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockHiddenOre;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import net.minecraft.block.Block;
@@ -127,14 +128,25 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 		else
 		{
 			Icon iconPre = renderer.overrideBlockTexture;
+			BlockHiddenOre oreBlock = (BlockHiddenOre)block;
+			int meta = world.getBlockMetadata(x, y, z);
 			
-			if (MechanicHiddenOres.revealHiddenGems && iconPre == null && MechanicHiddenOres.inRangeofClientPlayer(x, y, z))
+			if (iconPre == null)
 			{
+				boolean flag1 = !oreBlock.hidden(meta);
+				boolean flag2 = MechanicHiddenOres.revealHiddenGems && MechanicHiddenOres.inRangeofClientPlayer(x, y, z);
+				
 				//apply normal render override
-				Icon icon;
-				icon = ((BlockHiddenOre)block).getHiddenBlockTextureFromSideAndMetadata(0, world.getBlockMetadata(x, y, z));
-				renderer.setOverrideBlockTexture(icon);
-				addPhantomBlock(x, y, z);
+				if(flag1 || flag2)
+				{
+					Icon icon;
+					icon = oreBlock.getHiddenBlockTextureFromSideAndMetadata(0, meta);
+					renderer.setOverrideBlockTexture(icon);
+				}
+				
+				//append to phantom list
+				if(flag2)
+					addPhantomBlock(x, y, z);
 			}
 			
 			//normal render, and breaking render
@@ -159,7 +171,11 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 	
 	public void drawBlockPhantomTexture(RenderWorldLastEvent event)
     {
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glEnable(GL11.GL_BLEND);
+        
 		phantomPass = true;
+		
 		boolean hold = event.context.globalRenderBlocks.renderAllFaces;
 		event.context.globalRenderBlocks.renderAllFaces = true;
 		
@@ -174,7 +190,7 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
         
         if (!this.phantomBlocks.isEmpty())
         {
-            GL11.glBlendFunc(GL11.GL_DST_COLOR, GL11.GL_SRC_COLOR);
+        	GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
             event.context.renderEngine.bindTexture("/terrain.png");
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
             GL11.glPushMatrix();
@@ -213,7 +229,11 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
         }
         
         event.context.globalRenderBlocks.renderAllFaces = hold;
+        
         phantomPass = false;
+        
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
 }
