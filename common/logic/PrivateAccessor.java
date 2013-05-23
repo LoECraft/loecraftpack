@@ -1,8 +1,10 @@
 package loecraftpack.common.logic;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 /**
- * This class was created, to deal with vanilla Minecraft over-using private variables.
+ * This class was created, to deal with vanilla Minecraft over-using private variables. (also to improve method access)
  */
 public class PrivateAccessor {
 	
@@ -60,5 +62,53 @@ public class PrivateAccessor {
 		}
 		
 		return false;
+	}
+	
+	public static Method getMethod(Class sourceClass, String methodName, Class... args)
+	{
+		try {
+			Method hold = null;
+			Class targetClass = sourceClass;
+			while (targetClass != null)
+			{
+				try {
+					hold = targetClass.getDeclaredMethod(methodName, args);
+				}
+				catch (NoSuchMethodException e) {}
+				targetClass = targetClass.getSuperclass();
+			}
+			if (hold == null)
+			{
+				System.out.print("[Private Accessor] No Such Method: "+sourceClass+"."+methodName+"(");
+				for(int i=0; i<args.length; i++)
+				{
+					System.out.print((i==0? "":", ")+args[i].toString());
+				}
+				System.out.println(")");
+				return null;
+			}
+			hold.setAccessible(true);
+			return hold;
+		}
+		catch (SecurityException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public static Object invokeMethod(Method method, Object instance, Object... args)
+	{
+		try {
+			return method.invoke(instance, args);
+		}
+		catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
