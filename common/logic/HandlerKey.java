@@ -79,10 +79,6 @@ public class HandlerKey extends KeyHandler
 			{
 				System.out.println("Ore Vision: " + LoECraftPack.potionOreVision.id);
 				NetworkedPotions.applyEffect(NetworkedPotions.oreVision, 1000, 1);
-				
-				ItemStack item = Minecraft.getMinecraft().thePlayer.getHeldItem();
-				if (item != null)
-					System.out.println("damage "+item.getItemDamage());
 			}
 		}
 	}
