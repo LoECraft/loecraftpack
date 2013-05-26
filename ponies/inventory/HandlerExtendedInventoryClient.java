@@ -22,34 +22,54 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class HandlerExtendedInventoryClient
 {
-	private static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
-	private static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
+	static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
+	static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
 	static List<String> players = new ArrayList<String>();
 	
-	//TODO only add inventories that ThePlayer can interact with.
+	
+	/**
+	 * Called by Common Class
+	 */
 	public static void AddPlayer(EntityPlayer player)
 	{
 		if (!players.contains(player.username))
 		{
-			//special equipment
-			if(!playerSpecialInv.containsKey(player.username))
+			if (player.entityId == Minecraft.getMinecraft().thePlayer.entityId)
 			{
-				System.out.println("added equip");
-				playerSpecialInv.put(player.username, new SpecialInventory());
+				//special equipment
+				if(!playerSpecialInv.containsKey(player.username))
+				{
+					System.out.println("added equip");
+					playerSpecialInv.put(player.username, new SpecialInventory());
+				}
+				
+				//extended earth inventory
+				if (StatHandlerServer.isRace(player, Race.Earth))
+				{
+					if(!playerEarthInv.containsKey(player.username))
+						playerEarthInv.put(player.username, new EarthInventory());
+				}
 			}
-			
-			//extended earth inventory
-			if (StatHandlerServer.isRace(player, Race.Earth))
+			else
 			{
-				if(!playerEarthInv.containsKey(player.username))
-					playerEarthInv.put(player.username, new EarthInventory());
+				//NOTE: only add foreign inventories that ThePlayer can interact with.
+				
+				//special equipment
+				if(!playerSpecialInv.containsKey(player.username))
+				{
+					System.out.println("added equip");
+					playerSpecialInv.put(player.username, new SpecialInventory());
+				}
+				
+				//mark as loaded
+				players.add(player.username);
 			}
-			
-			//mark as loaded
-			players.add(player.username);
 		}
 	}
 	
+	/**
+	 * Called by Common Class
+	 */
 	public static void removePlayer(EntityPlayer player)
 	{
 		playerSpecialInv.remove(player.username);
@@ -57,7 +77,9 @@ public class HandlerExtendedInventoryClient
 		players.remove(player.username);
 	}
 	
-	//client version: handles lagging packets
+	/**
+	 * Called by Common Class
+	 */
 	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
 	{
 		CustomInventory result;

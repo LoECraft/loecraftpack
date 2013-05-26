@@ -12,10 +12,13 @@ import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
+import loecraftpack.ponies.inventory.InventoryId;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
@@ -372,26 +375,26 @@ public class HandlerEvent
 	        
 	        if (event.ammount>0)
 	        {
-	        	ItemStack[] inv = player.inventory.mainInventory;
 	        	List<Integer> fullSlots = new ArrayList<Integer>();
 	        	List<Integer> halfSlots = new ArrayList<Integer>();
-	        	
-		        for (int i=0; i<inv.length; i++)
+	        	IInventory inv = HandlerExtendedInventoryServer.getInventory(player, InventoryId.Equipment);
+	        	for (int i=0; i<inv.getSizeInventory(); i++)
 		        {
-		        	if (inv[i] != null && inv[i].getItem() != null && inv[i].getItem().itemID == LoECraftPack.itemCrystalHeart.itemID)
+	        		ItemStack itemS = inv.getStackInSlot(i);
+		        	if (itemS != null && itemS.itemID == LoECraftPack.itemCrystalHeart.itemID)
 		        	{
-		        		if(inv[i].getItemDamage()==1)
+		        		if(itemS.getItemDamage()==1)
 		        			halfSlots.add(i);
-		        		if(inv[i].getItemDamage()==2)
+		        		if(itemS.getItemDamage()==2)
 		        			fullSlots.add(i);
 		        	}
 		        }
-		        
+	        	
 		        for (int i : halfSlots)
 		        {
 		        	if (event.ammount<=0)
 		        		break;
-		        	inv[i].setItemDamage(0);
+		        	inv.getStackInSlot(i).setItemDamage(0);
 		        	event.ammount--;
 		        }
 		        
@@ -401,12 +404,12 @@ public class HandlerEvent
 		        		break;
 		        	else if (event.ammount==1)
 		        	{
-		        		inv[i].setItemDamage(1);
+		        		inv.getStackInSlot(i).setItemDamage(1);
 			        	event.ammount--;
 		        	}
 		        	else
 		        	{
-			        	inv[i].setItemDamage(0);
+		        		inv.getStackInSlot(i).setItemDamage(0);
 			        	event.ammount-=2;
 		        	}
 		        }

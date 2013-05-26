@@ -19,14 +19,7 @@ public class ContainerEarthInventory extends Container {
 	{
 		System.out.println("CEI");
 		normalInv = entityPlayer.inventory;
-		if(entityPlayer.worldObj.isRemote)
-		{
-			earthInv = (EarthInventory)HandlerExtendedInventoryClient.getInventory(entityPlayer, InventoryId.EarthPony);
-		}
-		else
-		{
-			earthInv = (EarthInventory)HandlerExtendedInventoryServer.getInventory(entityPlayer, InventoryId.EarthPony);
-		}
+		earthInv = (EarthInventory)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.EarthPony);
 		
 		int v;
         int h;

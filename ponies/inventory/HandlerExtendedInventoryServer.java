@@ -13,10 +13,12 @@ import cpw.mods.fml.common.network.Player;
 
 public class HandlerExtendedInventoryServer
 {
-	private static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
-	private static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
+	static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
+	static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
 	
-	//server code, has clientMP override
+	/**
+	 * Called by Common Class
+	 */
 	public static void AddPlayer(EntityPlayer player)
 	{
 		NBTTagCompound nbt = player.getEntityData();
@@ -27,7 +29,9 @@ public class HandlerExtendedInventoryServer
 			playerEarthInv.put(player.username, new EarthInventory(nbt));
 	}
 	
-	//server code
+	/**
+	 * Called by Common Class
+	 */
 	public static void SavePlayer(EntityPlayer player)
 	{
 		NBTTagCompound nbt = player.getEntityData();
@@ -48,7 +52,9 @@ public class HandlerExtendedInventoryServer
 		}
 	}
 	
-	//server code, has clientMP override
+	/**
+	 * Called by Common Class
+	 */
 	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
 	{
 		CustomInventory result;
