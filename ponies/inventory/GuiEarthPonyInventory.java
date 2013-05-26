@@ -1,8 +1,13 @@
 package loecraftpack.ponies.inventory;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.InventoryEffectRenderer;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
@@ -10,7 +15,7 @@ import net.minecraft.stats.AchievementList;
 import net.minecraft.util.StatCollector;
 
 public class GuiEarthPonyInventory extends InventoryEffectRenderer {
-
+	
 	public GuiEarthPonyInventory(EntityPlayer entityPlayer)
     {
         super(new ContainerEarthInventory(entityPlayer));
@@ -34,18 +39,8 @@ public class GuiEarthPonyInventory extends InventoryEffectRenderer {
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.renderEngine.bindTexture("/loecraftpack/ponies/inventory/earthInventory.png");
-        int k = (this.width - this.xSize) / 2;
-        int l = (this.height - this.ySize) / 2;
+        int k = this.guiLeft;
+        int l = this.guiTop;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
     }
-	/*
-	protected void handleMouseClick(Slot par1Slot, int par2, int par3, int par4)
-    {
-        if (par1Slot != null)
-        {
-            par2 = par1Slot.slotNumber;
-        }
-
-        this.mc.playerController.windowClick(this.inventorySlots.windowId, par2, par3, par4, this.mc.thePlayer);
-    }*/
 }

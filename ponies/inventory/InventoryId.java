@@ -1,6 +1,6 @@
 package loecraftpack.ponies.inventory;
 
-public enum InventoryGui {
+public enum InventoryId {
 	Standared,
 	Equipment,
 	EarthPony

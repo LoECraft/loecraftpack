@@ -13,8 +13,8 @@ import cpw.mods.fml.common.network.Player;
 
 public class HandlerExtendedInventoryCommon
 {
-	Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
-	Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
+	private static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
+	private static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
 	
 	//server code, has clientMP override
 	public void AddPlayer(EntityPlayer player)
@@ -35,17 +35,23 @@ public class HandlerExtendedInventoryCommon
 		NBTTagCompound nbt = player.getEntityData();
 		
 		SpecialInventory special = playerSpecialInv.get(player.username);
-		special.writeToNBT(nbt);
+		if (special!= null)
+		{
+			special.writeToNBT(nbt);
+		}
 		
 		if (StatHandlerServer.isRace(player, Race.Earth))
 		{
 			EarthInventory earth = playerEarthInv.get(player.username);
-			earth.writeToNBT(nbt);
+			if (earth!=null)
+			{
+				earth.writeToNBT(nbt);
+			}
 		}
 	}
 	
 	//server code, has clientMP override
-	public CustomInventory getInventory(EntityPlayer player, InventoryGui id)
+	public CustomInventory getInventory(EntityPlayer player, InventoryId id)
 	{
 		CustomInventory result;
 		switch (id)

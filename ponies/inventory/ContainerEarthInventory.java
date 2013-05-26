@@ -19,7 +19,7 @@ public class ContainerEarthInventory extends Container {
 	{
 		System.out.println("CEI");
 		normalInv = entityPlayer.inventory;
-		earthInv = (EarthInventory)LoECraftPack.inventoryHandler.getInventory(entityPlayer, InventoryGui.EarthPony);
+		earthInv = (EarthInventory)LoECraftPack.inventoryHandler.getInventory(entityPlayer, InventoryId.EarthPony);
 		
 		int v;
         int h;

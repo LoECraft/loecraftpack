@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.gui.GuiIds;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import net.minecraft.entity.player.EntityPlayer;
@@ -78,12 +79,22 @@ public class PacketHandlerServer implements IPacketHandler
             		case PacketIds.subInventory:
             			int guiId = data.readInt();
             			EntityPlayer ePlayer = (EntityPlayer)player;
+            			try
+            			{
             			ePlayer.openGui(LoECraftPack.instance,
             			                guiId,
             			                MinecraftServer.getServer().worldServerForDimension(ePlayer.dimension),
             			                (int)ePlayer.posX,
             			                (int)ePlayer.posY,
             			                (int)ePlayer.posZ);
+            			}
+            			catch(IllegalArgumentException e)
+            			{
+            				//this allows the exception for reloading crafting inventory without closing it first, to be ignored.
+            				//currently only one crafting inventory that applies.
+            				if (guiId != GuiIds.mainInv.ordinal())
+            					throw e;
+            			}
             			break;
             	}
             }

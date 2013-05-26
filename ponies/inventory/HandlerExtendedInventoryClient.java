@@ -1,7 +1,9 @@
 package loecraftpack.ponies.inventory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 
@@ -19,6 +21,8 @@ import net.minecraft.item.ItemStack;
 
 public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryCommon
 {
+	private static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
+	private static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
 	List<String> players = new ArrayList<String>();
 	
 	//TODO only add inventories that ThePlayer can interact with.
@@ -50,7 +54,7 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 	/**
 	 * adds custom-inventory information collected from a packet
 	 */
-	public void AddInventoryPiece(EntityPlayer player, InventoryGui id, int slot, ItemStack contents)
+	public void AddInventoryPiece(EntityPlayer player, InventoryId id, int slot, ItemStack contents)
 	{
 		//add player if needed
 		AddPlayer(player);
@@ -69,7 +73,7 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 	}
 	
 	//client version: handles lagging packets
-	public CustomInventory getInventory(EntityPlayer player, InventoryGui id)
+	public CustomInventory getInventory(EntityPlayer player, InventoryId id)
 	{
 		CustomInventory result;
 		switch (id)
@@ -82,7 +86,7 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 				playerSpecialInv.put(player.username, (SpecialInventory)result);
 			}
 			if (!result.validInventory())
-				requestInventory(InventoryGui.Equipment, result);
+				requestInventory(InventoryId.Equipment, result);
 			return result;
 			
 		case EarthPony:
@@ -93,7 +97,7 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 				playerEarthInv.put(player.username, (EarthInventory)result);
 			}
 			if (!result.validInventory())
-				requestInventory(InventoryGui.EarthPony, result);
+				requestInventory(InventoryId.EarthPony, result);
 			return result;
 			
 		default:
@@ -101,7 +105,7 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 		}
 	}
 	
-	public static void requestInventory(InventoryGui id, CustomInventory inventory)
+	public static void requestInventory(InventoryId id, CustomInventory inventory)
 	{
 		List<Integer> slotsToRequest = inventory.getUnloaded();
 		
@@ -111,24 +115,11 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 	/**
 	 * this tells the server to set the screen
 	 */
-	public static void setNewScreen(InventoryGui id)
+	public static void setNewScreen(GuiIds id)
 	{
 		if (!inventoryMode())
 			return;
-		GuiIds guiId;
-		switch (id)
-		{
-		case Equipment:
-			guiId = GuiIds.SpecialInv;
-			break;
-		case EarthPony:
-			guiId = GuiIds.EarthInv;
-			break;
-		default:
-			guiId = GuiIds.mainInv;
-			break;
-		}
-		PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.subInventory, guiId.ordinal()));
+		PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.subInventory, id.ordinal()));
 	}
 	
 	public static boolean inventoryMode()
