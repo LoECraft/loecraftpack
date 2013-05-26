@@ -9,4 +9,5 @@ public class PacketIds
 	public static final byte bedUpdate = -124;
 	public static final byte appleBloomUpdate = -123;
 	public static final byte applyPotionEffect = -122;
+	public static final byte subInventory = -121;
 }

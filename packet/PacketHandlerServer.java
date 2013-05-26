@@ -4,13 +4,16 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -71,6 +74,16 @@ public class PacketHandlerServer implements IPacketHandler
             			break;
             		case PacketIds.applyPotionEffect:
             			sender.addPotionEffect(new PotionEffect((Integer)NetworkedPotions.potions.get(data.readByte()), data.readInt(), data.readByte()));
+            			break;
+            		case PacketIds.subInventory:
+            			int guiId = data.readInt();
+            			EntityPlayer ePlayer = (EntityPlayer)player;
+            			ePlayer.openGui(LoECraftPack.instance,
+            			                guiId,
+            			                MinecraftServer.getServer().worldServerForDimension(ePlayer.dimension),
+            			                (int)ePlayer.posX,
+            			                (int)ePlayer.posY,
+            			                (int)ePlayer.posZ);
             			break;
             	}
             }
