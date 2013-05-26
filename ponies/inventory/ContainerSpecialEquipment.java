@@ -18,7 +18,14 @@ public class ContainerSpecialEquipment extends Container {
 	{
 		System.out.println("CEI");
 		normalInv = entityPlayer.inventory;
-		specialInv = (SpecialInventory)LoECraftPack.inventoryHandler.getInventory(entityPlayer, InventoryId.Equipment);
+		if(entityPlayer.worldObj.isRemote)
+		{
+			specialInv = (SpecialInventory)HandlerExtendedInventoryClient.getInventory(entityPlayer, InventoryId.Equipment);
+		}
+		else
+		{
+			specialInv = (SpecialInventory)HandlerExtendedInventoryServer.getInventory(entityPlayer, InventoryId.Equipment);
+		}
 		
 		int v;
         int h;

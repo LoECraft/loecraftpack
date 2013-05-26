@@ -13,12 +13,12 @@ public class EarthInventory extends CustomInventory {
 	
 	public EarthInventory()
 	{
-		super(false);
+		super();
 	}
 	
 	public EarthInventory(NBTTagCompound nbt)
 	{
-		super(true);
+		super();
 		readFromNBT(nbt);
 	}
 	

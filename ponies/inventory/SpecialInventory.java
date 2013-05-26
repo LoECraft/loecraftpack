@@ -10,12 +10,12 @@ public class SpecialInventory extends CustomInventory {
 	
 	public SpecialInventory()
 	{
-		super(false);
+		super();
 	}
 
 	public SpecialInventory(NBTTagCompound nbt)
 	{
-		super(true);
+		super();
 		readFromNBT(nbt);
 	}
 

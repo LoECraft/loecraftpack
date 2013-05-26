@@ -18,18 +18,17 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
-public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryCommon
+public class HandlerExtendedInventoryClient
 {
 	private static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
 	private static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
-	List<String> players = new ArrayList<String>();
+	static List<String> players = new ArrayList<String>();
 	
 	//TODO only add inventories that ThePlayer can interact with.
-	public void AddPlayer(EntityPlayer player)
+	public static void AddPlayer(EntityPlayer player)
 	{
-		System.out.println("Client inv");
-		
 		if (!players.contains(player.username))
 		{
 			//special equipment
@@ -51,29 +50,15 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 		}
 	}
 	
-	/**
-	 * adds custom-inventory information collected from a packet
-	 */
-	public void AddInventoryPiece(EntityPlayer player, InventoryId id, int slot, ItemStack contents)
+	public static void removePlayer(EntityPlayer player)
 	{
-		//add player if needed
-		AddPlayer(player);
-		
-		switch (id)
-		{
-		case Equipment:
-			playerSpecialInv.get(player.username).loadSlot(slot, contents);
-			break;
-			
-		case EarthPony:
-			if(StatHandlerServer.isRace(player, Race.Earth))
-				playerEarthInv.get(player.username).loadSlot(slot, contents);
-			break;
-		}
+		playerSpecialInv.remove(player.username);
+		playerEarthInv.remove(player.username);
+		players.remove(player.username);
 	}
 	
 	//client version: handles lagging packets
-	public CustomInventory getInventory(EntityPlayer player, InventoryId id)
+	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
 	{
 		CustomInventory result;
 		switch (id)
@@ -85,8 +70,6 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 				result = new SpecialInventory();
 				playerSpecialInv.put(player.username, (SpecialInventory)result);
 			}
-			if (!result.validInventory())
-				requestInventory(InventoryId.Equipment, result);
 			return result;
 			
 		case EarthPony:
@@ -96,20 +79,11 @@ public class HandlerExtendedInventoryClient extends HandlerExtendedInventoryComm
 				result = new EarthInventory();
 				playerEarthInv.put(player.username, (EarthInventory)result);
 			}
-			if (!result.validInventory())
-				requestInventory(InventoryId.EarthPony, result);
 			return result;
 			
 		default:
 			return null;
 		}
-	}
-	
-	public static void requestInventory(InventoryId id, CustomInventory inventory)
-	{
-		List<Integer> slotsToRequest = inventory.getUnloaded();
-		
-		//tell server to re-send these packets
 	}
 	
 	/**

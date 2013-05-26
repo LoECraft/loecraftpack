@@ -11,16 +11,14 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.Player;
 
-public class HandlerExtendedInventoryCommon
+public class HandlerExtendedInventoryServer
 {
 	private static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
 	private static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
 	
 	//server code, has clientMP override
-	public void AddPlayer(EntityPlayer player)
+	public static void AddPlayer(EntityPlayer player)
 	{
-		System.out.println("Common inv");
-		
 		NBTTagCompound nbt = player.getEntityData();
 		
 		playerSpecialInv.put(player.username, new SpecialInventory(nbt));
@@ -30,7 +28,7 @@ public class HandlerExtendedInventoryCommon
 	}
 	
 	//server code
-	public void SavePlayer(EntityPlayer player)
+	public static void SavePlayer(EntityPlayer player)
 	{
 		NBTTagCompound nbt = player.getEntityData();
 		
@@ -51,7 +49,7 @@ public class HandlerExtendedInventoryCommon
 	}
 	
 	//server code, has clientMP override
-	public CustomInventory getInventory(EntityPlayer player, InventoryId id)
+	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
 	{
 		CustomInventory result;
 		switch (id)
@@ -59,14 +57,18 @@ public class HandlerExtendedInventoryCommon
 		case Equipment:
 			result = playerSpecialInv.get(player.username);
 			if (result == null)
-				return new SpecialInventory();
-			else
-				return result;
+			{   
+				result = new SpecialInventory();
+				playerSpecialInv.put(player.username, (SpecialInventory)result);
+			}
+			return result;
 		case EarthPony:
 			result = playerEarthInv.get(player.username);
 			if (result == null)
-				return new EarthInventory();
-			else
+			{
+				result = new EarthInventory();
+				playerEarthInv.put(player.username, (EarthInventory)result);
+			}
 				return result;
 		default:
 			return null;

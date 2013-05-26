@@ -8,7 +8,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
-import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;

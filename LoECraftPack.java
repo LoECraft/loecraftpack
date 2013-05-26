@@ -39,7 +39,7 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
@@ -88,8 +88,6 @@ public class LoECraftPack
     public static CommonProxy proxy;
 	@SidedProxy(clientSide = "loecraftpack.ponies.stats.StatHandlerClient", serverSide = "loecraftpack.ponies.stats.StatHandlerServer")
     public static StatHandlerServer StatHandler;
-	@SidedProxy(clientSide = "loecraftpack.ponies.inventory.HandlerExtendedInventoryClient", serverSide = "loecraftpack.ponies.inventory.HandlerExtendedInventoryServer")
-    public static HandlerExtendedInventoryCommon inventoryHandler;
 	
 	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
