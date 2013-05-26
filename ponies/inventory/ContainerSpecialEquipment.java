@@ -24,12 +24,12 @@ public class ContainerSpecialEquipment extends Container {
         int h;
         
         //race item
-        this.addSlotToContainer(new Slot(specialInv, 0, 8, 8));
+        this.addSlotToContainer(new SlotRacial(specialInv, 0, 8, 8, entityPlayer));
         
         //hearts
         for (h = 0; h < 5; h++)
         {
-        	this.addSlotToContainer(new Slot(specialInv, h+1, 8 + (h+4) * 18, 8));
+        	this.addSlotToContainer(new SlotHeart(specialInv, h+1, 8 + (h+4) * 18, 8));
         }
         
 		for (v = 0; v < 3; v++)

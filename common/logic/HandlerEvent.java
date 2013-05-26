@@ -357,16 +357,15 @@ public class HandlerEvent
 			EntityPlayer player = (EntityPlayer)event.entityLiving;
 			Class livingClass = player.getClass();
 			Method armor = PrivateAccessor.getMethod(livingClass, "applyArmorCalculations", DamageSource.class, int.class);
-			if(armor==null)
+			if (armor==null)
 				return;
 			Method potion = PrivateAccessor.getMethod(livingClass, "applyPotionDamageCalculations", DamageSource.class, int.class);
-			if(potion==null)
+			if (potion==null)
 				return;
-			Object health = PrivateAccessor.getPrivateObject(EntityLiving.class, player, "health");
-			if(health==null)
+			if (PrivateAccessor.getPrivateObject(EntityLiving.class, player, "health")==null)
 				return;
 			CombatTracker combat = (CombatTracker) PrivateAccessor.getPrivateObject(EntityLiving.class, player, "field_94063_bt");
-			if(combat==null)
+			if (combat==null)
 				return;
 			
 			event.ammount = (Integer) PrivateAccessor.invokeMethod(armor, player, event.source, event.ammount);

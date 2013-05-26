@@ -1,5 +1,6 @@
 package loecraftpack.ponies.inventory;
 
+import loecraftpack.LoECraftPack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -38,7 +39,7 @@ public class SpecialInventory extends CustomInventory {
 
             if (this.inventory[par1].stackSize <= par2)
             {
-                itemstack = this.inventory[par1];
+                itemstack = pullItem(par1);
                 this.inventory[par1] = null;
                 
                 this.onInventoryChanged();
@@ -61,6 +62,27 @@ public class SpecialInventory extends CustomInventory {
         {
             return null;
         }
+	}
+	
+	/**
+	 * handles removal of certain items
+	 */
+	public ItemStack pullItem(int pos)
+	{
+		switch (pos)
+		{
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+			//empty heart container
+			return new ItemStack(this.inventory[pos].getItem());
+			
+		default:
+			//as is
+			return this.inventory[pos];
+		}
 	}
 
 	@Override
@@ -102,7 +124,6 @@ public class SpecialInventory extends CustomInventory {
 		return true;
 	}
 	
-	//TODO change this
 	@Override
 	public boolean isStackValidForSlot(int i, ItemStack itemstack)
 	{
