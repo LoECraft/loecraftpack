@@ -13,8 +13,8 @@ import cpw.mods.fml.common.network.Player;
 
 public class HandlerExtendedInventoryServer
 {
-	static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
-	static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
+	static Map<String, InventorySpecial> playerSpecialInv = new HashMap<String, InventorySpecial>();
+	static Map<String, InventoryEarth> playerEarthInv = new HashMap<String, InventoryEarth>();
 	
 	/**
 	 * Called by Common Class
@@ -23,10 +23,10 @@ public class HandlerExtendedInventoryServer
 	{
 		NBTTagCompound nbt = player.getEntityData();
 		
-		playerSpecialInv.put(player.username, new SpecialInventory(nbt));
+		playerSpecialInv.put(player.username, new InventorySpecial(nbt));
 		
 		if (StatHandlerServer.isRace(player, Race.Earth))
-			playerEarthInv.put(player.username, new EarthInventory(nbt));
+			playerEarthInv.put(player.username, new InventoryEarth(nbt));
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class HandlerExtendedInventoryServer
 	{
 		NBTTagCompound nbt = player.getEntityData();
 		
-		SpecialInventory special = playerSpecialInv.get(player.username);
+		InventorySpecial special = playerSpecialInv.get(player.username);
 		if (special!= null)
 		{
 			special.writeToNBT(nbt);
@@ -44,7 +44,7 @@ public class HandlerExtendedInventoryServer
 		
 		if (StatHandlerServer.isRace(player, Race.Earth))
 		{
-			EarthInventory earth = playerEarthInv.get(player.username);
+			InventoryEarth earth = playerEarthInv.get(player.username);
 			if (earth!=null)
 			{
 				earth.writeToNBT(nbt);
@@ -55,25 +55,25 @@ public class HandlerExtendedInventoryServer
 	/**
 	 * Called by Common Class
 	 */
-	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
+	public static InventoryCustom getInventory(EntityPlayer player, InventoryId id)
 	{
-		CustomInventory result;
+		InventoryCustom result;
 		switch (id)
 		{
 		case Equipment:
 			result = playerSpecialInv.get(player.username);
 			if (result == null)
 			{   
-				result = new SpecialInventory();
-				playerSpecialInv.put(player.username, (SpecialInventory)result);
+				result = new InventorySpecial();
+				playerSpecialInv.put(player.username, (InventorySpecial)result);
 			}
 			return result;
 		case EarthPony:
 			result = playerEarthInv.get(player.username);
 			if (result == null)
 			{
-				result = new EarthInventory();
-				playerEarthInv.put(player.username, (EarthInventory)result);
+				result = new InventoryEarth();
+				playerEarthInv.put(player.username, (InventoryEarth)result);
 			}
 				return result;
 		default:

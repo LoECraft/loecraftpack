@@ -93,7 +93,6 @@ public class HandlerKey extends KeyHandler
 				if (Minecraft.getMinecraft().currentScreen != null)
 				{
 					Class gui = Minecraft.getMinecraft().currentScreen.getClass();
-					System.out.println("   gui   "+gui);
 					GuiIds id = GuiIds.mainInv;
 					boolean flag = false;
 					if (gui == GuiInventory.class || gui == GuiContainerCreative.class)

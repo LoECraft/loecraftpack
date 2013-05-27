@@ -5,16 +5,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
-public class SpecialInventory extends CustomInventory {
+public class InventorySpecial extends InventoryCustom {
 	
-	private ItemStack[] inventory = new ItemStack[6];
+	private ItemStack[] inventory = new ItemStack[8];
 	
-	public SpecialInventory()
+	public InventorySpecial()
 	{
 		super();
 	}
 
-	public SpecialInventory(NBTTagCompound nbt)
+	public InventorySpecial(NBTTagCompound nbt)
 	{
 		super();
 		readFromNBT(nbt);

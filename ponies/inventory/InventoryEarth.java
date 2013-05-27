@@ -7,16 +7,16 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 
-public class EarthInventory extends CustomInventory {
+public class InventoryEarth extends InventoryCustom {
 
 	private ItemStack[] inventory = new ItemStack[27];
 	
-	public EarthInventory()
+	public InventoryEarth()
 	{
 		super();
 	}
 	
-	public EarthInventory(NBTTagCompound nbt)
+	public InventoryEarth(NBTTagCompound nbt)
 	{
 		super();
 		readFromNBT(nbt);
@@ -83,7 +83,6 @@ public class EarthInventory extends CustomInventory {
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack)
 	{
-		System.out.println("add "+itemstack+" ");
 		this.inventory[i] = itemstack;
 
         if (itemstack != null && itemstack.stackSize > this.getInventoryStackLimit())

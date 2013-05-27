@@ -1,6 +1,5 @@
 package loecraftpack.ponies.inventory;
 
-import loecraftpack.LoECraftPack;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -9,40 +8,50 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerSpecialEquipment extends Container {
 	
-	final static int slotCount = 6;
+	final static int slotCount = 8;
 
 	IInventory normalInv;
-	SpecialInventory specialInv;
+	InventorySpecial specialInv;
 	
 	public ContainerSpecialEquipment(EntityPlayer entityPlayer)
 	{
-		System.out.println("CEI");
 		normalInv = entityPlayer.inventory;
-		specialInv = (SpecialInventory)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.Equipment);
+		specialInv = (InventorySpecial)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.Equipment);
 		
 		int v;
         int h;
         
-        //race item
+        //Race item
         this.addSlotToContainer(new SlotRacial(specialInv, 0, 8, 8, entityPlayer));
-        
-        //hearts
-        for (h = 0; h < 5; h++)
+        //Necklace
+        this.addSlotToContainer(new SlotAccessory(specialInv, 1, 8, 26, 0));
+        //Rings
+        for (v = 0; v < 2; v++)
         {
-        	this.addSlotToContainer(new SlotHeart(specialInv, h+1, 8 + (h+4) * 18, 8));
+        	this.addSlotToContainer(new SlotAccessory(specialInv, v+2, 8, 8+(v+2)*18, 1));
+        }
+        //Ammo
+        this.addSlotToContainer(new SlotAmmo(specialInv, 4, 80, 8));
+        
+        //other
+        for (v = 0; v < 3; v++)
+        {
+        	this.addSlotToContainer(new Slot(specialInv, v+5, 80, 8+(v+1)*18));
         }
         
+        //main inv.
 		for (v = 0; v < 3; v++)
         {
             for (h = 0; h < 9; h++)
             {
-            	this.addSlotToContainer(new Slot(normalInv, h + v * 9 + 9, 8 + h * 18, 84 + v * 18));
+            	this.addSlotToContainer(new Slot(normalInv, h+v*9+9, 8+h*18, 84+v*18));
             }
         }
 		
+		//main toolbar
 		for (h = 0; h < 9; h++)
         {
-            this.addSlotToContainer(new Slot(normalInv, h, 8 + h * 18, 142));
+            this.addSlotToContainer(new Slot(normalInv, h, 8+h*18, 142));
         }
 	}
 	

@@ -14,6 +14,7 @@ import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityTimberWolf;
+import loecraftpack.common.items.ItemAmmo;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
 import loecraftpack.common.items.ItemCrystalHeart;
@@ -21,7 +22,10 @@ import loecraftpack.common.items.ItemGemStones;
 import loecraftpack.common.items.ItemHiddenOre;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
+import loecraftpack.common.items.ItemNecklace;
 import loecraftpack.common.items.ItemPickaxeGem;
+import loecraftpack.common.items.ItemRacial;
+import loecraftpack.common.items.ItemRing;
 import loecraftpack.common.items.ItemZapApple;
 import loecraftpack.common.items.ItemZapAppleJam;
 import loecraftpack.common.logic.HandlerColoredBed;
@@ -39,7 +43,6 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
@@ -114,6 +117,10 @@ public class LoECraftPack
 	public static final ItemPickaxeGem itemPickaxeGem = (ItemPickaxeGem)(new ItemPickaxeGem(673)).setUnlocalizedName("pickaxeGem");
 	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(674)).setUnlocalizedName("gemstones");
 	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(675)).setUnlocalizedName("cyrstalheart");
+	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(676)).setUnlocalizedName("racial");
+	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(677)).setUnlocalizedName("necklace");
+	public static final ItemRing itemRing = (ItemRing)(new ItemRing(678)).setUnlocalizedName("ring");
+	public static final ItemAmmo itemAmmo = (ItemAmmo)(new ItemAmmo(679)).setUnlocalizedName("ammo");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
@@ -285,12 +292,6 @@ public class LoECraftPack
     	//Crystal Heart
     	CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), "XX", "XX",
     											'X', new ItemStack(LoECraftPack.itemGemStones, 1, 9));
-    	CraftingManager.getInstance().addShapelessRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 2),
-    														new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), new ItemStack(Item.potion, 1, 8197));
-    	CraftingManager.getInstance().addShapelessRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 2),
-															new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), new ItemStack(Item.potion, 1, 8261));
-		CraftingManager.getInstance().addShapelessRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 2),
-															new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), new ItemStack(Item.potion, 1, 8229));
 	}
 	
 	/*****************************/

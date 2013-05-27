@@ -30,8 +30,8 @@ public class GuiEarthPonyInventory extends InventoryEffectRenderer {
 	
 	protected void drawGuiContainerForegroundLayer(int par1, int par2)
     {
-        this.fontRenderer.drawString(StatCollector.translateToLocal("Extend Inventory"), 8, 6, 4210752);
-        this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+        this.fontRenderer.drawString(StatCollector.translateToLocal("Extend Inventory"), 8, 8, 4210752);
+        this.fontRenderer.drawString(StatCollector.translateToLocal("container.inventory"), 8, this.ySize - 96 + 4, 4210752);
     }
 
 	@Override

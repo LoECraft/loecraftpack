@@ -10,7 +10,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class CustomInventory implements IInventory {
+public abstract class InventoryCustom implements IInventory {
 	
 	public boolean inventoryChanged = false;
 	

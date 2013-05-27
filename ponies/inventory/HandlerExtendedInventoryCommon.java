@@ -51,7 +51,7 @@ public class HandlerExtendedInventoryCommon
 		}
 	}
 	
-	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
+	public static InventoryCustom getInventory(EntityPlayer player, InventoryId id)
 	{
 		if(player.worldObj.isRemote)
 		{

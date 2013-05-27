@@ -13,13 +13,12 @@ public class ContainerEarthInventory extends Container {
 	final static int slotCount = 27;
 	
 	IInventory normalInv;
-	EarthInventory earthInv;
+	InventoryEarth earthInv;
 	
 	public ContainerEarthInventory(EntityPlayer entityPlayer)
 	{
-		System.out.println("CEI");
 		normalInv = entityPlayer.inventory;
-		earthInv = (EarthInventory)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.EarthPony);
+		earthInv = (InventoryEarth)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.EarthPony);
 		
 		int v;
         int h;
@@ -36,13 +35,13 @@ public class ContainerEarthInventory extends Container {
         {
             for (h = 0; h < 9; h++)
             {
-            	this.addSlotToContainer(new Slot(normalInv, h + v * 9 + 9, 8 + h * 18, 86 + v * 18));
+            	this.addSlotToContainer(new Slot(normalInv, h + v * 9 + 9, 8 + h * 18, 84 + v * 18));
             }
         }
 		
 		for (h = 0; h < 9; h++)
         {
-            this.addSlotToContainer(new Slot(normalInv, h, 8 + h * 18, 144));
+            this.addSlotToContainer(new Slot(normalInv, h, 8 + h * 18, 142));
         }
 	}
 

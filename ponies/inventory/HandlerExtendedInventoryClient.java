@@ -22,8 +22,8 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class HandlerExtendedInventoryClient
 {
-	static Map<String, SpecialInventory> playerSpecialInv = new HashMap<String, SpecialInventory>();
-	static Map<String, EarthInventory> playerEarthInv = new HashMap<String, EarthInventory>();
+	static Map<String, InventorySpecial> playerSpecialInv = new HashMap<String, InventorySpecial>();
+	static Map<String, InventoryEarth> playerEarthInv = new HashMap<String, InventoryEarth>();
 	static List<String> players = new ArrayList<String>();
 	
 	
@@ -40,14 +40,14 @@ public class HandlerExtendedInventoryClient
 				if(!playerSpecialInv.containsKey(player.username))
 				{
 					System.out.println("added equip");
-					playerSpecialInv.put(player.username, new SpecialInventory());
+					playerSpecialInv.put(player.username, new InventorySpecial());
 				}
 				
 				//extended earth inventory
 				if (StatHandlerServer.isRace(player, Race.Earth))
 				{
 					if(!playerEarthInv.containsKey(player.username))
-						playerEarthInv.put(player.username, new EarthInventory());
+						playerEarthInv.put(player.username, new InventoryEarth());
 				}
 			}
 			else
@@ -58,7 +58,7 @@ public class HandlerExtendedInventoryClient
 				if(!playerSpecialInv.containsKey(player.username))
 				{
 					System.out.println("added equip");
-					playerSpecialInv.put(player.username, new SpecialInventory());
+					playerSpecialInv.put(player.username, new InventorySpecial());
 				}
 				
 				//mark as loaded
@@ -80,17 +80,17 @@ public class HandlerExtendedInventoryClient
 	/**
 	 * Called by Common Class
 	 */
-	public static CustomInventory getInventory(EntityPlayer player, InventoryId id)
+	public static InventoryCustom getInventory(EntityPlayer player, InventoryId id)
 	{
-		CustomInventory result;
+		InventoryCustom result;
 		switch (id)
 		{
 		case Equipment:
 			result = playerSpecialInv.get(player.username);
 			if (result == null)
 			{
-				result = new SpecialInventory();
-				playerSpecialInv.put(player.username, (SpecialInventory)result);
+				result = new InventorySpecial();
+				playerSpecialInv.put(player.username, (InventorySpecial)result);
 			}
 			return result;
 			
@@ -98,8 +98,8 @@ public class HandlerExtendedInventoryClient
 			result = playerEarthInv.get(player.username);
 			if (result == null)
 			{
-				result = new EarthInventory();
-				playerEarthInv.put(player.username, (EarthInventory)result);
+				result = new InventoryEarth();
+				playerEarthInv.put(player.username, (InventoryEarth)result);
 			}
 			return result;
 			
