@@ -8,11 +8,11 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.util.Icon;
 
-public class ItemAmmo extends Item {
+public class ItemIronArrow extends Item {
 	
 	public static Icon slotIcon;
 
-	public ItemAmmo(int par1) {
+	public ItemIronArrow(int par1) {
 		super(par1);
 		
 		this.setCreativeTab(LoECraftPack.LoECraftTab);
@@ -22,7 +22,7 @@ public class ItemAmmo extends Item {
 	@SideOnly(Side.CLIENT)
 	public void updateIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/ammo");
+		iconIndex = iconRegister.registerIcon("loecraftpack:tools/IronArrow");
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotAmmo");
 	}

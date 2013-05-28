@@ -1,6 +1,6 @@
 package loecraftpack.ponies.inventory;
 
-import loecraftpack.common.items.ItemAmmo;
+import loecraftpack.common.items.ItemIronArrow;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -24,6 +24,6 @@ public class SlotAmmo extends Slot
 	@SideOnly(Side.CLIENT)
     public Icon getBackgroundIconIndex()
     {
-		return ItemAmmo.slotIcon;
+		return ItemIronArrow.slotIcon;
     }
 }

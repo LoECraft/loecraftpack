@@ -14,7 +14,7 @@ import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityTimberWolf;
-import loecraftpack.common.items.ItemAmmo;
+import loecraftpack.common.items.ItemIronArrow;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
 import loecraftpack.common.items.ItemCrystalHeart;
@@ -120,7 +120,7 @@ public class LoECraftPack
 	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(676)).setUnlocalizedName("racial");
 	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(677)).setUnlocalizedName("necklace");
 	public static final ItemRing itemRing = (ItemRing)(new ItemRing(678)).setUnlocalizedName("ring");
-	public static final ItemAmmo itemAmmo = (ItemAmmo)(new ItemAmmo(679)).setUnlocalizedName("ammo");
+	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(679)).setUnlocalizedName("ammo");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);

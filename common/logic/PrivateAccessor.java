@@ -8,19 +8,52 @@ import java.lang.reflect.Method;
  */
 public class PrivateAccessor {
 	
+	
+	/**
+	 * shortened form of getPrivateObject(Class sourceClass, Object instance, String name)
+	 * the instances class must be where the Object/Variable is declared
+	 */
 	public static Object getPrivateObject(Object instance, String name)
 	{
 		return getPrivateObject(instance.getClass(), instance, name);
 	}
 	
+	/**
+	 * Acquires the contents of the Field
+	 * @param sourceClass - where the variable/object is declared
+	 * @param instance - the instance containing it
+	 * @param name - name of the Field
+	 * @return - contents of the Field
+	 */
 	public static Object getPrivateObject(Class sourceClass, Object instance, String name)
+	{
+		try 
+		{
+			return getPrivateField(sourceClass, name).get(instance);
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Attempts to return the field it's-self so that you can interact with it freely
+	 * @param sourceClass - where the Field is declared
+	 * @param name - name of the Field
+	 * @return - the Field
+	 */
+	public static Field getPrivateField(Class sourceClass, String name)
 	{
 		Field hold;
 		try
 		{
 			hold = sourceClass.getDeclaredField(name);
 			hold.setAccessible(true);
-			return hold.get(instance);
+			return hold;
 		}
 		catch (NoSuchFieldException e) {
 			e.printStackTrace();
@@ -30,14 +63,19 @@ public class PrivateAccessor {
 		} 
 		catch (IllegalArgumentException e) {
 			e.printStackTrace();
-		} 
-		catch (IllegalAccessException e) {
-			e.printStackTrace();
 		}
 		
 		return null;
 	}
 	
+	/**
+	 * Set the content of a Field
+	 * @param sourceClass - where the Field is declared
+	 * @param instance - the instance containing it
+	 * @param varName - name of the Field
+	 * @param value - the contents to set it to.
+	 * @return - whether or not it succeeded
+	 */
 	public static boolean setPrivateVariable(Class sourceClass, Object instance, String varName, Object value)
 	{
 		try
