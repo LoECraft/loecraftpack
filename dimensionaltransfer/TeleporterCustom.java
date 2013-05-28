@@ -3,7 +3,7 @@ package loecraftpack.dimensionaltransfer;
 import java.util.Iterator;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.common.logic.PrivateAccessor;
+import loecraftpack.accessors.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;

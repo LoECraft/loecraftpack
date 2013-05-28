@@ -1,4 +1,4 @@
-package loecraftpack.common.logic;
+package loecraftpack.accessors;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

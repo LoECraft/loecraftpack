@@ -1,6 +1,6 @@
 package loecraftpack.common.entity;
 
-import loecraftpack.common.logic.PrivateAccessor;
+import loecraftpack.accessors.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;

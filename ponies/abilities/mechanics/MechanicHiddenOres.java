@@ -2,7 +2,7 @@ package loecraftpack.ponies.abilities.mechanics;
 
 import java.util.List;
 
-import loecraftpack.common.logic.PrivateAccessor;
+import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.WorldRenderer;
