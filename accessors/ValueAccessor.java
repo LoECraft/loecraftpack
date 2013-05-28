@@ -5,13 +5,22 @@ public class ValueAccessor<T>
 	protected FieldAccessor<T> field;
 	protected Object instance;
 	
+	/**
+	 * create non-static value access
+	 * @param instance - instance it's delacared in.
+	 * @param field - static FieldAccessor.
+	 */
 	ValueAccessor(Object instance, FieldAccessor<T> field)
 	{
 		this.instance = instance;
 		this.field = field;
 	}
 	
-	//for static fields
+	/**
+	 * create static value access
+	 * @param sourceClass - the class it's declared in.
+	 * @param name - the name of the field
+	 */
 	ValueAccessor(Class sourceClass, String name)
 	{
 		this.instance = null;
@@ -28,11 +37,17 @@ public class ValueAccessor<T>
 		return field.get(instance);
 	}
 	
+	/**
+	 * Usable by: Integer, Float, Double, Long
+	 */
 	public T Increment()
 	{
 		return field.Increment(instance);
 	}
 	
+	/**
+	 * Usable by: Integer, Float, Double, Long
+	 */
 	public T Decrement()
 	{
 		return field.Decrement(instance);

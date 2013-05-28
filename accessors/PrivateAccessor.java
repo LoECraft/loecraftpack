@@ -41,7 +41,8 @@ public class PrivateAccessor {
 	}
 	
 	/**
-	 * Attempts to return the field it's-self so that you can interact with it freely
+	 * Attempts to return the field it's-self so that you can interact with it freely.
+	 * Use FieldAccessor and ValueAccessor to make using the field easier.
 	 * @param sourceClass - where the Field is declared
 	 * @param name - name of the Field
 	 * @return - the Field

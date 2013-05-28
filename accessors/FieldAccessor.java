@@ -7,6 +7,11 @@ public class FieldAccessor<T>
 {
 	protected Field field;
 	
+	/**
+	 * create a FieldAccessor to manage access to the field
+	 * @param sourceClass - the class it's declared in.
+	 * @param name - the name of the field
+	 */
 	FieldAccessor(Class sourceClass, String name)
 	{
 		field = PrivateAccessor.getPrivateField(sourceClass, name);
@@ -39,7 +44,9 @@ public class FieldAccessor<T>
 		return null;
 	}
 	
-	
+	/**
+	 * Usable by: Integer, Float, Double, Long
+	 */
 	public T Increment(Object instance)
 	{
 		T result = get(instance);
@@ -54,6 +61,9 @@ public class FieldAccessor<T>
 		return get(instance);
 	}
 	
+	/**
+	 * Usable by: Integer, Float, Double, Long
+	 */
 	public T Decrement(Object instance)
 	{
 		T result = get(instance);
