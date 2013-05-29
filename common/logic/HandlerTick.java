@@ -1,17 +1,28 @@
 package loecraftpack.common.logic;
 
 import java.util.EnumSet;
+import java.util.List;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
+import loecraftpack.ponies.inventory.InventoryCustom;
+import loecraftpack.ponies.inventory.InventoryId;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.common.DimensionManager;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
 public class HandlerTick implements ITickHandler {
+	
+	//used for server ticks
+	int autoEffectBuffer = 0;
+	int autoEffectBufferMax = 20;//one sec
 	
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {}
@@ -82,11 +93,36 @@ public class HandlerTick implements ITickHandler {
 				}//Object entry : tickData
 			}//tickData != null
 		}
+		if (type.contains(TickType.SERVER))
+		{
+			if(autoEffectBuffer++==0)
+			{
+				WorldServer[] worlds = MinecraftServer.getServer().worldServers;
+				for (int i=0; i<worlds.length; i++)
+				{
+					List<EntityPlayer> players = worlds[i].playerEntities;
+					for(EntityPlayer player : players)
+					{
+						InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
+						List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(player, inv);
+						if (accessorySlotIds!=null)
+							for (Integer accessorySlotId : accessorySlotIds)
+							{
+								ItemStack accessory = inv.getStackInSlot(accessorySlotId);
+								if (accessory != null)
+									((ItemAccessory)accessory.getItem()).applyWornEffect(player, inv, accessorySlotId, accessory);
+							}
+					}
+				}
+			}
+			else if (autoEffectBuffer>=autoEffectBufferMax)
+				autoEffectBuffer=0;
+		}
     }
 	
 	@Override
 	public EnumSet<TickType> ticks() {
-		return EnumSet.of(TickType.PLAYER);
+		return EnumSet.of(TickType.PLAYER, TickType.SERVER);
 	}
 
 	@Override

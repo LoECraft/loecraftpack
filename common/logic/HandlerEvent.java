@@ -32,6 +32,7 @@ import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -358,6 +359,20 @@ public class HandlerEvent
 						((ItemAccessory)accessory.getItem()).onDeath(event, player, inv, accessorySlotId, accessory);
 				}
 		}
+	}
+	
+	@ForgeSubscribe
+	public void onSleepEvent(PlayerSleepInBedEvent event)
+	{
+		InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(event.entityPlayer, InventoryId.Equipment);
+		List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(event.entityPlayer, inv);
+		if (accessorySlotIds!=null)
+			for (Integer accessorySlotId : accessorySlotIds)
+			{
+				ItemStack accessory = inv.getStackInSlot(accessorySlotId);
+				if (accessory != null)
+					((ItemAccessory)accessory.getItem()).onSleep(event, event.entityPlayer, inv, accessorySlotId, accessory);
+			}
 	}
 	
 	
