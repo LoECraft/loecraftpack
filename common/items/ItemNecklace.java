@@ -30,10 +30,5 @@ public class ItemNecklace extends ItemAccessory {
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotNecklace");
 	}
-	public void applyWornEffect(EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
-	{
-		System.out.println("Bling Bling");
-		
-	}
 
 }

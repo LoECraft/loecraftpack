@@ -8,6 +8,7 @@ public enum GuiIds
 	Quest,
 	Shop,
 	mainInv,
+	creativeInv,
 	SpecialInv,
 	EarthInv,
 }

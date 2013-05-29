@@ -23,6 +23,8 @@ import loecraftpack.common.items.ItemIronArrow;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
 import loecraftpack.common.items.ItemNecklace;
+import loecraftpack.common.items.ItemNecklaceOfBling;
+import loecraftpack.common.items.ItemNecklaceOfDreams;
 import loecraftpack.common.items.ItemPickaxeGem;
 import loecraftpack.common.items.ItemRacial;
 import loecraftpack.common.items.ItemRing;
@@ -120,9 +122,11 @@ public class LoECraftPack
 	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(675)).setUnlocalizedName("cyrstalheart");
 	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(676)).setUnlocalizedName("racial");
 	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(677)).setUnlocalizedName("necklace");
-	public static final ItemRing itemRing = (ItemRing)(new ItemRing(678)).setUnlocalizedName("ring");
-	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(679)).setUnlocalizedName("ringlife");
-	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(680)).setUnlocalizedName("ammo");
+	public static final ItemNecklaceOfDreams itemNecklaceOfDreams = (ItemNecklaceOfDreams)(new ItemNecklaceOfDreams(678)).setUnlocalizedName("necklacedream");
+	public static final ItemNecklaceOfBling itemNecklaceOfBling = (ItemNecklaceOfBling)(new ItemNecklaceOfBling(679)).setUnlocalizedName("necklacebling");
+	public static final ItemRing itemRing = (ItemRing)(new ItemRing(680)).setUnlocalizedName("ring");
+	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(681)).setUnlocalizedName("ringlife");
+	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(682)).setUnlocalizedName("ammo");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);

@@ -3,13 +3,10 @@ package loecraftpack.ponies.inventory;
 import java.util.HashMap;
 import java.util.Map;
 
-import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
-import cpw.mods.fml.common.network.Player;
 
 public class HandlerExtendedInventoryServer
 {

@@ -8,8 +8,12 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.EntityInteractEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.minecraftforge.event.entity.player.UseHoeEvent;
 
 public abstract class ItemAccessory extends Item {
 
@@ -43,6 +47,11 @@ public abstract class ItemAccessory extends Item {
 	public void onDeath(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
 	
 	/**
+	 * what, if anything, occurs when the player dies while wearing this accessory
+	 */
+	public void onSpawn(LivingSpawnEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
+	
+	/**
 	 * what, if anything, occurs when the player picks up an item while wearing this accessory
 	 */
 	public void onPickup(EntityItemPickupEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
@@ -52,6 +61,19 @@ public abstract class ItemAccessory extends Item {
 	 */
 	public void onSleep(PlayerSleepInBedEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
 	
+	/**
+	 * what, if anything, occurs when the player interacts with another entity while wearing this accessory
+	 */
+	public void onSocialize(EntityInteractEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
 	
+	/**
+	 * what, if anything, occurs when the player interacts with another entity while wearing this accessory
+	 */
+	public void onBrutalize(AttackEntityEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
+	
+	/**
+	 * what, if anything, occurs when the player uses a hoe while wearing this accessory
+	 */
+	public void onHoe(UseHoeEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
 
 }

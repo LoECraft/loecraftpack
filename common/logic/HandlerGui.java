@@ -13,6 +13,8 @@ import loecraftpack.ponies.inventory.ContainerEarthInventory;
 import loecraftpack.ponies.inventory.ContainerSpecialEquipment;
 import loecraftpack.ponies.inventory.GuiEarthPonyInventory;
 import loecraftpack.ponies.inventory.GuiSpecialEquipment;
+import net.minecraft.client.gui.inventory.ContainerCreative;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -32,10 +34,16 @@ public class HandlerGui implements IGuiHandler
 					if(tileEntity instanceof TileProjectTable)
 						return new ContainerProjectTable(player.inventory, (TileProjectTable)tileEntity, world, x, y, z);
 					break;
+					
 				case mainInv:
 					return player.inventoryContainer;
+					
+				case creativeInv:
+					return new ContainerCreative(player);
+					
 				case SpecialInv:
 					return new ContainerSpecialEquipment(player);
+					
 				case EarthInv:
 					return new ContainerEarthInventory(player);
 			}
@@ -71,6 +79,9 @@ public class HandlerGui implements IGuiHandler
 	            
 			case mainInv:
 				return new GuiInventory(player);
+				
+			case creativeInv:
+				return new GuiContainerCreative(player);
 				
 			case SpecialInv:
 				return new GuiSpecialEquipment(player);

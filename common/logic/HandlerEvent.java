@@ -28,6 +28,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -357,6 +358,24 @@ public class HandlerEvent
 					ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 					if (accessory != null)
 						((ItemAccessory)accessory.getItem()).onDeath(event, player, inv, accessorySlotId, accessory);
+				}
+		}
+	}
+	
+	@ForgeSubscribe
+	public void onSpawnEvent(LivingSpawnEvent event)
+	{
+		if (event.entityLiving instanceof EntityPlayer)
+		{
+			EntityPlayer player = (EntityPlayer)event.entityLiving;
+			InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
+			List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(player, inv);
+			if (accessorySlotIds!=null)
+				for (Integer accessorySlotId : accessorySlotIds)
+				{
+					ItemStack accessory = inv.getStackInSlot(accessorySlotId);
+					if (accessory != null)
+						((ItemAccessory)accessory.getItem()).onSpawn(event, player, inv, accessorySlotId, accessory);
 				}
 		}
 	}
