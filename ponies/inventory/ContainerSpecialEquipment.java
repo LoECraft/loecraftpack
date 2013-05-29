@@ -1,5 +1,9 @@
 package loecraftpack.ponies.inventory;
 
+import loecraftpack.common.items.IRacialItem;
+import loecraftpack.common.items.ItemIronArrow;
+import loecraftpack.common.items.ItemNecklace;
+import loecraftpack.common.items.ItemRing;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -58,8 +62,6 @@ public class ContainerSpecialEquipment extends Container {
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer)
 	{
-		/*if (specialInv!=null && !specialInv.validInventory())
-			return false;*/
 		return true;
 	}
 	
@@ -77,22 +79,50 @@ public class ContainerSpecialEquipment extends Container {
             {
             	if (!this.mergeItemStack(itemstack1, slotCount, 36+slotCount, false))
             	{
-                return null;
+            		return null;
             	}
             }
-            else if (par2 >= slotCount && par2 < 27+slotCount)
+            else
             {
-                if (!this.mergeItemStack(itemstack1, 0, slotCount, false))
-                {
-                    return null;
-                }
-            }
-            else if (par2 >= 27+slotCount && par2 < 36+slotCount)
-            {
-                if (!this.mergeItemStack(itemstack1, 0, 27+slotCount, true))
-                {
-                    return null;
-                }
+            	boolean flag = true;
+            	if (itemstack1.getItem() instanceof IRacialItem)
+	            {
+	                if (this.mergeItemStack(itemstack1, 0, 1, false))
+	                	flag = false;
+	            }
+            	else if (itemstack1.getItem() instanceof ItemNecklace)
+	            {
+	                if (this.mergeItemStack(itemstack1, 1, 2, false))
+	                	flag = false;
+	            }
+            	else if (itemstack1.getItem() instanceof ItemRing)
+	            {
+            		if (this.mergeItemStack(itemstack1, 2, 4, false))
+	                	flag = false;
+	            }
+            	else if (itemstack1.getItem() instanceof ItemIronArrow)
+	            {
+	                if (this.mergeItemStack(itemstack1, 4, 5, false))
+	                	flag = false;
+	            }
+            	
+            	if(flag)
+            	{
+		            if (par2 >= slotCount && par2 < 27+slotCount)
+		            {
+		                if (!this.mergeItemStack(itemstack1, 27+slotCount, 36+slotCount, false))
+		                {
+		                    return null;
+		                }
+		            }
+		            else if (par2 >= 27+slotCount && par2 < 36+slotCount)
+		            {
+		                if (!this.mergeItemStack(itemstack1, 0, 27+slotCount, true))
+		                {
+		                    return null;
+		                }
+		            }
+            	}
             }
             
 

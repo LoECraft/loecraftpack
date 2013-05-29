@@ -19,6 +19,7 @@ public abstract class ItemAccessory extends Item {
 
 	public ItemAccessory(int par1) {
 		super(par1);
+		this.setMaxStackSize(1);
 	}
 	
 	/**

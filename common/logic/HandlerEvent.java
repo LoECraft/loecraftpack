@@ -197,11 +197,10 @@ public class HandlerEvent
 				{
 					if (!entityPlayer.worldObj.isRemote)
 					{
+						//testing code: ore vision
 						PotionEffect effect = entityPlayer.getActivePotionEffect(LoECraftPack.potionOreVision);
 						if (effect!= null)
 						{
-							System.out.println("hi");
-							
 							entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, effect.getAmplifier()+1));
 						}
 						else
@@ -210,6 +209,7 @@ public class HandlerEvent
 				}
 				if (event.action == Action.RIGHT_CLICK_BLOCK)
 				{
+					//Testing code: ore generation
 					int countR = 0;
 					int countC = 0;
 					Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
@@ -237,6 +237,7 @@ public class HandlerEvent
 					 entityPlayer.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
 					 event.action == Action.LEFT_CLICK_BLOCK)
 			{
+				//testing code: teleport to skyland
 				TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLands, LoECraftPack.SkylandDimensionID);
 				TeleporterCustom.teleporterSkyLands.travelToDimension(event.entityPlayer);
 				event.setResult(Result.DENY);
@@ -356,8 +357,7 @@ public class HandlerEvent
 				for (Integer accessorySlotId : accessorySlotIds)
 				{
 					ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-					if (accessory != null)
-						((ItemAccessory)accessory.getItem()).onDeath(event, player, inv, accessorySlotId, accessory);
+					((ItemAccessory)accessory.getItem()).onDeath(event, player, inv, accessorySlotId, accessory);
 				}
 		}
 	}
@@ -374,8 +374,7 @@ public class HandlerEvent
 				for (Integer accessorySlotId : accessorySlotIds)
 				{
 					ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-					if (accessory != null)
-						((ItemAccessory)accessory.getItem()).onSpawn(event, player, inv, accessorySlotId, accessory);
+					((ItemAccessory)accessory.getItem()).onSpawn(event, player, inv, accessorySlotId, accessory);
 				}
 		}
 	}
@@ -389,8 +388,7 @@ public class HandlerEvent
 			for (Integer accessorySlotId : accessorySlotIds)
 			{
 				ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-				if (accessory != null)
-					((ItemAccessory)accessory.getItem()).onSleep(event, event.entityPlayer, inv, accessorySlotId, accessory);
+				((ItemAccessory)accessory.getItem()).onSleep(event, event.entityPlayer, inv, accessorySlotId, accessory);
 			}
 	}
 	
