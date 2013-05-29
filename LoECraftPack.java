@@ -14,18 +14,19 @@ import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityTimberWolf;
-import loecraftpack.common.items.ItemIronArrow;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
 import loecraftpack.common.items.ItemCrystalHeart;
 import loecraftpack.common.items.ItemGemStones;
 import loecraftpack.common.items.ItemHiddenOre;
+import loecraftpack.common.items.ItemIronArrow;
 import loecraftpack.common.items.ItemLeavesAppleBloom;
 import loecraftpack.common.items.ItemMusicDisc;
 import loecraftpack.common.items.ItemNecklace;
 import loecraftpack.common.items.ItemPickaxeGem;
 import loecraftpack.common.items.ItemRacial;
 import loecraftpack.common.items.ItemRing;
+import loecraftpack.common.items.ItemRingLife;
 import loecraftpack.common.items.ItemZapApple;
 import loecraftpack.common.items.ItemZapAppleJam;
 import loecraftpack.common.logic.HandlerColoredBed;
@@ -120,7 +121,8 @@ public class LoECraftPack
 	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(676)).setUnlocalizedName("racial");
 	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(677)).setUnlocalizedName("necklace");
 	public static final ItemRing itemRing = (ItemRing)(new ItemRing(678)).setUnlocalizedName("ring");
-	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(679)).setUnlocalizedName("ammo");
+	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(679)).setUnlocalizedName("ringlife");
+	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(680)).setUnlocalizedName("ammo");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
@@ -184,6 +186,11 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
 		LanguageRegistry.instance().addStringLocalization("item.pickaxeGem.name", "Gem Pickaxe");
 		LanguageRegistry.addName(itemCrystalHeart, "Crystal Heart Container");
+		LanguageRegistry.addName(itemRacial, "Racial");
+		LanguageRegistry.addName(itemNecklace, "Necklace");
+		LanguageRegistry.addName(itemRing, "Ring");
+		LanguageRegistry.addName(itemRingLife, "Life Ring");
+		LanguageRegistry.addName(itemAmmo, "Ammo");
 		
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");

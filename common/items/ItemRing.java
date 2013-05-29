@@ -1,14 +1,15 @@
 package loecraftpack.common.items;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.common.logic.HandlerColoredBed;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.util.Icon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.item.Item;
-import net.minecraft.util.Icon;
 
-public class ItemRing extends Item {
+/**
+ * Plain ring
+ */
+public class ItemRing extends ItemAccessory {
 	
 	public static Icon slotIcon;
 
@@ -26,5 +27,4 @@ public class ItemRing extends Item {
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotRing");
 	}
-
 }

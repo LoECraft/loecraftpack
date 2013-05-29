@@ -12,7 +12,7 @@ public class FieldAccessor<T>
 	 * @param sourceClass - the class it's declared in.
 	 * @param name - the name of the field
 	 */
-	FieldAccessor(Class sourceClass, String name)
+	public FieldAccessor(Class sourceClass, String name)
 	{
 		field = PrivateAccessor.getPrivateField(sourceClass, name);
 	}

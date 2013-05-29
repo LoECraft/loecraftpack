@@ -1,26 +1,12 @@
 package loecraftpack.ponies.inventory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
-
-import loecraftpack.common.gui.GuiIds;
-import loecraftpack.enums.Race;
-import loecraftpack.packet.PacketHelper;
-import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.stats.StatHandlerServer;
+import loecraftpack.common.items.ItemAccessory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.src.ModLoader;
 
 public class HandlerExtendedInventoryCommon
 {
@@ -61,5 +47,23 @@ public class HandlerExtendedInventoryCommon
 		{
 			return HandlerExtendedInventoryServer.getInventory(player, id);
 		}
+	}
+	
+	/**
+	 * get the inventory position of any existing Accessories
+	 */
+	public static List<Integer> getAccessorySlotIds(EntityPlayer player, InventoryCustom inv)
+	{
+		List<Integer> accessorySlotIds = new ArrayList<Integer>();
+		ItemStack targetItem;
+		for(int i=0; i<inv.getSizeInventory(); i++)
+		{
+			targetItem = inv.getStackInSlot(i);
+			if (targetItem != null && (targetItem.getItem() instanceof ItemAccessory))
+				accessorySlotIds.add(i);
+		}
+		if (accessorySlotIds.size()>0)
+			return accessorySlotIds;
+		return null;
 	}
 }

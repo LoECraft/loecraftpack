@@ -26,8 +26,15 @@ public class SlotAccessory extends Slot
 	
 	public boolean isItemValid(ItemStack itemStack)
     {
-		//is Accessory?
-		return true;
+		switch (type)
+		{
+		case 0:
+			return itemStack.getItem() instanceof ItemNecklace;
+		case 1:
+			return itemStack.getItem() instanceof ItemRing;
+		default:
+			return true;
+		}
     }
 	
 	@SideOnly(Side.CLIENT)
