@@ -15,12 +15,10 @@ public class HandlerExtendedInventoryCommon
 	{
 		if(player.worldObj.isRemote)
 		{
-			System.out.println("Remote inv");
 			return HandlerExtendedInventoryClient.getInventory(player, id);
 		}
 		else
 		{
-			System.out.println("local inv");
 			return HandlerExtendedInventoryServer.getInventory(player, id);
 		}
 	}

@@ -16,10 +16,13 @@ public class PotionOreVision extends Potion {
 	
 	public void performEffect(EntityLiving entityLiving, int level)
 	{
-		if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.entityId == entityLiving.entityId)
+		if (entityLiving.worldObj.isRemote)
 		{
-			MechanicHiddenOres.revealHiddenGems = true;
-			MechanicHiddenOres.powerLevel = level;
+			if (Minecraft.getMinecraft().thePlayer != null && Minecraft.getMinecraft().thePlayer.entityId == entityLiving.entityId)
+			{
+				MechanicHiddenOres.revealHiddenGems = true;
+				MechanicHiddenOres.powerLevel = level;
+			}
 		}
 	}
 	
