@@ -37,6 +37,8 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class HandlerEvent
 {
@@ -339,6 +341,7 @@ public class HandlerEvent
 		TeleporterCustom.clearTeleporters(event.world);
 	}
 	
+	@SideOnly(Side.CLIENT)
 	@ForgeSubscribe
 	public void onfinalRender(RenderWorldLastEvent event)
 	{

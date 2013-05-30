@@ -23,24 +23,24 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 
 	@SideOnly(Side.CLIENT)
-    public List<Icon[]> bedend = new ArrayList<Icon[]>();
+    public List<Icon[]> bedend;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedside = new ArrayList<Icon[]>();
+    public List<Icon[]> bedside;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedtop = new ArrayList<Icon[]>();
+    public List<Icon[]> bedtop;
     
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedPairTopLeft = new ArrayList<Icon[]>();
+    public List<Icon[]> bedPairTopLeft;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedPairEndLeft = new ArrayList<Icon[]>();
+    public List<Icon[]> bedPairEndLeft;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedPairSideLeft = new ArrayList<Icon[]>();
+    public List<Icon[]> bedPairSideLeft;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedPairTopRight = new ArrayList<Icon[]>();
+    public List<Icon[]> bedPairTopRight;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedPairEndRight = new ArrayList<Icon[]>();
+    public List<Icon[]> bedPairEndRight;
     @SideOnly(Side.CLIENT)
-    public List<Icon[]> bedPairSideRight = new ArrayList<Icon[]>();
+    public List<Icon[]> bedPairSideRight;
     
     public int renderID = 14;
     private int bedDropID = -1;//default is the null instance
@@ -64,16 +64,16 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 	@SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {
-		this.bedtop.clear();
-		this.bedend.clear();
-		this.bedside.clear();
+		this.bedtop = new ArrayList<Icon[]>();
+		this.bedend = new ArrayList<Icon[]>();
+		this.bedside = new ArrayList<Icon[]>();
 		
-		this.bedPairTopLeft.clear();
-		this.bedPairEndLeft.clear();
-		this.bedPairSideLeft.clear();
-		this.bedPairTopRight.clear();
-		this.bedPairEndRight.clear();
-		this.bedPairSideRight.clear();
+		this.bedPairTopLeft = new ArrayList<Icon[]>();
+		this.bedPairEndLeft = new ArrayList<Icon[]>();
+		this.bedPairSideLeft = new ArrayList<Icon[]>();
+		this.bedPairTopRight = new ArrayList<Icon[]>();
+		this.bedPairEndRight = new ArrayList<Icon[]>();
+		this.bedPairSideRight = new ArrayList<Icon[]>();
 		
 		for (String name : HandlerColoredBed.iconNames)
 		{

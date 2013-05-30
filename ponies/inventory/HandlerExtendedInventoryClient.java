@@ -24,58 +24,6 @@ public class HandlerExtendedInventoryClient
 {
 	static Map<String, InventorySpecial> playerSpecialInv = new HashMap<String, InventorySpecial>();
 	static Map<String, InventoryEarth> playerEarthInv = new HashMap<String, InventoryEarth>();
-	static List<String> players = new ArrayList<String>();
-	
-	
-	/**
-	 * Called by Common Class
-	 */
-	public static void AddPlayer(EntityPlayer player)
-	{
-		if (!players.contains(player.username))
-		{
-			if (player.entityId == Minecraft.getMinecraft().thePlayer.entityId)
-			{
-				//special equipment
-				if(!playerSpecialInv.containsKey(player.username))
-				{
-					System.out.println("added equip");
-					playerSpecialInv.put(player.username, new InventorySpecial());
-				}
-				
-				//extended earth inventory
-				if (StatHandlerServer.isRace(player, Race.Earth))
-				{
-					if(!playerEarthInv.containsKey(player.username))
-						playerEarthInv.put(player.username, new InventoryEarth());
-				}
-			}
-			else
-			{
-				//NOTE: only add foreign inventories that ThePlayer can interact with.
-				
-				//special equipment
-				if(!playerSpecialInv.containsKey(player.username))
-				{
-					System.out.println("added equip");
-					playerSpecialInv.put(player.username, new InventorySpecial());
-				}
-				
-				//mark as loaded
-				players.add(player.username);
-			}
-		}
-	}
-	
-	/**
-	 * Called by Common Class
-	 */
-	public static void removePlayer(EntityPlayer player)
-	{
-		playerSpecialInv.remove(player.username);
-		playerEarthInv.remove(player.username);
-		players.remove(player.username);
-	}
 	
 	/**
 	 * Called by Common Class

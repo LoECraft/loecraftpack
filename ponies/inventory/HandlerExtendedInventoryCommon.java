@@ -10,41 +10,17 @@ import net.minecraft.item.ItemStack;
 
 public class HandlerExtendedInventoryCommon
 {
-	public static void AddPlayer(EntityPlayer player)
-	{
-		if(player.worldObj.isRemote)
-			HandlerExtendedInventoryClient.AddPlayer(player);
-		else
-		{
-			HandlerExtendedInventoryServer.AddPlayer(player);
-			//single player
-			if (Minecraft.getMinecraft()!= null)
-				if (Minecraft.getMinecraft().thePlayer != null)
-					if (Minecraft.getMinecraft().thePlayer.entityId == player.entityId)
-						HandlerExtendedInventoryClient.AddPlayer(player);
-		}
-	}
-	
-	public static void removePlayer(EntityPlayer player)
-	{
-		if(player.worldObj.isRemote)
-			HandlerExtendedInventoryClient.removePlayer(player);
-		else
-		{
-			HandlerExtendedInventoryServer.SavePlayer(player);
-			//single player
-			HandlerExtendedInventoryClient.removePlayer(player);
-		}
-	}
 	
 	public static InventoryCustom getInventory(EntityPlayer player, InventoryId id)
 	{
 		if(player.worldObj.isRemote)
 		{
+			System.out.println("Remote inv");
 			return HandlerExtendedInventoryClient.getInventory(player, id);
 		}
 		else
 		{
+			System.out.println("local inv");
 			return HandlerExtendedInventoryServer.getInventory(player, id);
 		}
 	}

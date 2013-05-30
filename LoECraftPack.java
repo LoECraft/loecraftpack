@@ -34,7 +34,6 @@ import loecraftpack.common.items.ItemZapAppleJam;
 import loecraftpack.common.logic.HandlerColoredBed;
 import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
-import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.logic.HandlerTick;
 import loecraftpack.common.potions.PotionCharged;
@@ -46,10 +45,10 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -313,6 +312,6 @@ public class LoECraftPack
 	public void postLoad(FMLPostInitializationEvent e)
 	{
 		//TODO: POST-LOAD STUFF
-		Minecraft.getMinecraft().gameSettings.keyBindJump = HandlerKey.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
+		proxy.doProxyStuffPost();
 	}
 }

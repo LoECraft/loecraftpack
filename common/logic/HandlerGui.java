@@ -39,7 +39,8 @@ public class HandlerGui implements IGuiHandler
 					return player.inventoryContainer;
 					
 				case creativeInv:
-					return new ContainerCreative(player);
+					return player.inventoryContainer;
+					//return new ContainerCreative(player);
 					
 				case SpecialInv:
 					return new ContainerSpecialEquipment(player);

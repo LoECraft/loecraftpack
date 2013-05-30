@@ -17,14 +17,14 @@ public class HandlerPlayer implements IPlayerTracker
 		System.out.println(player.username+" says HI"+player.worldObj.isRemote);
 		LoECraftPack.StatHandler.AddPlayer(player);
 		LoECraftPack.StatHandler.setRace(player, Race.Alicorn);//for testing
-		HandlerExtendedInventoryCommon.AddPlayer(player);
+		HandlerExtendedInventoryServer.AddPlayer(player);
 	}
 
 	@Override
 	public void onPlayerLogout(EntityPlayer player)
 	{
 		LoECraftPack.StatHandler.SavePlayer(player);
-		HandlerExtendedInventoryCommon.removePlayer(player);
+		HandlerExtendedInventoryServer.SavePlayer(player);
 	}
 
 	@Override

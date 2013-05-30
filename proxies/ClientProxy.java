@@ -1,5 +1,6 @@
 package loecraftpack.proxies;
 
+import net.minecraft.client.Minecraft;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.blocks.render.RenderColoredBed;
@@ -35,5 +36,10 @@ public class ClientProxy extends CommonProxy
 		LoECraftPack.blockGemOre.renderID = renderHiddenOre.renderID;
 		RenderingRegistry.registerEntityRenderingHandler(EntityElectricBlock.class, renderEleBlock = new RenderElectricBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTimberWolf.class, new RenderTimberWolf(new ModelTimberWolf(), new ModelTimberWolf(), 0.5F));
+	}
+	
+	public void doProxyStuffPost()
+	{
+		Minecraft.getMinecraft().gameSettings.keyBindJump = HandlerKey.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
 	}
 }

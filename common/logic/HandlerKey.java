@@ -12,7 +12,6 @@ import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.inventory.GuiEarthPonyInventory;
 import loecraftpack.ponies.inventory.GuiSpecialEquipment;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryClient;
-import loecraftpack.ponies.inventory.InventoryId;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
@@ -110,8 +109,13 @@ public class HandlerKey extends KeyHandler
 					{
 						flag = true;
 					}
-					if (flag)	
-						HandlerExtendedInventoryClient.setNewScreen(id);
+					if (flag)
+					{
+						if(id == GuiIds.creativeInv)
+							Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
+						else
+							HandlerExtendedInventoryClient.setNewScreen(id);
+					}
 				}
 			}
 		}

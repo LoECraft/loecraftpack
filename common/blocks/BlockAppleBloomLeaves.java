@@ -35,7 +35,6 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	protected double growthRate = 30;//average of 41 minutes(real time) to reach the next stage
 	protected Icon icon[] = new Icon[4];
 	/**flags, etc.**/
-	@SideOnly(Side.CLIENT)
     protected int IconByGraphicsLevel;
 	protected int[] adjacentTreeBlocks;
 	protected static boolean sheared = false;
@@ -385,14 +384,12 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         return !this.graphicsLevel;
     }
 	
-	@SideOnly(Side.CLIENT)
 	public void setGraphicsLevel(boolean graphicsLevel)
     {
         this.graphicsLevel = graphicsLevel;
         this.IconByGraphicsLevel = graphicsLevel ? 0 : 1;
     }
-
-	@SideOnly(Side.CLIENT)
+	
 	public void findGraphicsLevel()
     {
 		setGraphicsLevel(Block.leaves.graphicsLevel);

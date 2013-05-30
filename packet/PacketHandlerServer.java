@@ -92,7 +92,7 @@ public class PacketHandlerServer implements IPacketHandler
             			{
             				//this allows the exception for reloading crafting inventory without closing it first, to be ignored.
             				//currently only one crafting inventory that applies.
-            				if (guiId != GuiIds.mainInv.ordinal())
+            				if (! (guiId == GuiIds.mainInv.ordinal() || guiId == GuiIds.creativeInv.ordinal()))
             					throw e;
             			}
             			break;
