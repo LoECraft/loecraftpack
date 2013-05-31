@@ -7,6 +7,7 @@ import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
+import loecraftpack.enums.LivingEventId;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
@@ -28,7 +29,9 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -351,49 +354,24 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onDeathEvent(LivingDeathEvent event)
 	{
-		if (event.entityLiving instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer)event.entityLiving;
-			InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
-			List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(player, inv);
-			if (accessorySlotIds!=null)
-				for (Integer accessorySlotId : accessorySlotIds)
-				{
-					ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-					((ItemAccessory)accessory.getItem()).onDeath(event, player, inv, accessorySlotId, accessory);
-				}
-		}
+		ItemAccessory.applyLivingEvent(event, LivingEventId.LivingDeath);
 	}
 	
 	@ForgeSubscribe
 	public void onSpawnEvent(LivingSpawnEvent event)
 	{
-		if (event.entityLiving instanceof EntityPlayer)
-		{
-			EntityPlayer player = (EntityPlayer)event.entityLiving;
-			InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
-			List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(player, inv);
-			if (accessorySlotIds!=null)
-				for (Integer accessorySlotId : accessorySlotIds)
-				{
-					ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-					((ItemAccessory)accessory.getItem()).onSpawn(event, player, inv, accessorySlotId, accessory);
-				}
-		}
+		ItemAccessory.applyLivingEvent(event, LivingEventId.LivingSpawn);
 	}
 	
 	@ForgeSubscribe
 	public void onSleepEvent(PlayerSleepInBedEvent event)
 	{
-		InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(event.entityPlayer, InventoryId.Equipment);
-		List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(event.entityPlayer, inv);
-		if (accessorySlotIds!=null)
-			for (Integer accessorySlotId : accessorySlotIds)
-			{
-				ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-				((ItemAccessory)accessory.getItem()).onSleep(event, event.entityPlayer, inv, accessorySlotId, accessory);
-			}
+		ItemAccessory.applyLivingEvent(event, LivingEventId.PlayerSleepInBed);
 	}
 	
-	
+	@ForgeSubscribe
+	public void onArrowLoose(ArrowLooseEvent event)
+	{
+		ItemAccessory.applyLivingEvent(event, LivingEventId.ArrowLoose);
+	}
 }

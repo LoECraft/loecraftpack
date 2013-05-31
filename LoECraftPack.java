@@ -29,6 +29,7 @@ import loecraftpack.common.items.ItemPickaxeGem;
 import loecraftpack.common.items.ItemRacial;
 import loecraftpack.common.items.ItemRing;
 import loecraftpack.common.items.ItemRingLife;
+import loecraftpack.common.items.ItemRingPhantomArrow;
 import loecraftpack.common.items.ItemZapApple;
 import loecraftpack.common.items.ItemZapAppleJam;
 import loecraftpack.common.logic.HandlerColoredBed;
@@ -45,7 +46,6 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
@@ -125,7 +125,8 @@ public class LoECraftPack
 	public static final ItemNecklaceOfBling itemNecklaceOfBling = (ItemNecklaceOfBling)(new ItemNecklaceOfBling(679)).setUnlocalizedName("necklacebling");
 	public static final ItemRing itemRing = (ItemRing)(new ItemRing(680)).setUnlocalizedName("ring");
 	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(681)).setUnlocalizedName("ringlife");
-	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(682)).setUnlocalizedName("ammo");
+	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(682)).setUnlocalizedName("ringphantomarrow");
+	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(683)).setUnlocalizedName("ammo");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
@@ -191,8 +192,11 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemCrystalHeart, "Crystal Heart Container");
 		LanguageRegistry.addName(itemRacial, "Racial");
 		LanguageRegistry.addName(itemNecklace, "Necklace");
+		LanguageRegistry.addName(itemNecklaceOfDreams, "Necklace Of Dreams");
+		LanguageRegistry.addName(itemNecklaceOfBling, "Necklace Of Bling");
 		LanguageRegistry.addName(itemRing, "Ring");
 		LanguageRegistry.addName(itemRingLife, "Life Ring");
+		LanguageRegistry.addName(itemRingPhantomArrow, "Ring of Phantom Arrows");
 		LanguageRegistry.addName(itemAmmo, "Ammo");
 		
 		//Blocks

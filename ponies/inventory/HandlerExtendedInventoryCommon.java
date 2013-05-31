@@ -26,7 +26,7 @@ public class HandlerExtendedInventoryCommon
 	/**
 	 * get the inventory position of any existing Accessories
 	 */
-	public static List<Integer> getAccessorySlotIds(EntityPlayer player, InventoryCustom inv)
+	public static List<Integer> getAccessorySlotIds(InventoryCustom inv)
 	{
 		List<Integer> accessorySlotIds = new ArrayList<Integer>();
 		ItemStack targetItem;

@@ -55,6 +55,22 @@ public class HandlerTick implements ITickHandler {
 				        		TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsRising, LoECraftPack.SkylandDimensionID);
 								TeleporterCustom.teleporterSkyLandsRising.travelToDimension(player);
 				        	}
+				        	
+				        	if(autoEffectBuffer++==0)
+							{
+				        		//apply auto effect for accessories
+					        	InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
+								List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(inv);
+								if (accessorySlotIds!=null)
+									for (Integer accessorySlotId : accessorySlotIds)
+									{
+										ItemStack accessory = inv.getStackInSlot(accessorySlotId);
+										if (accessory != null)
+											((ItemAccessory)accessory.getItem()).applyWornEffect(player, inv, accessorySlotId, accessory);
+									}
+				        	}
+							else if (autoEffectBuffer>=autoEffectBufferMax)
+								autoEffectBuffer=0;
 			        	}
 			        	else //client
 			        	{
@@ -93,36 +109,11 @@ public class HandlerTick implements ITickHandler {
 				}//Object entry : tickData
 			}//tickData != null
 		}
-		if (type.contains(TickType.SERVER))
-		{
-			if(autoEffectBuffer++==0)
-			{
-				WorldServer[] worlds = MinecraftServer.getServer().worldServers;
-				for (int i=0; i<worlds.length; i++)
-				{
-					List<EntityPlayer> players = worlds[i].playerEntities;
-					for(EntityPlayer player : players)
-					{
-						InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
-						List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(player, inv);
-						if (accessorySlotIds!=null)
-							for (Integer accessorySlotId : accessorySlotIds)
-							{
-								ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-								if (accessory != null)
-									((ItemAccessory)accessory.getItem()).applyWornEffect(player, inv, accessorySlotId, accessory);
-							}
-					}
-				}
-			}
-			else if (autoEffectBuffer>=autoEffectBufferMax)
-				autoEffectBuffer=0;
-		}
     }
 	
 	@Override
 	public EnumSet<TickType> ticks() {
-		return EnumSet.of(TickType.PLAYER, TickType.SERVER);
+		return EnumSet.of(TickType.PLAYER);
 	}
 
 	@Override
