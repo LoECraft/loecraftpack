@@ -3,7 +3,6 @@ package loecraftpack.common.entity;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -33,7 +32,7 @@ public class EntityPhantomArrow extends EntityCustomArrow {
     	setDamage(1.0);
     }
 
-    public EntityPhantomArrow(World par1World, EntityLiving par2EntityLiving, float par3, Random rand)
+    public EntityPhantomArrow(World par1World, EntityLiving par2EntityLiving, float par3, Random rand, float angle)
     {
     	super(par1World);
     	setDamage(1.0);
@@ -55,10 +54,17 @@ public class EntityPhantomArrow extends EntityCustomArrow {
         this.motionY = (double)(-MathHelper.sin(this.rotationPitch / 180.0F * (float)Math.PI));
         this.setThrowableHeading(this.motionX, this.motionY, this.motionZ, par3 * 1.5F, 1.0F);
         
-        float h = (rand.nextFloat()-0.5f);
-        float v = (rand.nextFloat()-0.5f);
-        this.posX -= (double)(MathHelper.cos((this.rotationYaw+90.0f) / 180.0F * (float)Math.PI) * 0.32F)*h;
-        this.posY += 0.32f*v;
-        this.posZ -= (double)(MathHelper.sin((this.rotationYaw+90.0f) / 180.0F * (float)Math.PI) * 0.32F)*h;
+        
+        float d = rand.nextFloat()*0.5f+0.4f;
+        float h = MathHelper.cos(angle)*d;
+        float v = MathHelper.sin(angle)*d;
+        
+        double xMove = -(double)(MathHelper.cos((this.rotationYaw) / 180.0F * (float)Math.PI) );
+        double zMove = (double)(MathHelper.sin((this.rotationYaw) / 180.0F * (float)Math.PI) );
+        
+        this.posX -= xMove * h;
+        this.posY += v;
+        this.posZ -= zMove * h;
+        this.setPosition(this.posX, this.posY, this.posZ);
     }
 }
