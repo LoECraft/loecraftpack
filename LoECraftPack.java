@@ -13,6 +13,7 @@ import loecraftpack.common.blocks.BlockZapAppleSapling;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
@@ -236,6 +237,7 @@ public class LoECraftPack
 		//Entities
 		EntityRegistry.registerGlobalEntityID(EntityTimberWolf.class, "timberwolf", 100, 12422002, 5651507);
 		LanguageRegistry.instance().addStringLocalization("entity.timberwolf.name", "Timber Wolf");
+		EntityRegistry.registerModEntity(EntityPhantomArrow.class, "phantomarrow", 1, this, 50, 2, true);
 		
 		//World Generators/Biomes/Layers/dimensional stuff/ etc.
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);

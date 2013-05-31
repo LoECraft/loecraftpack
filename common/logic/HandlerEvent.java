@@ -1,24 +1,26 @@
 package loecraftpack.common.logic;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.entity.EntityCustomArrow;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.LivingEventId;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
-import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
-import loecraftpack.ponies.inventory.InventoryCustom;
-import loecraftpack.ponies.inventory.InventoryId;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
@@ -28,8 +30,8 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -45,6 +47,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class HandlerEvent
 {
+	static Method alertWolves = PrivateAccessor.getMethod(EntityPlayer.class, "alertWolves", EntityLiving.class, boolean.class);
+	
+	
+	
 	/*@ForgeSubscribe
 	public void onJump(LivingJumpEvent event)
 	{
@@ -351,6 +357,26 @@ public class HandlerEvent
         ClientProxy.renderHiddenOre.drawBlockPhantomTexture(event);
 	}
 	
+	@ForgeSubscribe
+    public void onLivingAttack(LivingAttackEvent event)
+    {
+		/**
+		 * Alert Wolves Code, for custom arrows
+		 */
+		if(event.entityLiving instanceof EntityPlayer)
+		{
+	    	Entity entity = event.source.getEntity();
+	        if (entity instanceof EntityCustomArrow && ((EntityCustomArrow)entity).shootingEntity != null)
+	        {
+	            entity = ((EntityArrow)entity).shootingEntity;
+	        }
+	        if (entity instanceof EntityLiving)
+	        {
+	        	PrivateAccessor.invokeMethod(alertWolves, ((EntityPlayer)event.entityLiving), (EntityLiving)entity, false);
+	        }
+		}
+    }
+    
 	@ForgeSubscribe
 	public void onDeathEvent(LivingDeathEvent event)
 	{

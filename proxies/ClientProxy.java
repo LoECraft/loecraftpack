@@ -40,7 +40,7 @@ public class ClientProxy extends CommonProxy
 		LoECraftPack.blockGemOre.renderID = renderHiddenOre.renderID;
 		RenderingRegistry.registerEntityRenderingHandler(EntityElectricBlock.class, renderEleBlock = new RenderElectricBlock());
 		RenderingRegistry.registerEntityRenderingHandler(EntityTimberWolf.class, new RenderTimberWolf(new ModelTimberWolf(), new ModelTimberWolf(), 0.5F));
-		RenderingRegistry.registerEntityRenderingHandler(EntityCustomArrow.class, new RenderArrow());
+		//RenderingRegistry.registerEntityRenderingHandler(EntityCustomArrow.class, new RenderArrow());
 		RenderingRegistry.registerEntityRenderingHandler(EntityPhantomArrow.class, new RenderPhantomArrow());
 	}
 	
