@@ -1,18 +1,27 @@
 package loecraftpack.common.entity.render;
 
 import loecraftpack.common.entity.EntityPedestal;
+import net.minecraft.client.model.ModelSkeletonHead;
+import net.minecraft.client.renderer.ImageBufferDownload;
+import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemSkull;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.StringUtils;
 
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
 
 public class RenderPedestal extends Render {
+	
+	private ModelSkeletonHead field_82396_c = new ModelSkeletonHead(0, 0, 64, 32);
+    private ModelSkeletonHead field_82395_d = new ModelSkeletonHead(0, 0, 64, 64);//zombie
 	
 	public void doRenderPedestal(EntityPedestal entity, double d0, double d1, double d2, float f, float f1) 
 	{
@@ -20,8 +29,64 @@ public class RenderPedestal extends Render {
 		
 		renderItem(entity, entity.boundingBox, d0, d1, d2);
 		
+		
 		this.loadTexture(entity.getTexture());
 		renderStand(entity.boundingBox, d0 - entity.lastTickPosX, d1 - entity.lastTickPosY, d2 - entity.lastTickPosZ);
+		
+        GL11.glPopMatrix();
+	}
+	
+	public void renderItem(EntityPedestal entity, AxisAlignedBB par0AxisAlignedBB, double xPos, double yPos, double zPos)
+	{
+		GL11.glPushMatrix();
+		ItemStack itemstack = entity.getDisplayedItem();
+
+        if (itemstack != null)
+        {
+        	if (itemstack.getItem() instanceof ItemSkull)
+        	{
+        		ItemSkull item = (ItemSkull)itemstack.getItem();
+        		this.renderSkull(entity, (float)xPos, (float)yPos, (float)zPos, itemstack.getItemDamage(), entity.name);
+        		GL11.glPopMatrix();
+        		return;
+        	}
+        	EntityItem entityitem = new EntityItem(entity.worldObj, xPos, yPos, zPos, itemstack);
+            entityitem.getEntityItem().stackSize = 1;
+            entityitem.hoverStart = 0.0F;
+            
+            //apply coords
+            GL11.glTranslatef((float)xPos, (float)yPos+0.5625f/*9 pixels*/, (float)zPos);
+            
+            GL11.glPushMatrix();
+            
+            //apply rotations
+            switch(entity.getDisplayMode())
+            {
+            case 0://static
+            	GL11.glRotatef((float)entity.getDisplayAngle(), 0.0F, 1.0F, 0.0F);
+            	break;
+            case 1://slow rotate
+	            GL11.glRotatef((float)entity.getDisplayAngle(), 0.0F, 1.0F, 0.0F);
+	            GL11.glRotatef(-10, 1.0F, 0.0F, 0.0F);
+	            GL11.glRotatef(-5, 0.0F, 0.0F, 1.0F);
+	            break;
+            case 2://follow closest player
+            	GL11.glRotatef((float)entity.getDisplayAngle(), 0.0F, 1.0F, 0.0F);
+            	GL11.glRotatef(  0  , 0.0F, 0.0F, 1.0F);
+            	break;
+            }
+            
+            
+            
+            //apply centering of item
+            GL11.glTranslatef(0.0F, -0.125F/*2 pixels*/, 0.0F);
+            
+            RenderItem.renderInFrame = true;
+        	RenderManager.instance.renderEntityWithPosYaw(entityitem, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        	RenderItem.renderInFrame = false;
+        	
+        	GL11.glPopMatrix();
+        }
 		
         GL11.glPopMatrix();
 	}
@@ -304,45 +369,96 @@ public class RenderPedestal extends Render {
         GL11.glDisable(GL11.GL_BLEND);
 	}
 	
-	public void renderItem(EntityPedestal entity, AxisAlignedBB par0AxisAlignedBB, double xPos, double yPos, double zPos)
-	{
-		GL11.glPushMatrix();
-		ItemStack itemstack = entity.getDisplayedItem();
+	public void renderSkull(EntityPedestal entity, float xPos, float yPos, float zPos, int type, String playerName)
+    {
+        ModelSkeletonHead modelskeletonhead = this.field_82396_c;
 
-        if (itemstack != null)
+        switch (type)
         {
-        	EntityItem entityitem = new EntityItem(entity.worldObj, xPos, yPos, zPos, itemstack);
-            entityitem.getEntityItem().stackSize = 1;
-            entityitem.hoverStart = 0.0F;
-            
-            //apply coords
-            GL11.glTranslatef((float)xPos, (float)yPos+0.5625f/*9 pixels*/, (float)zPos);
-            
-            GL11.glPushMatrix();
-            
-            //apply rotations
-            switch(entity.displayMode)
-            {
-            case 0://slow rotate
-	            GL11.glRotatef((float)entity.displayAngle, 0.0F, 1.0F, 0.0F);
-	            GL11.glRotatef(-10, 1.0F, 0.0F, 0.0F);
-	            GL11.glRotatef(-5, 0.0F, 0.0F, 1.0F);
-            }
-            
-            
-            
-            //apply centering of item
-            GL11.glTranslatef(0.0F, -0.125F/*2 pixels*/, 0.0F);
-            
-            RenderItem.renderInFrame = true;
-        	RenderManager.instance.renderEntityWithPosYaw(entityitem, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
-        	RenderItem.renderInFrame = false;
-        	
-        	GL11.glPopMatrix();
+            case 0:
+            default:
+                this.loadTexture("/mob/skeleton.png");
+                break;
+            case 1:
+                this.loadTexture("/mob/skeleton_wither.png");
+                break;
+            case 2:
+                this.loadTexture("/mob/zombie.png");
+                modelskeletonhead = this.field_82395_d;
+                break;
+            case 3:
+                if (playerName != null && playerName.length() > 0)
+                {
+                    String s1 = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes(playerName) + ".png";
+
+                    if (!this.renderManager.renderEngine.hasImageData(s1))
+                    {
+                    	this.renderManager.renderEngine.obtainImageData(s1, new ImageBufferDownload());
+                    }
+
+                    this.bindTextureByURL(s1, "/mob/char.png");
+                }
+                else
+                {
+                    this.loadTexture("/mob/char.png");
+                }
+
+                break;
+            case 4:
+                this.loadTexture("/mob/creeper.png");
         }
-		
+        
+        GL11.glDisable(GL11.GL_CULL_FACE);
+        
+        GL11.glTranslatef(xPos, yPos + 0.5F/*8 pixels*/, zPos);
+        
+        GL11.glPushMatrix();
+        
+        //apply rotations
+        switch(entity.getDisplayMode())
+        {
+        case 0://static
+        	GL11.glRotatef((float)entity.getDisplayAngle(), 0.0F, 1.0F, 0.0F);
+        	break;
+        case 1://slow rotate
+            GL11.glRotatef((float)entity.getDisplayAngle(), 0.0F, 1.0F, 0.0F);
+            GL11.glRotatef(-10, 1.0F, 0.0F, 0.0F);
+            GL11.glRotatef(-5, 0.0F, 0.0F, 1.0F);
+            break;
+        case 2://follow closest player
+        	GL11.glRotatef((float)entity.getDisplayAngle(), 0.0F, 1.0F, 0.0F);
+        	GL11.glRotatef(  0  , 0.0F, 0.0F, 1.0F);
+        	break;
+        }
+
+        float f4 = 0.0625F;
+        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GL11.glScalef(0.8F, -0.8F, -0.8F);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        modelskeletonhead.render((Entity)null, 0.0F, 0.0F, 0.0F, 0, 0.0F, f4);
+        
         GL11.glPopMatrix();
-	}
+        
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        
+    }
+	
+	/**
+     * Binds a texture that Minecraft will attempt to load from the given URL.  (arguments: url, localFallback)
+     */
+    protected void bindTextureByURL(String par1Str, String par2Str)
+    {
+        RenderEngine renderengine = this.renderManager.renderEngine;
+
+        if (renderengine != null)
+        {
+            GL11.glBindTexture(GL11.GL_TEXTURE_2D, renderengine.getTextureForDownloadableImage(par1Str, par2Str));
+        }
+
+        renderengine.resetBoundTexture();
+    }
+	
 	@Override
 	public void doRender(Entity entity, double d0, double d1, double d2, float f, float f1) 
 	{

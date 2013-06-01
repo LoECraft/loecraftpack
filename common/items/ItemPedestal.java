@@ -14,9 +14,9 @@ public class ItemPedestal extends Item {
 		this.setCreativeTab(LoECraftPack.LoECraftTab);
 	}
 	
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xCoord, int yCoord, int zCoord, int par7, float par8, float par9, float par10)
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xCoord, int yCoord, int zCoord, int side, float par8, float par9, float par10)
     {
-		if (!player.canPlayerEdit(xCoord, yCoord, zCoord, par7, itemStack))
+		if (!player.canPlayerEdit(xCoord, yCoord, zCoord, side, itemStack))
         {
             return false;
         }
@@ -28,7 +28,7 @@ public class ItemPedestal extends Item {
             return true;
         }
 		
-		EntityPedestal entity = new EntityPedestal(world, xCoord, yCoord, zCoord, par7);
+		EntityPedestal entity = new EntityPedestal(world, xCoord, yCoord, zCoord, side);
 		world.spawnEntityInWorld(entity);
 		return true;
     }

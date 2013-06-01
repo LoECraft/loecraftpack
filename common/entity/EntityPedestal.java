@@ -7,6 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class EntityPedestal extends Entity {
@@ -14,8 +15,8 @@ public class EntityPedestal extends Entity {
 	public int xPosition;
     public int yPosition;
     public int zPosition;
-    public int displayMode = 0;
-    public double displayAngle;
+    
+    public String name = null;
     
     
     private float itemDropChance = 1.0F;
@@ -23,8 +24,6 @@ public class EntityPedestal extends Entity {
     public EntityPedestal(World par1World)
     {
         super(par1World);
-        this.displayMode = 0;
-        this.displayAngle = 0;
         this.yOffset = 0.0F;
         this.setSize(0.75F, 0.8125F); // 12 x 13 pixils
     }
@@ -44,15 +43,22 @@ public class EntityPedestal extends Entity {
 	@Override
 	protected void entityInit()
     {
+		//display item
         this.getDataWatcher().addObjectByDataType(2, 5);
-        
-        //junk
-        //this.getDataWatcher().addObject(3, Byte.valueOf((byte)0));
+        //display mode
+        this.getDataWatcher().addObject(3, Byte.valueOf((byte)0));
+        //default angle
+        this.getDataWatcher().addObject(4, Integer.valueOf((byte)0));
+        //display angle
+        this.getDataWatcher().addObject(5, Integer.valueOf((byte)0));
+        //display angle sub
+        this.getDataWatcher().addObject(6, Integer.valueOf((byte)0));
     }
 	
 	@Override
 	public String getTexture()
     {
+		//TODO make this return based on a variable;
         return "/mods/loecraftpack/textures/blocks/decor/pedestal.png";
     }
 	
@@ -84,7 +90,16 @@ public class EntityPedestal extends Entity {
 	
 	public void onUpdate()
     {
-		displayAngle += 90/(20 * 4);
+		
+		
+		switch(getDisplayMode())
+		{
+		case 1://rotate slowly
+			setDisplayAngle( getDisplayAngle() + 90/(20 * 4) );
+			break;
+		case 2://track players
+			
+		}
     }
 	
     public boolean canBeCollidedWith()
@@ -92,7 +107,7 @@ public class EntityPedestal extends Entity {
         return true;
     }
     
-    public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+    public boolean attackEntityFrom(DamageSource damageSource, int par2)
     {
     	if (this.isEntityInvulnerable())
         {
@@ -101,14 +116,20 @@ public class EntityPedestal extends Entity {
         else
         {
             if (!this.isDead && !this.worldObj.isRemote)
-            {
+            {/*
+            	Entity source = damageSource.getSourceOfDamage();
+            	if (source instanceof EntityPlayer)
+            	{
+            		
+            	}*/
+            	
                 this.setDead();
                 this.setBeenAttacked();
                 EntityPlayer entityplayer = null;
 
-                if (par1DamageSource.getEntity() instanceof EntityPlayer)
+                if (damageSource.getEntity() instanceof EntityPlayer)
                 {
-                    entityplayer = (EntityPlayer)par1DamageSource.getEntity();
+                    entityplayer = (EntityPlayer)damageSource.getEntity();
                 }
 
                 if (entityplayer != null && entityplayer.capabilities.isCreativeMode)
@@ -147,7 +168,6 @@ public class EntityPedestal extends Entity {
 		this.xPosition = nbttagcompound.getInteger("TileX");
         this.yPosition = nbttagcompound.getInteger("TileY");
         this.zPosition = nbttagcompound.getInteger("TileZ");
-        this.displayAngle = nbttagcompound.getDouble("Direction");
 		
         //item code
         NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Item");
@@ -155,13 +175,17 @@ public class EntityPedestal extends Entity {
         if (nbttagcompound1 != null && !nbttagcompound1.hasNoTags())
         {
             this.setDisplayedItem(ItemStack.loadItemStackFromNBT(nbttagcompound1));
+            this.setDisplayMode(nbttagcompound.getByte("Mode"));
+            int angle = nbttagcompound.getInteger("Direction");
+            this.setDefaultAngle(angle);
+            this.setDisplayAngle(angle);
+            this.name = nbttagcompound.getString("SkullName");
         }
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) 
 	{
-		nbttagcompound.setDouble("Direction", this.displayAngle);
         nbttagcompound.setInteger("TileX", this.xPosition);
         nbttagcompound.setInteger("TileY", this.yPosition);
         nbttagcompound.setInteger("TileZ", this.zPosition);
@@ -170,13 +194,19 @@ public class EntityPedestal extends Entity {
         if (this.getDisplayedItem() != null)
         {
         	nbttagcompound.setCompoundTag("Item", this.getDisplayedItem().writeToNBT(new NBTTagCompound()));
+        	nbttagcompound.setByte("Mode", (byte)this.getDisplayMode());
+        	nbttagcompound.setInteger("Direction", this.getDefaultAngle());
+        	if (name != null)
+            	nbttagcompound.setString("SkullName", name);
         }
 	}
 	
 	
-	/***
-	 * item code
-	 */
+	/*********************/
+	/***** item code *****/
+	/*********************/
+	
+	
 	
 	public boolean isInRangeToRenderDist(double par1)
     {
@@ -197,8 +227,10 @@ public class EntityPedestal extends Entity {
             this.entityDropItem(itemstack, 0.0F);
         }
     }
-
-    public ItemStack getDisplayedItem()
+	
+	
+	
+	public ItemStack getDisplayedItem()
     {
         return this.getDataWatcher().getWatchableObjectItemStack(2);
     }
@@ -211,26 +243,84 @@ public class EntityPedestal extends Entity {
         this.getDataWatcher().updateObject(2, par1ItemStack);
         this.getDataWatcher().setObjectWatched(2);
     }
+	
+	public int getDisplayMode()
+	{
+		return this.getDataWatcher().getWatchableObjectByte(3);
+	}
+	
+	public void setDisplayMode(int par1)
+    {
+        this.getDataWatcher().updateObject(3, Byte.valueOf((byte)(par1 % 3)));
+    }
+	
+	public int getDefaultAngle()
+	{
+		return this.getDataWatcher().getWatchableObjectInt(4);
+	}
+	
+	public void setDefaultAngle(int par1)
+    {
+        this.getDataWatcher().updateObject(4, Integer.valueOf((par1)));
+    }
+	
+	public double getDisplayAngle()
+	{
+		return (double)this.getDataWatcher().getWatchableObjectInt(5)/100d;
+	}
+	
+	public void setDisplayAngle(double par1)
+    {
+        this.getDataWatcher().updateObject(5, Integer.valueOf((int)(par1*100)));
+    }
+	
+	public double getDisplayAngleSub()
+	{
+		return (double)this.getDataWatcher().getWatchableObjectInt(6)/100d;
+	}
+	
+	public void setDisplayAngleSub(double par1)
+    {
+        this.getDataWatcher().updateObject(6, Integer.valueOf((int)(par1*100)));
+    }
+
     
-    public boolean interact(EntityPlayer par1EntityPlayer)
+    
+    public boolean interact(EntityPlayer player)
     {
         if (this.getDisplayedItem() == null)
         {
-            ItemStack itemstack = par1EntityPlayer.getHeldItem();
+            ItemStack itemstack = player.getHeldItem();
 
             if (itemstack != null && !this.worldObj.isRemote)
             {
                 this.setDisplayedItem(itemstack);
-
-                if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+                
+                //used for when playerskulls are placed
+                if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("SkullOwner"))
                 {
-                    par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
+                    name = itemstack.getTagCompound().getString("SkullOwner");
+                }
+                
+                if (!player.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+                {
+                    player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
                 }
             }
         }
         else if (!this.worldObj.isRemote)
         {
-            //this.setItemRotation(this.getRotation() + 1);
+        	//change mode
+        	if (getDisplayMode()<2)
+        		setDisplayMode(getDisplayMode()+1);
+        	else
+        		setDisplayMode(0);
+        	
+        	//set default angle
+        	setDefaultAngle(180-(int)player.rotationYaw);
+        	
+        	//reset active position
+        	setDisplayAngle(getDefaultAngle());
         }
 
         return true;
