@@ -3,7 +3,11 @@ package loecraftpack.common.entity.render;
 import loecraftpack.common.entity.EntityPedestal;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 
 import org.lwjgl.opengl.GL11;
@@ -13,13 +17,16 @@ public class RenderPedestal extends Render {
 	public void doRenderPedestal(EntityPedestal entity, double d0, double d1, double d2, float f, float f1) 
 	{
 		GL11.glPushMatrix();
+		
+		renderItem(entity, entity.boundingBox, d0, d1, d2);
+		
 		this.loadTexture(entity.getTexture());
 		renderStand(entity.boundingBox, d0 - entity.lastTickPosX, d1 - entity.lastTickPosY, d2 - entity.lastTickPosZ);
-		//render Item
-		GL11.glPopMatrix();
+		
+        GL11.glPopMatrix();
 	}
 	
-	public void renderStand(AxisAlignedBB par0AxisAlignedBB, double par1, double par3, double par5)
+	public void renderStand(AxisAlignedBB par0AxisAlignedBB, double xPos, double yPos, double zPos)
 	{
 		Tessellator tessellator = Tessellator.instance;
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -40,7 +47,7 @@ public class RenderPedestal extends Render {
         float maxV = 0.9375f;
         
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 1.0F, 0.0F);
 
         tessellator.addVertexWithUV(maxX, maxY, maxZ, maxU, minV);
@@ -60,7 +67,7 @@ public class RenderPedestal extends Render {
         maxV = 0.9375f;
         
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, -1.0F, 0.0F);
 
         tessellator.addVertexWithUV(minX, minY, maxZ, maxU, minV);
@@ -80,7 +87,7 @@ public class RenderPedestal extends Render {
         maxV = 0.5f;
         
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(-1.0F, 0.0F, 0.0F);
 
         tessellator.addVertexWithUV(minX, maxY, maxZ, maxU, minV);
@@ -95,7 +102,7 @@ public class RenderPedestal extends Render {
          * side north
          */
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 0.0F, -1.0F);
 
         tessellator.addVertexWithUV(minX, maxY, minZ, maxU, minV);
@@ -110,7 +117,7 @@ public class RenderPedestal extends Render {
          * side east
          */
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(1.0F, 0.0F, 0.0F);
 
         tessellator.addVertexWithUV(maxX, maxY, minZ, maxU, minV);
@@ -125,7 +132,7 @@ public class RenderPedestal extends Render {
          * side south
          */
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 0.0F, 1.0F);
 
         tessellator.addVertexWithUV(maxX, maxY, maxZ, maxU, minV);
@@ -168,7 +175,7 @@ public class RenderPedestal extends Render {
          * glow west
          */
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(-1.0F, 0.0F, 0.0F);
         
         tessellator.addVertexWithUV(minX, minY, maxZ, maxU, minV);
@@ -183,7 +190,7 @@ public class RenderPedestal extends Render {
          * glow north
          */
     	tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 0.0F, -1.0F);
         
         tessellator.addVertexWithUV(minX, minY, minZ, maxU, minV);
@@ -198,7 +205,7 @@ public class RenderPedestal extends Render {
          * glow east
          */
     	tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(1.0F, 0.0F, 0.0F);
         
         tessellator.addVertexWithUV(maxX, minY, minZ, maxU, minV);
@@ -213,7 +220,7 @@ public class RenderPedestal extends Render {
          * glow south
          */
     	tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 0.0F, 1.0F);
         
         tessellator.addVertexWithUV(maxX, minY, maxZ, maxU, minV);
@@ -236,7 +243,7 @@ public class RenderPedestal extends Render {
          * glow west
          */
         tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(-1.0F, 0.0F, 0.0F);
         
         tessellator.addVertexWithUV(minX, maxY, maxZ, maxU, maxV);
@@ -251,7 +258,7 @@ public class RenderPedestal extends Render {
          * glow north
          */
     	tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 0.0F, -1.0F);
         
         tessellator.addVertexWithUV(minX, maxY, minZ, maxU, maxV);
@@ -266,7 +273,7 @@ public class RenderPedestal extends Render {
          * glow east
          */
     	tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(1.0F, 0.0F, 0.0F);
         
         tessellator.addVertexWithUV(maxX, maxY, minZ, maxU, maxV);
@@ -281,7 +288,7 @@ public class RenderPedestal extends Render {
          * glow south
          */
     	tessellator.startDrawingQuads();
-        tessellator.setTranslation(par1, par3, par5);
+        tessellator.setTranslation(xPos, yPos, zPos);
         tessellator.setNormal(0.0F, 0.0F, 1.0F);
         
         tessellator.addVertexWithUV(maxX, maxY, maxZ, maxU, maxV);
@@ -297,7 +304,45 @@ public class RenderPedestal extends Render {
         GL11.glDisable(GL11.GL_BLEND);
 	}
 	
-	
+	public void renderItem(EntityPedestal entity, AxisAlignedBB par0AxisAlignedBB, double xPos, double yPos, double zPos)
+	{
+		GL11.glPushMatrix();
+		ItemStack itemstack = entity.getDisplayedItem();
+
+        if (itemstack != null)
+        {
+        	EntityItem entityitem = new EntityItem(entity.worldObj, xPos, yPos, zPos, itemstack);
+            entityitem.getEntityItem().stackSize = 1;
+            entityitem.hoverStart = 0.0F;
+            
+            //apply coords
+            GL11.glTranslatef((float)xPos, (float)yPos+0.5625f/*9 pixels*/, (float)zPos);
+            
+            GL11.glPushMatrix();
+            
+            //apply rotations
+            switch(entity.displayMode)
+            {
+            case 0://slow rotate
+	            GL11.glRotatef((float)entity.displayAngle, 0.0F, 1.0F, 0.0F);
+	            GL11.glRotatef(-10, 1.0F, 0.0F, 0.0F);
+	            GL11.glRotatef(-5, 0.0F, 0.0F, 1.0F);
+            }
+            
+            
+            
+            //apply centering of item
+            GL11.glTranslatef(0.0F, -0.125F/*2 pixels*/, 0.0F);
+            
+            RenderItem.renderInFrame = true;
+        	RenderManager.instance.renderEntityWithPosYaw(entityitem, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        	RenderItem.renderInFrame = false;
+        	
+        	GL11.glPopMatrix();
+        }
+		
+        GL11.glPopMatrix();
+	}
 	@Override
 	public void doRender(Entity entity, double d0, double d1, double d2, float f, float f1) 
 	{

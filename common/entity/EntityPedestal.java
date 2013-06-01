@@ -14,13 +14,16 @@ public class EntityPedestal extends Entity {
 	public int xPosition;
     public int yPosition;
     public int zPosition;
+    public int displayMode = 0;
     public double displayAngle;
+    
     
     private float itemDropChance = 1.0F;
     
     public EntityPedestal(World par1World)
     {
         super(par1World);
+        this.displayMode = 0;
         this.displayAngle = 0;
         this.yOffset = 0.0F;
         this.setSize(0.75F, 0.8125F); // 12 x 13 pixils
@@ -33,7 +36,7 @@ public class EntityPedestal extends Entity {
         this.yPosition = yPos;
         this.zPosition = zPos;
         this.setPositionAdjacent(xPosition, yPosition, zPosition, side);
-        this.setDirection(side);
+        //this.setDirection(side);
         
         System.out.println("x:"+xPosition+" y:"+yPosition+" z:"+zPosition+" dir:"+side);
     }
@@ -42,6 +45,9 @@ public class EntityPedestal extends Entity {
 	protected void entityInit()
     {
         this.getDataWatcher().addObjectByDataType(2, 5);
+        
+        //junk
+        //this.getDataWatcher().addObject(3, Byte.valueOf((byte)0));
     }
 	
 	@Override
@@ -76,14 +82,9 @@ public class EntityPedestal extends Entity {
 		this.setPosition((double)xPos+0.5d, (double)yPos+0.0d, (double)zPos+0.5d);
 	}
 	
-	public void setDirection(int par1)
-	{
-		
-	}
-	
 	public void onUpdate()
     {
-		
+		displayAngle += 90/(20 * 4);
     }
 	
     public boolean canBeCollidedWith()
