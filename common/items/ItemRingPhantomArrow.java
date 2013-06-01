@@ -17,7 +17,7 @@ public class ItemRingPhantomArrow extends ItemRing {
 
 	public ItemRingPhantomArrow(int par1) {
 		super(par1);
-		this.setMaxDamage(640);
+		this.setMaxDamage(192);
 	}
 	
 	public void onArrowLoose(ArrowLooseEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)

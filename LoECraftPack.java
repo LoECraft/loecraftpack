@@ -13,6 +13,7 @@ import loecraftpack.common.blocks.BlockZapAppleSapling;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.entity.EntityPedestal;
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
 import loecraftpack.common.items.ItemBits;
@@ -26,6 +27,7 @@ import loecraftpack.common.items.ItemMusicDisc;
 import loecraftpack.common.items.ItemNecklace;
 import loecraftpack.common.items.ItemNecklaceOfBling;
 import loecraftpack.common.items.ItemNecklaceOfDreams;
+import loecraftpack.common.items.ItemPedestal;
 import loecraftpack.common.items.ItemPickaxeGem;
 import loecraftpack.common.items.ItemRacial;
 import loecraftpack.common.items.ItemRing;
@@ -118,16 +120,17 @@ public class LoECraftPack
 	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setUnlocalizedName("appleZap");
 	public static final ItemZapAppleJam itemZapAppleJam = (ItemZapAppleJam)(new ItemZapAppleJam(672, 4, 1.2F, false)).setAlwaysEdible().setUnlocalizedName("zapAppleJam");
 	public static final ItemPickaxeGem itemPickaxeGem = (ItemPickaxeGem)(new ItemPickaxeGem(673)).setUnlocalizedName("pickaxeGem");
-	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(674)).setUnlocalizedName("gemstones");
-	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(675)).setUnlocalizedName("cyrstalheart");
-	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(676)).setUnlocalizedName("racial");
-	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(677)).setUnlocalizedName("necklace");
-	public static final ItemNecklaceOfDreams itemNecklaceOfDreams = (ItemNecklaceOfDreams)(new ItemNecklaceOfDreams(678)).setUnlocalizedName("necklacedream");
-	public static final ItemNecklaceOfBling itemNecklaceOfBling = (ItemNecklaceOfBling)(new ItemNecklaceOfBling(679)).setUnlocalizedName("necklacebling");
-	public static final ItemRing itemRing = (ItemRing)(new ItemRing(680)).setUnlocalizedName("ring");
-	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(681)).setUnlocalizedName("ringlife");
-	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(682)).setUnlocalizedName("ringphantomarrow");
-	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(683)).setUnlocalizedName("ammo");
+	public static final ItemPedestal itemPedestal = (ItemPedestal)(new ItemPedestal(674)).setUnlocalizedName("pedestal");
+	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(675)).setUnlocalizedName("gemstones");
+	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(676)).setUnlocalizedName("cyrstalheart");
+	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(677)).setUnlocalizedName("racial");
+	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(678)).setUnlocalizedName("necklace");
+	public static final ItemNecklaceOfDreams itemNecklaceOfDreams = (ItemNecklaceOfDreams)(new ItemNecklaceOfDreams(679)).setUnlocalizedName("necklacedream");
+	public static final ItemNecklaceOfBling itemNecklaceOfBling = (ItemNecklaceOfBling)(new ItemNecklaceOfBling(680)).setUnlocalizedName("necklacebling");
+	public static final ItemRing itemRing = (ItemRing)(new ItemRing(681)).setUnlocalizedName("ring");
+	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(682)).setUnlocalizedName("ringlife");
+	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(683)).setUnlocalizedName("ringphantomarrow");
+	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(684)).setUnlocalizedName("ammo");
 	
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
@@ -238,6 +241,7 @@ public class LoECraftPack
 		EntityRegistry.registerGlobalEntityID(EntityTimberWolf.class, "timberwolf", 100, 12422002, 5651507);
 		LanguageRegistry.instance().addStringLocalization("entity.timberwolf.name", "Timber Wolf");
 		EntityRegistry.registerModEntity(EntityPhantomArrow.class, "phantomarrow", 1, this, 50, 2, true);
+		EntityRegistry.registerModEntity(EntityPedestal.class, "pedestal", 2, this, 50, 2, true);
 		
 		//World Generators/Biomes/Layers/dimensional stuff/ etc.
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);

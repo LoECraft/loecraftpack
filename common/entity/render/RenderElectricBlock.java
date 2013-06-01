@@ -72,7 +72,7 @@ public class RenderElectricBlock extends Render {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         tessellator.startDrawingQuads();
         tessellator.setTranslation(par1, par3, par5);
-        tessellator.setNormal(0.0F, -1.0F, 0.0F);
+        tessellator.setNormal(0.0F, 1.0F, 0.0F);
 
         tessellator.addVertexWithUV(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.maxZ, maxU, minV);
         tessellator.addVertexWithUV(par0AxisAlignedBB.maxX, par0AxisAlignedBB.maxY, par0AxisAlignedBB.minZ, minU, minV);
