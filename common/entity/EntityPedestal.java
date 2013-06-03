@@ -2,6 +2,7 @@ package loecraftpack.common.entity;
 
 import loecraftpack.LoECraftPack;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -18,12 +19,11 @@ public class EntityPedestal extends Entity {
     
     public String name = null;
     
-    
-    private float itemDropChance = 1.0F;
+    protected float itemDropChance = 1.0F;
     
     public EntityPedestal(World par1World)
     {
-        super(par1World);
+    	super(par1World);
         this.yOffset = 0.0F;
         this.setSize(0.75F, 0.8125F); // 12 x 13 pixils
     }
@@ -62,6 +62,11 @@ public class EntityPedestal extends Entity {
         return "/mods/loecraftpack/textures/blocks/decor/pedestal.png";
     }
 	
+	public float getEyeHeight()
+    {
+        return 0.5F;
+    }
+	
 	public void setPositionAdjacent(int xPos, int yPos, int zPos, int side)
 	{
 		switch(side)
@@ -90,15 +95,17 @@ public class EntityPedestal extends Entity {
 	
 	public void onUpdate()
     {
-		
-		
+
 		switch(getDisplayMode())
 		{
+		case 0:
+			break;
 		case 1://rotate slowly
 			setDisplayAngle( getDisplayAngle() + 90/(20 * 4) );
 			break;
 		case 2://track players
-			
+			updateAITasks();
+			break;
 		}
     }
 	
@@ -235,12 +242,12 @@ public class EntityPedestal extends Entity {
         return this.getDataWatcher().getWatchableObjectItemStack(2);
     }
 
-    public void setDisplayedItem(ItemStack par1ItemStack)
+    public void setDisplayedItem(ItemStack itemStack)
     {
-        par1ItemStack = par1ItemStack.copy();
-        par1ItemStack.stackSize = 1;
+        itemStack = itemStack.copy();
+        itemStack.stackSize = 1;
         //par1ItemStack.setItemFrame(this);
-        this.getDataWatcher().updateObject(2, par1ItemStack);
+        this.getDataWatcher().updateObject(2, itemStack);
         this.getDataWatcher().setObjectWatched(2);
     }
 	
@@ -325,4 +332,74 @@ public class EntityPedestal extends Entity {
 
         return true;
     }
+    
+    
+    /*******************/
+    /*** tracking AI ***/
+    /*******************/
+    
+    protected Entity closestEntity = null;
+    protected Class watchedClass = EntityLiving.class;
+    protected float detectRange = 8.0F;
+    protected float rotatingSpeed = 4.0F;
+    
+    protected void updateAITasks()
+    {
+    	if (findTarget())
+    	{
+    		if (this.closestEntity instanceof EntityPlayer)
+            {
+            	//find eye
+            }
+    		
+    		
+    		//rotate head to target
+    		double d0 = this.closestEntity.posX - this.posX;
+            double d1 = this.closestEntity.posY - (this.posY + (double)this.getEyeHeight());
+            double d2 = this.closestEntity.posZ - this.posZ;
+            double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
+            float angleH = (float)(Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
+            float angleV = (float)(-(Math.atan2(d1, d3) * 180.0D / Math.PI));
+            this.setDisplayAngle( this.updateRotation((float)this.getDisplayAngle(), -angleH, rotatingSpeed) );
+            this.setDisplayAngleSub( this.updateRotation((float)this.getDisplayAngleSub(), angleV, rotatingSpeed) );
+    	}
+    	else
+    	{
+    		//rotate head to resting position
+    		this.setDisplayAngle( this.updateRotation((float)this.getDisplayAngle(), (float)this.getDefaultAngle(), rotatingSpeed) );
+            this.setDisplayAngleSub( this.updateRotation((float)this.getDisplayAngleSub(), 0.0F, rotatingSpeed) );
+    	}
+    }
+    
+    protected boolean findTarget()
+    {
+    	if (this.watchedClass == EntityPlayer.class)
+        {
+            this.closestEntity = this.worldObj.getClosestPlayerToEntity(this, (double)this.detectRange);
+        }
+        else
+        {
+            this.closestEntity = this.worldObj.findNearestEntityWithinAABB(this.watchedClass, this.boundingBox.expand((double)this.detectRange, 3.0D, (double)this.detectRange), this);
+        }
+
+        return this.closestEntity != null;
+    }
+    
+    private float updateRotation(float par1, float par2, float par3)
+    {
+        float f3 = MathHelper.wrapAngleTo180_float(par2 - par1);
+
+        if (f3 > par3)
+        {
+            f3 = par3;
+        }
+
+        if (f3 < -par3)
+        {
+            f3 = -par3;
+        }
+
+        return par1 + f3;
+    }
+    
 }
