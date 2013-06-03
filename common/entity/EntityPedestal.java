@@ -13,14 +13,11 @@ import net.minecraft.world.World;
 
 public class EntityPedestal extends Entity {
 	
-	/*where it was placed on*/
-	public int xPosition;
-    public int yPosition;
-    public int zPosition;
-    
     /*ITEM VARS*/
     public String name = null;
     protected float itemDropChance = 1.0F;
+    protected double displayAngle;
+    protected double displayAngleSub;
     
     /*AI VARS*/
     protected Entity closestEntity = null;
@@ -38,12 +35,10 @@ public class EntityPedestal extends Entity {
     public EntityPedestal(World par1World, int xPos, int yPos, int zPos, int side)
     {
         this(par1World);
-        this.xPosition = xPos;
-        this.yPosition = yPos;
-        this.zPosition = zPos;
-        this.setPositionAdjacent(xPosition, yPosition, zPosition, side);
         
-        System.out.println("x:"+xPosition+" y:"+yPosition+" z:"+zPosition+" dir:"+side);
+        this.setPositionAdjacent(xPos, yPos, zPos, side);
+        
+        System.out.println("x:"+xPos+" y:"+yPos+" z:"+zPos+" dir:"+side);
     }
 
 	@Override
@@ -55,10 +50,6 @@ public class EntityPedestal extends Entity {
         this.getDataWatcher().addObject(3, Byte.valueOf((byte)0));
         //default angle
         this.getDataWatcher().addObject(4, Integer.valueOf((byte)0));
-        //display angle
-        this.getDataWatcher().addObject(5, Integer.valueOf((byte)0));
-        //display angle sub
-        this.getDataWatcher().addObject(6, Integer.valueOf((byte)0));
     }
 	
 	@Override
@@ -75,7 +66,7 @@ public class EntityPedestal extends Entity {
 	
 	public void setPositionAdjacent(int xPos, int yPos, int zPos, int side)
 	{
-		switch(side)
+		switch (side)
 		{
 		case 0:
 			yPos--;
@@ -101,16 +92,17 @@ public class EntityPedestal extends Entity {
 	
 	public void onUpdate()
     {
-		if (!this.worldObj.isRemote)
+		if (this.worldObj.isRemote)
 		{
-			/**HANDLED SERVER SIDE ONLY**/
+			/**HANDLED CLIENT SIDE**/
 			
-			switch(getDisplayMode())
+			switch (getDisplayMode())
 			{
 			case 0:
+				setDisplayAngle( getDefaultAngle() );
 				break;
 			case 1://rotate slowly
-				setDisplayAngle( getDisplayAngle() + 90/(20 * 4) );
+				setDisplayAngle( getDisplayAngle() + 90/(20*4) );
 				break;
 			case 2://track players
 				updateAITasks();
@@ -137,7 +129,7 @@ public class EntityPedestal extends Entity {
             	Entity source = damageSource.getSourceOfDamage();
             	if (source instanceof EntityPlayer)
             	{
-            		
+            		//block un-allowed changes.
             	}*/
             	
                 this.setDead();
@@ -163,6 +155,9 @@ public class EntityPedestal extends Entity {
     
     public void moveEntity(double par1, double par3, double par5)
     {
+    	//block un-allowed changes
+    	
+    	
         if (!this.worldObj.isRemote && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
         {
             this.setDead();
@@ -172,6 +167,9 @@ public class EntityPedestal extends Entity {
     
     public void addVelocity(double par1, double par3, double par5)
     {
+    	//block un-allowed changes
+    	
+    	
         if (!this.worldObj.isRemote && !this.isDead && par1 * par1 + par3 * par3 + par5 * par5 > 0.0D)
         {
             this.setDead();
@@ -181,11 +179,7 @@ public class EntityPedestal extends Entity {
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound nbttagcompound) 
-	{
-		this.xPosition = nbttagcompound.getInteger("TileX");
-        this.yPosition = nbttagcompound.getInteger("TileY");
-        this.zPosition = nbttagcompound.getInteger("TileZ");
-		
+	{		
         //item code
         NBTTagCompound nbttagcompound1 = nbttagcompound.getCompoundTag("Item");
 
@@ -195,7 +189,7 @@ public class EntityPedestal extends Entity {
             this.setDisplayMode(nbttagcompound.getByte("Mode"));
             int angle = nbttagcompound.getInteger("Direction");
             this.setDefaultAngle(angle);
-            this.setDisplayAngle(angle);
+            //this.setDisplayAngle(angle);
             this.name = nbttagcompound.getString("SkullName");
         }
 	}
@@ -203,10 +197,6 @@ public class EntityPedestal extends Entity {
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound nbttagcompound) 
 	{
-        nbttagcompound.setInteger("TileX", this.xPosition);
-        nbttagcompound.setInteger("TileY", this.yPosition);
-        nbttagcompound.setInteger("TileZ", this.zPosition);
-        
         //item code
         if (this.getDisplayedItem() != null)
         {
@@ -256,7 +246,6 @@ public class EntityPedestal extends Entity {
     {
         itemStack = itemStack.copy();
         itemStack.stackSize = 1;
-        //par1ItemStack.setItemFrame(this);
         this.getDataWatcher().updateObject(2, itemStack);
         this.getDataWatcher().setObjectWatched(2);
     }
@@ -283,28 +272,35 @@ public class EntityPedestal extends Entity {
 	
 	public double getDisplayAngle()
 	{
-		return (double)this.getDataWatcher().getWatchableObjectInt(5)/100d;
+		//return (double)this.getDataWatcher().getWatchableObjectInt(5)/100d;
+		return displayAngle;
 	}
 	
 	public void setDisplayAngle(double par1)
     {
-        this.getDataWatcher().updateObject(5, Integer.valueOf((int)(par1*100)));
+        //this.getDataWatcher().updateObject(5, Integer.valueOf((int)(par1*100)));
+		displayAngle = par1;
     }
 	
 	public double getDisplayAngleSub()
 	{
-		return (double)this.getDataWatcher().getWatchableObjectInt(6)/100d;
+		//return (double)this.getDataWatcher().getWatchableObjectInt(6)/100d;
+		return displayAngleSub;
 	}
 	
 	public void setDisplayAngleSub(double par1)
     {
-        this.getDataWatcher().updateObject(6, Integer.valueOf((int)(par1*100)));
+        //this.getDataWatcher().updateObject(6, Integer.valueOf((int)(par1*100)));
+		displayAngleSub = par1;
     }
 
     
     
     public boolean interact(EntityPlayer player)
     {
+    	//prevent non-allowed from interacting
+    	
+    	
         if (this.getDisplayedItem() == null)
         {
             ItemStack itemstack = player.getHeldItem();
@@ -324,6 +320,7 @@ public class EntityPedestal extends Entity {
                     player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
                 }
             }
+            setDefaultAngle(180-(int)player.rotationYaw);
         }
         else if (!this.worldObj.isRemote)
         {
@@ -335,9 +332,6 @@ public class EntityPedestal extends Entity {
         	
         	//set default angle
         	setDefaultAngle(180-(int)player.rotationYaw);
-        	
-        	//reset active position
-        	setDisplayAngle(getDefaultAngle());
         }
 
         return true;
@@ -354,7 +348,7 @@ public class EntityPedestal extends Entity {
     	{
     		//rotate head to target
     		double d0 = this.closestEntity.posX - this.posX;
-            double d1 = (this.closestEntity.posY + (double)this.closestEntity.getEyeHeight()) - (this.posY + (double)this.getEyeHeight());
+            double d1 = this.closestEntity.posY- (this.posY + (double)this.getEyeHeight());
             double d2 = this.closestEntity.posZ - this.posZ;
             double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
             float angleH = (float)(Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
