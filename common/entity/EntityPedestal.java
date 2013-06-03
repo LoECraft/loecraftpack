@@ -13,13 +13,20 @@ import net.minecraft.world.World;
 
 public class EntityPedestal extends Entity {
 	
+	/*where it was placed on*/
 	public int xPosition;
     public int yPosition;
     public int zPosition;
     
+    /*ITEM VARS*/
     public String name = null;
-    
     protected float itemDropChance = 1.0F;
+    
+    /*AI VARS*/
+    protected Entity closestEntity = null;
+    protected Class watchedClass = EntityLiving.class;
+    protected float detectRange = 6.0F;
+    protected float rotatingSpeed = 4.0F;
     
     public EntityPedestal(World par1World)
     {
@@ -35,7 +42,6 @@ public class EntityPedestal extends Entity {
         this.yPosition = yPos;
         this.zPosition = zPos;
         this.setPositionAdjacent(xPosition, yPosition, zPosition, side);
-        //this.setDirection(side);
         
         System.out.println("x:"+xPosition+" y:"+yPosition+" z:"+zPosition+" dir:"+side);
     }
@@ -95,17 +101,21 @@ public class EntityPedestal extends Entity {
 	
 	public void onUpdate()
     {
-
-		switch(getDisplayMode())
+		if (!this.worldObj.isRemote)
 		{
-		case 0:
-			break;
-		case 1://rotate slowly
-			setDisplayAngle( getDisplayAngle() + 90/(20 * 4) );
-			break;
-		case 2://track players
-			updateAITasks();
-			break;
+			/**HANDLED SERVER SIDE ONLY**/
+			
+			switch(getDisplayMode())
+			{
+			case 0:
+				break;
+			case 1://rotate slowly
+				setDisplayAngle( getDisplayAngle() + 90/(20 * 4) );
+				break;
+			case 2://track players
+				updateAITasks();
+				break;
+			}
 		}
     }
 	
@@ -338,24 +348,13 @@ public class EntityPedestal extends Entity {
     /*** tracking AI ***/
     /*******************/
     
-    protected Entity closestEntity = null;
-    protected Class watchedClass = EntityLiving.class;
-    protected float detectRange = 8.0F;
-    protected float rotatingSpeed = 4.0F;
-    
     protected void updateAITasks()
     {
     	if (findTarget())
     	{
-    		if (this.closestEntity instanceof EntityPlayer)
-            {
-            	//find eye
-            }
-    		
-    		
     		//rotate head to target
     		double d0 = this.closestEntity.posX - this.posX;
-            double d1 = this.closestEntity.posY - (this.posY + (double)this.getEyeHeight());
+            double d1 = (this.closestEntity.posY + (double)this.closestEntity.getEyeHeight()) - (this.posY + (double)this.getEyeHeight());
             double d2 = this.closestEntity.posZ - this.posZ;
             double d3 = (double)MathHelper.sqrt_double(d0 * d0 + d2 * d2);
             float angleH = (float)(Math.atan2(d2, d0) * 180.0D / Math.PI) - 90.0F;
@@ -381,7 +380,7 @@ public class EntityPedestal extends Entity {
         {
             this.closestEntity = this.worldObj.findNearestEntityWithinAABB(this.watchedClass, this.boundingBox.expand((double)this.detectRange, 3.0D, (double)this.detectRange), this);
         }
-
+    	
         return this.closestEntity != null;
     }
     
