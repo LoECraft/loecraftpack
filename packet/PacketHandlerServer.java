@@ -78,15 +78,15 @@ public class PacketHandlerServer implements IPacketHandler
             			break;
             		case PacketIds.subInventory:
             			int guiId = data.readInt();
-            			EntityPlayer ePlayer = (EntityPlayer)player;
             			try
             			{
-            			ePlayer.openGui(LoECraftPack.instance,
-            			                guiId,
-            			                MinecraftServer.getServer().worldServerForDimension(ePlayer.dimension),
-            			                (int)ePlayer.posX,
-            			                (int)ePlayer.posY,
-            			                (int)ePlayer.posZ);
+            				if (guiId < GuiIds.values().length && HandlerExtendedInventoryServer.canUseInv(sender, GuiIds.values()[guiId]))
+		            			sender.openGui(LoECraftPack.instance,
+		            			                guiId,
+		            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
+		            			                (int)sender.posX,
+		            			                (int)sender.posY,
+		            			                (int)sender.posZ);
             			}
             			catch(IllegalArgumentException e)
             			{

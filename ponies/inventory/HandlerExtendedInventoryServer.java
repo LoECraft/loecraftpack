@@ -3,6 +3,8 @@ package loecraftpack.ponies.inventory;
 import java.util.HashMap;
 import java.util.Map;
 
+import loecraftpack.LoECraftPack;
+import loecraftpack.common.gui.GuiIds;
 import loecraftpack.enums.Race;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -76,5 +78,19 @@ public class HandlerExtendedInventoryServer
 		default:
 			return null;
 		}
+	}
+	
+	public static boolean canUseInv(EntityPlayer player, GuiIds id)
+	{
+		switch (id)
+		{
+		case EarthInv:
+			if (LoECraftPack.StatHandler.isRace(player, Race.Earth))
+				return true;
+			return false;
+		default:
+			return true;
+		}
+		
 	}
 }
