@@ -45,6 +45,7 @@ public class EntityCustomArrow extends Entity implements IProjectile
     /** The owner of this arrow. */
     public Entity shootingEntity;
     protected int ticksInGround;
+    protected int lifeSpan = 1200;
     protected int ticksInAir = 0;
     protected double damage = 2.0D;
 
@@ -226,7 +227,7 @@ public class EntityCustomArrow extends Entity implements IProjectile
             {
                 ++this.ticksInGround;
 
-                if (this.ticksInGround == 1200)
+                if (this.ticksInGround >= lifeSpan)
                 {
                     this.setDead();
                 }
