@@ -13,6 +13,8 @@ import net.minecraft.world.World;
 
 public class EntityPedestal extends Entity {
 	
+	//TODO make this have sub types, or use imported Icons
+	
     /*ITEM VARS*/
     public String name = null;
     protected float itemDropChance = 1.0F;
@@ -55,7 +57,6 @@ public class EntityPedestal extends Entity {
 	@Override
 	public String getTexture()
     {
-		//TODO make this return based on a variable;
         return "/mods/loecraftpack/textures/blocks/decor/pedestal.png";
     }
 	
@@ -98,13 +99,13 @@ public class EntityPedestal extends Entity {
 			
 			switch (getDisplayMode())
 			{
-			case 0:
+			case 0://static position
 				setDisplayAngle( getDefaultAngle() );
 				break;
 			case 1://rotate slowly
 				setDisplayAngle( getDisplayAngle() + 90/(20*4) );
 				break;
-			case 2://track players
+			case 2://track living
 				updateAITasks();
 				break;
 			}
@@ -189,7 +190,6 @@ public class EntityPedestal extends Entity {
             this.setDisplayMode(nbttagcompound.getByte("Mode"));
             int angle = nbttagcompound.getInteger("Direction");
             this.setDefaultAngle(angle);
-            //this.setDisplayAngle(angle);
             this.name = nbttagcompound.getString("SkullName");
         }
 	}
@@ -208,20 +208,20 @@ public class EntityPedestal extends Entity {
         }
 	}
 	
-	
-	/*********************/
-	/***** item code *****/
-	/*********************/
-	
-	
-	
 	public boolean isInRangeToRenderDist(double par1)
     {
         double d1 = 16.0D;
         d1 *= 64.0D * this.renderDistanceWeight;
         return par1 < d1 * d1;
     }
+
 	
+	
+	
+	/*********************/
+	/***** item code *****/
+	/*********************/
+
 	public void dropItemStack()
     {
         this.entityDropItem(new ItemStack(LoECraftPack.itemPedestal), 0.0F);
@@ -234,8 +234,6 @@ public class EntityPedestal extends Entity {
             this.entityDropItem(itemstack, 0.0F);
         }
     }
-	
-	
 	
 	public ItemStack getDisplayedItem()
     {
@@ -300,41 +298,44 @@ public class EntityPedestal extends Entity {
     {
     	//prevent non-allowed from interacting
     	
-    	
-        if (this.getDisplayedItem() == null)
-        {
-            ItemStack itemstack = player.getHeldItem();
+    	if (!this.worldObj.isRemote)
+    	{
+	        if (this.getDisplayedItem() == null)
+	        {
+	            ItemStack itemstack = player.getHeldItem();
+	
+	            if (itemstack != null)
+	            {
+	                this.setDisplayedItem(itemstack);
+	                
+	                //used for when player-skulls are placed
+	                if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("SkullOwner"))
+	                {
+	                    name = itemstack.getTagCompound().getString("SkullOwner");
+	                }
+	                
+	                if (!player.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+	                {
+	                    player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
+	                }
+	                
+	                setDefaultAngle(180-(int)player.rotationYaw);
+	            }
+	        }
+	        else
+	        {
+	        	//change mode
+	        	if (getDisplayMode()<2)
+	        		setDisplayMode(getDisplayMode()+1);
+	        	else
+	        		setDisplayMode(0);
+	        	
+	        	//set default angle
+	        	setDefaultAngle(180-(int)player.rotationYaw);
+	        }
+    	}
 
-            if (itemstack != null && !this.worldObj.isRemote)
-            {
-                this.setDisplayedItem(itemstack);
-                
-                //used for when playerskulls are placed
-                if (itemstack.hasTagCompound() && itemstack.getTagCompound().hasKey("SkullOwner"))
-                {
-                    name = itemstack.getTagCompound().getString("SkullOwner");
-                }
-                
-                if (!player.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                {
-                    player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
-                }
-            }
-            setDefaultAngle(180-(int)player.rotationYaw);
-        }
-        else if (!this.worldObj.isRemote)
-        {
-        	//change mode
-        	if (getDisplayMode()<2)
-        		setDisplayMode(getDisplayMode()+1);
-        	else
-        		setDisplayMode(0);
-        	
-        	//set default angle
-        	setDefaultAngle(180-(int)player.rotationYaw);
-        }
-
-        return true;
+    	return true;
     }
     
     
@@ -378,21 +379,21 @@ public class EntityPedestal extends Entity {
         return this.closestEntity != null;
     }
     
-    private float updateRotation(float par1, float par2, float par3)
+    private float updateRotation(float currentAngle, float targetAngle, float speed)
     {
-        float f3 = MathHelper.wrapAngleTo180_float(par2 - par1);
+        float f3 = MathHelper.wrapAngleTo180_float(targetAngle - currentAngle);
 
-        if (f3 > par3)
+        if (f3 > speed)
         {
-            f3 = par3;
+            f3 = speed;
         }
 
-        if (f3 < -par3)
+        if (f3 < -speed)
         {
-            f3 = -par3;
+            f3 = -speed;
         }
 
-        return par1 + f3;
+        return currentAngle + f3;
     }
     
 }

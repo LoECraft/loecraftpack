@@ -2,8 +2,12 @@ package loecraftpack.common.items;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.ponies.inventory.InventoryCustom;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +22,13 @@ public class ItemRingPhantomArrow extends ItemRing {
 	public ItemRingPhantomArrow(int par1) {
 		super(par1);
 		this.setMaxDamage(192);
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void updateIcons(IconRegister iconRegister)
+	{
+		iconIndex = iconRegister.registerIcon("loecraftpack:tools/ringPhantomArrow");
 	}
 	
 	public void onArrowLoose(ArrowLooseEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)

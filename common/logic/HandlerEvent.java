@@ -369,10 +369,11 @@ public class HandlerEvent
 	        if (entity instanceof EntityCustomArrow && ((EntityCustomArrow)entity).shootingEntity != null)
 	        {
 	            entity = ((EntityArrow)entity).shootingEntity;
-	        }
-	        if (entity instanceof EntityLiving)
-	        {
-	        	PrivateAccessor.invokeMethod(alertWolves, ((EntityPlayer)event.entityLiving), (EntityLiving)entity, false);
+	            
+	            if (entity instanceof EntityLiving)
+		        {
+		        	PrivateAccessor.invokeMethod(alertWolves, ((EntityPlayer)event.entityLiving), (EntityLiving)entity, false);
+		        }
 	        }
 		}
     }
