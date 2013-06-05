@@ -10,7 +10,9 @@ import net.minecraft.item.ItemStack;
 
 public class HandlerExtendedInventoryCommon
 {
-	
+	/**
+	 * gets the player's custom inventory
+	 */
 	public static InventoryCustom getInventory(EntityPlayer player, InventoryId id)
 	{
 		if(player.worldObj.isRemote)

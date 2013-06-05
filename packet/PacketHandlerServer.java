@@ -80,13 +80,18 @@ public class PacketHandlerServer implements IPacketHandler
             			int guiId = data.readInt();
             			try
             			{
-            				if (guiId < GuiIds.values().length && HandlerExtendedInventoryServer.canUseInv(sender, GuiIds.values()[guiId]))
-		            			sender.openGui(LoECraftPack.instance,
-		            			                guiId,
-		            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
-		            			                (int)sender.posX,
-		            			                (int)sender.posY,
-		            			                (int)sender.posZ);
+            				if (guiId < GuiIds.values().length && HandlerExtendedInventoryServer.canUseNextInv(sender, GuiIds.values()[guiId]))
+            				{
+            					if (GuiIds.values()[guiId] != GuiIds.creativeInv)
+			            			sender.openGui(LoECraftPack.instance,
+			            			                guiId,
+			            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
+			            			                (int)sender.posX,
+			            			                (int)sender.posY,
+			            			                (int)sender.posZ);
+            					else
+            						sender.openContainer = sender.inventoryContainer;
+            				}
             			}
             			catch(IllegalArgumentException e)
             			{

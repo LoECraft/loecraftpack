@@ -89,34 +89,7 @@ public class HandlerKey extends KeyHandler
 			}
 			else if (kb.equals(extendedInventory))
 			{
-				if (Minecraft.getMinecraft().currentScreen != null)
-				{
-					Class gui = Minecraft.getMinecraft().currentScreen.getClass();
-					GuiIds id = Minecraft.getMinecraft().playerController.isInCreativeMode()? GuiIds.creativeInv : GuiIds.mainInv;
-					boolean flag = false;
-					if (gui == GuiInventory.class || gui == GuiContainerCreative.class)
-					{
-						id = GuiIds.SpecialInv;
-						flag = true;
-					}
-					else if (gui == GuiSpecialEquipment.class)
-					{
-						if (LoECraftPack.StatHandler.isRace(Minecraft.getMinecraft().thePlayer, Race.Earth))
-							id = GuiIds.EarthInv;
-						flag = true;
-					}
-					else if (gui == GuiEarthPonyInventory.class)
-					{
-						flag = true;
-					}
-					if (flag)
-					{
-						if(id == GuiIds.creativeInv)
-							Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
-						else
-							HandlerExtendedInventoryClient.setNewScreen(id);
-					}
-				}
+				HandlerExtendedInventoryClient.cycleInventory();
 			}
 		}
 	}
