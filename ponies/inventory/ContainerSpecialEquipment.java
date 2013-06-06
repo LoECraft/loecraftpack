@@ -15,12 +15,12 @@ public class ContainerSpecialEquipment extends Container {
 	final static int slotCount = 8;
 
 	IInventory normalInv;
-	InventorySpecial specialInv;
+	InventoryEquipment specialInv;
 	
 	public ContainerSpecialEquipment(EntityPlayer entityPlayer)
 	{
 		normalInv = entityPlayer.inventory;
-		specialInv = (InventorySpecial)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.Equipment);
+		specialInv = (InventoryEquipment)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.EQUIPMENT);
 		
 		int v;
         int h;

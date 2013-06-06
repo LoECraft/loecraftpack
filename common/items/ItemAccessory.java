@@ -40,124 +40,124 @@ public abstract class ItemAccessory extends Item {
 		if (event.entityLiving instanceof EntityPlayer)
 		{
 			EntityPlayer player = (EntityPlayer)event.entityLiving;
-			InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
+			InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.EQUIPMENT);
 			List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(inv);
 			if (accessorySlotIds!=null)
 				switch(methodId)
 				{
-				case LivingFall:
+				case LIVING_FALL:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onFall((LivingFallEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case LivingAttack:
+				case LIVING_ATTACK:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onAttacked((LivingAttackEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case LivingHurt:
+				case LIVING_HURT:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onDamaged((LivingHurtEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case LivingDeath:
+				case LIVING_DEATH:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onDeath((LivingDeathEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case LivingSpawn:
+				case LIVING_SPAWN:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onSpawn((LivingSpawnEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case EntityItemPickup:
+				case ENTITY_ITEM_PICKUP:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onPickup((EntityItemPickupEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case PlayerSleepInBed:
+				case PLAYER_SLEEP_IN_BED:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onSleep((PlayerSleepInBedEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case EntityInteract:
+				case ENTITY_INTERACT:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onSocialize((EntityInteractEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case AttackEntity:
+				case ATTACK_ENTITY:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onBrutalize((AttackEntityEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case UseHoe:
+				case USE_HOE:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onHoe((UseHoeEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case Bonemeal:
+				case BONEMEAL:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onGreenThumb((BonemealEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case FillBucket:
+				case FILL_BUCKET:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onBucket((FillBucketEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case PlayerDestroyItem:
+				case PLAYER_DESTROY_ITEM:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onBreakItem((PlayerDestroyItemEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case PlayerFlyableFall:
+				case PLAYER_FLYABLE_FALL:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onGentleFall((PlayerFlyableFallEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case PlayerDrops:
+				case PLAYER_DROPS:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onDrops((PlayerDropsEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case ArrowLoose:
+				case ARROW_LOOSE:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 						((ItemAccessory)accessory.getItem()).onArrowLoose((ArrowLooseEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case ArrowNock:
+				case ARROW_NOCK:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
 						ItemStack accessory = inv.getStackInSlot(accessorySlotId);

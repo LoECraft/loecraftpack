@@ -23,7 +23,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class HandlerExtendedInventoryClient
 {
-	static Map<String, InventorySpecial> playerSpecialInv = new HashMap<String, InventorySpecial>();
+	static Map<String, InventoryEquipment> playerSpecialInv = new HashMap<String, InventoryEquipment>();
 	static Map<String, InventoryEarth> playerEarthInv = new HashMap<String, InventoryEarth>();
 	
 	/**
@@ -34,16 +34,16 @@ public class HandlerExtendedInventoryClient
 		InventoryCustom result;
 		switch (id)
 		{
-		case Equipment:
+		case EQUIPMENT:
 			result = playerSpecialInv.get(player.username);
 			if (result == null)
 			{
-				result = new InventorySpecial();
-				playerSpecialInv.put(player.username, (InventorySpecial)result);
+				result = new InventoryEquipment();
+				playerSpecialInv.put(player.username, (InventoryEquipment)result);
 			}
 			return result;
 			
-		case EarthPony:
+		case EARTH_PONY:
 			result = playerEarthInv.get(player.username);
 			if (result == null)
 			{
@@ -65,17 +65,17 @@ public class HandlerExtendedInventoryClient
 		if (Minecraft.getMinecraft().currentScreen != null)
 		{
 			Class gui = Minecraft.getMinecraft().currentScreen.getClass();
-			GuiIds id = Minecraft.getMinecraft().playerController.isInCreativeMode()? GuiIds.creativeInv : GuiIds.mainInv;
+			GuiIds id = Minecraft.getMinecraft().playerController.isInCreativeMode()? GuiIds.CREATIVE_INV : GuiIds.MAIN_INV;
 			boolean flag = false;
 			if (gui == GuiInventory.class || gui == GuiContainerCreative.class)
 			{
-				id = GuiIds.SpecialInv;
+				id = GuiIds.EQUIPMENT_INV;
 				flag = true;
 			}
 			else if (gui == GuiSpecialEquipment.class)
 			{
-				if (LoECraftPack.StatHandler.isRace(Minecraft.getMinecraft().thePlayer, Race.Earth))
-					id = GuiIds.EarthInv;
+				if (LoECraftPack.StatHandler.isRace(Minecraft.getMinecraft().thePlayer, Race.EARTH))
+					id = GuiIds.EARTH_INV;
 				flag = true;
 			}
 			else if (gui == GuiEarthPonyInventory.class)
@@ -84,7 +84,7 @@ public class HandlerExtendedInventoryClient
 			}
 			if (flag)
 			{
-				if(id == GuiIds.creativeInv)
+				if(id == GuiIds.CREATIVE_INV)
 					Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
 				
 				setNewScreen(id);

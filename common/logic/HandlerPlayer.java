@@ -16,7 +16,7 @@ public class HandlerPlayer implements IPlayerTracker
 	{
 		System.out.println(player.username+" says HI"+player.worldObj.isRemote);
 		LoECraftPack.StatHandler.AddPlayer(player);
-		LoECraftPack.StatHandler.setRace(player, Race.Alicorn);//for testing
+		LoECraftPack.StatHandler.setRace(player, Race.ALICORN);//for testing
 		HandlerExtendedInventoryServer.AddPlayer(player);
 	}
 

@@ -29,22 +29,22 @@ public class HandlerGui implements IGuiHandler
 		if(ID < GuiIds.values().length)
 			switch(GuiIds.values()[ID])
 			{
-				case ProjectTable:
+				case PROJECT_TABLE:
 					TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 					if(tileEntity instanceof TileProjectTable)
 						return new ContainerProjectTable(player.inventory, (TileProjectTable)tileEntity, world, x, y, z);
 					break;
 					
-				case mainInv:
+				case MAIN_INV:
 					return player.inventoryContainer;
 					
-				case creativeInv:
+				case CREATIVE_INV:
 					return player.inventoryContainer;
 					
-				case SpecialInv:
+				case EQUIPMENT_INV:
 					return new ContainerSpecialEquipment(player);
 					
-				case EarthInv:
+				case EARTH_INV:
 					return new ContainerEarthInventory(player);
 			}
 		return null;
@@ -56,37 +56,37 @@ public class HandlerGui implements IGuiHandler
 		if(ID < GuiIds.values().length)
 			switch(GuiIds.values()[ID])
 			{
-			case Monolith:
+			case MONOLITH:
 				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
 				if(tileEntity instanceof TileProtectionMonolith)
 		            return new GuiProtectionMonolith((TileProtectionMonolith) tileEntity);
 				break;
 				
-			case ProjectTable:
+			case PROJECT_TABLE:
 				tileEntity = world.getBlockTileEntity(x, y, z);
 					if(tileEntity instanceof TileProjectTable)
 						return new GuiProjectTable(player.inventory, world, x, y, z);
 				break;
 				
-			case Dialog:
+			case DAILOG:
 				return new GuiDialog();
 		            
-			case Quest:
+			case QUEST:
 	            return new GuiQuest();
 	            
-			case Shop:
+			case SHOP:
 	            return new GuiShop();
 	            
-			case mainInv:
+			case MAIN_INV:
 				return new GuiInventory(player);
 				
-			case creativeInv:
+			case CREATIVE_INV:
 				return new GuiContainerCreative(player);
 				
-			case SpecialInv:
+			case EQUIPMENT_INV:
 				return new GuiSpecialEquipment(player);
 				
-			case EarthInv:
+			case EARTH_INV:
 				return new GuiEarthPonyInventory(player);
 				
 			}

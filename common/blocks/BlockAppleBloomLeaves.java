@@ -331,7 +331,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3)
     {
-        return Block.sapling.blockID;
+        return LoECraftPack.blockAppleBloomSapling.blockID;
     }
 	
 	@Override

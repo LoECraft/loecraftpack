@@ -45,7 +45,7 @@ public class LogicQuest
 					{}
 				}
 			}
-			Minecraft.getMinecraft().thePlayer.openGui(LoECraftPack.instance, GuiIds.Quest.ordinal(), null, 0, 0, 0);
+			Minecraft.getMinecraft().thePlayer.openGui(LoECraftPack.instance, GuiIds.QUEST.ordinal(), null, 0, 0, 0);
 		}
 	}
 }

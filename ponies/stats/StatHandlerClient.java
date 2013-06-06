@@ -15,7 +15,7 @@ public class StatHandlerClient extends StatHandlerServer
 		{
 			Stats playerStats = (Stats)stats.get(player);
 			
-			return playerStats.race == race || playerStats.race == Race.Alicorn; //Alicorn is master race
+			return playerStats.race == race || playerStats.race == Race.ALICORN; //Alicorn is master race
 		}
 		
 		return false;
@@ -26,7 +26,7 @@ public class StatHandlerClient extends StatHandlerServer
 		if (stats.containsKey(player))
 			return ((Stats)stats.get(player)).race;
 		else
-			return Race.None;
+			return Race.NONE;
 	}
 	
 	public static void setRace(String player, Race race)

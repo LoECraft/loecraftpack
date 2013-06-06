@@ -220,27 +220,7 @@ public class EntityCustomArrow extends Entity implements IProjectile
 
         if (this.inGround)
         {
-            int j = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
-            int k = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
-
-            if (j == this.inTile && k == this.inData)
-            {
-                ++this.ticksInGround;
-
-                if (this.ticksInGround >= lifeSpan)
-                {
-                    this.setDead();
-                }
-            }
-            else
-            {
-                this.inGround = false;
-                this.motionX *= (double)(this.rand.nextFloat() * 0.2F);
-                this.motionY *= (double)(this.rand.nextFloat() * 0.2F);
-                this.motionZ *= (double)(this.rand.nextFloat() * 0.2F);
-                this.ticksInGround = 0;
-                this.ticksInAir = 0;
-            }
+        	whileInGround();
         }
         else
         {
@@ -307,78 +287,7 @@ public class EntityCustomArrow extends Entity implements IProjectile
             {
                 if (movingobjectposition.entityHit != null)
                 {
-                    f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-                    int i1 = MathHelper.ceiling_double_int((double)f2 * this.damage);
-
-                    if (this.getIsCritical())
-                    {
-                        i1 += this.rand.nextInt(i1 / 2 + 2);
-                    }
-
-                    DamageSource damagesource = null;
-
-                    if (this.shootingEntity == null)
-                    {
-                        damagesource = (new EntityDamageSourceIndirect("arrow", this, this)).setProjectile();
-                    }
-                    else
-                    {
-                        damagesource = (new EntityDamageSourceIndirect("arrow", this, this.shootingEntity)).setProjectile();
-                    }
-
-                    if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))
-                    {
-                        movingobjectposition.entityHit.setFire(5);
-                    }
-
-                    if (movingobjectposition.entityHit.attackEntityFrom(damagesource, i1))
-                    {
-                        if (movingobjectposition.entityHit instanceof EntityLiving)
-                        {
-                            EntityLiving entityliving = (EntityLiving)movingobjectposition.entityHit;
-
-                            if (!this.worldObj.isRemote)
-                            {
-                                entityliving.setArrowCountInEntity(entityliving.getArrowCountInEntity() + 1);
-                            }
-
-                            if (this.knockbackStrength > 0)
-                            {
-                                f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
-
-                                if (f3 > 0.0F)
-                                {
-                                    movingobjectposition.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.6000000238418579D / (double)f3, 0.1D, this.motionZ * (double)this.knockbackStrength * 0.6000000238418579D / (double)f3);
-                                }
-                            }
-
-                            if (this.shootingEntity != null)
-                            {
-                                EnchantmentThorns.func_92096_a(this.shootingEntity, entityliving, this.rand);
-                            }
-
-                            if (this.shootingEntity != null && movingobjectposition.entityHit != this.shootingEntity && movingobjectposition.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP)
-                            {
-                                ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(6, 0));
-                            }
-                        }
-
-                        this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
-
-                        if (!(movingobjectposition.entityHit instanceof EntityEnderman))
-                        {
-                            this.setDead();
-                        }
-                    }
-                    else
-                    {
-                        this.motionX *= -0.10000000149011612D;
-                        this.motionY *= -0.10000000149011612D;
-                        this.motionZ *= -0.10000000149011612D;
-                        this.rotationYaw += 180.0F;
-                        this.prevRotationYaw += 180.0F;
-                        this.ticksInAir = 0;
-                    }
+                	onEntityHit(movingobjectposition);
                 }
                 else
                 {
@@ -597,5 +506,117 @@ public class EntityCustomArrow extends Entity implements IProjectile
     {
         byte b0 = this.dataWatcher.getWatchableObjectByte(16);
         return (b0 & 1) != 0;
+    }
+    
+    
+    
+    
+    
+    /******************************/
+    /**** UPDATE SUB FUNCTIONS ****/
+    /******************************/
+    
+    public void whileInGround()
+    {
+    	int j = this.worldObj.getBlockId(this.xTile, this.yTile, this.zTile);
+	    int k = this.worldObj.getBlockMetadata(this.xTile, this.yTile, this.zTile);
+	
+	    if (j == this.inTile && k == this.inData)
+	    {
+	        ++this.ticksInGround;
+	
+	        if (this.ticksInGround >= lifeSpan)
+	        {
+	            this.setDead();
+	        }
+	    }
+	    else
+	    {
+	        this.inGround = false;
+	        this.motionX *= (double)(this.rand.nextFloat() * 0.2F);
+	        this.motionY *= (double)(this.rand.nextFloat() * 0.2F);
+	        this.motionZ *= (double)(this.rand.nextFloat() * 0.2F);
+	        this.ticksInGround = 0;
+	        this.ticksInAir = 0;
+	    }
+    }
+    
+    public void onEntityHit(MovingObjectPosition movingobjectposition)
+    {
+    	float f2;
+        float f3;
+        
+        f2 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+        int i1 = MathHelper.ceiling_double_int((double)f2 * this.damage);
+
+        if (this.getIsCritical())
+        {
+            i1 += this.rand.nextInt(i1 / 2 + 2);
+        }
+
+        DamageSource damagesource = null;
+
+        if (this.shootingEntity == null)
+        {
+            damagesource = (new EntityDamageSourceIndirect("arrow", this, this)).setProjectile();
+        }
+        else
+        {
+            damagesource = (new EntityDamageSourceIndirect("arrow", this, this.shootingEntity)).setProjectile();
+        }
+
+        if (this.isBurning() && !(movingobjectposition.entityHit instanceof EntityEnderman))
+        {
+            movingobjectposition.entityHit.setFire(5);
+        }
+
+        if (movingobjectposition.entityHit.attackEntityFrom(damagesource, i1))
+        {
+            if (movingobjectposition.entityHit instanceof EntityLiving)
+            {
+                EntityLiving entityliving = (EntityLiving)movingobjectposition.entityHit;
+
+                if (!this.worldObj.isRemote)
+                {
+                    entityliving.setArrowCountInEntity(entityliving.getArrowCountInEntity() + 1);
+                }
+
+                if (this.knockbackStrength > 0)
+                {
+                    f3 = MathHelper.sqrt_double(this.motionX * this.motionX + this.motionZ * this.motionZ);
+
+                    if (f3 > 0.0F)
+                    {
+                        movingobjectposition.entityHit.addVelocity(this.motionX * (double)this.knockbackStrength * 0.6000000238418579D / (double)f3, 0.1D, this.motionZ * (double)this.knockbackStrength * 0.6000000238418579D / (double)f3);
+                    }
+                }
+
+                if (this.shootingEntity != null)
+                {
+                    EnchantmentThorns.func_92096_a(this.shootingEntity, entityliving, this.rand);
+                }
+
+                if (this.shootingEntity != null && movingobjectposition.entityHit != this.shootingEntity && movingobjectposition.entityHit instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP)
+                {
+                    ((EntityPlayerMP)this.shootingEntity).playerNetServerHandler.sendPacketToPlayer(new Packet70GameEvent(6, 0));
+                }
+            }
+
+            this.playSound("random.bowhit", 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
+
+            if (!(movingobjectposition.entityHit instanceof EntityEnderman))
+            {
+                this.setDead();
+            }
+        }
+        else
+        {
+            this.motionX *= -0.10000000149011612D;
+            this.motionY *= -0.10000000149011612D;
+            this.motionZ *= -0.10000000149011612D;
+            this.rotationYaw += 180.0F;
+            this.prevRotationYaw += 180.0F;
+            this.ticksInAir = 0;
+        }
     }
 }

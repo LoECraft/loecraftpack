@@ -59,7 +59,7 @@ public class HandlerTick implements ITickHandler {
 				        	if(autoEffectBuffer++==0)
 							{
 				        		//apply auto effect for accessories
-					        	InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.Equipment);
+					        	InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.EQUIPMENT);
 								List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(inv);
 								if (accessorySlotIds!=null)
 									for (Integer accessorySlotId : accessorySlotIds)

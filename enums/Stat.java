@@ -2,14 +2,14 @@ package loecraftpack.enums;
 
 public enum Stat {
 	//universal
-	Dodge, //affects chance to dodge attacks
+	DODGE, //affects chance to dodge attacks
 	//unicorn
-	Magic, //enhances all spells
-	Darkness, //alignment level with darkness spells (damaging)
-	Light, //alignment level with light spells (healing)
-	Arcane, //alignment level with arcane spells (utility)
+	MAGIC, //enhances all spells
+	DARKNESS, //alignment level with darkness spells (damaging)
+	LIGHT, //alignment level with light spells (healing)
+	ARCANE, //alignment level with arcane spells (utility)
 	//pegasus
-	Agility,
-	Flight,
+	AGILITY,
+	FLIGHT,
 	//TODO: ADD THE REST OF THE STATS
 }

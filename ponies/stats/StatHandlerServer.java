@@ -31,7 +31,7 @@ public class StatHandlerServer
 		
 		Stats playerStats = (Stats)stats.get(player.username);
 		
-		return playerStats.race == race || playerStats.race == Race.Alicorn; //Alicorn is master race
+		return playerStats.race == race || playerStats.race == Race.ALICORN; //Alicorn is master race
 	}
 	
 	public static Race getRace(EntityPlayer player)

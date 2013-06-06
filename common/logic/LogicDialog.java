@@ -66,7 +66,7 @@ public class LogicDialog
 		
 		if (Minecraft.getMinecraft().currentScreen == null && openDialog)
 		{
-			Minecraft.getMinecraft().thePlayer.openGui(LoECraftPack.instance, GuiIds.Dialog.ordinal(), null, 0, 0, 0);
+			Minecraft.getMinecraft().thePlayer.openGui(LoECraftPack.instance, GuiIds.DAILOG.ordinal(), null, 0, 0, 0);
 			ChangeMessage(false); //In this case (currentScreen == null), this is a shortcut to set up the static variables
 			openDialog = false;
 		}

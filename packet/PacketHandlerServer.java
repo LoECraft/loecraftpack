@@ -82,7 +82,7 @@ public class PacketHandlerServer implements IPacketHandler
             			{
             				if (guiId < GuiIds.values().length && HandlerExtendedInventoryServer.canUseNextInv(sender, GuiIds.values()[guiId]))
             				{
-            					if (GuiIds.values()[guiId] != GuiIds.creativeInv)
+            					if (GuiIds.values()[guiId] != GuiIds.CREATIVE_INV)
 			            			sender.openGui(LoECraftPack.instance,
 			            			                guiId,
 			            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
@@ -97,7 +97,7 @@ public class PacketHandlerServer implements IPacketHandler
             			{
             				//this allows the exception for reloading crafting inventory without closing it first, to be ignored.
             				//currently only one crafting inventory that applies.
-            				if (! (guiId == GuiIds.mainInv.ordinal() || guiId == GuiIds.creativeInv.ordinal()))
+            				if (! (guiId == GuiIds.MAIN_INV.ordinal() || guiId == GuiIds.CREATIVE_INV.ordinal()))
             					throw e;
             			}
             			break;

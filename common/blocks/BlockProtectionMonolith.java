@@ -56,7 +56,7 @@ public class BlockProtectionMonolith extends Block implements ITileEntityProvide
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer playerEntity, int w, float px, float py, float pz)
 	{
 		if (((TileProtectionMonolith)world.getBlockTileEntity(x, y, z)).isOwner(playerEntity.username))
-			playerEntity.openGui(LoECraftPack.instance, GuiIds.Monolith.ordinal(), world, x, y, z);
+			playerEntity.openGui(LoECraftPack.instance, GuiIds.MONOLITH.ordinal(), world, x, y, z);
 		return false;
 	}
 	

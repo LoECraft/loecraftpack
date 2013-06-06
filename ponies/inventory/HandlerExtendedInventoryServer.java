@@ -14,7 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 
 public class HandlerExtendedInventoryServer
 {
-	static Map<String, InventorySpecial> playerSpecialInv = new HashMap<String, InventorySpecial>();
+	static Map<String, InventoryEquipment> playerEquipmentInv = new HashMap<String, InventoryEquipment>();
 	static Map<String, InventoryEarth> playerEarthInv = new HashMap<String, InventoryEarth>();
 	
 	/**
@@ -24,9 +24,9 @@ public class HandlerExtendedInventoryServer
 	{
 		NBTTagCompound nbt = player.getEntityData();
 		
-		playerSpecialInv.put(player.username, new InventorySpecial(nbt));
+		playerEquipmentInv.put(player.username, new InventoryEquipment(nbt));
 		
-		if (StatHandlerServer.isRace(player, Race.Earth))
+		if (StatHandlerServer.isRace(player, Race.EARTH))
 			playerEarthInv.put(player.username, new InventoryEarth(nbt));
 	}
 	
@@ -37,13 +37,13 @@ public class HandlerExtendedInventoryServer
 	{
 		NBTTagCompound nbt = player.getEntityData();
 		
-		InventorySpecial special = playerSpecialInv.get(player.username);
+		InventoryEquipment special = playerEquipmentInv.get(player.username);
 		if (special!= null)
 		{
 			special.writeToNBT(nbt);
 		}
 		
-		if (StatHandlerServer.isRace(player, Race.Earth))
+		if (StatHandlerServer.isRace(player, Race.EARTH))
 		{
 			InventoryEarth earth = playerEarthInv.get(player.username);
 			if (earth!=null)
@@ -61,15 +61,15 @@ public class HandlerExtendedInventoryServer
 		InventoryCustom result;
 		switch (id)
 		{
-		case Equipment:
-			result = playerSpecialInv.get(player.username);
+		case EQUIPMENT:
+			result = playerEquipmentInv.get(player.username);
 			if (result == null)
 			{   
-				result = new InventorySpecial();
-				playerSpecialInv.put(player.username, (InventorySpecial)result);
+				result = new InventoryEquipment();
+				playerEquipmentInv.put(player.username, (InventoryEquipment)result);
 			}
 			return result;
-		case EarthPony:
+		case EARTH_PONY:
 			result = playerEarthInv.get(player.username);
 			if (result == null)
 			{
@@ -88,25 +88,18 @@ public class HandlerExtendedInventoryServer
 		
 		switch (oldId)
 		{
-		case mainInv:
-		case creativeInv:
-			if (newId == GuiIds.SpecialInv)
-				return true;
-			return false;
-		case SpecialInv:
-			if (LoECraftPack.StatHandler.isRace(player, Race.Earth))
-			{
-				if (newId == GuiIds.EarthInv)
-					return true;
-				return false;
-			}
-			else if(newId == GuiIds.mainInv || newId == GuiIds.creativeInv)
-				return true;
-			return false;
-		case EarthInv:
-			if (newId == GuiIds.mainInv || newId == GuiIds.creativeInv)
-				return true;
-			return false;
+		case MAIN_INV:
+		case CREATIVE_INV:
+			return newId == GuiIds.EQUIPMENT_INV;
+			
+		case EQUIPMENT_INV:
+			if (LoECraftPack.StatHandler.isRace(player, Race.EARTH))
+				return newId == GuiIds.EARTH_INV;
+			else
+				return newId == GuiIds.MAIN_INV || newId == GuiIds.CREATIVE_INV;
+			
+		case EARTH_INV:
+			return newId == GuiIds.MAIN_INV || newId == GuiIds.CREATIVE_INV;
 		
 		default:
 			return false;
@@ -117,13 +110,13 @@ public class HandlerExtendedInventoryServer
 	{
 		Class current = player.openContainer.getClass();
 		if (current == ContainerPlayer.class)
-			return GuiIds.mainInv;
+			return GuiIds.MAIN_INV;
 		if (current == ContainerCreative.class)
-			return GuiIds.creativeInv;
+			return GuiIds.CREATIVE_INV;
 		if (current == ContainerSpecialEquipment.class)
-			return GuiIds.SpecialInv;
+			return GuiIds.EQUIPMENT_INV;
 		if (current == ContainerEarthInventory.class)
-			return GuiIds.EarthInv;
+			return GuiIds.EARTH_INV;
 		return null;
 	}
 }

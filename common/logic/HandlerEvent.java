@@ -381,24 +381,24 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onDeathEvent(LivingDeathEvent event)
 	{
-		ItemAccessory.applyLivingEvent(event, LivingEventId.LivingDeath);
+		ItemAccessory.applyLivingEvent(event, LivingEventId.LIVING_DEATH);
 	}
 	
 	@ForgeSubscribe
 	public void onSpawnEvent(LivingSpawnEvent event)
 	{
-		ItemAccessory.applyLivingEvent(event, LivingEventId.LivingSpawn);
+		ItemAccessory.applyLivingEvent(event, LivingEventId.LIVING_SPAWN);
 	}
 	
 	@ForgeSubscribe
 	public void onSleepEvent(PlayerSleepInBedEvent event)
 	{
-		ItemAccessory.applyLivingEvent(event, LivingEventId.PlayerSleepInBed);
+		ItemAccessory.applyLivingEvent(event, LivingEventId.PLAYER_SLEEP_IN_BED);
 	}
 	
 	@ForgeSubscribe
 	public void onArrowLoose(ArrowLooseEvent event)
 	{
-		ItemAccessory.applyLivingEvent(event, LivingEventId.ArrowLoose);
+		ItemAccessory.applyLivingEvent(event, LivingEventId.ARROW_LOOSE);
 	}
 }

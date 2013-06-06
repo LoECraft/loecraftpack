@@ -18,7 +18,7 @@ public class ContainerEarthInventory extends Container {
 	public ContainerEarthInventory(EntityPlayer entityPlayer)
 	{
 		normalInv = entityPlayer.inventory;
-		earthInv = (InventoryEarth)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.EarthPony);
+		earthInv = (InventoryEarth)HandlerExtendedInventoryCommon.getInventory(entityPlayer, InventoryId.EARTH_PONY);
 		
 		int v;
         int h;
