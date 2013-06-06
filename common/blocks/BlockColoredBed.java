@@ -77,9 +77,9 @@ public class BlockColoredBed extends BlockBed implements ITileEntityProvider {
 		
 		for (String name : HandlerColoredBed.iconNames)
 		{
-			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_top")} );
-			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_end")} );
-			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:bed_"+name+"_head_side")} );
+			this.bedtop.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_top"), par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_head_top")} );
+			this.bedend.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_end"), par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_head_end")} );
+			this.bedside.add( new Icon[] {par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_feet_side"), par1IconRegister.registerIcon("loecraftpack:beds/bed_"+name+"_head_side")} );
 		}
 		
 		for (String name : HandlerColoredBed.bedPairs.keySet())
