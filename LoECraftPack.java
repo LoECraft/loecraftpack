@@ -271,43 +271,8 @@ public class LoECraftPack
     	//locate and remove old bed recipe
 		HandlerColoredBed.cleanBedRecipe();
     	
-    	//Add base-color beds
-    	HandlerColoredBed.addCustomBed("Rarity", Dye.White);
-    	HandlerColoredBed.addCustomBed("Octavia", Dye.LightGray);
-    	HandlerColoredBed.addCustomBed("Derpy", Dye.Gray);
-    	HandlerColoredBed.addCustomBed("Discord", Dye.Black);
-    	HandlerColoredBed.addCustomBed("Big Mac", Dye.Red);
-    	HandlerColoredBed.addCustomBed("Applejack", Dye.Orange);
-    	HandlerColoredBed.addCustomBed("Fluttershy", Dye.Yellow);
-    	HandlerColoredBed.addCustomBed("Granny Smith", Dye.Lime);
-    	HandlerColoredBed.addCustomBed("Spike", Dye.Green);
-    	HandlerColoredBed.addCustomBed("Trixie", Dye.Cyan);
-    	HandlerColoredBed.addCustomBed("Rainbow Dash", Dye.LightBlue);
-    	HandlerColoredBed.addCustomBed("Luna", Dye.Blue);
-    	HandlerColoredBed.addCustomBed("Twilight Sparkle", Dye.Purple);
-    	HandlerColoredBed.addCustomBed("Cheerilee", Dye.Magenta);
-    	HandlerColoredBed.addCustomBed("Pinkie Pie", Dye.Pink);
-    	HandlerColoredBed.addCustomBed("Muffin", Dye.Brown);
-    	
-    	//Add combo-color beds
-    	HandlerColoredBed.addCustomBed("Celestia", Dye.Lime, Dye.LightBlue, Dye.Pink);
-    	HandlerColoredBed.addCustomBed("Fausticorn", Dye.White, Dye.Red, Dye.White);
-    	HandlerColoredBed.addCustomBed("CMC", Dye.Red, Dye.Blue, Dye.Yellow);
-    	HandlerColoredBed.addCustomBed("Sweetie Belle", Dye.White, Dye.Pink, Dye.Magenta);
-    	HandlerColoredBed.addCustomBed("Scootaloo", Dye.Orange, Dye.Purple, Dye.Orange);
-    	HandlerColoredBed.addCustomBed("Babs Seed", Dye.Brown, Dye.Red, Dye.Pink);
-    	HandlerColoredBed.addCustomBed("Apple Bloom", Dye.Yellow, Dye.Red, Dye.Yellow);
-    	HandlerColoredBed.addCustomBed("Silver Spoon", Dye.Gray, Dye.LightGray, Dye.LightBlue);
-    	HandlerColoredBed.addCustomBed("Diamond Tiara", Dye.Pink, Dye.Purple, Dye.White);
-    	HandlerColoredBed.addCustomBed("Lyra", Dye.Lime, Dye.Yellow, Dye.Cyan);
-    	HandlerColoredBed.addCustomBed("Bon Bon", Dye.Blue, Dye.Pink, Dye.Yellow);
-    	HandlerColoredBed.addCustomBed("Spitfire", Dye.Yellow, Dye.Orange, Dye.Yellow);
-    	HandlerColoredBed.addCustomBed("Shining Armor", Dye.White, Dye.LightBlue, Dye.Blue);
-    	HandlerColoredBed.addCustomBed("Cadence", Dye.Purple, Dye.Magenta, Dye.Yellow);
-    	HandlerColoredBed.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
-    	
-    	//Register bed pairs
-    	HandlerColoredBed.addBedPair("Alicorn Sisters", "Celestia", "Luna");
+		//load all beds
+		HandlerColoredBed.loadBeds();
     	
     	//Crystal Heart
     	CraftingManager.getInstance().addRecipe(new ItemStack(LoECraftPack.itemCrystalHeart, 1, 0), "XX", "XX",
