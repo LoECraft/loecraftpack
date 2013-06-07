@@ -110,8 +110,8 @@ public class HandlerColoredBed
 	{
 		//Add base-color beds
     	HandlerColoredBed.addCustomBed("Rarity", Dye.White);
-    	HandlerColoredBed.addCustomBed("Octavia", Dye.LightGray);
-    	HandlerColoredBed.addCustomBed("Derpy", Dye.Gray);
+    	HandlerColoredBed.addCustomBed("Derpy", Dye.LightGray);
+    	HandlerColoredBed.addCustomBed("Octavia", Dye.Gray);
     	HandlerColoredBed.addCustomBed("Discord", Dye.Black);
     	HandlerColoredBed.addCustomBed("Big Mac", Dye.Red);
     	HandlerColoredBed.addCustomBed("Applejack", Dye.Orange);
