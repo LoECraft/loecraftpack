@@ -142,8 +142,18 @@ public class HandlerColoredBed
     	HandlerColoredBed.addCustomBed("Shining Armor", Dye.White, Dye.LightBlue, Dye.Blue);
     	HandlerColoredBed.addCustomBed("Cadence", Dye.Purple, Dye.Magenta, Dye.Yellow);
     	HandlerColoredBed.addCustomBed("Colgate", Dye.White, Dye.Blue, Dye.Cyan);
+    	HandlerColoredBed.addCustomBed("Vinyl Scratch", Dye.White, Dye.Blue, Dye.LightBlue);
     	
     	//Register bed pairs
     	HandlerColoredBed.addBedPair("Alicorn Sisters", "Celestia", "Luna");
+    	HandlerColoredBed.addBedPair("Belle Sisters", "Rarity", "Sweetie Belle");
+    	HandlerColoredBed.addBedPair("Apple Sisters", "Apple Jack", "Apple Bloom");
+    	HandlerColoredBed.addBedPair("Wing Sisters", "Rainbow Dash", "Scootaloo");
+    	HandlerColoredBed.addBedPair("Double Trouble", "Silver Spoon", "Diamond Tiara");
+    	HandlerColoredBed.addBedPair("Fangasm", "Lyra", "Bon Bon");
+    	HandlerColoredBed.addBedPair("Royal Couple", "Shining Armor", "Cadence");
+    	HandlerColoredBed.addBedPair("Muffin Love", "Derpy", "Muffin");
+    	HandlerColoredBed.addBedPair("Chocolate Rain", "Pinkie Pie", "Discord");
+    	HandlerColoredBed.addBedPair("Music", "Octavia", "Vinyl Scratch");
 	}
 }
