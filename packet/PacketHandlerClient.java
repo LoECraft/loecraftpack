@@ -4,9 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.enums.Race;
+import loecraftpack.ponies.stats.StatHandlerClient;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainerCreative;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import cpw.mods.fml.common.network.IPacketHandler;
@@ -61,6 +66,17 @@ public class PacketHandlerClient implements IPacketHandler
     			    	int newID = data.readInt();
     			    	Minecraft.getMinecraft().theWorld.setBlockAndMetadataAndInvalidate(x, y, z, newID, 0);
     			    	break;
+            		case PacketIds.subInventory:
+            			Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
+            			break;
+            		case PacketIds.applyStats:
+            			System.out.println("recieved stats packet");
+            			int race = data.readInt();
+            			String username = PacketHelper.readString(data);
+            			System.out.println("...");
+            			LoECraftPack.StatHandler.addPlayerData(username, Race.values()[race]);
+            			System.out.println("...");
+            			break;
             	}
             }
             catch(IOException e){}

@@ -4,9 +4,16 @@ import loecraftpack.enums.Race;
 
 public class StatHandlerClient extends StatHandlerServer
 {
-	public static void AddPlayer(String player, Race race)
+	public static void updatePlayerData(String player, Race race)
 	{
-		stats.put(player, new Stats(race));
+		System.out.println("Apply C");
+		System.out.println("I'm a "+race.name());
+		if(stats.containsKey(player))
+			//single-player load  OR  stat update
+			((Stats)stats.get(player)).race = race;
+		else
+			//multi-player load
+			stats.put(player, new Stats(race));
 	}
 	
 	public static boolean isRace(String player, Race race)

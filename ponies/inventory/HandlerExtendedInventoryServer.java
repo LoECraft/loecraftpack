@@ -82,28 +82,35 @@ public class HandlerExtendedInventoryServer
 		}
 	}
 	
-	public static boolean canUseNextInv(EntityPlayer player, GuiIds newId)
-	{		
-		GuiIds oldId = getCurrentInvId(player);
-		
+	public static GuiIds getNextInv(EntityPlayer player, GuiIds oldId)
+	{
 		switch (oldId)
 		{
 		case MAIN_INV:
 		case CREATIVE_INV:
-			return newId == GuiIds.EQUIPMENT_INV;
+			return GuiIds.EQUIPMENT_INV;
 			
 		case EQUIPMENT_INV:
 			if (LoECraftPack.StatHandler.isRace(player, Race.EARTH))
-				return newId == GuiIds.EARTH_INV;
+				return GuiIds.EARTH_INV;
 			else
-				return newId == GuiIds.MAIN_INV || newId == GuiIds.CREATIVE_INV;
+				return GuiIds.MAIN_INV;
 			
 		case EARTH_INV:
-			return newId == GuiIds.MAIN_INV || newId == GuiIds.CREATIVE_INV;
+			return GuiIds.MAIN_INV;
 		
 		default:
-			return false;
+			return null;
 		}
+	}
+	
+	public static boolean compareInvId(EntityPlayer player, GuiIds clientId)
+	{
+		GuiIds current = getCurrentInvId(player);
+		if (clientId==GuiIds.CREATIVE_INV && current==GuiIds.MAIN_INV)
+			return true;
+		else
+			return current == clientId;
 	}
 	
 	public static GuiIds getCurrentInvId(EntityPlayer player)
@@ -111,8 +118,6 @@ public class HandlerExtendedInventoryServer
 		Class current = player.openContainer.getClass();
 		if (current == ContainerPlayer.class)
 			return GuiIds.MAIN_INV;
-		if (current == ContainerCreative.class)
-			return GuiIds.CREATIVE_INV;
 		if (current == ContainerSpecialEquipment.class)
 			return GuiIds.EQUIPMENT_INV;
 		if (current == ContainerEarthInventory.class)

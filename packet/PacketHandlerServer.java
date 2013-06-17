@@ -12,7 +12,6 @@ import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.IPacketHandler;
@@ -80,17 +79,28 @@ public class PacketHandlerServer implements IPacketHandler
             			int guiId = data.readInt();
             			try
             			{
-            				if (guiId < GuiIds.values().length && HandlerExtendedInventoryServer.canUseNextInv(sender, GuiIds.values()[guiId]))
+            				if (guiId < GuiIds.values().length)
             				{
-            					if (GuiIds.values()[guiId] != GuiIds.CREATIVE_INV)
-			            			sender.openGui(LoECraftPack.instance,
-			            			                guiId,
-			            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
-			            			                (int)sender.posX,
-			            			                (int)sender.posY,
-			            			                (int)sender.posZ);
-            					else
-            						sender.openContainer = sender.inventoryContainer;
+            					GuiIds clientGui = GuiIds.values()[guiId];
+            					if (HandlerExtendedInventoryServer.compareInvId(sender, clientGui))
+            					{
+            						//set id for exception exception
+            						guiId = HandlerExtendedInventoryServer.getNextInv(sender, clientGui).ordinal();
+            						if (sender.capabilities.isCreativeMode && clientGui==GuiIds.EARTH_INV)
+            						{
+                    					sender.openContainer = sender.inventoryContainer;
+                    					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.subInventory),player);
+            						}
+            						else
+            						{
+		            					sender.openGui(LoECraftPack.instance,
+		            							guiId,
+		            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
+		            			                (int)sender.posX,
+		            			                (int)sender.posY,
+		            			                (int)sender.posZ);
+            						}
+            					}
             				}
             			}
             			catch(IllegalArgumentException e)

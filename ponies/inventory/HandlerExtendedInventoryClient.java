@@ -64,56 +64,30 @@ public class HandlerExtendedInventoryClient
 	{
 		if (Minecraft.getMinecraft().currentScreen != null)
 		{
+			//current screen
 			Class gui = Minecraft.getMinecraft().currentScreen.getClass();
-			GuiIds id = Minecraft.getMinecraft().playerController.isInCreativeMode()? GuiIds.CREATIVE_INV : GuiIds.MAIN_INV;
-			boolean flag = false;
-			if (gui == GuiInventory.class || gui == GuiContainerCreative.class)
+			GuiIds currentId = null;
+			if (gui == GuiInventory.class)
 			{
-				id = GuiIds.EQUIPMENT_INV;
-				flag = true;
+				currentId = GuiIds.MAIN_INV;
+			}
+			else if (gui == GuiContainerCreative.class)
+			{
+				currentId = GuiIds.CREATIVE_INV;
 			}
 			else if (gui == GuiSpecialEquipment.class)
 			{
-				if (LoECraftPack.StatHandler.isRace(Minecraft.getMinecraft().thePlayer, Race.EARTH))
-					id = GuiIds.EARTH_INV;
-				flag = true;
+				currentId = GuiIds.EQUIPMENT_INV;
 			}
 			else if (gui == GuiEarthPonyInventory.class)
 			{
-				flag = true;
+				currentId = GuiIds.EARTH_INV;
 			}
-			if (flag)
-			{
-				if(id == GuiIds.CREATIVE_INV)
-					Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
-				
-				setNewScreen(id);
+			//Attempt to cycle forward; this can lag for every thing except creative Inv.
+			if (currentId != null)
+			{				
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.subInventory, currentId.ordinal()));
 			}
 		}
-	}
-	
-	/**
-	 * this tells the server to set the screen
-	 */
-	public static void setNewScreen(GuiIds id)
-	{
-		if (!inventoryMode())
-			return;
-		PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.subInventory, id.ordinal()));
-	}
-	
-	/**
-	 * confirms that the player is in inventory mode.
-	 */
-	public static boolean inventoryMode()
-	{
-		if(Minecraft.getMinecraft().currentScreen==null)
-			return false;
-		Class currentScreen = Minecraft.getMinecraft().currentScreen.getClass();
-		return currentScreen == GuiInventory.class ? true :
-			   currentScreen == GuiContainerCreative.class ? true :
-			   currentScreen == GuiSpecialEquipment.class ? true :
-			   currentScreen == GuiEarthPonyInventory.class ? true :
-			   false;
 	}
 }
