@@ -11,6 +11,7 @@ import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 
 public class StatHandlerServer
 {
@@ -43,6 +44,7 @@ public class StatHandlerServer
 		}
 	}
 	
+	//used by client side
 	public void updatePlayerData(String player, Race race){}
 	
 	public boolean isRace(EntityPlayer player, Race race)

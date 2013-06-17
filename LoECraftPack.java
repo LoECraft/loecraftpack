@@ -49,6 +49,7 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
+import loecraftpack.ponies.stats.StatCommandRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
@@ -63,10 +64,12 @@ import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
+import cpw.mods.fml.common.Mod.ServerStarting;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -288,5 +291,14 @@ public class LoECraftPack
 	{
 		//TODO: POST-LOAD STUFF
 		proxy.doProxyStuffPost();
+	}
+	
+	/****************/
+	/**Server Start**/
+	/****************/
+	@ServerStarting
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new StatCommandRace());
 	}
 }
