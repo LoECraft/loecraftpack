@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.gui.GuiIds;
@@ -21,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
+@SideOnly(Side.CLIENT)
 public class HandlerExtendedInventoryClient
 {
 	static Map<String, InventoryEquipment> playerSpecialInv = new HashMap<String, InventoryEquipment>();

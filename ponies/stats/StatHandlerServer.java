@@ -43,7 +43,9 @@ public class StatHandlerServer
 		}
 	}
 	
-	public static boolean isRace(EntityPlayer player, Race race)
+	public void updatePlayerData(String player, Race race){}
+	
+	public boolean isRace(EntityPlayer player, Race race)
 	{
 		if (!stats.containsKey(player.username))
 			addPlayer(player);
@@ -53,7 +55,7 @@ public class StatHandlerServer
 		return playerStats.race == race || playerStats.race == Race.ALICORN; //Alicorn is master race
 	}
 	
-	public static Race getRace(EntityPlayer player)
+	public Race getRace(EntityPlayer player)
 	{
 		if (!stats.containsKey(player.username))
 			addPlayer(player);
@@ -61,7 +63,7 @@ public class StatHandlerServer
 		return ((Stats)stats.get(player.username)).race;
 	}
 	
-	public static void setRace(EntityPlayer player, Race race)
+	public void setRace(EntityPlayer player, Race race)
 	{
 		if (!stats.containsKey(player.username))
 			addPlayer(player);

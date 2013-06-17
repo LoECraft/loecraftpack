@@ -3,6 +3,9 @@ package loecraftpack.ponies.inventory;
 import java.util.HashMap;
 import java.util.Map;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.gui.GuiIds;
 import loecraftpack.enums.Race;
@@ -26,7 +29,7 @@ public class HandlerExtendedInventoryServer
 		
 		playerEquipmentInv.put(player.username, new InventoryEquipment(nbt));
 		
-		if (StatHandlerServer.isRace(player, Race.EARTH))
+		if (LoECraftPack.statHandler.isRace(player, Race.EARTH))
 			playerEarthInv.put(player.username, new InventoryEarth(nbt));
 	}
 	
@@ -43,7 +46,7 @@ public class HandlerExtendedInventoryServer
 			special.writeToNBT(nbt);
 		}
 		
-		if (StatHandlerServer.isRace(player, Race.EARTH))
+		if (LoECraftPack.statHandler.isRace(player, Race.EARTH))
 		{
 			InventoryEarth earth = playerEarthInv.get(player.username);
 			if (earth!=null)
@@ -91,7 +94,7 @@ public class HandlerExtendedInventoryServer
 			return GuiIds.EQUIPMENT_INV;
 			
 		case EQUIPMENT_INV:
-			if (LoECraftPack.StatHandler.isRace(player, Race.EARTH))
+			if (LoECraftPack.statHandler.isRace(player, Race.EARTH))
 				return GuiIds.EARTH_INV;
 			else
 				return GuiIds.MAIN_INV;

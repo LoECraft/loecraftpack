@@ -32,7 +32,7 @@ public class SlotRacial extends Slot {
 		if (itemStack.getItem() == null)
 			return false;
 		if (itemStack.getItem() instanceof IRacialItem &&
-		    ((IRacialItem)itemStack.getItem()).canBeUsedBy(LoECraftPack.StatHandler.getRace(player)))
+		    ((IRacialItem)itemStack.getItem()).canBeUsedBy(LoECraftPack.statHandler.getRace(player)))
 			return true;
         return false;
     }

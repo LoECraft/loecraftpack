@@ -47,6 +47,7 @@ public class ClientProxy extends CommonProxy
 	
 	public void doProxyStuffPost()
 	{
+		System.out.println("--------------------proxy client----------------------");
 		Minecraft.getMinecraft().gameSettings.keyBindJump = HandlerKey.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
 	}
 }

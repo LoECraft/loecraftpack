@@ -4,7 +4,8 @@ import loecraftpack.enums.Race;
 
 public class StatHandlerClient extends StatHandlerServer
 {
-	public static void updatePlayerData(String player, Race race)
+	
+	public void updatePlayerData(String player, Race race)
 	{
 		if(stats.containsKey(player))
 			//single-player load  OR  stat update
@@ -14,8 +15,9 @@ public class StatHandlerClient extends StatHandlerServer
 			stats.put(player, new Stats(race));
 	}
 	
-	public static boolean isRace(String player, Race race)
+	public boolean isRace(String player, Race race)
 	{
+		System.out.println("do I get used?");
 		if (stats.containsKey(player))
 		{
 			Stats playerStats = (Stats)stats.get(player);
@@ -26,16 +28,18 @@ public class StatHandlerClient extends StatHandlerServer
 		return false;
 	}
 	
-	public static Race getRace(String player)
+	public Race getRace(String player)
 	{
+		System.out.println("do I get used?");
 		if (stats.containsKey(player))
 			return ((Stats)stats.get(player)).race;
 		else
 			return Race.NONE;
 	}
 	
-	public static void setRace(String player, Race race)
+	public void setRace(String player, Race race)
 	{
+		System.out.println("do I get used?");
 		if (stats.containsKey(player))
 			((Stats)stats.get(player)).race = race;
 	}

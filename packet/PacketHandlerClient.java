@@ -74,7 +74,7 @@ public class PacketHandlerClient implements IPacketHandler
             		case PacketIds.applyStats:
             			int race = data.readInt();
             			String username = PacketHelper.readString(data);
-            			StatHandlerClient.updatePlayerData(username, Race.values()[race]);
+            			LoECraftPack.statHandler.updatePlayerData(username, Race.values()[race]);
             			break;
             	}
             }

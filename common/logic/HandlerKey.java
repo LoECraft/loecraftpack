@@ -57,7 +57,7 @@ public class HandlerKey extends KeyHandler
 			if (kb.equals(jump))
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-				if (LoECraftPack.StatHandler.isRace(player, Race.EARTH) && player.motionY > 0)
+				if (LoECraftPack.statHandler.isRace(player, Race.EARTH) && player.motionY > 0)
 					player.motionY *= 1.175f;
 			}
 			else if (kb.equals(renderMonolithKeybind))

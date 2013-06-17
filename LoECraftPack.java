@@ -95,7 +95,7 @@ public class LoECraftPack
 	@SidedProxy(clientSide = "loecraftpack.proxies.ClientProxy", serverSide = "loecraftpack.proxies.CommonProxy")
     public static CommonProxy proxy;
 	@SidedProxy(clientSide = "loecraftpack.ponies.stats.StatHandlerClient", serverSide = "loecraftpack.ponies.stats.StatHandlerServer")
-    public static StatHandlerServer StatHandler;
+    public static StatHandlerServer statHandler;
 	
 	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
