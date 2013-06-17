@@ -37,7 +37,7 @@ public class StatCommandRace implements ICommand {
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "Race <name>";
+		return "Race <set/get> <username:optional> <race:set>";
 	}
 
 	@Override
@@ -49,9 +49,29 @@ public class StatCommandRace implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] string) 
 	{
-		if (string.length<1 || string.length>2)
+		if (string.length<1 || string.length>3)
 		{
 			icommandsender.sendChatToPlayer("Invalid number of arguments");
+			return;
+		}
+		
+		int mode;
+		String modeS = string[0].toLowerCase();
+		System.out.println(modeS);
+		if (modeS.matches("get"))
+			mode = 0;
+		else if (modeS.matches("set"))
+		{
+			if (string.length<2)
+			{
+				icommandsender.sendChatToPlayer("Invalid number of arguments");
+				return;
+			}
+			mode = 1;
+		}
+		else
+		{
+			icommandsender.sendChatToPlayer("Invalid 2nd argument");
 			return;
 		}
 		
@@ -60,32 +80,44 @@ public class StatCommandRace implements ICommand {
 		Race race = null;
 		EntityPlayer player = null;
 		
-		
 		//get user
-		if(string.length==1)
+		if ( (mode==1 && string.length==2) || (mode==0 && string.length==1))
 			username = icommandsender.getCommandSenderName();
-		else
-			username = string[0];
+		else 
+			username = string[1];
 		player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(username);
 		
 		//get race
-		if (goal == "n" || goal.startsWith("no"))
-			race = Race.NONE;
-		else if(goal == "u" || goal.startsWith("uni"))
-			race = Race.UNICORN;
-		else if(goal == "p" || goal.startsWith("peg"))
-			race = Race.PEGASUS;
-		else if(goal == "e" || goal.startsWith("ear"))
-			race = Race.EARTH;
-		else if(goal == "a" || goal.startsWith("ali"))
-			race = Race.ALICORN;
+		if (mode == 1)
+		{
+			if (goal.matches("n") || goal.startsWith("no"))
+				race = Race.NONE;
+			else if (goal.matches("u") || goal.startsWith("uni"))
+				race = Race.UNICORN;
+			else if (goal.matches("p") || goal.startsWith("peg"))
+				race = Race.PEGASUS;
+			else if (goal.matches("e") || goal.startsWith("ear"))
+				race = Race.EARTH;
+			else if (goal.matches("a") || goal.startsWith("ali"))
+				race = Race.ALICORN;
+		}
 		
 		if (player==null)
 			icommandsender.sendChatToPlayer("Invalid player name");
-		else if (race==null)
-			icommandsender.sendChatToPlayer("Invalid race type");
+		else if (mode == 0)
+		{
+			icommandsender.sendChatToPlayer(username+"'s race is: "+LoECraftPack.statHandler.getRace(player));
+		}
 		else
-			LoECraftPack.statHandler.setRace(player, race);
+		{
+			if (race==null)
+				icommandsender.sendChatToPlayer("Invalid race type");
+			else
+			{
+				LoECraftPack.statHandler.setRace(player, race);
+				icommandsender.sendChatToPlayer(username+"'s race is set to: "+LoECraftPack.statHandler.getRace(player));
+			}
+		}
 		
 	}
 
