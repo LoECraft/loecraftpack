@@ -66,7 +66,7 @@ public class PacketIds
 	public static final byte useAbility = -124;
 	
 	/**TO SERVER: Cycle Thru Inventory <p>
-	 * - Gui To Load (int)
+	 * - Current Gui (int)
 	 */
 	public static final byte subInventory = -123;
 	
