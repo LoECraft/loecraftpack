@@ -6,8 +6,6 @@ public class StatHandlerClient extends StatHandlerServer
 {
 	public static void updatePlayerData(String player, Race race)
 	{
-		System.out.println("Apply C");
-		System.out.println("I'm a "+race.name());
 		if(stats.containsKey(player))
 			//single-player load  OR  stat update
 			((Stats)stats.get(player)).race = race;

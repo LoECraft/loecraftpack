@@ -24,6 +24,8 @@ public class PacketHandlerClient implements IPacketHandler
 	{
             DataInputStream data = new DataInputStream(new ByteArrayInputStream(payload.data));
             
+            
+            
             try
             {
             	switch(data.readByte())
@@ -70,12 +72,9 @@ public class PacketHandlerClient implements IPacketHandler
             			Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
             			break;
             		case PacketIds.applyStats:
-            			System.out.println("recieved stats packet");
             			int race = data.readInt();
             			String username = PacketHelper.readString(data);
-            			System.out.println("...");
-            			LoECraftPack.StatHandler.addPlayerData(username, Race.values()[race]);
-            			System.out.println("...");
+            			StatHandlerClient.updatePlayerData(username, Race.values()[race]);
             			break;
             	}
             }

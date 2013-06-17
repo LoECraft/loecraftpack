@@ -33,7 +33,6 @@ public class StatHandlerServer
 	{
 		if (stats.containsKey(player.username))
 		{
-			System.out.println("UPDATEY S");
 			Stats stat = (Stats)stats.get(player.username);
 			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.applyStats, stat.race.ordinal(), player.username), (Player)player);
 			return true;
@@ -42,12 +41,6 @@ public class StatHandlerServer
 		{
 			return false;
 		}
-	}
-	
-	//used by client, does nothing in single player
-	public static void addPlayerData(String player, Race race)
-	{
-		System.out.println("Apply S");
 	}
 	
 	public static boolean isRace(EntityPlayer player, Race race)
