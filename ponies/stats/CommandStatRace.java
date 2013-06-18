@@ -11,11 +11,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 
-public class StatCommandRace implements ICommand {
+public class CommandStatRace implements ICommand {
 	
 	private List aliases;
 	
-	public StatCommandRace()
+	public CommandStatRace()
 	{
 		aliases = new ArrayList();
 		aliases.add("race");
@@ -37,7 +37,7 @@ public class StatCommandRace implements ICommand {
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "Race <set/get> <username:optional> <race:set>";
+		return "/race <Set/Get> <username:optional> <race:set>";
 	}
 
 	@Override

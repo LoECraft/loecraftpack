@@ -105,6 +105,55 @@ public class HandlerEvent
 	}
 	
 	@ForgeSubscribe
+	public void onPlayerInteract(PlayerInteractEvent event)
+	{
+		EntityPlayer entityPlayer = event.entityPlayer;
+		System.out.print("click - ");
+		//test code
+		if (entityPlayer.getHeldItem() != null)
+		{
+			if (entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
+			{
+				if (event.action == Action.RIGHT_CLICK_BLOCK)
+				{
+					//Testing code: ore generation
+					int countR = 0;
+					int countC = 0;
+					Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
+					for (int y = 0; y<256; y++)
+					{
+						for (int x = 0; x<16; x++)
+						{
+							for (int z = 0; z<16; z++)
+							{
+								if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
+								{
+									if (chunk.getBlockMetadata(x, y, z)>7)
+										countR++;
+									else
+										countC++;
+								}
+							}
+						}
+					}
+					System.out.println("common ores: "+countC);
+					System.out.println("rare   ores: "+countR);
+				}
+			}
+			else if (entityPlayer.getHeldItem().itemID == Item.stick.itemID &&
+					 entityPlayer.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
+					 event.action == Action.LEFT_CLICK_BLOCK)
+			{
+				//testing code: teleport to skyland
+				TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLands, LoECraftPack.SkylandDimensionID);
+				TeleporterCustom.teleporterSkyLands.travelToDimension(event.entityPlayer);
+				event.setResult(Result.DENY);
+			}
+		}
+		System.out.println();
+	}
+	
+	@ForgeSubscribe
 	public void onBucket(FillBucketEvent event)
 	{
 		int x = event.target.blockX, z = event.target.blockZ;
@@ -192,71 +241,6 @@ public class HandlerEvent
 			}
 		}
 	}
-	
-	
-	@ForgeSubscribe
-	public void onPlayerInteract(PlayerInteractEvent event)
-	{
-		EntityPlayer entityPlayer = event.entityPlayer;
-		System.out.print("click - ");
-		//test code
-		if (entityPlayer.getHeldItem() != null)
-		{
-			if (entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
-			{
-				if (event.action == Action.RIGHT_CLICK_AIR)
-				{
-					if (!entityPlayer.worldObj.isRemote)
-					{
-						//testing code: ore vision
-						PotionEffect effect = entityPlayer.getActivePotionEffect(LoECraftPack.potionOreVision);
-						if (effect!= null)
-						{
-							entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, effect.getAmplifier()+1));
-						}
-						else
-							entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionOreVision.id, 1200, 0));
-					}
-				}
-				if (event.action == Action.RIGHT_CLICK_BLOCK)
-				{
-					//Testing code: ore generation
-					int countR = 0;
-					int countC = 0;
-					Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
-					for (int y = 0; y<256; y++)
-					{
-						for (int x = 0; x<16; x++)
-						{
-							for (int z = 0; z<16; z++)
-							{
-								if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
-								{
-									if (chunk.getBlockMetadata(x, y, z)>7)
-										countR++;
-									else
-										countC++;
-								}
-							}
-						}
-					}
-					System.out.println("common ores: "+countC);
-					System.out.println("rare   ores: "+countR);
-				}
-			}
-			else if (entityPlayer.getHeldItem().itemID == Item.stick.itemID &&
-					 entityPlayer.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
-					 event.action == Action.LEFT_CLICK_BLOCK)
-			{
-				//testing code: teleport to skyland
-				TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLands, LoECraftPack.SkylandDimensionID);
-				TeleporterCustom.teleporterSkyLands.travelToDimension(event.entityPlayer);
-				event.setResult(Result.DENY);
-			}
-		}
-		System.out.println();
-	}
-	
 	
 	/*
 	 * NOTE (WorldGenMinable):

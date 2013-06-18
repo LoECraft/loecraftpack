@@ -49,7 +49,8 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.stats.StatCommandRace;
+import loecraftpack.ponies.abilities.mechanics.CommandHiddenOres;
+import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
@@ -299,6 +300,7 @@ public class LoECraftPack
 	@ServerStarting
 	public void serverLoad(FMLServerStartingEvent event)
 	{
-		event.registerServerCommand(new StatCommandRace());
+		event.registerServerCommand(new CommandStatRace());
+		event.registerServerCommand(new CommandHiddenOres());
 	}
 }
