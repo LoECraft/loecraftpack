@@ -86,7 +86,7 @@ public class PacketHandlerServer implements IPacketHandler
             					{
             						//set id for exception exception
             						guiId = HandlerExtendedInventoryServer.getNextInv(sender, clientGui).ordinal();
-            						if (sender.capabilities.isCreativeMode && clientGui==GuiIds.EARTH_INV)
+            						if (sender.capabilities.isCreativeMode && guiId==GuiIds.MAIN_INV.ordinal())
             						{
                     					sender.openContainer = sender.inventoryContainer;
                     					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.subInventory),player);
@@ -107,7 +107,7 @@ public class PacketHandlerServer implements IPacketHandler
             			{
             				//this allows the exception for reloading crafting inventory without closing it first, to be ignored.
             				//currently only one crafting inventory that applies.
-            				if (! (guiId == GuiIds.MAIN_INV.ordinal() || guiId == GuiIds.CREATIVE_INV.ordinal()))
+            				if (! (guiId == GuiIds.MAIN_INV.ordinal()))
             					throw e;
             			}
             			break;
