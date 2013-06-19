@@ -58,8 +58,15 @@ public class HandlerEvent
 		event.entityLiving.motionY += 1;
 	}*/
 	
+	
+	
+	
+  /********************************************************************************************/
+ /**  MONOLITH  ******************************************************************************/
+/********************************************************************************************/
+	
 	@ForgeSubscribe
-	public void onBlock(PlayerInteractEvent event)
+	public void onMonolithInteract(PlayerInteractEvent event)
 	{
 		int x = event.x, z = event.z;
 		if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)
@@ -105,104 +112,43 @@ public class HandlerEvent
 		}
 	}
 	
+	
+	
+	
+  /********************************************************************************************/
+ /**  ABILITIES  *****************************************************************************/
+/********************************************************************************************/
+	
 	@ForgeSubscribe
-	public void onPlayerInteract(PlayerInteractEvent event)
+	public void onAbilityInteract(PlayerInteractEvent event)
 	{
 		EntityPlayer player = event.entityPlayer;
 		System.out.print("click - ");
 		
-		//Earth-pony Buck
-		if (LoECraftPack.statHandler.isRace(player, Race.EARTH) && MechanicTreeBucking.canBuck(player))
+		  /*******************/
+		 /**Earth Pony Buck**/
+		/*******************/
+		if (player.getHeldItem()==null && MechanicTreeBucking.canBuck(player))
 		{
 			if (player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
 				System.out.println("BUCK");
 				MechanicTreeBucking.buckTree(player.worldObj, event.x, event.y, event.z, 0/*TODO fortune*/);
-				//TODO consume stamina
-			    event.setResult(Result.DENY);
-			}
-		}
-		
-		//test code
-		if (player.getHeldItem() != null)
-		{
-			if (player.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
-			{
-				if (event.action == Action.RIGHT_CLICK_BLOCK)
+				if (player.worldObj.isRemote)
 				{
-					//Testing code: ore generation
-					int countR = 0;
-					int countC = 0;
-					Chunk chunk = player.worldObj.getChunkFromChunkCoords(player.chunkCoordX, player.chunkCoordZ);
-					for (int y = 0; y<256; y++)
-					{
-						for (int x = 0; x<16; x++)
-						{
-							for (int z = 0; z<16; z++)
-							{
-								if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
-								{
-									if (chunk.getBlockMetadata(x, y, z)>7)
-										countR++;
-									else
-										countC++;
-								}
-							}
-						}
-					}
-					System.out.println("common ores: "+countC);
-					System.out.println("rare   ores: "+countR);
+					//TODO consume stamina
 				}
 			}
-			else if (player.getHeldItem().itemID == Item.stick.itemID &&
-					 player.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
-					 event.action == Action.LEFT_CLICK_BLOCK)
-			{
-				//testing code: teleport to skyland
-				TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLands, LoECraftPack.SkylandDimensionID);
-				TeleporterCustom.teleporterSkyLands.travelToDimension(event.entityPlayer);
-				event.setResult(Result.DENY);
-			}
 		}
-		System.out.println();
 	}
 	
-	@ForgeSubscribe
-	public void onBucket(FillBucketEvent event)
-	{
-		int x = event.target.blockX, z = event.target.blockZ;
-		
-		if (event.target.typeOfHit.ordinal() == 0)
-		{
-			switch(event.target.sideHit)
-			{
-				case 2:
-					z --;
-					break;
-				case 3:
-					z ++;
-					break;
-				case 4:
-					x --;
-					break;
-				case 5:
-					x ++;
-					break;
-			}
-		}
-
-		List<TileProtectionMonolith> list = BlockProtectionMonolith.monoliths.get(event.entityPlayer.worldObj.getWorldInfo().getDimension());
-		if (list != null)
-		for(TileProtectionMonolith te : list)
-		{
-			if (te.Owners.size() > 0)
-			{
-				if (!te.Owners.contains(event.entityPlayer.username) && te.pointIsProtected(x, z))
-					event.setCanceled(true);
-			}
-		}
-	}
+	
+	
+	
+  /********************************************************************************************/
+ /**  QUEST CHAT  ****************************************************************************/
+/********************************************************************************************/
 	
 	@ForgeSubscribe
 	public void onChatReceived(ClientChatReceivedEvent event)
@@ -220,13 +166,23 @@ public class HandlerEvent
 				event.setCanceled(true);
 		}
 	}
+    
+	
+	
+	
+  /***********************************************************************************************/
+ /**  BONE-MEAL ON CUSTOM SAPPLINGS  ************************************************************/
+/***********************************************************************************************/
 	
 	@ForgeSubscribe
 	public void onBonemeal(BonemealEvent event)
 	{
 		if (!event.world.isRemote)
 		{
-			//event use on Apple-Bloom Sapling
+			  /****************************/
+			 /**Grow Apple-Bloom Sapling**/
+			/****************************/
+			
 			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockAppleBloomSapling.blockID)
 			{
 			    if ((double)event.world.rand.nextFloat() < 0.45D)
@@ -236,7 +192,10 @@ public class HandlerEvent
 			    event.setResult(Result.ALLOW);
 			}
 			
-			//event use on Zap-Apple Sapling
+			  /**************************/
+			 /**Grow Zap-Apple Sapling**/
+			/**************************/
+			
 			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleSapling.blockID)
 			{
 			    if ((double)event.world.rand.nextFloat() < 0.45D)
@@ -245,23 +204,25 @@ public class HandlerEvent
 			    }
 			    event.setResult(Result.ALLOW);
 			}
-			
-			//testing event: use on AppleLogs
-			if (event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockZapAppleLog.blockID ||
-				event.world.getBlockId(event.X, event.Y, event.Z) == LoECraftPack.blockAppleBloomLog.blockID)
-			{
-				System.out.println("BUCK");
-				MechanicTreeBucking.buckTree(event.world, event.X, event.Y, event.Z, 0/*fortune*/);
-			    event.setResult(Result.ALLOW);
-			}
 		}
 	}
+    
+	
+	
+	
+  /***********************************************************************************************/
+ /**  TERRAIN GENERATION  ***********************************************************************/
+/***********************************************************************************************/
 	
 	/*
 	 * NOTE (WorldGenMinable):
 	 * the value number is actually 2 greater than the amount that can be generated in a cluster
 	 * so compensate for that.
 	 */
+	
+		  /***************/
+		 /**Hidden Ores**/
+		/***************/
 	@ForgeSubscribe
 	public void onDecorateWorldPre(DecorateBiomeEvent.Pre event)
 	{
@@ -326,6 +287,9 @@ public class HandlerEvent
 		}
 	}
 	
+		  /****************************/
+		 /**Common Generate Ore Vein**/
+		/****************************/
 	protected void generateOre(int sets, DecorateBiomeEvent event, WorldGenerator worldGenerator, int minHeight, int maxHeight)
 	{
 		for(int i=0; i<sets; i++)
@@ -336,32 +300,63 @@ public class HandlerEvent
 	        worldGenerator.generate(event.world, event.rand, x, y, z);
 		}
 	}
+    
 	
+	
+	
+  /***********************************************************************************************/
+ /**  CUSTOM TELEPORTERS  ***********************************************************************/
+/***********************************************************************************************/
+	
+		  /********************************/
+		 /**Build all Custom Teleporters**/
+		/********************************/
 	@ForgeSubscribe
 	public void onWorldLoad(WorldEvent.Load event)
 	{
 		TeleporterCustom.buildTeleporters(event.world);
 	}
 	
+		  /********************************/
+		 /**Clear all Custom Teleporters**/
+		/********************************/
 	@ForgeSubscribe
 	public void onWorldUnload(WorldEvent.Unload event)
 	{
 		TeleporterCustom.clearTeleporters(event.world);
 	}
+    
 	
+	
+	
+  /********************************************************************************************/
+ /**  RENDERS  *******************************************************************************/
+/********************************************************************************************/
+	
+		  /****************************/
+		 /**Render Hidden Ore Vision**/
+		/****************************/
 	@SideOnly(Side.CLIENT)
 	@ForgeSubscribe
 	public void onfinalRender(RenderWorldLastEvent event)
 	{
+		
         ClientProxy.renderHiddenOre.drawBlockPhantomTexture(event);
 	}
+    
 	
+	
+	
+  /********************************************************************************************/
+ /**  CUSTOM ARROWS  *************************************************************************/
+/********************************************************************************************/
+	
+		  /****************************************/
+		 /**Alert Wolves Code, for custom arrows**/
+		/****************************************/
 	@ForgeSubscribe
     public void onLivingAttack(LivingAttackEvent event)
     {
-		/**
-		 * Alert Wolves Code, for custom arrows
-		 */
 		if(event.entityLiving instanceof EntityPlayer)
 		{
 	    	Entity entity = event.source.getEntity();
@@ -377,27 +372,143 @@ public class HandlerEvent
 		}
     }
     
+	
+	
+	
+  /********************************************************************************************/
+ /**  ACCESSORY EVENT  ***********************************************************************/
+/********************************************************************************************/
+	
+		  /*********/
+		 /**Death**/
+		/*********/
 	@ForgeSubscribe
 	public void onDeathEvent(LivingDeathEvent event)
 	{
 		ItemAccessory.applyLivingEvent(event, LivingEventId.LIVING_DEATH);
 	}
 	
+		  /*********/
+		 /**Spawn**/
+		/*********/
 	@ForgeSubscribe
 	public void onSpawnEvent(LivingSpawnEvent event)
 	{
 		ItemAccessory.applyLivingEvent(event, LivingEventId.LIVING_SPAWN);
 	}
 	
+		  /*********/
+		 /**Sleep**/
+		/*********/
 	@ForgeSubscribe
 	public void onSleepEvent(PlayerSleepInBedEvent event)
 	{
 		ItemAccessory.applyLivingEvent(event, LivingEventId.PLAYER_SLEEP_IN_BED);
 	}
 	
+		  /***************/
+		 /**Loose Arrow**/
+		/***************/
 	@ForgeSubscribe
 	public void onArrowLoose(ArrowLooseEvent event)
 	{
 		ItemAccessory.applyLivingEvent(event, LivingEventId.ARROW_LOOSE);
+	}
+	
+	
+	
+	
+  /********************************************************************************************/
+ /**  TEST CODE  *****************************************************************************/
+/********************************************************************************************/
+	
+		  /***********************/
+		 /**Ore Generation Info**/
+		/***********************/
+	@ForgeSubscribe
+	public void onPlayerInteract(PlayerInteractEvent event)
+	{
+		EntityPlayer player = event.entityPlayer;
+		
+		if (player.getHeldItem() != null)
+		{
+			if (player.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
+			{
+				if (event.action == Action.RIGHT_CLICK_BLOCK)
+				{
+					//Testing code: ore generation
+					int countR = 0;
+					int countC = 0;
+					Chunk chunk = player.worldObj.getChunkFromChunkCoords(player.chunkCoordX, player.chunkCoordZ);
+					for (int y = 0; y<256; y++)
+					{
+						for (int x = 0; x<16; x++)
+						{
+							for (int z = 0; z<16; z++)
+							{
+								if (chunk.getBlockID(x, y, z)==LoECraftPack.blockGemOre.blockID)
+								{
+									if (chunk.getBlockMetadata(x, y, z)>7)
+										countR++;
+									else
+										countC++;
+								}
+							}
+						}
+					}
+					System.out.println("common ores: "+countC);
+					System.out.println("rare   ores: "+countR);
+				}
+			}
+			else if (player.getHeldItem().itemID == Item.stick.itemID &&
+					 player.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
+					 event.action == Action.LEFT_CLICK_BLOCK)
+			{
+				//testing code: teleport to skyland
+				TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLands, LoECraftPack.SkylandDimensionID);
+				TeleporterCustom.teleporterSkyLands.travelToDimension(event.entityPlayer);
+				event.setResult(Result.DENY);
+			}
+		}
+		System.out.println();
+	}
+	
+		  /********************/
+		 /**Check Protection**/
+		/********************/
+	@ForgeSubscribe
+	public void onBucket(FillBucketEvent event)
+	{
+		int x = event.target.blockX, z = event.target.blockZ;
+		
+		if (event.target.typeOfHit.ordinal() == 0)
+		{
+			switch(event.target.sideHit)
+			{
+				case 2:
+					z --;
+					break;
+				case 3:
+					z ++;
+					break;
+				case 4:
+					x --;
+					break;
+				case 5:
+					x ++;
+					break;
+			}
+		}
+
+		List<TileProtectionMonolith> list = BlockProtectionMonolith.monoliths.get(event.entityPlayer.worldObj.getWorldInfo().getDimension());
+		if (list != null)
+		for(TileProtectionMonolith te : list)
+		{
+			if (te.Owners.size() > 0)
+			{
+				if (!te.Owners.contains(event.entityPlayer.username) && te.pointIsProtected(x, z))
+					event.setCanceled(true);
+			}
+		}
 	}
 }

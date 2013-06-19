@@ -26,47 +26,57 @@ public class MechanicTreeBucking
 	
 	public static boolean canBuck(EntityPlayer player)
 	{
-		if (player.worldObj.isRemote)
+		if (!player.worldObj.isRemote)
 		{
-			return clientBuck;
-		}
-		
-		String[] bucks = buckers.toArray(new String[buckers.size()]);
-		for (int i=0; i< bucks.length; i++)
-		{
-			if (bucks[i].matches(player.username))
+			String[] bucks = buckers.toArray(new String[buckers.size()]);
+			for (int i=0; i< bucks.length; i++)
 			{
-				return true;
+				if (bucks[i].matches(player.username))
+				{
+					return true;
+				}
 			}
+			return false;//server
 		}
-		return false;
+		else
+			return false;//client
 	}
 	
-	//used by AbilityModeHandler, mainly during login
+	/**
+	 * used by AbilityModeHandler, mainly during login
+	 */
 	public static void sync(EntityPlayer player)
 	{
 		AbilityModeHandler.abilityModeChange(player, Ability.TreeBuck, getBucker(player)==null?0:1);
 	}
 	
-	//used by AbilityModeHandler, during logout
+	/**
+	 * used by AbilityModeHandler, during logout
+	 */
 	public static void logout(EntityPlayer player)
 	{
 		buckers.remove(getBucker(player));
 	}
 	
-	//sync, client end
+	/**
+	 * sync's the clients mode variable
+	 */
 	public static void setBuckClient(boolean set)
 	{
 		clientBuck = set;
 	}
-	
-	//toggle use-age
+
+	/**
+	 * toggle between buck modes (off, on)
+	 */
 	public static void switchBuckServer(EntityPlayer player)
 	{
 		setBuckServer(player, getBucker(player));
 	}
 	
-	//set state, not in use
+	/**
+	 * set buck mode.  Currently not in use
+	 */
 	public static void setBuckServer(EntityPlayer player, boolean on)
 	{
 		String bucker = getBucker(player);
@@ -82,6 +92,9 @@ public class MechanicTreeBucking
 		}
 	}
 	
+	/**
+	 * Server adds or remove buckers from list based on name value (NULL = add, username = remove)
+	 */
 	protected static void setBuckServer(EntityPlayer player, String name)
 	{
 		if (name == null)
@@ -98,6 +111,9 @@ public class MechanicTreeBucking
 		}
 	}
 	
+	/**
+	 * Finds out if the player is on the active buck list. (server side)
+	 */
 	protected static String getBucker(EntityPlayer player)
 	{
 		String[] bucks = buckers.toArray(new String[buckers.size()]);
@@ -111,9 +127,9 @@ public class MechanicTreeBucking
 		return null;
 	}
 	
-	/*************************************/
-	/*****handles gentle Tree bucking*****/
-	/*************************************/
+	/**
+	 * handles gentle Tree bucking
+	 */
 	public static boolean buckTree(World world, int xCoord, int yCoord, int zCoord, int fortune)
 	{
 		System.out.println("BUCK "+world.isRemote);
@@ -163,9 +179,9 @@ public class MechanicTreeBucking
 		return true;
 	}
 	
-	/*************************************/
-	/*****handles gentle leaf bucking*****/
-	/*************************************/
+	/**
+	 * handles gentle leaf bucking
+	 */
 	public static void buckLeaf(World world, int xCoord, int yCoord, int zCoord, int fortune)
 	{
 		if (!world.blockExists(xCoord, yCoord, zCoord))

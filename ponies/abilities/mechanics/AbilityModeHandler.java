@@ -10,6 +10,9 @@ import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
+/**
+ * This class handles syncing ability mode values on the client end.
+ */
 public class AbilityModeHandler 
 {
 	protected static List<Change> changes = new ArrayList<Change>();
@@ -30,20 +33,27 @@ public class AbilityModeHandler
 		}
 	}
 	
-	//used mainly during login
+	/**
+	 * sync all ability modes for player
+	 */
 	public static void sync(EntityPlayer player)
 	{
 		MechanicTreeBucking.sync(player);
 		//...
 	}
 	
-	//used during logout
+	/**
+	 * initiate all ability mode logout procedures for player
+	 */
 	public static void logout(EntityPlayer player)
 	{
 		MechanicTreeBucking.logout(player);
 		//...
 	}
 	
+	/**
+	 * Creates a Change instance for confirming that the client has updated their mode
+	 */
 	public static void abilityModeChange(EntityPlayer player, Ability ability, int state)
 	{
 		Change[] list = changes.toArray(new Change[changes.size()]);
@@ -59,6 +69,9 @@ public class AbilityModeHandler
 		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.modeAbility, ability.ordinal(), state),(Player)player);
 	}
 	
+	/**
+	 * Client has confirmed mode change; removes the Change instance.
+	 */
 	public static void clearSuccess(EntityPlayer player, Ability ability, int state)
 	{
 		Change[] list = changes.toArray(new Change[changes.size()]);
@@ -75,6 +88,9 @@ public class AbilityModeHandler
 		}
 	}
 	
+	/**
+	 * Resend mode change packets to clients, that have yet to receive confirmation.
+	 */
 	public static void retryAllRemaining()
 	{
 		delay = (delay+1)%20;//try once every sec
