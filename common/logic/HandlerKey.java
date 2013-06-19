@@ -32,15 +32,14 @@ public class HandlerKey extends KeyHandler
 {
 	static KeyBinding renderMonolithKeybind = new KeyBinding("RenderMonolith", Keyboard.KEY_F12);
 	static KeyBinding dialogShortcut = new KeyBinding("DialogShortcut", Keyboard.KEY_F);
-	static KeyBinding oreVision = new KeyBinding("OreVision", Keyboard.KEY_O);
 	static KeyBinding extendedInventory = new KeyBinding("CycleInv", Keyboard.KEY_R);
 	public static KeyBinding jump = new KeyBinding("Jump", Keyboard.KEY_SPACE);
 	public static boolean renderMonolith = false;
 	
 	public HandlerKey()
 	{
-		super(new KeyBinding[] {renderMonolithKeybind, dialogShortcut, jump, oreVision, extendedInventory},
-		         new boolean[] {false,                 false,          true, false,     false});
+		super(new KeyBinding[] {renderMonolithKeybind, dialogShortcut, jump, extendedInventory},
+		         new boolean[] {false,                 false,          true, false});
 	}
 
 	@Override
@@ -81,11 +80,6 @@ public class HandlerKey extends KeyHandler
 				{
 					PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.fireball));
 				}
-			}
-			else if (kb.equals(oreVision))
-			{
-				System.out.println("Ore Vision: " + LoECraftPack.potionOreVision.id);
-				NetworkedPotions.applyEffect(NetworkedPotions.oreVision, 1000, 1);
 			}
 			else if (kb.equals(extendedInventory))
 			{
