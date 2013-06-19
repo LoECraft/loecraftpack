@@ -22,7 +22,6 @@ public class CommandTreeBucking implements ICommand {
 	{
 		aliases = new ArrayList();
 		aliases.add("bucktree");
-		aliases.add("BuckTree");
 	}
 	
 	@Override
@@ -34,13 +33,13 @@ public class CommandTreeBucking implements ICommand {
 	@Override
 	public String getCommandName()
 	{
-		return "BuckTrees";
+		return "bucktree";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/bucktrees";
+		return "/bucktree";
 	}
 
 	@Override

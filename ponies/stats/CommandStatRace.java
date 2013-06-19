@@ -19,7 +19,6 @@ public class CommandStatRace implements ICommand {
 	{
 		aliases = new ArrayList();
 		aliases.add("race");
-		aliases.add("Race");
 	}
 
 	@Override
@@ -31,7 +30,7 @@ public class CommandStatRace implements ICommand {
 	@Override
 	public String getCommandName() 
 	{
-		return "Race";
+		return "race";
 	}
 
 	@Override

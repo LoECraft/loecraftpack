@@ -23,7 +23,6 @@ public class CommandHiddenOres implements ICommand {
 	{
 		aliases = new ArrayList();
 		aliases.add("orevision");
-		aliases.add("OreVision");
 	}
 	
 	@Override
@@ -35,7 +34,7 @@ public class CommandHiddenOres implements ICommand {
 	@Override
 	public String getCommandName()
 	{
-		return "OreVision";
+		return "orevision";
 	}
 
 	@Override
