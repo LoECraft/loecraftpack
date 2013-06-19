@@ -7,6 +7,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
+import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import loecraftpack.ponies.inventory.InventoryId;
@@ -109,11 +110,16 @@ public class HandlerTick implements ITickHandler {
 				}//Object entry : tickData
 			}//tickData != null
 		}
+		if (type.contains(TickType.SERVER))
+		{
+			//sync ability mode changes
+			AbilityModeHandler.retryAllRemaining();
+		}
     }
 	
 	@Override
 	public EnumSet<TickType> ticks() {
-		return EnumSet.of(TickType.PLAYER);
+		return EnumSet.of(TickType.PLAYER, TickType.SERVER);
 	}
 
 	@Override

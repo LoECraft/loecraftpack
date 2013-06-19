@@ -27,9 +27,9 @@ public class CommandHiddenOres implements ICommand {
 	}
 	
 	@Override
-	public int compareTo(Object o)
+	public int compareTo(Object obj)
 	{
-		return 0;
+		return this.getCommandName().compareTo(((ICommand)obj).getCommandName());
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class CommandHiddenOres implements ICommand {
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/orevision : no arguments needed, simply call the command to enable this ability";
+		return "/orevision";
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class CommandHiddenOres implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
-		//TODO this this do what it's supposed to do
+		//TODO make this do what it's supposed to do
 		String name = icommandsender.getCommandSenderName();
 		if (!name.matches("Rcon"))
 		{

@@ -26,10 +26,10 @@ public class CommandTreeBucking implements ICommand {
 	}
 	
 	@Override
-	public int compareTo(Object o)
-	{
-		return 0;
-	}
+	public int compareTo(Object obj)
+    {
+		return this.getCommandName().compareTo(((ICommand)obj).getCommandName());
+    }
 
 	@Override
 	public String getCommandName()
@@ -40,7 +40,7 @@ public class CommandTreeBucking implements ICommand {
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/bucktrees : no arguments needed, simply call the command to enable this ability";
+		return "/bucktrees";
 	}
 
 	@Override
@@ -52,7 +52,11 @@ public class CommandTreeBucking implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
-		//TODO this this do what it's supposed to do
+		//TODO make this do what it's supposed to do
+		String name = icommandsender.getCommandSenderName();
+		EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
+		if (player != null)
+			MechanicTreeBucking.switchBuckServer(player);
 	}
 
 	@Override

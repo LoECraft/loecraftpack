@@ -11,6 +11,7 @@ import loecraftpack.common.entity.EntityCustomArrow;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.LivingEventId;
+import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
@@ -107,19 +108,33 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
-		EntityPlayer entityPlayer = event.entityPlayer;
+		EntityPlayer player = event.entityPlayer;
 		System.out.print("click - ");
-		//test code
-		if (entityPlayer.getHeldItem() != null)
+		
+		//Earth-pony Buck
+		if (LoECraftPack.statHandler.isRace(player, Race.EARTH) && MechanicTreeBucking.canBuck(player))
 		{
-			if (entityPlayer.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
+			if (player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockZapAppleLog.blockID ||
+				player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockAppleBloomLog.blockID)
+			{
+				System.out.println("BUCK");
+				MechanicTreeBucking.buckTree(player.worldObj, event.x, event.y, event.z, 0/*TODO fortune*/);
+				//TODO consume stamina
+			    event.setResult(Result.DENY);
+			}
+		}
+		
+		//test code
+		if (player.getHeldItem() != null)
+		{
+			if (player.getHeldItem().itemID == LoECraftPack.itemPickaxeGem.itemID)
 			{
 				if (event.action == Action.RIGHT_CLICK_BLOCK)
 				{
 					//Testing code: ore generation
 					int countR = 0;
 					int countC = 0;
-					Chunk chunk = entityPlayer.worldObj.getChunkFromChunkCoords(entityPlayer.chunkCoordX, entityPlayer.chunkCoordZ);
+					Chunk chunk = player.worldObj.getChunkFromChunkCoords(player.chunkCoordX, player.chunkCoordZ);
 					for (int y = 0; y<256; y++)
 					{
 						for (int x = 0; x<16; x++)
@@ -140,8 +155,8 @@ public class HandlerEvent
 					System.out.println("rare   ores: "+countR);
 				}
 			}
-			else if (entityPlayer.getHeldItem().itemID == Item.stick.itemID &&
-					 entityPlayer.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
+			else if (player.getHeldItem().itemID == Item.stick.itemID &&
+					 player.worldObj.getBlockId(event.x, event.y, event.z) == Block.beacon.blockID &&
 					 event.action == Action.LEFT_CLICK_BLOCK)
 			{
 				//testing code: teleport to skyland

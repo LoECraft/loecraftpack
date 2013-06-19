@@ -7,6 +7,9 @@ import java.io.IOException;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
+import loecraftpack.ponies.abilities.mechanics.Ability;
+import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
+import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -111,6 +114,10 @@ public class PacketHandlerServer implements IPacketHandler
             					throw e;
             			}
             			break;
+            		case PacketIds.modeAbility:
+            			int ability = data.readInt();
+            			int state = data.readInt();
+            			AbilityModeHandler.clearSuccess(sender, Ability.values()[ability], state);
             	}
             }
             catch(IOException e){}

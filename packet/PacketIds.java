@@ -65,10 +65,16 @@ public class PacketIds
 	 */
 	public static final byte useAbility = -124;
 	
+	/**TO CLIENT: Set Player Ability State <p>
+	 * - ability (int)<br>
+	 * - mode (int)
+	 */
+	public static final byte modeAbility = -123;
+	
 	/**TO SERVER: Cycle Thru Inventory <p>
 	 * - Current Gui (int)
 	 */
-	public static final byte subInventory = -123;
+	public static final byte subInventory = -122;
 	
 	/**TO CLIENT: Apply Custom Stat information to a player <p>
 	 * <b> Stat vars:</b><br>
@@ -76,19 +82,19 @@ public class PacketIds
 	 * <b> Other vars:</b><br>
 	 * - Player (String)
 	 */
-	public static final byte applyStats = -122;
+	public static final byte applyStats = -121;
 	
 	
 	
 	//TODO remove this and have only server apply potion effects.
 	/**TO SERVER: Client Directly Applied Potion Effect; For Testing Purposes */
-	public static final byte applyPotionEffect = -121;
+	public static final byte applyPotionEffect = -120;
 	
 	//TODO remove this and use the useAbility packet instead
 	/**TO SERVER: Client Spawned FireBall*/
-	public static final byte fireball = -120;
+	public static final byte fireball = -119;
 		
 	//TODO remove this and have the owner set by the server side, during block placement
 	/**TO SERVER: Client Set Owner*/
-	public static final byte monolithSetOwner = -119;
+	public static final byte monolithSetOwner = -118;
 }

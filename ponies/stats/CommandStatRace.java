@@ -23,9 +23,9 @@ public class CommandStatRace implements ICommand {
 	}
 
 	@Override
-	public int compareTo(Object arg0) 
+	public int compareTo(Object obj) 
 	{
-		return 0;
+		return this.getCommandName().compareTo(((ICommand)obj).getCommandName());
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class CommandStatRace implements ICommand {
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender)
 	{
-		return "/race <Set/Get> <username:optional> <race:set>";
+		return "/race <set/get> <username:optional> <race:set>";
 	}
 
 	@Override

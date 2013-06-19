@@ -68,6 +68,7 @@ public class HandlerExtendedInventoryServer
 			result = playerEquipmentInv.get(player.username);
 			if (result == null)
 			{   
+				System.out.println("load");
 				result = new InventoryEquipment();
 				playerEquipmentInv.put(player.username, (InventoryEquipment)result);
 			}

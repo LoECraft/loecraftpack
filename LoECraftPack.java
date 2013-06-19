@@ -50,6 +50,7 @@ import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
 import loecraftpack.ponies.abilities.mechanics.CommandHiddenOres;
+import loecraftpack.ponies.abilities.mechanics.CommandTreeBucking;
 import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
@@ -300,7 +301,9 @@ public class LoECraftPack
 	@ServerStarting
 	public void serverLoad(FMLServerStartingEvent event)
 	{
+		//load server commands
 		event.registerServerCommand(new CommandStatRace());
 		event.registerServerCommand(new CommandHiddenOres());
+		event.registerServerCommand(new CommandTreeBucking());
 	}
 }

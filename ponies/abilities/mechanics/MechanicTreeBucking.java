@@ -1,9 +1,19 @@
 package loecraftpack.ponies.abilities.mechanics;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockAppleBloomLeaves;
+import loecraftpack.packet.PacketHelper;
+import loecraftpack.packet.PacketIds;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 /**
@@ -11,12 +21,102 @@ import net.minecraft.world.World;
  */
 public class MechanicTreeBucking
 {
+	protected static List<String> buckers = new ArrayList<String>();
+	protected static boolean clientBuck = false;
+	
+	public static boolean canBuck(EntityPlayer player)
+	{
+		if (player.worldObj.isRemote)
+		{
+			return clientBuck;
+		}
+		
+		String[] bucks = buckers.toArray(new String[buckers.size()]);
+		for (int i=0; i< bucks.length; i++)
+		{
+			if (bucks[i].matches(player.username))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//used by AbilityModeHandler, mainly during login
+	public static void sync(EntityPlayer player)
+	{
+		AbilityModeHandler.abilityModeChange(player, Ability.TreeBuck, getBucker(player)==null?0:1);
+	}
+	
+	//used by AbilityModeHandler, during logout
+	public static void logout(EntityPlayer player)
+	{
+		buckers.remove(getBucker(player));
+	}
+	
+	//sync, client end
+	public static void setBuckClient(boolean set)
+	{
+		clientBuck = set;
+	}
+	
+	//toggle use-age
+	public static void switchBuckServer(EntityPlayer player)
+	{
+		setBuckServer(player, getBucker(player));
+	}
+	
+	//set state, not in use
+	public static void setBuckServer(EntityPlayer player, boolean on)
+	{
+		String bucker = getBucker(player);
+		if (on)
+		{
+			if (bucker==null)
+				setBuckServer(player, null);
+		}
+		else
+		{
+			if (bucker!=null)
+				setBuckServer(player, bucker);
+		}
+	}
+	
+	protected static void setBuckServer(EntityPlayer player, String name)
+	{
+		if (name == null)
+		{
+			buckers.add(player.username);
+			AbilityModeHandler.abilityModeChange(player, Ability.TreeBuck, 1);
+			//PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.modeAbility, 0, 1),(Player)player);
+		}
+		else
+		{
+			buckers.remove(name);
+			AbilityModeHandler.abilityModeChange(player, Ability.TreeBuck, 0);
+			//PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.modeAbility, 0, 0),(Player)player);
+		}
+	}
+	
+	protected static String getBucker(EntityPlayer player)
+	{
+		String[] bucks = buckers.toArray(new String[buckers.size()]);
+		for (int i=0; i< bucks.length; i++)
+		{
+			if (bucks[i].matches(player.username))
+			{
+				return bucks[i];
+			}
+		}
+		return null;
+	}
+	
 	/*************************************/
 	/*****handles gentle Tree bucking*****/
 	/*************************************/
 	public static boolean buckTree(World world, int xCoord, int yCoord, int zCoord, int fortune)
 	{
-		System.out.println("BUCK");
+		System.out.println("BUCK "+world.isRemote);
 		if ((world.getBlockMetadata(xCoord, yCoord, zCoord)&2) == 1)
 			return false;//not a natural tree
 		
