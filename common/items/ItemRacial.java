@@ -20,9 +20,9 @@ public class ItemRacial extends Item {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/racial");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/racial");
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotRacial");
 	}

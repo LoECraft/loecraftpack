@@ -24,9 +24,9 @@ public class ItemNecklace extends ItemAccessory {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/necklace");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/necklace");
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotNecklace");
 	}

@@ -1,6 +1,7 @@
 package loecraftpack.common.blocks;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ public class BlockProtectionMonolith extends Block implements ITileEntityProvide
 		super(id, Material.rock);
 		setUnlocalizedName("Protection Monolith");
 		setCreativeTab(LoECraftPack.LoECraftTab);
+		this.blockResistance = 2000;
 	}
 	
 	@Override
@@ -63,8 +65,15 @@ public class BlockProtectionMonolith extends Block implements ITileEntityProvide
     public TileEntity createNewTileEntity(World world)
     {
     	TileProtectionMonolith te = new TileProtectionMonolith();
-    	if (world.isRemote && monoliths.get(world.getWorldInfo().getDimension()) != null)
-    		monoliths.get(world.getWorldInfo().getDimension()).add(te);
+    	if (world.isRemote)
+    	{
+    		int dim = world.getWorldInfo().getDimension();
+    		
+    		if (monoliths.get(dim) != null)
+    			monoliths.get(dim).add(te);
+    		else
+    			monoliths.put(dim, new ArrayList<TileProtectionMonolith>(Arrays.asList(te)));
+    	}
     	
     	return te;
     }

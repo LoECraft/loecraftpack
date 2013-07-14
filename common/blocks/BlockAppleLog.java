@@ -94,14 +94,16 @@ public class BlockAppleLog extends Block
         return j1 | b0;
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
-    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    public Icon getIcon(int par1, int par2)
     {
         int k = par2 & 12;
         int l = par2 & 3;
         return k == 0 && (par1 == 1 || par1 == 0) ? this.iconTop : (k == 4 && (par1 == 5 || par1 == 4) ? this.iconTop : (k == 8 && (par1 == 2 || par1 == 3) ? this.iconTop : this.iconSide));
     }
     
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister)
     {

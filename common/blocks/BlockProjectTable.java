@@ -36,7 +36,7 @@ public class BlockProjectTable extends BlockContainer
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-    public Icon getBlockTextureFromSideAndMetadata(int par1, int par2)
+    public Icon getIcon(int par1, int par2)
     {
         return par1 == 1 ? topIcon : (par1 == 0 ? Block.planks.getBlockTextureFromSide(par1) : (par1 != 2 && par1 != 4 ? this.blockIcon : frontIcon));
     }

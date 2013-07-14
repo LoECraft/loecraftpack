@@ -82,7 +82,7 @@ public class ItemZapApple extends ItemFood
     
     @Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
 	    icons[0] = iconRegister.registerIcon("loecraftpack:zap/zapapple");
 	    icons[1] = iconRegister.registerIcon("loecraftpack:zap/zapapple_charged");

@@ -512,15 +512,6 @@ public class ChunkProviderSkyland implements IChunkProvider
     }
  
     /**
-     * Unloads the 100 oldest chunks from memory, due to a bug with chunkSet.add() never being called it thinks the list
-     * is always empty and will not remove any chunks.
-     */
-    public boolean unload100OldestChunks()
-    {
-        return false;
-    }
- 
-    /**
      * Returns if the IChunkProvider supports saving.
      */
     public boolean canSave()
@@ -553,23 +544,27 @@ public class ChunkProviderSkyland implements IChunkProvider
         return null;
     }
  
-        public int getLoadedChunkCount() {
-                return 0;
-        }
-       
-        public void func_82695_e(int par1, int par2)
+    public int getLoadedChunkCount()
     {
-       return;
+            return 0;
     }
  
-        public void recreateStructures(int var1, int var2) {
-               
-        }
+    public void recreateStructures(int var1, int var2)
+    {
+           
+    }
 
-		@Override
-		public boolean unloadQueuedChunks()
-		{
-			// TODO Auto-generated method stub
-			return false;
-		}
+	@Override
+	public boolean unloadQueuedChunks()
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void func_104112_b()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -192,7 +192,7 @@ public class LoECraftPack
 		//Items
 		for(int i = 0; i < ItemBits.names.length; i++ )
 			LanguageRegistry.instance().addStringLocalization("item.itemBits." + ItemBits.iconNames[i] + ".name", ItemBits.names[i]);
-		ItemMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme"); //This is just a test. I do not yet have permission to use this song publicly.
+		ItemMusicDisc.AddMusicDisc("LoE", "Cloudsdale Race Theme");
 		ItemMusicDisc.AddMusicDisc("MLP:FiM", "What My Cutie Mark Is Telling Me");
 		LanguageRegistry.instance().addStringLocalization("item.appleZap.normal.name", "Zap-Apple");
 		LanguageRegistry.instance().addStringLocalization("item.appleZap.charged.name", "Zap-Apple : Charged");
@@ -207,6 +207,7 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemRingLife, "Life Ring");
 		LanguageRegistry.addName(itemRingPhantomArrow, "Ring of Phantom Arrows");
 		LanguageRegistry.addName(itemAmmo, "Ammo");
+		LanguageRegistry.addName(itemPedestal, "Pedestal");
 		
 		//Blocks
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
@@ -250,8 +251,8 @@ public class LoECraftPack
 		
 		//World Generators/Biomes/Layers/dimensional stuff/ etc.
 		GameRegistry.addBiome(biomeGeneratorEverFreeForest);
-		DimensionManager.registerProviderType(SkylandProviderID, DimensionSkyland.class, false);
-		DimensionManager.registerDimension(SkylandDimensionID, SkylandProviderID);
+		//DimensionManager.registerProviderType(SkylandProviderID, DimensionSkyland.class, false);
+		//DimensionManager.registerDimension(SkylandDimensionID, SkylandProviderID);
 		
 		
 		//Handlers

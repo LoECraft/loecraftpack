@@ -21,9 +21,9 @@ public class ItemRing extends ItemAccessory {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/ring");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/ring");
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotRing");
 	}

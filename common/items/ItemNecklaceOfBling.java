@@ -17,9 +17,9 @@ public class ItemNecklaceOfBling extends ItemNecklace {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/necklaceBling");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/necklaceBling");
 	}
 	
 	public void applyWornEffect(EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)

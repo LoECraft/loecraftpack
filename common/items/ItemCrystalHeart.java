@@ -26,8 +26,8 @@ public class ItemCrystalHeart extends Item {
     
     @Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-    	iconIndex = iconRegister.registerIcon("loecraftpack:tools/crystalheart");
+    	itemIcon = iconRegister.registerIcon("loecraftpack:tools/crystalheart");
 	}
 }

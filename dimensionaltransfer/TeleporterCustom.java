@@ -28,8 +28,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 /**
  * This class allows players to be teleported in various ways, as opposed to the overly restricted Defaults.
  */
-public class TeleporterCustom extends Teleporter {
-	
+public class TeleporterCustom extends Teleporter
+{	
 	//instances
 	public static TeleporterCustom teleporterSkyLandsRising;
 	public static TeleporterCustom teleporterSkyLandsFalling;
@@ -104,13 +104,13 @@ public class TeleporterCustom extends Teleporter {
 		if(world == DimensionManager.getWorld(0))
 		{
 			System.out.println("world Overworld: creating teleporter");
-			TeleporterCustom.teleporterSkyLandsFalling = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(0), 0, Method.Sky);
+			//TeleporterCustom.teleporterSkyLandsFalling = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(0), 0, Method.Sky);
 		}
 		else if (world == DimensionManager.getWorld(LoECraftPack.SkylandDimensionID))
 		{
 			System.out.println("world Skyland: creating teleporter");
-			TeleporterCustom.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
-			TeleporterCustom.teleporterSkyLandsRising = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Abyss);
+			//TeleporterCustom.teleporterSkyLands = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Surface);
+			//TeleporterCustom.teleporterSkyLandsRising = new TeleporterCustom(MinecraftServer.getServer().worldServerForDimension(LoECraftPack.SkylandDimensionID), LoECraftPack.SkylandDimensionID, Method.Abyss);
 		}
 	}
 	

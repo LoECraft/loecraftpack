@@ -16,9 +16,9 @@ public class ItemNecklaceOfDreams extends ItemNecklace {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/necklaceDream");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/necklaceDream");
 	}
 	
 	public void onSleep(PlayerSleepInBedEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)

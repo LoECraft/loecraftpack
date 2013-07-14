@@ -397,7 +397,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public Icon getBlockTextureFromSideAndMetadata(int side, int meta)
+	public Icon getIcon(int side, int meta)
 	{
 		findGraphicsLevel();
 		if ((meta&3) < bloomStage)

@@ -23,9 +23,9 @@ public class ItemRingLife extends ItemRing {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/ringLife");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/ringLife");
 	}
 	
 	public void onDeath(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)

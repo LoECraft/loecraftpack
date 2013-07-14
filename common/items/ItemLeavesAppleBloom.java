@@ -44,7 +44,7 @@ public class ItemLeavesAppleBloom extends ItemBlock
      */
     public Icon getIconFromDamage(int meta)
     {
-    	return leaf.getBlockTextureFromSideAndMetadata(0, meta);
+    	return leaf.getIcon(0, meta);
     }
 
     @SideOnly(Side.CLIENT)

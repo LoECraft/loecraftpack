@@ -20,9 +20,9 @@ public class ItemIronArrow extends Item {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		iconIndex = iconRegister.registerIcon("loecraftpack:tools/IronArrow");
+		itemIcon = iconRegister.registerIcon("loecraftpack:tools/IronArrow");
         
 	    slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotAmmo");
 	}

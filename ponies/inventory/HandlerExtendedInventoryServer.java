@@ -10,7 +10,6 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.gui.GuiIds;
 import loecraftpack.enums.Race;
 import loecraftpack.ponies.stats.StatHandlerServer;
-import net.minecraft.client.gui.inventory.ContainerCreative;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerPlayer;
 import net.minecraft.nbt.NBTTagCompound;

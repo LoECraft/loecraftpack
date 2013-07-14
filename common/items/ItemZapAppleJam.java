@@ -39,9 +39,9 @@ public class ItemZapAppleJam extends ItemFood {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-	    iconIndex = iconRegister.registerIcon("loecraftpack:zap/zapapple_jam");
+	    itemIcon = iconRegister.registerIcon("loecraftpack:zap/zapapple_jam");
 	}
 
 }

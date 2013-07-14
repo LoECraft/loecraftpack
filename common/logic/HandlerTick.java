@@ -47,14 +47,14 @@ public class HandlerTick implements ITickHandler {
 				        	if (player.dimension == LoECraftPack.SkylandDimensionID && player.posY<-0.1)
 				        	{
 				        		System.out.println("dimension "+player.worldObj.getWorldInfo().getDimension());
-				        		TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsFalling, 0);
-								TeleporterCustom.teleporterSkyLandsFalling.travelToDimension(player);
+				        		//TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsFalling, 0);
+								//TeleporterCustom.teleporterSkyLandsFalling.travelToDimension(player);
 				        	}
 				        	else if (player.dimension == 0 && player.posY > player.worldObj.getHeight()-0.5)
 				        	{
 				        		System.out.println("dimension "+player.worldObj.getWorldInfo().getDimension());
-				        		TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsRising, LoECraftPack.SkylandDimensionID);
-								TeleporterCustom.teleporterSkyLandsRising.travelToDimension(player);
+				        		//TeleporterCustom.refreshTeleporter(TeleporterCustom.teleporterSkyLandsRising, LoECraftPack.SkylandDimensionID);
+								//TeleporterCustom.teleporterSkyLandsRising.travelToDimension(player);
 				        	}
 				        	
 				        	if(autoEffectBuffer++==0)

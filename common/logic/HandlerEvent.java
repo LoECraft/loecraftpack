@@ -87,7 +87,7 @@ public class HandlerEvent
 					break;
 			}
 		}
-
+		
 		List<TileProtectionMonolith> list = BlockProtectionMonolith.monoliths.get(event.entityPlayer.worldObj.getWorldInfo().getDimension());
 		if (list != null)
 		for(TileProtectionMonolith te : list)
@@ -98,6 +98,7 @@ public class HandlerEvent
 			{
 				if (!te.Owners.contains(event.entityPlayer.username) && te.pointIsProtected(x, z))
 				{
+					event.setCanceled(true);
 					//event.entityPlayer.skinUrl = "http://skins.minecraft.net/MinecraftSkins/" + StringUtils.stripControlCodes("Tekner") + ".png";
 					//Minecraft.getMinecraft().renderEngine.obtainImageData(event.entityPlayer.skinUrl, new ImageBufferDownload());
 					//event.setCanceled(true);
@@ -123,7 +124,6 @@ public class HandlerEvent
 	public void onAbilityInteract(PlayerInteractEvent event)
 	{
 		EntityPlayer player = event.entityPlayer;
-		System.out.print("click - ");
 		
 		  /*******************/
 		 /**Earth Pony Buck**/
@@ -470,7 +470,6 @@ public class HandlerEvent
 				event.setResult(Result.DENY);
 			}
 		}
-		System.out.println();
 	}
 	
 		  /********************/

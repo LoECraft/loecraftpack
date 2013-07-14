@@ -13,7 +13,6 @@ import loecraftpack.ponies.inventory.ContainerEarthInventory;
 import loecraftpack.ponies.inventory.ContainerSpecialEquipment;
 import loecraftpack.ponies.inventory.GuiEarthPonyInventory;
 import loecraftpack.ponies.inventory.GuiSpecialEquipment;
-import net.minecraft.client.gui.inventory.ContainerCreative;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;

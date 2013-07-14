@@ -38,10 +38,16 @@ public class ItemMusicDisc extends ItemRecord
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
-		this.iconIndex = iconRegister.registerIcon("loecraftpack:records/record_" + this.recordName);
+		this.itemIcon = iconRegister.registerIcon("loecraftpack:records/record_" + this.recordName);
 	}
+	
+	@SideOnly(Side.CLIENT)
+	public String getSoundFile()
+    {
+            return "/resources/mod/streaming/groovy.ogg";
+    }
 	
 	public static void AddMusicDisc(String composer, String recordName)
 	{

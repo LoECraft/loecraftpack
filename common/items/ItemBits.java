@@ -57,14 +57,14 @@ public class ItemBits extends Item
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
 	    icons = new Icon[iconNames.length];
 	        
 		for (int i = 0; i < iconNames.length; ++i)
 		{
 	    	icons[i] = iconRegister.registerIcon("loecraftpack:bits/" + iconNames[i]);
-	    	iconIndex = icons[i];
+	    	itemIcon = icons[i];
 		}
 	}
 }

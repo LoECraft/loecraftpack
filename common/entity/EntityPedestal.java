@@ -40,7 +40,7 @@ public class EntityPedestal extends Entity {
         
         this.setPositionAdjacent(xPos, yPos, zPos, side);
         
-        System.out.println("x:"+xPos+" y:"+yPos+" z:"+zPos+" dir:"+side);
+        //System.out.println("x:"+xPos+" y:"+yPos+" z:"+zPos+" dir:"+side);
     }
 
 	@Override

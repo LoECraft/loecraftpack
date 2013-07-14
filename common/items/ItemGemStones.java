@@ -57,7 +57,7 @@ public class ItemGemStones extends Item {
 	
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
 	    icons = new Icon[gemDataNames.length];
 	        

@@ -39,14 +39,14 @@ public class ItemColoredBed extends Item
     
     @Override
 	@SideOnly(Side.CLIENT)
-	public void updateIcons(IconRegister iconRegister)
+	public void registerIcons(IconRegister iconRegister)
 	{
 	    icons = new Icon[HandlerColoredBed.numBeds];
 	        
 		for (int i = 0; i < HandlerColoredBed.numBeds; ++i)
 		{
 	    	icons[i] = iconRegister.registerIcon("loecraftpack:beds/" + HandlerColoredBed.iconNames.get(i) + "bed");
-	    	iconIndex = icons[i];
+	    	itemIcon = icons[i];
 		}
 	}
     
