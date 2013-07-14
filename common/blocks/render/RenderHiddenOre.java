@@ -96,22 +96,21 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
         {
             GL11.glColor4f(par3, par3, par3, 1.0F);
         }
-
         tessellator.startDrawingQuads();
         tessellator.setNormal(0.0F, 0.0F, -1.0F);
-        renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(2, metadata));
+        renderer.renderFaceZNeg(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(2, metadata));
         tessellator.draw();
         tessellator.startDrawingQuads();
         tessellator.setNormal(0.0F, 0.0F, 1.0F);
-        renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(3, metadata));
+        renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(3, metadata));
         tessellator.draw();
         tessellator.startDrawingQuads();
         tessellator.setNormal(-1.0F, 0.0F, 0.0F);
-        renderer.renderFaceYNeg(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(4, metadata));
+        renderer.renderFaceXNeg(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(4, metadata));
         tessellator.draw();
         tessellator.startDrawingQuads();
         tessellator.setNormal(1.0F, 0.0F, 0.0F);
-        renderer.renderFaceYPos(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(5, metadata));
+        renderer.renderFaceXPos(block, 0.0D, 0.0D, 0.0D, block.getHiddenBlockTextureFromSideAndMetadata(5, metadata));
         tessellator.draw();
         GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 		
