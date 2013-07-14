@@ -87,7 +87,7 @@ public class MechanicHiddenOres {
 	@SideOnly(Side.CLIENT)
 	public static int range()
 	{
-		return (powerLevel+1)*4+4;
+		return (powerLevel)*2+4;
 	}
 	
 	/**

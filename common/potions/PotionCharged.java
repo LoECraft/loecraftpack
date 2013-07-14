@@ -23,16 +23,9 @@ public class PotionCharged extends Potion {
 		int coordX = (int)(entityLiving.posX+0.5);
 		int coordY = (int)(entityLiving.posY+0.5);
 		int coordZ = (int)(entityLiving.posZ+0.5);
-		World world =entityLiving.worldObj;
-		if (world.rand.nextInt(50/(level+1))==0)
-		{
-			if(world.canLightningStrikeAt(coordX, coordY, coordZ))
-			{
-				world.addWeatherEffect(new EntityLightningBolt(world, entityLiving.posX, entityLiving.posY, entityLiving.posZ));
-			}
-			else
-				entityLiving.attackEntityFrom(DamageSource.magic, 2 << level);
-		}
+		World world = entityLiving.worldObj;
+		if (!world.isRemote && world.rand.nextInt(20/(level+1)) == 0)
+			world.addWeatherEffect(new EntityLightningBolt(world, entityLiving.posX, entityLiving.posY, entityLiving.posZ));
     }
 	
 	public boolean isReady(int par1, int par2)
