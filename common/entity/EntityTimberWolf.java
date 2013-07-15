@@ -1,10 +1,7 @@
 package loecraftpack.common.entity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import loecraftpack.LoECraftPack;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockCloth;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -16,14 +13,14 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityTimberWolf extends EntityMob {
 	
@@ -40,7 +37,8 @@ public class EntityTimberWolf extends EntityMob {
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
 
-	public EntityTimberWolf(World par1World) {
+	public EntityTimberWolf(World par1World)
+	{
 		super(par1World);
 		this.texture = "/mods/loecraftpack/mob/timberwolf.png";
         this.setSize(size*0.6F, size*0.8F);
@@ -57,7 +55,6 @@ public class EntityTimberWolf extends EntityMob {
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 16.0F, 0, true));
         this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityVillager.class, 16.0F, 0, false));
-        this.targetTasks.addTask(4, new EntityAINearestAttackableTarget(this, EntitySheep.class, 16.0F, 200, false));
 	}
 	
 	@Override
@@ -67,7 +64,8 @@ public class EntityTimberWolf extends EntityMob {
     }
 	
 	@Override
-	public int getMaxHealth() {
+	public int getMaxHealth()
+	{
 		
 		return 40;
 	}

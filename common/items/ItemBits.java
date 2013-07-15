@@ -1,14 +1,19 @@
 package loecraftpack.common.items;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -66,5 +71,55 @@ public class ItemBits extends Item
 	    	icons[i] = iconRegister.registerIcon("loecraftpack:bits/" + iconNames[i]);
 	    	itemIcon = icons[i];
 		}
+	}
+	
+	private static ItemStack[] GetItemstack(int amount)
+	{
+		ArrayList<ItemStack> bits = new ArrayList<ItemStack>();
+		
+		int count = (int)(amount / 100);
+		if (count > 0)
+		{
+			bits.add(new ItemStack(LoECraftPack.bits, count, 4));
+			amount -= count * 100;
+		}
+		
+		count = (int)(amount / 25);
+		if (count > 0)
+		{
+			bits.add(new ItemStack(LoECraftPack.bits, count, 3));
+			amount -= count * 25;
+		}
+		
+		count = (int)(amount / 10);
+		if (count > 0)
+		{
+			bits.add(new ItemStack(LoECraftPack.bits, count, 2));
+			amount -= count * 10;
+		}
+		
+		count = (int)(amount / 5);
+		if (count > 0)
+		{
+			bits.add(new ItemStack(LoECraftPack.bits, count, 1));
+			amount -= count * 5;
+		}
+		
+		if (amount > 0)
+			bits.add(new ItemStack(LoECraftPack.bits, amount, 0));
+		
+		return bits.toArray(new ItemStack[0]);
+	}
+	
+	public static void DropBits(int amount, Entity entity)
+	{
+		for(ItemStack item : ItemBits.GetItemstack(amount))
+			entity.entityDropItem(item, 0);
+	}
+	
+	public static void DropBits(int amount, World world, Vec3 pos)
+	{
+		for(ItemStack item : ItemBits.GetItemstack(amount))
+			world.spawnEntityInWorld(new EntityItem(world, pos.xCoord, pos.yCoord, pos.zCoord, item));
 	}
 }
