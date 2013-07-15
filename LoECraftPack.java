@@ -1,6 +1,7 @@
 package loecraftpack;
 
 import loecraftpack.common.blocks.*;
+import loecraftpack.common.enchantment.EnchantmentElectric;
 import loecraftpack.common.entity.EntityPedestal;
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
@@ -24,6 +25,7 @@ import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -86,7 +88,7 @@ public class LoECraftPack
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(21, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
 	public static final PotionOreVision potionOreVision = (PotionOreVision)(new PotionOreVision(22, false, 0)).setPotionName("Ore Vision").setIconIndex(0, 0);
 	
-	//Declare immutable items and blocks - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
+	//Declare immutable Items, Blocks, and Enchantments - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
 	public static final ItemBits bits = new ItemBits(667);
 	public static final ItemColoredBed bedItems = new ItemColoredBed(670);
 	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setUnlocalizedName("appleZap");
@@ -116,6 +118,8 @@ public class LoECraftPack
 	public static final BlockZapAppleLeaves blockZapAppleLeaves = (BlockZapAppleLeaves)(new BlockZapAppleLeaves(676)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	public static final BlockZapAppleLeavesCharged blockZapAppleLeavesCharged = (BlockZapAppleLeavesCharged)(new BlockZapAppleLeavesCharged(677)).setHardness(0.2F).setLightOpacity(1).setStepSound(Block.soundGrassFootstep);
 	public static final BlockHiddenOre blockGemOre = (BlockHiddenOre)(new BlockHiddenOre(678)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("oreGem");
+	
+	public static final Enchantment electricEnchant = new EnchantmentElectric(100, 2);
 	
 	//declare Generators
 	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);
@@ -207,6 +211,9 @@ public class LoECraftPack
 			LanguageRegistry.instance().addStringLocalization("tile.oreGem."+i+".name", "Hidden Gem Block : "+itemGemStones.gemDisplayNames[i]);
 			LanguageRegistry.instance().addStringLocalization("item.gemstones."+itemGemStones.gemDataNames[i]+".name", itemGemStones.gemDisplayNames[i]);
 		}
+		
+		//Enchantment names
+		LanguageRegistry.instance().addStringLocalization("enchantment.electric", "Electric");
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");

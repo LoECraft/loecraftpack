@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.accessors.FieldAccessor;
 import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
@@ -17,11 +18,15 @@ import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -49,7 +54,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class HandlerEvent
 {
 	static Method alertWolves = PrivateAccessor.getMethod(EntityPlayer.class, "alertWolves", EntityLiving.class, boolean.class);
-	
+	static FieldAccessor<DataWatcher> entityDataWatcher = new FieldAccessor<DataWatcher>(Entity.class, "dataWatcher");
 	
 	
 	/*@ForgeSubscribe
@@ -371,6 +376,9 @@ public class HandlerEvent
 		}
     }
     
+	
+	
+	
   /********************************************************************************************/
  /**  Player Drops Inventory EVENT  **********************************************************/
 /********************************************************************************************/
@@ -380,6 +388,56 @@ public class HandlerEvent
 	{
 		HandlerExtendedInventoryServer.dropAllitems(event.entityPlayer);
 	}
+	
+	
+	
+	
+  /********************************************************************************************/
+ /**  Enchantment Effect EVENT  **************************************************************/
+/********************************************************************************************/
+	
+	@ForgeSubscribe
+	public void onAttackEchantmentEffect(LivingAttackEvent event)
+	{
+		Entity sourceEntity = event.source.getEntity();
+		if (sourceEntity!= null && event.entityLiving != null)
+		{
+			int IDEntity = EntityList.getEntityID(event.entityLiving);
+			System.out.println("attack from "+sourceEntity);
+			System.out.println("target id"+IDEntity);
+			
+			ItemStack tool = null;
+			
+			if (sourceEntity instanceof EntityLiving)
+			{
+				if (sourceEntity instanceof EntityPlayer)
+				{
+					EntityPlayer attackingPlayer = (EntityPlayer)sourceEntity;
+					tool = attackingPlayer.getHeldItem();
+				}
+			}
+			
+			if (tool != null)
+			{
+				System.out.println("The tool is "+tool.getItemName());
+				
+				  /****************************************/
+				 /**Handle the effects of each type here**/
+				/****************************************/
+				
+				int electricLevel = EnchantmentHelper.getEnchantmentLevel(100, tool);
+				System.out.println("electric "+electricLevel);
+				
+				if (IDEntity == 50 /*Creeper*/)
+				{
+					entityDataWatcher.get(event.entityLiving).updateObject(17, Byte.valueOf((byte)1));
+				}
+			}
+		}
+	}
+	
+	
+	
 	
   /********************************************************************************************/
  /**  ACCESSORY EVENT  ***********************************************************************/
