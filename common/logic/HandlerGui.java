@@ -3,17 +3,12 @@ package loecraftpack.common.logic;
 import loecraftpack.common.blocks.ContainerProjectTable;
 import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
-import loecraftpack.common.blocks.gui.GuiProjectTable;
-import loecraftpack.common.blocks.gui.GuiProtectionMonolith;
-import loecraftpack.common.gui.GuiDialog;
-import loecraftpack.common.gui.GuiIds;
-import loecraftpack.common.gui.GuiQuest;
-import loecraftpack.common.gui.GuiShop;
+import loecraftpack.common.blocks.gui.*;
+import loecraftpack.common.gui.*;
 import loecraftpack.ponies.inventory.ContainerEarthInventory;
 import loecraftpack.ponies.inventory.ContainerSpecialEquipment;
 import loecraftpack.ponies.inventory.GuiEarthPonyInventory;
 import loecraftpack.ponies.inventory.GuiSpecialEquipment;
-import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
@@ -42,6 +37,8 @@ public class HandlerGui implements IGuiHandler
 					
 				case EARTH_INV:
 					return new ContainerEarthInventory(player);
+				default:
+					break;
 			}
 		return null;
 	}
@@ -52,36 +49,41 @@ public class HandlerGui implements IGuiHandler
 		if(ID < GuiIds.values().length)
 			switch(GuiIds.values()[ID])
 			{
-			case MONOLITH:
-				TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-				if(tileEntity instanceof TileProtectionMonolith)
-		            return new GuiProtectionMonolith((TileProtectionMonolith) tileEntity);
-				break;
-				
-			case PROJECT_TABLE:
-				tileEntity = world.getBlockTileEntity(x, y, z);
-					if(tileEntity instanceof TileProjectTable)
-						return new GuiProjectTable(player.inventory, world, x, y, z);
-				break;
-				
-			case DAILOG:
-				return new GuiDialog();
+				case MONOLITH:
+					TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+					if(tileEntity instanceof TileProtectionMonolith)
+			            return new GuiProtectionMonolith((TileProtectionMonolith) tileEntity);
+					break;
+					
+				case PROJECT_TABLE:
+					tileEntity = world.getBlockTileEntity(x, y, z);
+						if(tileEntity instanceof TileProjectTable)
+							return new GuiProjectTable(player.inventory, world, x, y, z);
+					break;
+					
+				case DIALOG:
+					return new GuiDialog();
+			            
+				case QUEST:
+		            return new GuiQuest();
 		            
-			case QUEST:
-	            return new GuiQuest();
-	            
-			case SHOP:
-	            return new GuiShop();
-	            
-			case MAIN_INV:
-				return new GuiInventory(player);
-				
-			case EQUIPMENT_INV:
-				return new GuiSpecialEquipment(player);
-				
-			case EARTH_INV:
-				return new GuiEarthPonyInventory(player);
-				
+				case SHOP:
+		            return new GuiShop();
+		            
+				case MAIN_INV:
+					return new GuiInventory(player);
+					
+				case EQUIPMENT_INV:
+					return new GuiSpecialEquipment(player);
+					
+				case EARTH_INV:
+					return new GuiEarthPonyInventory(player);
+					
+				case BANK:
+					return new GuiBank();
+					
+				case CREATIVE_INV:
+					break;
 			}
 		return null;
 	}

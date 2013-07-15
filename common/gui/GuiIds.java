@@ -2,9 +2,10 @@ package loecraftpack.common.gui;
 
 public enum GuiIds
 {
+	BANK,
 	MONOLITH,
 	PROJECT_TABLE,
-	DAILOG,
+	DIALOG,
 	QUEST,
 	SHOP,
 	MAIN_INV,

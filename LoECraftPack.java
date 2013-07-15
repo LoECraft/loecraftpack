@@ -1,40 +1,10 @@
 package loecraftpack;
 
-import loecraftpack.common.blocks.BlockAppleBloomLeaves;
-import loecraftpack.common.blocks.BlockAppleBloomSapling;
-import loecraftpack.common.blocks.BlockAppleLog;
-import loecraftpack.common.blocks.BlockColoredBed;
-import loecraftpack.common.blocks.BlockHiddenOre;
-import loecraftpack.common.blocks.BlockProjectTable;
-import loecraftpack.common.blocks.BlockProtectionMonolith;
-import loecraftpack.common.blocks.BlockZapAppleLeaves;
-import loecraftpack.common.blocks.BlockZapAppleLeavesCharged;
-import loecraftpack.common.blocks.BlockZapAppleSapling;
-import loecraftpack.common.blocks.TileColoredBed;
-import loecraftpack.common.blocks.TileProjectTable;
-import loecraftpack.common.blocks.TileProtectionMonolith;
+import loecraftpack.common.blocks.*;
 import loecraftpack.common.entity.EntityPedestal;
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
-import loecraftpack.common.items.ItemBits;
-import loecraftpack.common.items.ItemColoredBed;
-import loecraftpack.common.items.ItemCrystalHeart;
-import loecraftpack.common.items.ItemGemStones;
-import loecraftpack.common.items.ItemHiddenOre;
-import loecraftpack.common.items.ItemIronArrow;
-import loecraftpack.common.items.ItemLeavesAppleBloom;
-import loecraftpack.common.items.ItemMusicDisc;
-import loecraftpack.common.items.ItemNecklace;
-import loecraftpack.common.items.ItemNecklaceOfBling;
-import loecraftpack.common.items.ItemNecklaceOfDreams;
-import loecraftpack.common.items.ItemPedestal;
-import loecraftpack.common.items.ItemPickaxeGem;
-import loecraftpack.common.items.ItemRacial;
-import loecraftpack.common.items.ItemRing;
-import loecraftpack.common.items.ItemRingLife;
-import loecraftpack.common.items.ItemRingPhantomArrow;
-import loecraftpack.common.items.ItemZapApple;
-import loecraftpack.common.items.ItemZapAppleJam;
+import loecraftpack.common.items.*;
 import loecraftpack.common.logic.HandlerColoredBed;
 import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
@@ -43,10 +13,8 @@ import loecraftpack.common.logic.HandlerTick;
 import loecraftpack.common.potions.PotionCharged;
 import loecraftpack.common.potions.PotionOreVision;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
-import loecraftpack.common.worldgen.DimensionSkyland;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
-import loecraftpack.enums.Dye;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
 import loecraftpack.ponies.abilities.mechanics.CommandHiddenOres;
@@ -59,7 +27,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -137,6 +104,7 @@ public class LoECraftPack
 	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(683)).setUnlocalizedName("ringphantomarrow");
 	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(684)).setUnlocalizedName("ammo");
 	
+	public static final BlockBank bank = new BlockBank(665);
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
 	public static final BlockColoredBed bedBlock = new BlockColoredBed(670);
@@ -210,6 +178,8 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemPedestal, "Pedestal");
 		
 		//Blocks
+		GameRegistry.registerBlock(bank, "Bank");
+		LanguageRegistry.addName(bank, "Bank");
 		GameRegistry.registerBlock(monolith, "ProtectionMonolithBlock");
 		LanguageRegistry.addName(monolith, "Protection Monolith");
 		GameRegistry.registerBlock(table, "ProjectTableBlock");

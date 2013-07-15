@@ -61,7 +61,7 @@ public class GuiDialog extends GuiScreen
 		drawDefaultBackground();
 	
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.renderEngine.bindTexture("/loecraftpack/common/gui/dialog.png");
+		mc.renderEngine.bindTexture("/loecraftpack/resources/mods/loecraftpack/gui/dialog.png");
 	
 		int posX = (this.width - xSizeOfTexture) / 2;
 		int posY = (this.height - ySizeOfTexture) / 2;
