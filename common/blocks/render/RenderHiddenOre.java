@@ -189,7 +189,7 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
         
         if (!this.phantomBlocks.isEmpty())
         {
-        	GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_DST_COLOR);
+        	GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
             event.context.renderEngine.bindTexture("/terrain.png");
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 0.5F);
             GL11.glPushMatrix();

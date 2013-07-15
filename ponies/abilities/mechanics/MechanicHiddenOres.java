@@ -40,7 +40,7 @@ public class MechanicHiddenOres {
         for (int i=0; i<locations.length; i++)
         {
             int[] location = locations[i];
-			if (!MechanicHiddenOres.revealHiddenGems || !MechanicHiddenOres.inRangeofClientPlayer(location[0], location[1], location[2]))
+			if (!revealHiddenGems || !inRangeofClientPlayer(location[0], location[1], location[2]))
 	        {
 				list.remove(location);
 	        	continue;
@@ -51,14 +51,17 @@ public class MechanicHiddenOres {
 		yPos = (int) player.posY;
 		zPos = (int) player.posZ;
 		
-		WorldRenderer[] worldRenderer = (WorldRenderer[])PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderers");
-		List worldRenderersToUpdate = (List)PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderersToUpdate");
-		for (int i=0; i < worldRenderer.length; i++)
+		if (revealHiddenGems)
 		{
-			if (worldRenderer[i] != null && inRangeForRefresh(player, worldRenderer[i]))
+			WorldRenderer[] worldRenderer = (WorldRenderer[])PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderers");
+			List worldRenderersToUpdate = (List)PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderersToUpdate");
+			for (int i=0; i < worldRenderer.length; i++)
 			{
-				worldRenderersToUpdate.add(worldRenderer[i]);
-				worldRenderer[i].markDirty();
+				if (worldRenderer[i] != null && inRangeForRefresh(player, worldRenderer[i]))
+				{
+					worldRenderersToUpdate.add(worldRenderer[i]);
+					worldRenderer[i].markDirty();
+				}
 			}
 		}
 	}
