@@ -135,8 +135,8 @@ public class RenderHiddenOre implements ISimpleBlockRenderingHandler
 				boolean flag1 = !oreBlock.hidden(meta);
 				boolean flag2 = MechanicHiddenOres.revealHiddenGems && MechanicHiddenOres.inRangeofClientPlayer(x, y, z);
 				
-				//apply normal render override
-				if(flag1 || flag2)
+				//apply normal render override (show non-hidden)
+				if(flag1 /*|| flag2*/)
 				{
 					Icon icon;
 					icon = oreBlock.getHiddenBlockTextureFromSideAndMetadata(0, meta);
