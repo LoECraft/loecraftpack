@@ -40,5 +40,7 @@ public abstract class InventoryCustom implements IInventory {
 	protected abstract void readFromNBT(NBTTagCompound nbt);
 	
 	protected abstract void writeToNBT(NBTTagCompound nbt);
+	
+	public abstract void dropAllItems(EntityPlayer player);
 
 }

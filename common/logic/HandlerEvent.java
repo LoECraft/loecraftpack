@@ -11,10 +11,10 @@ import loecraftpack.common.entity.EntityCustomArrow;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.LivingEventId;
-import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
+import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -22,7 +22,6 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -37,6 +36,7 @@ import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
+import net.minecraftforge.event.entity.player.PlayerDropsEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -340,7 +340,6 @@ public class HandlerEvent
 	@ForgeSubscribe
 	public void onfinalRender(RenderWorldLastEvent event)
 	{
-		
         ClientProxy.renderHiddenOre.drawBlockPhantomTexture(event);
 	}
     
@@ -372,8 +371,15 @@ public class HandlerEvent
 		}
     }
     
+  /********************************************************************************************/
+ /**  Player Drops Inventory EVENT  **********************************************************/
+/********************************************************************************************/
 	
-	
+	@ForgeSubscribe
+	public void onPlayerLoot(PlayerDropsEvent event)
+	{
+		HandlerExtendedInventoryServer.dropAllitems(event.entityPlayer);
+	}
 	
   /********************************************************************************************/
  /**  ACCESSORY EVENT  ***********************************************************************/

@@ -85,6 +85,20 @@ public class HandlerExtendedInventoryServer
 		}
 	}
 	
+	public static void dropAllitems(EntityPlayer player)
+	{
+		InventoryCustom inv;
+		
+		inv = getInventory(player, InventoryId.EQUIPMENT);
+		if (inv != null) inv.dropAllItems(player);
+		
+		if (LoECraftPack.statHandler.isRace(player, Race.EARTH))
+		{
+			inv = getInventory(player, InventoryId.EARTH_PONY);
+			if (inv != null) inv.dropAllItems(player);
+		}
+	}
+	
 	public static GuiIds getNextInv(EntityPlayer player, GuiIds oldId)
 	{
 		switch (oldId)

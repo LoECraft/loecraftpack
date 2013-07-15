@@ -4,6 +4,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.IRacialItem;
 import loecraftpack.common.items.ItemNecklace;
 import loecraftpack.common.items.ItemRing;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -147,5 +148,20 @@ public class InventoryEquipment extends InventoryCustom {
 
         par1NBTTagCompound.setTag("SpecialInv", nbttaglist);
     }
+
+	@Override
+	public void dropAllItems(EntityPlayer player)
+	{
+		int i;
+
+        for (i = 0; i < inventory.length; ++i)
+        {
+            if (inventory[i] != null)
+            {
+                player.dropPlayerItemWithRandomChoice(inventory[i], true);
+                inventory[i] = null;
+            }
+        }
+	}
 
 }

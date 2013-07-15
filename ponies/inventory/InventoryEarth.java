@@ -146,4 +146,19 @@ public class InventoryEarth extends InventoryCustom {
 
         nbt.setTag("EarthInv", nbttaglist);
     }
+
+	@Override
+	public void dropAllItems(EntityPlayer player)
+	{
+		int i;
+
+        for (i = 0; i < inventory.length; ++i)
+        {
+            if (inventory[i] != null)
+            {
+                player.dropPlayerItemWithRandomChoice(inventory[i], true);
+                inventory[i] = null;
+            }
+        }
+	}
 }
