@@ -80,13 +80,6 @@ public abstract class ItemAccessory extends Item {
 						((ItemAccessory)accessory.getItem()).onDeath((LivingDeathEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
-				case LIVING_SPAWN:
-					for (Integer accessorySlotId : accessorySlotIds)
-					{
-						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
-						((ItemAccessory)accessory.getItem()).onSpawn((LivingSpawnEvent)event, player, inv, accessorySlotId, accessory);
-					}
-					break;
 				case ENTITY_ITEM_PICKUP:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
@@ -206,11 +199,6 @@ public abstract class ItemAccessory extends Item {
 	 * what, if anything, occurs when the player dies, while wearing this accessory
 	 */
 	public void onDeath(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
-	
-	/**
-	 * what, if anything, occurs when the player spawns, while wearing this accessory
-	 */
-	public void onSpawn(LivingSpawnEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
 	
 	/**
 	 * what, if anything, occurs when the player picks up an item, while wearing this accessory

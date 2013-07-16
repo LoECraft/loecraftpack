@@ -23,6 +23,8 @@ public class ItemNecklaceOfDreams extends ItemNecklace {
 	
 	public void onSleep(PlayerSleepInBedEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
 	{
+		System.out.println("ZZZZZ");
+		
 		//Teleport to dreamWorld
 	}
 

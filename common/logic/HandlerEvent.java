@@ -460,15 +460,6 @@ public class HandlerEvent
 	}
 	
 		  /*********/
-		 /**Spawn**/
-		/*********/
-	@ForgeSubscribe
-	public void onSpawnEvent(LivingSpawnEvent event)
-	{
-		ItemAccessory.applyLivingEvent(event, LivingEventId.LIVING_SPAWN);
-	}
-	
-		  /*********/
 		 /**Sleep**/
 		/*********/
 	@ForgeSubscribe
