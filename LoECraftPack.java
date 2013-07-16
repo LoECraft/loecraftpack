@@ -214,6 +214,7 @@ public class LoECraftPack
 		
 		//Enchantment names
 		LanguageRegistry.instance().addStringLocalization("enchantment.electric", "Electric");
+		LanguageRegistry.instance().addStringLocalization("enchantment.banish", "Banish");
 		
 		//Tile Entities
 		GameRegistry.registerTileEntity(TileProtectionMonolith.class, "ProtectionMonolithTileEntity");
