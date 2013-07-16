@@ -28,7 +28,7 @@ public class ItemRingLife extends ItemRing {
 		itemIcon = iconRegister.registerIcon("loecraftpack:tools/ringLife");
 	}
 	
-	public void onDeath(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
+	public void onDeathPre(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
 	{
 		if(health.get(player)<1)
 		{

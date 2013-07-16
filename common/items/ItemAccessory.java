@@ -66,6 +66,13 @@ public abstract class ItemAccessory extends Item {
 						((ItemAccessory)accessory.getItem()).onDamaged((LivingHurtEvent)event, player, inv, accessorySlotId, accessory);
 					}
 					break;
+				case LIVING_DEATH_PRE:
+					for (Integer accessorySlotId : accessorySlotIds)
+					{
+						ItemStack accessory = inv.getStackInSlot(accessorySlotId);
+						((ItemAccessory)accessory.getItem()).onDeathPre((LivingDeathEvent)event, player, inv, accessorySlotId, accessory);
+					}
+					break;
 				case LIVING_DEATH:
 					for (Integer accessorySlotId : accessorySlotIds)
 					{
@@ -189,6 +196,11 @@ public abstract class ItemAccessory extends Item {
 	 * what, if anything, occurs when the player takes damage, while wearing this accessory
 	 */
 	public void onDamaged(LivingHurtEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
+	
+	/**
+	 * what, if anything, occurs immediately when the player dies, while wearing this accessory
+	 */
+	public void onDeathPre(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack){}
 	
 	/**
 	 * what, if anything, occurs when the player dies, while wearing this accessory

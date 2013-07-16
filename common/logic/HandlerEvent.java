@@ -34,6 +34,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
+import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -446,6 +447,12 @@ public class HandlerEvent
 		  /*********/
 		 /**Death**/
 		/*********/
+	@ForgeSubscribe(priority=EventPriority.HIGHEST)
+	public void onDeathPreEvent(LivingDeathEvent event)
+	{
+		ItemAccessory.applyLivingEvent(event, LivingEventId.LIVING_DEATH_PRE);
+	}
+	
 	@ForgeSubscribe
 	public void onDeathEvent(LivingDeathEvent event)
 	{
