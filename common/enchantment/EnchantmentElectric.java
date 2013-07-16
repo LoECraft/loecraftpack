@@ -14,15 +14,15 @@ public class EnchantmentElectric extends Enchantment {
     }
 	
 	/**
-     * Returns the minimal value of enchantability needed on the enchantment level passed.
+     * Returns the minimal value of enchant-ability needed on the enchantment level passed.
      */
     public int getMinEnchantability(int par1)
     {
-        return 15 + 20 * (par1 - 1);
+        return 10 + 15 * (par1 - 1);
     }
 
     /**
-     * Returns the maximum value of enchantability nedded on the enchantment level passed.
+     * Returns the maximum value of enchant-ability needed on the enchantment level passed.
      */
     public int getMaxEnchantability(int par1)
     {
@@ -38,7 +38,7 @@ public class EnchantmentElectric extends Enchantment {
     }
     
     /**
-     * Calculates de (magic) damage done by the enchantment on a living entity based on level and entity passed.
+     * Calculates the (magic) damage done by the enchantment on a living entity based on level and entity passed.
      */
     public int calcModifierLiving(int par1, EntityLiving par2EntityLiving)
     {

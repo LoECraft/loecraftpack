@@ -1,7 +1,10 @@
 package loecraftpack.common.entity;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.common.entity.ai.EntityAIPlayDead;
+import loecraftpack.common.items.ItemBits;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -10,6 +13,7 @@ import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
@@ -17,6 +21,7 @@ import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
@@ -24,7 +29,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityTimberWolf extends EntityMob {
 	
-	static float size = 3.0f;
+	protected EntityAITasks possum;
+	
+	protected boolean activeForm = true;
+	protected int dying = 0;
+	protected int regenBuffer = 0;
+	
+	protected static float size = 3.0f;
 	
 	private float field_70926_e;
     private float field_70924_f;
@@ -40,6 +51,10 @@ public class EntityTimberWolf extends EntityMob {
 	public EntityTimberWolf(World par1World)
 	{
 		super(par1World);
+		
+		possum = new EntityAITasks(par1World != null && par1World.theProfiler != null ? par1World.theProfiler : null);
+		possum.addTask(1, new EntityAIPlayDead());
+		
 		this.texture = "/mods/loecraftpack/mob/timberwolf.png";
         this.setSize(size*0.6F, size*0.8F);
         this.experienceValue = 8;
@@ -98,6 +113,27 @@ public class EntityTimberWolf extends EntityMob {
 	@Override
 	public void onLivingUpdate()
     {
+		//effect of banish wears off a little
+		if (dying>0)
+		{
+			dying--;
+		}
+		
+		//body rebuilds a bit
+		if (!activeForm)
+		{
+			regenBuffer=(regenBuffer+1)%10;
+			if (regenBuffer==0)
+			{
+				heal(1);
+				if (getHealth()==getMaxHealth()/2)
+				{
+					//body reactivates
+					activeForm = true;
+				}
+			}
+		}
+		
         super.onLivingUpdate();
 
         if (!this.worldObj.isRemote && this.isShaking && !this.field_70928_h && !this.hasPath() && this.onGround)
@@ -169,6 +205,20 @@ public class EntityTimberWolf extends EntityMob {
         }
     }
 	
+	@Override
+	protected void updateAITasks()
+    {
+		if (activeForm)
+			super.updateAITasks();
+		else
+		{
+			++this.entityAge;
+			this.worldObj.theProfiler.startSection("playDead");
+			this.possum.onUpdateTasks();
+			this.worldObj.theProfiler.endSection();
+		}
+    }
+	
 	/*******************************************************/
 	/******************** Item Drop ************************/
 	/*******************************************************/
@@ -187,9 +237,9 @@ public class EntityTimberWolf extends EntityMob {
         if (j<4)
         {
         	for (int k = 0; k < j; ++k)
-            {
-                this.dropItem(Item.stick.itemID, 1);
-            }
+        	{
+        		this.entityDropItem(new ItemStack(Item.stick.itemID, 1, 0), 0);
+        	}
         }
         else
         {
@@ -200,15 +250,12 @@ public class EntityTimberWolf extends EntityMob {
 	@Override
 	protected void dropRareDrop(int par1)
     {
-        switch (this.rand.nextInt(3))
+        switch (this.rand.nextInt(2))
         {
             case 0:
-                this.entityDropItem(new ItemStack(Block.cloth, 2, 0), 0);
-                break;
-            case 1:
                 this.entityDropItem(new ItemStack(LoECraftPack.itemZapApple, 1, 1), 0);
                 break;
-            case 2:
+            case 1:
                 this.entityDropItem(new ItemStack(LoECraftPack.blockZapAppleSapling, 1, 0), 0);
         }
     }
@@ -217,7 +264,7 @@ public class EntityTimberWolf extends EntityMob {
 	public void onKillEntity(EntityLiving par1EntityLiving)
     {
 		if (par1EntityLiving instanceof EntityVillager)
-			par1EntityLiving.entityDropItem(new ItemStack(LoECraftPack.bits, 1, 1), 1);
+			ItemBits.DropBits(5, par1EntityLiving);
 		super.onKillEntity(par1EntityLiving);
     }
 	
@@ -333,5 +380,55 @@ public class EntityTimberWolf extends EntityMob {
         return 0.4F;
     }
 	
+	/*******************************************************/
+	/***************** Death & Injury **********************/
+	/*******************************************************/
+	
+	@Override
+	public void onDeath(DamageSource damageSource)
+    {
+		if (dying>0)
+		{
+			super.onDeath(damageSource);
+		}
+		else
+		{
+			//false death
+			activeForm = false;
+			health = 1;
+		}
+    }
+	
+	@Override
+	public boolean attackEntityFrom(DamageSource damageSource, int par2)
+	{
+		Entity sourceEntity = damageSource.getSourceOfDamage();
+		if (sourceEntity!= null)
+		{
+			ItemStack tool = null;
+			
+			if (sourceEntity instanceof EntityLiving)
+			{
+				if (sourceEntity instanceof EntityPlayer)
+				{
+					EntityPlayer attackingPlayer = (EntityPlayer)sourceEntity;
+					tool = attackingPlayer.getHeldItem();
+				}
+			}
+			
+			if (tool != null)
+			{
+				  /****************************************/
+				 /**Handle the effects of each type here**/
+				/****************************************/
+				int banishLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.banishEnchant.effectId, tool);
+				if (dying < banishLevel*20)
+				{
+					dying = banishLevel*20;
+				}
+			}
+		}
+		return super.attackEntityFrom(damageSource, par2);
+	}
 	
 }

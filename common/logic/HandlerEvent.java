@@ -404,8 +404,8 @@ public class HandlerEvent
 		if (sourceEntity!= null && event.entityLiving != null)
 		{
 			int IDEntity = EntityList.getEntityID(event.entityLiving);
-			System.out.println("attack from "+sourceEntity);
-			System.out.println("target id"+IDEntity);
+			//System.out.println("attack from "+sourceEntity);
+			//System.out.println("target id"+IDEntity);
 			
 			ItemStack tool = null;
 			
@@ -420,14 +420,14 @@ public class HandlerEvent
 			
 			if (tool != null)
 			{
-				System.out.println("The tool is "+tool.getItemName());
+				//System.out.println("The tool is "+tool.getItemName());
 				
 				  /****************************************/
 				 /**Handle the effects of each type here**/
 				/****************************************/
 				
-				int electricLevel = EnchantmentHelper.getEnchantmentLevel(100, tool);
-				System.out.println("electric "+electricLevel);
+				int electricLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.electricEnchant.effectId, tool);
+				//System.out.println("electric "+electricLevel);
 				
 				if (IDEntity == 50 /*Creeper*/)
 				{

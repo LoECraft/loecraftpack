@@ -1,7 +1,7 @@
 package loecraftpack;
 
 import loecraftpack.common.blocks.*;
-import loecraftpack.common.enchantment.EnchantmentElectric;
+import loecraftpack.common.enchantment.*;
 import loecraftpack.common.entity.EntityPedestal;
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
@@ -11,8 +11,7 @@ import loecraftpack.common.logic.HandlerEvent;
 import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.logic.HandlerTick;
-import loecraftpack.common.potions.PotionCharged;
-import loecraftpack.common.potions.PotionOreVision;
+import loecraftpack.common.potions.*;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
@@ -120,6 +119,7 @@ public class LoECraftPack
 	public static final BlockHiddenOre blockGemOre = (BlockHiddenOre)(new BlockHiddenOre(678)).setHardness(1.5F).setResistance(10.0F).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("oreGem");
 	
 	public static final Enchantment electricEnchant = new EnchantmentElectric(100, 2);
+	public static final Enchantment banishEnchant = new EnchantmentBanish(101, 2);
 	
 	//declare Generators
 	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);
