@@ -1,6 +1,5 @@
 package loecraftpack.common.blocks;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,8 +24,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@SuppressWarnings("all")
-public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable, cpw.mods.fml.common.Mod.Block
+public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
 {
 	public Item apple;
 	public int appleType = 0;//item damage
@@ -468,24 +466,6 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
   					                                                 xCoord, yCoord, zCoord, newID));
   		}
   	}
-  	
-  	
-  	/**  FML STUFF  **/
-  	
-  	@Override
-	public Class<? extends Annotation> annotationType() {
-		return null;
-	}
-  	
-	@Override
-	public String name() {
-		return "AppleBloomLeaves";
-	}
-
-	@Override
-	public Class<?> itemTypeClass() {
-		return null;
-	}
 
 	
 }

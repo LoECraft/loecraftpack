@@ -2,10 +2,10 @@ package loecraftpack.common.items;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockAppleBloomLeaves;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
-import cpw.mods.fml.common.Mod.Block;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -13,14 +13,6 @@ public class ItemLeavesAppleBloom extends ItemBlock
 {
 	protected int bloomStage = 2;
 	protected BlockAppleBloomLeaves leaf;
-	
-	public ItemLeavesAppleBloom(int par1)
-    {
-        super(par1);
-        this.setMaxDamage(0);
-        this.setHasSubtypes(true);
-        this.leaf = LoECraftPack.blockAppleBloomLeaves;
-    }
 	
 	//Preffered constructor, to allow more than 1 blockID
 	public ItemLeavesAppleBloom(int par1, Block leaf)
@@ -63,6 +55,5 @@ public class ItemLeavesAppleBloom extends ItemBlock
         else if (meta < bloomStage)
         	return super.getUnlocalizedName()+".normal";
         else return super.getUnlocalizedName()+".blooming";
-
     }
 }
