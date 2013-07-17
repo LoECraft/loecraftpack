@@ -19,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -76,7 +77,8 @@ public class HandlerExtendedInventoryClient
 			}
 			else if (gui == GuiContainerCreative.class)
 			{
-				currentId = GuiIds.CREATIVE_INV;
+				if (((GuiContainerCreative)Minecraft.getMinecraft().currentScreen).func_74230_h()!=CreativeTabs.tabAllSearch.getTabIndex())
+					currentId = GuiIds.CREATIVE_INV;
 			}
 			else if (gui == GuiSpecialEquipment.class)
 			{
