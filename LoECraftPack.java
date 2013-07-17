@@ -290,27 +290,6 @@ public class LoECraftPack
 		event.registerServerCommand(new CommandStatRace());
 		event.registerServerCommand(new CommandHiddenOres());
 		event.registerServerCommand(new CommandTreeBucking());
-	}
-	
-	
-	
-	/*******/
-	/**ASM**/
-	/*******/
-	
-	public boolean registerBus(EventBus bus, LoadController controller)
-	{
-        bus.register(this);
-        return true;
-    }
-    /*
-     * Use this in place of @Init, @Preinit, @Postinit in the file.
-     */
-    @Subscribe                 /* Remember to use the right event! */
-    public void onServerStarting(FMLServerStartingEvent ev) {
-            //ev.getServer().worldServerForDimension(0).spawnHostileMobs = false;
-           
-    }
-	
+	}	
 	
 }

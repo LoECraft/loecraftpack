@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
  * Don't let any access transformer stuff accidentally modify our classes
  * A list of package prefixes for FML to ignore
  */
-@TransformerExclusions({"loecraftpack.*"})
+@TransformerExclusions({"loecraftpack.common.asm"})
 public class LoEPlugin implements IFMLLoadingPlugin {
 
 	/*
@@ -26,6 +26,7 @@ public class LoEPlugin implements IFMLLoadingPlugin {
      */
 	@Override
 	public String[] getASMTransformerClass() {
+		System.out.println("I've Been Had!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return new String[] {"loecraftpack.common.asm.LoEAccessTransformer"};
 	}
 
@@ -34,7 +35,7 @@ public class LoEPlugin implements IFMLLoadingPlugin {
      */
 	@Override
 	public String getModContainerClass() {
-		return "loecraftpack.LoECraftPack";
+		return null;
 	}
 
 	/*
