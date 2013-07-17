@@ -2,9 +2,11 @@ package loecraftpack.ponies.abilities.mechanics;
 
 import java.util.List;
 
+import loecraftpack.accessors.FieldAccessor;
 import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.Vec3;
@@ -15,6 +17,9 @@ import cpw.mods.fml.relauncher.SideOnly;
  * This class handles code regarding the visibility of hidden ores.
  */
 public class MechanicHiddenOres {
+	
+	protected static FieldAccessor<WorldRenderer[]> worldRenderersF = new FieldAccessor<WorldRenderer[]>(RenderGlobal.class, "worldRenderers");
+	protected static FieldAccessor<List> worldRenderersToUpdateF = new FieldAccessor<List>(RenderGlobal.class, "worldRenderersToUpdate");
 	
 	@SideOnly(Side.CLIENT)
 	public static boolean revealHiddenGems = false;
@@ -53,8 +58,8 @@ public class MechanicHiddenOres {
 		
 		if (revealHiddenGems)
 		{
-			WorldRenderer[] worldRenderer = (WorldRenderer[])PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderers");
-			List worldRenderersToUpdate = (List)PrivateAccessor.getPrivateObject(Minecraft.getMinecraft().renderGlobal, "worldRenderersToUpdate");
+			WorldRenderer[] worldRenderer = worldRenderersF.get(Minecraft.getMinecraft().renderGlobal);
+			List worldRenderersToUpdate = worldRenderersToUpdateF.get(Minecraft.getMinecraft().renderGlobal);
 			for (int i=0; i < worldRenderer.length; i++)
 			{
 				if (worldRenderer[i] != null && inRangeForRefresh(player, worldRenderer[i]))

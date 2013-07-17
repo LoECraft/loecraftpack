@@ -55,7 +55,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 public class HandlerEvent
 {
 	static Method alertWolves = PrivateAccessor.getMethod(EntityPlayer.class, "alertWolves", EntityLiving.class, boolean.class);
-	static FieldAccessor<DataWatcher> entityDataWatcher = new FieldAccessor<DataWatcher>(Entity.class, "dataWatcher");
 	
 	
 	/*@ForgeSubscribe
@@ -431,7 +430,7 @@ public class HandlerEvent
 				
 				if (IDEntity == 50 /*Creeper*/)
 				{
-					entityDataWatcher.get(event.entityLiving).updateObject(17, Byte.valueOf((byte)1));
+					event.entityLiving.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
 				}
 			}
 		}

@@ -1,5 +1,8 @@
 package loecraftpack;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 import loecraftpack.common.blocks.*;
 import loecraftpack.common.enchantment.*;
 import loecraftpack.common.entity.EntityPedestal;
@@ -23,12 +26,15 @@ import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderGlobal;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -285,4 +291,26 @@ public class LoECraftPack
 		event.registerServerCommand(new CommandHiddenOres());
 		event.registerServerCommand(new CommandTreeBucking());
 	}
+	
+	
+	
+	/*******/
+	/**ASM**/
+	/*******/
+	
+	public boolean registerBus(EventBus bus, LoadController controller)
+	{
+        bus.register(this);
+        return true;
+    }
+    /*
+     * Use this in place of @Init, @Preinit, @Postinit in the file.
+     */
+    @Subscribe                 /* Remember to use the right event! */
+    public void onServerStarting(FMLServerStartingEvent ev) {
+            //ev.getServer().worldServerForDimension(0).spawnHostileMobs = false;
+           
+    }
+	
+	
 }
