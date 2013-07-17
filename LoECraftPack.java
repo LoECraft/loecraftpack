@@ -108,7 +108,7 @@ public class LoECraftPack
 	public static final BlockBank bank = new BlockBank(665);
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
 	public static final BlockProjectTable table = new BlockProjectTable(667);
-	public static final BlockColoredBed bedBlock = new BlockColoredBed(670);
+	public static final BlockColoredBed bedBlock = (BlockColoredBed)new BlockColoredBed(670).setHardness(0.2F);
 	public static final BlockAppleBloomSapling blockAppleBloomSapling = (BlockAppleBloomSapling)(new BlockAppleBloomSapling(671)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingBloom");
 	public static final BlockZapAppleSapling blockZapAppleSapling = (BlockZapAppleSapling)(new BlockZapAppleSapling(672)).setHardness(0.0F).setStepSound(Block.soundGrassFootstep).setUnlocalizedName("saplingZap");
 	public static final BlockAppleLog blockAppleBloomLog = (BlockAppleLog)(new BlockAppleLog(673, "tree_side", "tree_top")).setHardness(2.0F).setStepSound(Block.soundWoodFootstep).setUnlocalizedName("logApple");
