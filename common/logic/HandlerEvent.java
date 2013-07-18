@@ -431,7 +431,7 @@ public class HandlerEvent
 				
 				if (IDEntity == 50 /*Creeper*/)
 				{
-					LoECraftPackCoreMod.getDataWatcher(event.entityLiving).updateObject(17, Byte.valueOf((byte)1));
+					event.entityLiving.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
 				}
 			}
 		}
