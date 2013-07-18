@@ -1,12 +1,8 @@
 package loecraftpack.common.logic;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.LoECraftPackCoreMod;
-import loecraftpack.accessors.FieldAccessor;
-import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.entity.EntityCustomArrow;
@@ -20,7 +16,6 @@ import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.DataWatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
@@ -39,7 +34,6 @@ import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
@@ -55,7 +49,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class HandlerEvent
 {
-	static Method alertWolves = PrivateAccessor.getMethod(EntityPlayer.class, "alertWolves", EntityLiving.class, boolean.class);
 	
 	
 	/*@ForgeSubscribe
@@ -359,7 +352,6 @@ public class HandlerEvent
 		  /****************************************/
 		 /**Alert Wolves Code, for custom arrows**/
 		/****************************************/
-	@SuppressWarnings("unused")
 	@ForgeSubscribe
     public void onLivingAttack(LivingAttackEvent event)
     {
@@ -372,15 +364,7 @@ public class HandlerEvent
 	            
 	            if (entity instanceof EntityLiving)
 		        {
-	            	if(false)
-	    			{
-	    				//TODO MAKE ASM WORK!!!
-	    				//((EntityPlayer)event.entityLiving).alertWolves((EntityLiving)entity, false);
-	    			}
-	    			else
-	    			{
-	    				PrivateAccessor.invokeMethod(alertWolves, ((EntityPlayer)event.entityLiving), (EntityLiving)entity, false);
-	    			}
+	            	((EntityPlayer)event.entityLiving).alertWolves((EntityLiving)entity, false);
 		        }
 	        }
 		}

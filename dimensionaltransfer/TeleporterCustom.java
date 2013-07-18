@@ -3,14 +3,11 @@ package loecraftpack.dimensionaltransfer;
 import java.util.Iterator;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.accessors.PrivateAccessor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet202PlayerAbilities;
-import net.minecraft.network.packet.Packet28EntityVelocity;
 import net.minecraft.network.packet.Packet41EntityEffect;
 import net.minecraft.network.packet.Packet70GameEvent;
 import net.minecraft.network.packet.Packet9Respawn;
@@ -39,14 +36,11 @@ public class TeleporterCustom extends Teleporter
 	public enum Method {Portal, Surface, Sky, Abyss};
 	
 	//instance data
-	protected final WorldServer worldServerInstance2;
 	protected final int dimensionID;
 	private final Method method;
 	
 	public TeleporterCustom(WorldServer par1WorldServer, int dimensionID, Method method) {
 		super(par1WorldServer);
-		//TODO REMOVE THIS line and update code once ASM works!
-		worldServerInstance2 = (WorldServer)PrivateAccessor.getPrivateObject(Teleporter.class, this, "worldServerInstance");
 		this.dimensionID = dimensionID;
 		this.method = method;
 	}
@@ -66,9 +60,9 @@ public class TeleporterCustom extends Teleporter
 		else
 		{
 			if(method == Method.Surface)
-				y = worldServerInstance2.getHeightValue((int)x, (int)z);
+				y = worldServerInstance.getHeightValue((int)x, (int)z);
 			else if(method == Method.Sky)
-				y = worldServerInstance2.getHeight()-0.6;
+				y = worldServerInstance.getHeight()-0.6;
 			else
 				y = 0;
 			
@@ -139,7 +133,6 @@ public class TeleporterCustom extends Teleporter
 	 *   this version enables custom teleporting methods, assigned by, Enum Method.
 	 * @param entity
 	 */
-	@SuppressWarnings("unused")
 	public void travelToDimension(Entity entity)
 	{
 		System.out.println("To infinity and Beyond!!!!");
@@ -178,21 +171,10 @@ public class TeleporterCustom extends Teleporter
 		            }
 	
 		            entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, id, this);
-		            if (false)
-		            {
-		            	//TODO MAKE ASM WORK!!!
-		            	/*
-		            	entityPlayer.lastExperience = -1;
-			            entityPlayer.lastHealth = -1;
-			            entityPlayer.lastFoodLevel = -1;
-			            */
-		            }
-		            else
-		            {
-		            	PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
-			            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
-			            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
-		            }
+		            
+	            	entityPlayer.lastExperience = -1;
+		            entityPlayer.lastHealth = -1;
+		            entityPlayer.lastFoodLevel = -1;
 		            
 		        }
 			}
@@ -200,21 +182,11 @@ public class TeleporterCustom extends Teleporter
 			{
 				//Packet velocity = new Packet28EntityVelocity(entityPlayer);
 				this.transferPlayerToDimension(entityPlayer, id, this);
-				if (false)
-	            {
-	            	//TODO MAKE ASM WORK!!!
-					/*
-	            	entityPlayer.lastExperience = -1;
-		            entityPlayer.lastHealth = -1;
-		            entityPlayer.lastFoodLevel = -1;
-		            */
-	            }
-	            else
-	            {
-	            	PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
-		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
-		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
-	            }
+				
+				entityPlayer.lastExperience = -1;
+	            entityPlayer.lastHealth = -1;
+	            entityPlayer.lastFoodLevel = -1;
+	            
 	            /*if (method==Method.Abyss || method==Method.Sky)
 	            	entityPlayer.playerNetServerHandler.sendPacketToPlayer(velocity);*/
 			}
@@ -269,7 +241,7 @@ public class TeleporterCustom extends Teleporter
 		/**
 		 * MinecraftServer ms = scm.mcServer;
 		 */
-		MinecraftServer ms = (MinecraftServer)PrivateAccessor.getPrivateObject(ServerConfigurationManager.class, scm, "mcServer");
+		MinecraftServer ms = scm.getServerInstance();
 		
         int j = par1EntityPlayerMP.dimension;
         WorldServer worldserver = ms.worldServerForDimension(par1EntityPlayerMP.dimension);

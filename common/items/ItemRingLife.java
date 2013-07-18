@@ -1,22 +1,14 @@
 package loecraftpack.common.items;
 
-import loecraftpack.accessors.FieldAccessor;
-import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemRingLife extends ItemRing {
-	
-	static FieldAccessor<Integer> health = new FieldAccessor<Integer>(EntityLiving.class, "health");
-	static FieldAccessor<Boolean> isDead = new FieldAccessor<Boolean>(Entity.class, "isDead");
 
 	public ItemRingLife(int par1) {
 		super(par1);
@@ -30,24 +22,12 @@ public class ItemRingLife extends ItemRing {
 		itemIcon = iconRegister.registerIcon("loecraftpack:tools/ringLife");
 	}
 	
-	@SuppressWarnings("unused")
 	public void onDeathPre(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
 	{
-		if(health.get(player)<1)
+		if(player.getHealth()<1)
 		{
-			if (false)
-            {
-            	//TODO MAKE ASM WORK!!!
-				/*
-				player.health = player.getMaxHealth()/4;
-				player.isDead = false;
-				*/
-            }
-            else
-            {
-            	health.set(player, player.getMaxHealth()/4);
-    			isDead.set(player, false);
-            }
+			player.setEntityHealth(player.getMaxHealth()/4);
+			player.isDead = false;
 			itemStack.stackSize--;
 			if (itemStack.stackSize < 1)
 				inv.setInventorySlotContents(slot, null);
