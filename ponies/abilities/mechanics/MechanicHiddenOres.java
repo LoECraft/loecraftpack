@@ -35,6 +35,7 @@ public class MechanicHiddenOres {
 	public static int zPos;
 	
 	//TODO make this range dependant
+	@SuppressWarnings("unused")
 	public static void refreshRenderWithRange(EntityPlayer player)
 	{
 		if (!player.worldObj.isRemote)
@@ -58,8 +59,19 @@ public class MechanicHiddenOres {
 		
 		if (revealHiddenGems)
 		{
-			WorldRenderer[] worldRenderer = worldRenderersF.get(Minecraft.getMinecraft().renderGlobal);
-			List worldRenderersToUpdate = worldRenderersToUpdateF.get(Minecraft.getMinecraft().renderGlobal);
+			WorldRenderer[] worldRenderer;
+			List worldRenderersToUpdate;
+			if(false)
+			{
+				//TODO MAKE ASM WORK!!!
+				//worldRenderer = Minecraft.getMinecraft().renderGlobal.worldRenderers;
+				//worldRenderersToUpdate = Minecraft.getMinecraft().renderGlobal.worldRenderersToUpdate;
+			}
+			else
+			{
+				worldRenderer = worldRenderersF.get(Minecraft.getMinecraft().renderGlobal);
+				worldRenderersToUpdate = worldRenderersToUpdateF.get(Minecraft.getMinecraft().renderGlobal);
+			}
 			for (int i=0; i < worldRenderer.length; i++)
 			{
 				if (worldRenderer[i] != null && inRangeForRefresh(player, worldRenderer[i]))

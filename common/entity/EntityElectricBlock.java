@@ -10,13 +10,22 @@ public class EntityElectricBlock extends Entity
 	int maxAge;
 	int age;
 	
+	@SuppressWarnings("unused")
 	public EntityElectricBlock(World par1World) {
 		super(par1World);
 		this.setSize(1.2f, 1.2f);
 		age = 0;
 		maxAge = 10;//ticks & frames
 		this.isImmuneToFire = true;
-		PrivateAccessor.setPrivateVariable(Entity.class, this, "invulnerable", true);
+		if(false)
+		{
+			//TODO MAKE ASM WORK!!!
+			//this.invulnerable = true;
+		}
+		else
+		{
+			PrivateAccessor.setPrivateVariable(Entity.class, this, "invulnerable", true);
+		}
 	}
 	
 	public int getAge()

@@ -359,6 +359,7 @@ public class HandlerEvent
 		  /****************************************/
 		 /**Alert Wolves Code, for custom arrows**/
 		/****************************************/
+	@SuppressWarnings("unused")
 	@ForgeSubscribe
     public void onLivingAttack(LivingAttackEvent event)
     {
@@ -371,7 +372,15 @@ public class HandlerEvent
 	            
 	            if (entity instanceof EntityLiving)
 		        {
-		        	PrivateAccessor.invokeMethod(alertWolves, ((EntityPlayer)event.entityLiving), (EntityLiving)entity, false);
+	            	if(false)
+	    			{
+	    				//TODO MAKE ASM WORK!!!
+	    				//((EntityPlayer)event.entityLiving).alertWolves((EntityLiving)entity, false);
+	    			}
+	    			else
+	    			{
+	    				PrivateAccessor.invokeMethod(alertWolves, ((EntityPlayer)event.entityLiving), (EntityLiving)entity, false);
+	    			}
 		        }
 	        }
 		}

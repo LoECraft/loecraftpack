@@ -32,7 +32,8 @@ public class ItemNecklaceOfBling extends ItemNecklace {
 	public void applyWornEffect(EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
 	{
 		System.out.println("Bling Bling");
-		
+        
+		//TODO REMOVE THIS LINE, and update code once ASM works!
 		Random rand = this.rand.get(player);
 		
 		player.worldObj.spawnParticle("fireworksSpark", player.posX, player.posY + 0.3D, player.posZ, rand.nextGaussian() * 0.05D, 1 * 0.5D, rand.nextGaussian() * 0.05D);

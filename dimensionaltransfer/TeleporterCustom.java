@@ -43,9 +43,9 @@ public class TeleporterCustom extends Teleporter
 	protected final int dimensionID;
 	private final Method method;
 	
-	
 	public TeleporterCustom(WorldServer par1WorldServer, int dimensionID, Method method) {
 		super(par1WorldServer);
+		//TODO REMOVE THIS line and update code once ASM works!
 		worldServerInstance2 = (WorldServer)PrivateAccessor.getPrivateObject(Teleporter.class, this, "worldServerInstance");
 		this.dimensionID = dimensionID;
 		this.method = method;
@@ -139,6 +139,7 @@ public class TeleporterCustom extends Teleporter
 	 *   this version enables custom teleporting methods, assigned by, Enum Method.
 	 * @param entity
 	 */
+	@SuppressWarnings("unused")
 	public void travelToDimension(Entity entity)
 	{
 		System.out.println("To infinity and Beyond!!!!");
@@ -177,18 +178,43 @@ public class TeleporterCustom extends Teleporter
 		            }
 	
 		            entityPlayer.mcServer.getConfigurationManager().transferPlayerToDimension(entityPlayer, id, this);
-		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
-		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
-		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
+		            if (false)
+		            {
+		            	//TODO MAKE ASM WORK!!!
+		            	/*
+		            	entityPlayer.lastExperience = -1;
+			            entityPlayer.lastHealth = -1;
+			            entityPlayer.lastFoodLevel = -1;
+			            */
+		            }
+		            else
+		            {
+		            	PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
+			            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
+			            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
+		            }
+		            
 		        }
 			}
 			else
 			{
 				//Packet velocity = new Packet28EntityVelocity(entityPlayer);
 				this.transferPlayerToDimension(entityPlayer, id, this);
-	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
-	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
-	            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
+				if (false)
+	            {
+	            	//TODO MAKE ASM WORK!!!
+					/*
+	            	entityPlayer.lastExperience = -1;
+		            entityPlayer.lastHealth = -1;
+		            entityPlayer.lastFoodLevel = -1;
+		            */
+	            }
+	            else
+	            {
+	            	PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastExperience", -1);
+		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastHealth", -1);
+		            PrivateAccessor.setPrivateVariable(EntityPlayerMP.class, entityPlayer, "lastFoodLevel", -1);
+	            }
 	            /*if (method==Method.Abyss || method==Method.Sky)
 	            	entityPlayer.playerNetServerHandler.sendPacketToPlayer(velocity);*/
 			}
@@ -240,6 +266,9 @@ public class TeleporterCustom extends Teleporter
 	public void transferPlayerToDimension(EntityPlayerMP par1EntityPlayerMP, int targetDimensionID, Teleporter teleporter)
     {
 		ServerConfigurationManager scm = par1EntityPlayerMP.mcServer.getConfigurationManager();
+		/**
+		 * MinecraftServer ms = scm.mcServer;
+		 */
 		MinecraftServer ms = (MinecraftServer)PrivateAccessor.getPrivateObject(ServerConfigurationManager.class, scm, "mcServer");
 		
         int j = par1EntityPlayerMP.dimension;

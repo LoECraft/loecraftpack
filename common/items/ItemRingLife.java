@@ -1,11 +1,13 @@
 package loecraftpack.common.items;
 
 import loecraftpack.accessors.FieldAccessor;
+import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import cpw.mods.fml.relauncher.Side;
@@ -28,12 +30,24 @@ public class ItemRingLife extends ItemRing {
 		itemIcon = iconRegister.registerIcon("loecraftpack:tools/ringLife");
 	}
 	
+	@SuppressWarnings("unused")
 	public void onDeathPre(LivingDeathEvent event, EntityPlayer player, InventoryCustom inv, int slot, ItemStack itemStack)
 	{
 		if(health.get(player)<1)
 		{
-			health.set(player, player.getMaxHealth()/4);
-			isDead.set(player, false);
+			if (false)
+            {
+            	//TODO MAKE ASM WORK!!!
+				/*
+				player.health = player.getMaxHealth()/4;
+				player.isDead = false;
+				*/
+            }
+            else
+            {
+            	health.set(player, player.getMaxHealth()/4);
+    			isDead.set(player, false);
+            }
 			itemStack.stackSize--;
 			if (itemStack.stackSize < 1)
 				inv.setInventorySlotContents(slot, null);
