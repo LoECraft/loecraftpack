@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import loecraftpack.LoECraftPack;
+import loecraftpack.LoECraftPackCoreMod;
 import loecraftpack.accessors.FieldAccessor;
 import loecraftpack.accessors.PrivateAccessor;
 import loecraftpack.common.blocks.BlockProtectionMonolith;
@@ -430,7 +431,7 @@ public class HandlerEvent
 				
 				if (IDEntity == 50 /*Creeper*/)
 				{
-					event.entityLiving.dataWatcher.updateObject(17, Byte.valueOf((byte)1));
+					LoECraftPackCoreMod.getDataWatcher(event.entityLiving).updateObject(17, Byte.valueOf((byte)1));
 				}
 			}
 		}

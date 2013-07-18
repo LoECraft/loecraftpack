@@ -26,7 +26,6 @@ public class LoEPlugin implements IFMLLoadingPlugin {
      */
 	@Override
 	public String[] getASMTransformerClass() {
-		System.out.println("I've Been Had!!!!!!!!!!!!!!!!!!!!!!!!!");
 		return new String[] {"loecraftpack.common.asm.LoEAccessTransformer"};
 	}
 
@@ -35,7 +34,7 @@ public class LoEPlugin implements IFMLLoadingPlugin {
      */
 	@Override
 	public String getModContainerClass() {
-		return null;
+		return "loecraftpack.LoECraftPackCoreMod";
 	}
 
 	/*
