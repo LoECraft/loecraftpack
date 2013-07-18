@@ -30,7 +30,7 @@ public class LoECraftPackCoreMod extends DummyModContainer {
 		super(new ModMetadata());
 		/* ModMetadata is the same as mcmod.info */
 		ModMetadata myMeta = super.getMetadata();
-		myMeta.authorList = Arrays.asList(new String[] { "Rundo0" });
+		myMeta.authorList = Arrays.asList(new String[] { "Rundo, Tekner" });
 		myMeta.description = "LoECraftPack's access transformer mod";
 		myMeta.modId = "loecraftpackcore";
 		myMeta.version = "1.0";
