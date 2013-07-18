@@ -21,7 +21,6 @@ import cpw.mods.fml.common.versioning.VersionRange;
 
 public class LoECraftPackCoreMod implements ModContainer {
 	
-	/*******************************************************************************************/
 	
 	public static DataWatcher getDataWatcher(Entity instance)
 	{
