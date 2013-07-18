@@ -50,7 +50,7 @@ public class LoECraftPackCoreMod extends DummyModContainer {
 	@Subscribe                 /* Remember to use the right event! */
 	public void onServerStarting(FMLServerStartingEvent ev)
 	{
-		
+		ev.getServer().worldServerForDimension(0).spawnHostileMobs = false;
 	}
 	
 	
