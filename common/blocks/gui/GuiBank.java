@@ -10,8 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 public class GuiBank extends GuiScreen
 {
-	final int xSizeOfTexture = 192
-			, ySizeOfTexture = 135
+	final int xSizeOfTexture = 256
+			, ySizeOfTexture = 138
 		  , white = Color.white.getRGB();
 	int posX
 	  , posY;

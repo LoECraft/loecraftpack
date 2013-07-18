@@ -66,7 +66,7 @@ public class ItemBits extends Item
 	{
 	    icons = new Icon[iconNames.length];
 	        
-		for (int i = 0; i < iconNames.length; ++i)
+		for (int i = 0; i < iconNames.length; i++)
 		{
 	    	icons[i] = iconRegister.registerIcon("loecraftpack:bits/" + iconNames[i]);
 	    	itemIcon = icons[i];
