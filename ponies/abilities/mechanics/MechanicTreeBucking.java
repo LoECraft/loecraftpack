@@ -6,11 +6,11 @@ import java.util.List;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
-
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.BlockAppleBloomLeaves;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.Ability;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;

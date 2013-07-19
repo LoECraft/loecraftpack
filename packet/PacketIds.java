@@ -84,17 +84,11 @@ public class PacketIds
 	 */
 	public static final byte applyStats = -121;
 	
-	
-	
 	//TODO remove this and have only server apply potion effects.
 	/**TO SERVER: Client Directly Applied Potion Effect; For Testing Purposes */
 	public static final byte applyPotionEffect = -120;
-	
-	//TODO remove this and use the useAbility packet instead
-	/**TO SERVER: Client Spawned FireBall*/
-	public static final byte fireball = -119;
 		
 	//TODO remove this and have the owner set by the server side, during block placement
 	/**TO SERVER: Client Set Owner*/
-	public static final byte monolithSetOwner = -118;
+	public static final byte monolithSetOwner = -119;
 }

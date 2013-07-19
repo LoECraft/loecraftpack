@@ -8,7 +8,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.enums.Race;
-import loecraftpack.ponies.abilities.mechanics.Ability;
+import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.stats.StatHandlerClient;
 import net.minecraft.client.Minecraft;

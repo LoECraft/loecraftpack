@@ -76,10 +76,6 @@ public class HandlerKey extends KeyHandler
 						Minecraft.getMinecraft().displayGuiScreen((GuiScreen)null);
 					}
 				}
-				else if (Minecraft.getMinecraft().currentScreen == null)
-				{
-					PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.fireball));
-				}
 			}
 			else if (kb.equals(extendedInventory))
 			{

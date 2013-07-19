@@ -7,9 +7,9 @@ import java.io.IOException;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
-import loecraftpack.ponies.abilities.mechanics.Ability;
+import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.AbilityList;
 import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
-import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,9 +33,18 @@ public class PacketHandlerServer implements IPacketHandler
             {
             	switch(data.readByte())
             	{
-            		case PacketIds.fireball:
-            			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
-            			sender.worldObj.spawnEntityInWorld(fireball);
+            		case PacketIds.useAbility:
+            			switch(data.readByte())
+            			{
+            				case AbilityList.Fireball: 
+		            			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
+		            			sender.worldObj.spawnEntityInWorld(fireball);
+		            			break;
+	            			
+            				case AbilityList.Teleport:
+            					sender.setPositionAndUpdate(data.readDouble(), data.readDouble(), data.readDouble());
+            					break;
+            			}
             			break;
             			
             		case PacketIds.monolithEdit:

@@ -5,6 +5,7 @@ import java.util.List;
 
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.Ability;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.PacketDispatcher;
