@@ -133,10 +133,10 @@ public class HandlerEvent
 				player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
 				System.out.println("BUCK");
-				MechanicTreeBucking.buckTree(player.worldObj, event.x, event.y, event.z, 0/*TODO fortune*/);
+				MechanicTreeBucking.buckTree(player.worldObj, event.x, event.y, event.z, 0/*Do: BuckTree - fortune*/);
 				if (player.worldObj.isRemote)
 				{
-					//TODO consume stamina
+					//Do: EarthPonyBuck - consume stamina
 				}
 			}
 		}

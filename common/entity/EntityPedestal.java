@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 
 public class EntityPedestal extends Entity {
 	
-	//TODO make this have sub types, or use imported Icons
+	//Do: EntityPedestal - make this have sub types, or use imported Icons
 	
     /*ITEM VARS*/
     public String name = null;

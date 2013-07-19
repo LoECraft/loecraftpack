@@ -108,7 +108,7 @@ public class LoECraftPack
 	//Create our own creative tab
 	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
 	{
-		//Set the icon - TODO: ADD NEW ITEM WITH CUSTOM ICON FOR USE HERE 
+		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
         public ItemStack getIconItemStack()
         {
                 return new ItemStack(Item.writableBook, 1, 0);
@@ -122,7 +122,7 @@ public class LoECraftPack
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(21, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
 	public static final PotionOreVision potionOreVision = (PotionOreVision)(new PotionOreVision(22, false, 0)).setPotionName("Ore Vision").setIconIndex(0, 0);
 	
-	//Declare immutable Items, Blocks, and Enchantments - TODO: INITIALIZE THESE IN PREINIT BASED ON CONFIG IDS
+	//Declare immutable Items, Blocks, and Enchantments - Do: Initialize Items/Blocks in PreInit based on config IDs
 	public static final ItemBits bits = new ItemBits(667);
 	public static final ItemColoredBed bedItems = new ItemColoredBed(670);
 	public static final ItemZapApple itemZapApple = (ItemZapApple)(new ItemZapApple(671, 4, 1.2F, true)).setAlwaysEdible().setUnlocalizedName("appleZap");
@@ -177,7 +177,7 @@ public class LoECraftPack
 		/**Load Config**/
 		/***************/
 		
-		//TODO: LOAD CONFIG HERE
+		//Do: PreInit - Load mod config here
 		
 		/************************/
 		/**Initialize Variables**/
@@ -310,7 +310,7 @@ public class LoECraftPack
 	@PostInit
 	public void postLoad(FMLPostInitializationEvent e)
 	{
-		//TODO: POST-LOAD STUFF
+		//Do: Post-load stuff
 		proxy.doProxyStuffPost();
 	}
 	

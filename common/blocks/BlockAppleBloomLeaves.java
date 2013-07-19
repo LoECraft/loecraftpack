@@ -374,7 +374,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
         }
     }
 	
-	//TODO confirm if there is a issue with exploits
+	//CAUTION: BlockAppleBloomLeaves - confirm if there is a issue with exploits
 	@Override
 	public boolean isOpaqueCube()
     {

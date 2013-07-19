@@ -121,7 +121,7 @@ public class CommandStatRace implements ICommand {
 
 	@Override
 	public boolean canCommandSenderUseCommand(ICommandSender icommandsender) {
-		// TODO Allow only Authorized access
+		// Do: CommandStatRace - Allow only Authorized access
 		return true;
 	}
 

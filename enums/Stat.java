@@ -1,6 +1,7 @@
 package loecraftpack.enums;
 
-public enum Stat {
+public enum Stat
+{
 	//universal
 	DODGE, //affects chance to dodge attacks
 	//unicorn
@@ -11,5 +12,5 @@ public enum Stat {
 	//pegasus
 	AGILITY,
 	FLIGHT,
-	//TODO: ADD THE REST OF THE STATS
+	//Do: Add the rest of the stats
 }

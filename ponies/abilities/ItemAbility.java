@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-//TODO CREATE CHARGE GRAPHIC
+//Do: ItemAbility - CREATE CHARGE GRAPHIC
 public abstract class ItemAbility extends Item
 {
 	protected int Cooldown = 0;
@@ -50,6 +50,12 @@ public abstract class ItemAbility extends Item
 	@Override
 	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
 	{
+		if (!LoECraftPack.statHandler.isRace(par3EntityPlayer, race))
+		{
+			par1ItemStack.stackSize = 0;
+			return par1ItemStack;
+		}
+		
 		held = true;
 		time = System.currentTimeMillis();
 		
@@ -75,13 +81,10 @@ public abstract class ItemAbility extends Item
 	@Override
 	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
 	{
-		if (!par2World.isRemote)
+		if (!LoECraftPack.statHandler.isRace((EntityPlayer)par3Entity, race))
 		{
-			if (!LoECraftPack.statHandler.isRace((EntityPlayer)par3Entity, race))
-			{
-				par1ItemStack.stackSize = 0;
-				return;
-			}
+			par1ItemStack.stackSize = 0;
+			return;
 		}
 		
 		if (cooldown > 0)

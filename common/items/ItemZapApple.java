@@ -49,7 +49,7 @@ public class ItemZapApple extends ItemFood
     {
     	if (!world.isRemote)
         {
-    		//TODO Define Effects
+    		//Do: ZapApple - Define Potion Effects
 	        if (itemStack.getItemDamage() == 0)
 	        {
             	entityPlayer.addPotionEffect(new PotionEffect(LoECraftPack.potionCharged.id, 1000, 0));

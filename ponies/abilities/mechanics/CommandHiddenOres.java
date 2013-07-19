@@ -52,7 +52,7 @@ public class CommandHiddenOres implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
-		//TODO make this do what it's supposed to do
+		//Do: GemVisionCommand - make this do what it's supposed to do
 		String name = icommandsender.getCommandSenderName();
 		if (!name.matches("Rcon"))
 		{
@@ -80,7 +80,7 @@ public class CommandHiddenOres implements ICommand {
 			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
 			if (player != null && LoECraftPack.statHandler.isRace(player, Race.UNICORN))
 			{
-				//TODO make this also check to see if the power is already enabled or re-charging
+				//Do: GemVisionCommand - make this also check to see if the power is already enabled or re-charging
 				return true;
 			}
 		}

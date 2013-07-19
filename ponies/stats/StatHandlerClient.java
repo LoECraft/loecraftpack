@@ -51,7 +51,6 @@ public class StatHandlerClient extends StatHandlerServer
 	
 	public Race getRace(String player)
 	{
-		System.out.println("do I get used?");
 		if (stats.containsKey(player))
 			return ((Stats)stats.get(player)).race;
 		else
@@ -69,7 +68,6 @@ public class StatHandlerClient extends StatHandlerServer
 	
 	public void setRace(String player, Race race)
 	{
-		System.out.println("do I get used?");
 		if (stats.containsKey(player))
 			((Stats)stats.get(player)).race = race;
 	}

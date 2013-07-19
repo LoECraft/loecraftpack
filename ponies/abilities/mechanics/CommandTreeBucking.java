@@ -51,7 +51,7 @@ public class CommandTreeBucking implements ICommand {
 	@Override
 	public void processCommand(ICommandSender icommandsender, String[] astring)
 	{
-		//TODO make this do what it's supposed to do
+		//Do: TreeBuckCommand - make this do what it's supposed to do
 		String name = icommandsender.getCommandSenderName();
 		EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
 		if (player != null)
@@ -67,7 +67,7 @@ public class CommandTreeBucking implements ICommand {
 			EntityPlayer player = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);
 			if (player != null && LoECraftPack.statHandler.isRace(player, Race.EARTH))
 			{
-				//TODO make this also check to see if the power is already enabled or re-charging
+				//Do: TreeBuckCommand - make this also check to see if the power is already enabled or re-charging
 				return true;
 			}
 		}

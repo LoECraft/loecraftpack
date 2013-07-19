@@ -5,7 +5,7 @@ import loecraftpack.enums.Race;
 public class Stats
 {
 	public Race race = Race.NONE;
-	//TODO: ADD THE REST OF THE STATS
+	//Do: Add the rest of the stats
 	
 	public Stats(Race race)
 	{

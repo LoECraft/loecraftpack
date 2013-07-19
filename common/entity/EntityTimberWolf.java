@@ -355,7 +355,7 @@ public class EntityTimberWolf extends EntityMob {
 	/********************** Sound **************************/
 	/*******************************************************/
 	
-	//TODO change this to a wood sound
+	//Do: EntityTimberWolf - change this to a wood sound
 	@Override
 	protected void playStepSound(int par1, int par2, int par3, int par4)
     {

@@ -28,7 +28,7 @@ public class MechanicHiddenOres {
 	@SideOnly(Side.CLIENT)
 	public static int zPos;
 	
-	//TODO make this range dependant
+	//Do: GemVisionMechanic - make this range dependant
 	public static void refreshRenderWithRange(EntityPlayer player)
 	{
 		if (!player.worldObj.isRemote)

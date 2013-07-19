@@ -2,7 +2,7 @@ package loecraftpack.packet;
 
 public class PacketIds
 {
-	//TODO make this pass thru a function, to confirm both: valid changes, and valid transactions
+	//Do: PacketIds - make this pass thru a function, to confirm both: valid changes, and valid transactions
 	/**TO SERVER: Client Edited Values for MonoLith<p>
 	 * <b> MonoLith Location vars:</b><br>
 	 * - X-Coord (Int)<br>
@@ -84,11 +84,11 @@ public class PacketIds
 	 */
 	public static final byte applyStats = -121;
 	
-	//TODO remove this and have only server apply potion effects.
+	//Do: applyPotionEffect - remove this and have only server apply potion effects.
 	/**TO SERVER: Client Directly Applied Potion Effect; For Testing Purposes */
 	public static final byte applyPotionEffect = -120;
 		
-	//TODO remove this and have the owner set by the server side, during block placement
+	//Do: monolithSetOwner - remove this and have the owner set by the server side, during block placement
 	/**TO SERVER: Client Set Owner*/
 	public static final byte monolithSetOwner = -119;
 }
