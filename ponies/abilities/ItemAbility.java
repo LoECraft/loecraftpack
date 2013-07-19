@@ -14,7 +14,6 @@ public abstract class ItemAbility extends Item
 	protected float cooldown = 0;
 	protected int Casttime = 0;
 	protected float casttime = 0;
-	private int delayCheck;
 	private boolean held;
 	private boolean heldChanged;
 	private long time;
