@@ -55,7 +55,7 @@ public class GuiBank extends GuiScreen
 		drawDefaultBackground();
 	
 		GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		this.mc.renderEngine.bindTexture("/loecraftpack/resources/mods/loecraftpack/gui/bank.png");
+		this.mc.renderEngine.bindTexture("/loecraftpack/gui/bank.png");
 	
 		posX = (this.width - xSizeOfTexture) / 2;
 		posY = (this.height - ySizeOfTexture) / 2;
