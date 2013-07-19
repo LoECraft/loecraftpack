@@ -49,7 +49,7 @@ public class GuiSpecialEquipment extends InventoryEffectRenderer {
 	protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
     {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.renderEngine.bindTexture("/loecraftpack/ponies/inventory/specialEquipment.png");
+        this.mc.renderEngine.bindTexture("/loecraftpack/gui/specialEquipment.png");
         int k = this.guiLeft;
         int l = this.guiTop;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
