@@ -9,6 +9,7 @@ import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.enums.Race;
 import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.stats.StatHandlerClient;
 import net.minecraft.client.Minecraft;
@@ -83,7 +84,12 @@ public class PacketHandlerClient implements IPacketHandler
             			int ability = data.readInt();
             			int mode = data.readInt();
             			boolean success = false;
-            			if (ability == Ability.TreeBuck.ordinal())
+            			if (ability == Ability.CHARGE.ordinal())
+            			{
+            				MechanicAbilityCharge.chargeClient = mode;
+            				success = true;
+            			}
+            			else if (ability == Ability.TreeBuck.ordinal())
             			{
             				MechanicTreeBucking.setBuckClient(mode==1);
             				success = true;

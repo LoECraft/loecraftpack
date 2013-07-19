@@ -5,22 +5,23 @@ import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
-import loecraftpack.dimensionaltransfer.TeleporterCustom;
-import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
+import loecraftpack.ponies.abilities.RenderHotBarOverlay;
 import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
+import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import loecraftpack.ponies.inventory.InventoryId;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.WorldServer;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
 public class HandlerTick implements ITickHandler {
 	
+	//Reference variables
+	Minecraft mc = Minecraft.getMinecraft();
+		
 	//used for server ticks
 	int autoEffectBuffer = 0;
 	int autoEffectBufferMax = 20;//one sec
@@ -115,11 +116,21 @@ public class HandlerTick implements ITickHandler {
 			//sync ability mode changes
 			AbilityModeHandler.retryAllRemaining();
 		}
+		if (type.contains(TickType.RENDER))
+		{
+			if (this.mc.theWorld != null)
+			{
+				if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null)
+	            {
+					RenderHotBarOverlay.instance.renderHotBarOverlay(type, tickData);
+	            }
+			}
+		}
     }
 	
 	@Override
 	public EnumSet<TickType> ticks() {
-		return EnumSet.of(TickType.PLAYER, TickType.SERVER);
+		return EnumSet.of(TickType.PLAYER, TickType.SERVER, TickType.RENDER);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package loecraftpack.ponies.abilities;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
+import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -67,12 +68,14 @@ public abstract class ItemAbility extends Item
 				{
 					cooldown = Cooldown;
 					casttime = 0;
+					MechanicAbilityCharge.setCharge(par3EntityPlayer, 0);
 					setDamage(par1ItemStack, (int)((1-cooldown/Cooldown)*100));
 				}
 			}
 			else if (!par2World.isRemote)
 			{
 				casttime += 0.25f;
+				MechanicAbilityCharge.charge(par3EntityPlayer, casttime, Casttime);
 			}
 		}
 		return par1ItemStack;
@@ -113,6 +116,7 @@ public abstract class ItemAbility extends Item
 				if (heldChanged)
 				{
 					casttime = 0;
+					MechanicAbilityCharge.setCharge((EntityPlayer)par3Entity, 0);
 					if (cooldown <= 0)
 						setDamage(par1ItemStack, 0);
 				}

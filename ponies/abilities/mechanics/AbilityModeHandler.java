@@ -40,6 +40,7 @@ public class AbilityModeHandler
 	public static void sync(EntityPlayer player)
 	{
 		MechanicTreeBucking.sync(player);
+		MechanicAbilityCharge.sync(player);
 		//...
 	}
 	
@@ -49,6 +50,7 @@ public class AbilityModeHandler
 	public static void logout(EntityPlayer player)
 	{
 		MechanicTreeBucking.logout(player);
+		MechanicAbilityCharge.logout(player);
 		//...
 	}
 	
