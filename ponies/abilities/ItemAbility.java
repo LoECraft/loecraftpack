@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
+//TODO CREATE CHARGE GRAPHIC
 public abstract class ItemAbility extends Item
 {
 	protected int Cooldown = 0;
@@ -86,7 +86,7 @@ public abstract class ItemAbility extends Item
 		
 		if (cooldown > 0)
 		{
-			setDamage(par1ItemStack, (int)((1-cooldown/Cooldown)*100));
+			setDamage(par1ItemStack, (int)((cooldown/Cooldown)*100));
 			if (!par2World.isRemote)
 				cooldown -= 0.05f;
 		}
