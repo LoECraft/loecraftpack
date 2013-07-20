@@ -8,9 +8,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-//Do: ItemAbility - CREATE CHARGE GRAPHIC
+//Do: ItemAbility - Change variables to arrays so that ItemAbilities can be one item via metadata
 public abstract class ItemAbility extends Item
 {
+	public ItemAbility instance;
 	protected int Cooldown = 0;
 	protected float cooldown = 0;
 	protected int Casttime = 0;
@@ -25,8 +26,8 @@ public abstract class ItemAbility extends Item
 	{
 		super(par1);
 		this.setHasSubtypes(true);
-		this.setMaxDamage(101);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
+        RenderHotBarOverlay.abilities.add(this);
 	}
 	
 	public ItemAbility(int par1, int cooldown)
@@ -35,6 +36,7 @@ public abstract class ItemAbility extends Item
 		this.setHasSubtypes(true);
 		this.setMaxDamage(100);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
+        RenderHotBarOverlay.abilities.add(this);
         Cooldown = cooldown;
 	}
 	
@@ -44,6 +46,7 @@ public abstract class ItemAbility extends Item
 		this.setHasSubtypes(true);
 		this.setMaxDamage(100);
         this.setCreativeTab(LoECraftPack.LoECraftTab);
+        RenderHotBarOverlay.abilities.add(this);
         Cooldown = cooldown;
         Casttime = casttime;
 	}
@@ -57,25 +60,24 @@ public abstract class ItemAbility extends Item
 			return par1ItemStack;
 		}
 		
-		held = true;
-		time = System.currentTimeMillis();
+		instance.held = true;
+		instance.time = System.currentTimeMillis();
 		
-		if (cooldown <= 0)
+		if (instance.cooldown <= 0)
 		{
-			if (casttime >= Casttime)
+			if (instance.casttime >= instance.Casttime)
 			{
 				if (CastSpell(par3EntityPlayer, par2World))
 				{
-					cooldown = Cooldown;
-					casttime = 0;
+					instance.cooldown = instance.Cooldown;
+					instance.casttime = 0;
 					MechanicAbilityCharge.setCharge(par3EntityPlayer, 0);
-					setDamage(par1ItemStack, (int)((1-cooldown/Cooldown)*100));
 				}
 			}
 			else if (!par2World.isRemote)
 			{
-				casttime += 0.25f;
-				MechanicAbilityCharge.charge(par3EntityPlayer, casttime, Casttime);
+				instance.casttime += 0.25f;
+				MechanicAbilityCharge.charge(par3EntityPlayer, instance.casttime, instance.Casttime);
 			}
 		}
 		return par1ItemStack;
@@ -90,41 +92,40 @@ public abstract class ItemAbility extends Item
 			return;
 		}
 		
-		if (cooldown > 0)
+		if (instance.cooldown > 0)
 		{
-			setDamage(par1ItemStack, (int)((cooldown/Cooldown)*100));
 			if (!par2World.isRemote)
-				cooldown -= 0.05f;
+				instance.cooldown -= 0.05f;
 		}
-		else if (casttime > 0 && casttime < Casttime)
-		{
-			setDamage(par1ItemStack, (int)((1-casttime/Casttime)*100));
-		}
-		else
-			setDamage(par1ItemStack, 0);
 		
 		
-		if (time != lastTime || System.currentTimeMillis() - lastTime > 250)
+		if (instance.time != instance.lastTime || System.currentTimeMillis() - instance.lastTime > 250)
 		{
-			lastTime = time;
-			if (held)
+			instance.lastTime = instance.time;
+			if (instance.held)
 			{
-				heldChanged = true;
+				instance.heldChanged = true;
 			}
 			else
 			{
-				if (heldChanged)
+				if (instance.heldChanged)
 				{
-					casttime = 0;
+					instance.casttime = 0;
 					MechanicAbilityCharge.setCharge((EntityPlayer)par3Entity, 0);
-					if (cooldown <= 0)
-						setDamage(par1ItemStack, 0);
 				}
 				
-				heldChanged = false;
+				instance.heldChanged = false;
 			}
-			held = false;
+			instance.held = false;
 		}
+	}
+	
+	public float GetCooldown()
+	{
+		if (instance.Cooldown == 0)
+			return 0;
+		
+		return instance.cooldown / instance.Cooldown;
 	}
 	
 	protected abstract boolean CastSpell(EntityPlayer player, World world);

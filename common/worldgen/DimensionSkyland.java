@@ -87,7 +87,7 @@ public class DimensionSkyland extends WorldProvider
 	@Override
 	public void updateWeather()
     {
-		//Do: DimensionSkyland - SYNC WEATHER WITH OVERWORLD
+		//Do: DimensionSkyland - Synx weather with overworld
         worldObj.updateWeatherBody();
     }
 }

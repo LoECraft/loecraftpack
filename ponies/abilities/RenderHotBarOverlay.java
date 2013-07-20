@@ -1,6 +1,8 @@
 package loecraftpack.ponies.abilities;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import net.minecraft.client.Minecraft;
@@ -16,14 +18,14 @@ import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.common.TickType;
 
-public class RenderHotBarOverlay {
-	
-	//Debug: RenderHotBarOverlay - properly apply a render Z layer
-	
+public class RenderHotBarOverlay
+{
 	//Reference variables
 	public static RenderHotBarOverlay instance = new RenderHotBarOverlay();
 	Minecraft mc = Minecraft.getMinecraft();
 	protected float zLevel = 0.0f;
+	public static List<ItemAbility> abilities = new ArrayList<ItemAbility>();
+	
 	
 	public void renderHotBarOverlay(EnumSet<TickType> type, Object... tickData)
 	{
@@ -38,9 +40,12 @@ public class RenderHotBarOverlay {
 		mc.renderEngine.bindTexture("/loecraftpack/gui/overlay.png");
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-
+        
+        if(!this.mc.thePlayer.capabilities.isCreativeMode)
+        	renderEnergyBar(width, height);
+        GL11.glColor4f(255.0F, 255.0F, 255.0F, 255.0F);
+        
         renderChargeBar(width, height);
-        renderEnergyBar(width, height);
         renderCoolDowns(width, height);
 
         RenderHelper.disableStandardItemLighting();
@@ -96,21 +101,26 @@ public class RenderHotBarOverlay {
     
     protected void renderCoolDowns(int width, int height)
     {
-    	for (int i=0; i<9; i++)
+    	for (int i = 0; i < 9; i++)
     	{
     		ItemStack stack = this.mc.thePlayer.inventory.mainInventory[i];
     		if (stack != null)
     		{
 	    		Item item = stack.getItem();
 	    		if (item != null && item instanceof ItemAbility)
-	    			renderCoolDown(width, height, i, stack);
+	    		{
+	    			for(int a = 0; a < abilities.size(); a++)
+	    			{
+	    				if (abilities.get(a) == item)
+	    				renderCoolDown(width, height, i, ((ItemAbility)item).GetCooldown());
+	    			}
+	    		}
     		}
     	}
     }
     
-    protected void renderCoolDown(int width, int height, int position, ItemStack stack)
+    protected void renderCoolDown(int width, int height, int position, float coolDown)
     {
-    	float coolDown = (float)stack.getItemDamage() / (float)stack.getMaxDamage();
     	int posX = width / 2 - 88 + (20*position);
         int posY = height - 19;
         
@@ -234,7 +244,5 @@ public class RenderHotBarOverlay {
     	case 2:
     		this.drawTexturedModalRect(posX, posY, uCoord, vCoord, width/2, height/2);
     	}
-    	
     }
-
 }

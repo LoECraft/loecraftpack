@@ -12,9 +12,10 @@ public class ItemAbilityTeleport extends ItemAbility
 {
 	public ItemAbilityTeleport(int par1)
 	{
-		super(par1, 5, 0);
+		super(par1, 5);
 		setUnlocalizedName("abilityTeleport");
 		race = Race.UNICORN;
+		instance = this;
 	}
 
 	@Override

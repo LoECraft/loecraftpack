@@ -14,6 +14,7 @@ public class ItemAbilityFireball extends ItemAbility
 		super(par1, 3, 1);
 		setUnlocalizedName("abilityFireball");
 		race = Race.UNICORN;
+		instance = this;
 	}
 
 	@Override

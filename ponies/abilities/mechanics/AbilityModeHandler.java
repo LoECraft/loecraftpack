@@ -99,7 +99,6 @@ public class AbilityModeHandler
 		delay = (delay+1)%20;//try once every sec
 		if (delay == 0 && changes.size()>0)
 		{
-			System.out.println("HEY LISTEN!!!");
 			Change[] list = changes.toArray(new Change[changes.size()]);
 			for (int i=0; i<list.length; i++)
 			{

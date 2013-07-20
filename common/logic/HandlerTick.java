@@ -12,6 +12,7 @@ import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import loecraftpack.ponies.inventory.InventoryId;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.ITickHandler;
@@ -116,16 +117,8 @@ public class HandlerTick implements ITickHandler {
 			//sync ability mode changes
 			AbilityModeHandler.retryAllRemaining();
 		}
-		if (type.contains(TickType.RENDER))
-		{
-			if (this.mc.theWorld != null)
-			{
-				if (!this.mc.gameSettings.hideGUI || this.mc.currentScreen != null)
-	            {
-					RenderHotBarOverlay.instance.renderHotBarOverlay(type, tickData);
-	            }
-			}
-		}
+		if (type.contains(TickType.RENDER) && this.mc.theWorld != null && (mc.currentScreen == null || mc.currentScreen instanceof GuiChat))
+			RenderHotBarOverlay.instance.renderHotBarOverlay(type, tickData);
     }
 	
 	@Override
