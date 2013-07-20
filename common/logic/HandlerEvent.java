@@ -19,6 +19,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
@@ -422,9 +423,20 @@ public class HandlerEvent
 				int electricLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.electricEnchant.effectId, tool);
 				//System.out.println("electric "+electricLevel);
 				
-				if (IDEntity == 50 /*Creeper*/ && electricLevel > 0)
+				if (electricLevel > 0)
 				{
-					event.entityLiving.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+					if (IDEntity == 50 /*Creeper*/)
+						event.entityLiving.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+					else if (!event.entityLiving.worldObj.isRemote && IDEntity == 90 /*Pig*/)
+					{
+						EntityLiving pig = event.entityLiving;
+						EntityPigZombie entitypigzombie = new EntityPigZombie(pig.worldObj);
+			            entitypigzombie.setLocationAndAngles(pig.posX, pig.posY, pig.posZ, pig.rotationYaw, pig.rotationPitch);
+			            pig.worldObj.spawnEntityInWorld(entitypigzombie);
+			            pig.setDead();
+					}
+						
+						
 				}
 			}
 		}
