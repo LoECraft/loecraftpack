@@ -38,9 +38,10 @@ public class RenderHotBarOverlay {
 		mc.renderEngine.bindTexture("/loecraftpack/gui/overlay.png");
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-
+        
+        if(!this.mc.thePlayer.capabilities.isCreativeMode)
+        	renderEnergyBar(width, height);
         renderChargeBar(width, height);
-        renderEnergyBar(width, height);
         renderCoolDowns(width, height);
 
         RenderHelper.disableStandardItemLighting();
