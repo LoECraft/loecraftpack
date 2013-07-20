@@ -422,9 +422,10 @@ public class HandlerEvent
 				int electricLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.electricEnchant.effectId, tool);
 				//System.out.println("electric "+electricLevel);
 				
-				if (IDEntity == 50 /*Creeper*/ && electricLevel > 0)
+				if (IDEntity == 50 /*Creeper*/)
+				{
 					event.entityLiving.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
-				
+				}
 			}
 		}
 	}
