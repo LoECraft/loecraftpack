@@ -15,13 +15,15 @@ public abstract class Ability
 	//CAUTION: Make sure this is updated when you add abilities.
 	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityBuckTree.class};
 	public static Ability[] abilitiesClient = new Ability[abilityClasses.length];
-	public static final int maxCharge = 1000;
-	public static int maxEnergy = 1000;
-	public static int energyClient;
-	public static int chargeClient;
+	public static int energyRegenNatural = 10;//per 1/2 second
+	public static int energyClientMAX = 100;
+	public static int energyClient=0;
+	public static float chargeClientMAX = 100.0f;
+	public static float chargeClient=0;
 	public String name;
 	public String icon;
 	
+	protected int energyCost = 0;
 	protected int Cooldown = 0;
 	protected float cooldown = 0;
 	protected int Casttime = 0;
@@ -32,7 +34,7 @@ public abstract class Ability
 	private long lastTime;
 	protected Race race;
 	
-	public Ability(String name, Race race, int cooldown)
+	public Ability(String name, Race race, int cost, int cooldown)
 	{
 		this.name = name;
 		icon = name.toLowerCase().replace(" ", "");
@@ -40,13 +42,14 @@ public abstract class Ability
         Cooldown = cooldown;
 	}
 	
-	public Ability(String name, Race race, int cooldown, int casttime)
+	public Ability(String name, Race race, int cost, int cooldown, int casttime)
 	{
 		this.name = name;
 		icon = name.toLowerCase().replace(" ", "");
 		this.race = race;
         Cooldown = cooldown;
         Casttime = casttime;
+        energyCost = cost;
 	}
 	
 	public static void RegisterAbilities()
@@ -87,28 +90,51 @@ public abstract class Ability
 		held = true;
 		time = System.currentTimeMillis();
 		
-		if (cooldown <= 0)
+		if (cooldown <= 0 && ( (player.capabilities.isCreativeMode) || (getEnergyCost(player)<=energyClient) ))
 		{
 			if (casttime >= Casttime)
 			{
-				if ((world.isRemote && CastSpellClient(player, world)) ||
-						(!world.isRemote && CastSpellServer(player, world)))
+				if(world.isRemote)
 				{
-					cooldown = Cooldown;
-					casttime = 0;
-					if(world.isRemote)
-						zeroCharge(0);
-					else
-						Ability.map.get(player.username).zeroCharge();
+					if (CastSpellClient(player, world))
+					{
+						cooldown = Cooldown;
+						casttime = 0;
+						chargeClient = 0;
+						chargeClientMAX = 100;
+						if (!player.capabilities.isCreativeMode)
+							setEnergy(energyClient - getEnergyCost(player));
+					}
+				}
+				else
+				{
+					
+					if (CastSpellServer(player, world))
+					{
+						AbilityPlayerData data = Ability.map.get(player.username);
+						cooldown = Cooldown;
+						casttime = 0;
+						data.charge = 0;
+						data.chargeMAX = 0;
+						if (!player.capabilities.isCreativeMode)
+							data.setEnergy(data.energy - getEnergyCost(player));
+					}
 				}
 			}
 			else
 			{
 				casttime += 0.25f;
 				if(world.isRemote)
-					charge(casttime, Casttime);
+				{
+					chargeClient = casttime;
+					chargeClientMAX = Casttime;
+				}
 				else
-					Ability.map.get(player.username).charge(casttime, Casttime);
+				{
+					AbilityPlayerData data = Ability.map.get(player.username);
+					data.charge = casttime;
+					data.chargeMAX = Casttime;
+				}
 			}
 		}
 		return itemStack;
@@ -132,9 +158,16 @@ public abstract class Ability
 				{
 					casttime = 0;
 					if(player.worldObj.isRemote)
-						zeroCharge(0);
+					{
+						chargeClient = 0;
+						chargeClientMAX = 100;
+					}
 					else
-						Ability.map.get(player.username).zeroCharge();
+					{
+						AbilityPlayerData data = Ability.map.get(player.username);
+						data.charge = 0;
+						data.chargeMAX = 0;
+					}
 				}
 				
 				heldChanged = false;
@@ -156,32 +189,11 @@ public abstract class Ability
 		return abilitiesClient[metadata].GetCooldown();
 	}
 	
-	public void zeroCharge (int newCharge)
+	public static void setEnergy(int newEnergy)
 	{
-		chargeClient = 0;
-	}
-	
-	public void charge(float partial, float full)
-	{
-		if (partial > full)
+		if (newEnergy > energyClientMAX)
 		{
-			chargeClient = Ability.maxCharge;
-		}
-		else if(partial < 0)
-		{
-			chargeClient = 0;
-		}
-		else
-		{
-			chargeClient = (int)(partial/full*maxCharge);
-		}
-	}
-	
-	public void energy(int newEnergy)
-	{
-		if (newEnergy > maxEnergy)
-		{
-			energyClient = maxEnergy;
+			energyClient = energyClientMAX;
 		}
 		else if(newEnergy < 0)
 		{
@@ -191,6 +203,43 @@ public abstract class Ability
 		{
 			energyClient = newEnergy;
 		}
+	}
+	
+	public static float getEnergyRatio()
+	{
+		if (energyClient >= energyClientMAX)
+		{
+			return 1;
+		}
+		else if(energyClient <= 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return (float)energyClient/(float)energyClientMAX;
+		}
+	}
+	
+	public static float getCastTimeRatio()
+	{
+		if (chargeClient >= chargeClientMAX)
+		{
+			return 1;
+		}
+		else if(chargeClient <= 0)
+		{
+			return 0;
+		}
+		else
+		{
+			return chargeClient/chargeClientMAX;
+		}
+	}
+	
+	public int getEnergyCost(EntityPlayer player)
+	{
+		return energyCost;
 	}
 	
 	protected abstract boolean CastSpellClient(EntityPlayer player, World world); //For client-only things like particles and raycasting

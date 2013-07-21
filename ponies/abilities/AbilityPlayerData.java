@@ -2,10 +2,15 @@ package loecraftpack.ponies.abilities;
 
 public class AbilityPlayerData {
 	
-	protected int charge;
-	protected int energy;
-	protected int maxEnergy = 1000;
-	protected Ability[] abilities;
+	public int energyRegenNatural = 10;//per 1/2 second
+	public int energyMAX = 100;
+	public int energy;
+	
+	
+	public float chargeMAX = 100.0f;
+	public float charge;
+	
+	public final Ability[] abilities;
 	
 	public AbilityPlayerData(String player, Ability[] abilities)
 	{
@@ -13,47 +18,11 @@ public class AbilityPlayerData {
 		//read from NBT
 	}
 	
-	public int getCharge()
+	public void setEnergy(int newEnergy)
 	{
-		return charge;
-	}
-	
-	public int getEnergy()
-	{
-		return energy;
-	}
-	
-	public Ability[] getAbilities()
-	{
-		return abilities;
-	}
-	
-	public void zeroCharge ()
-	{
-		charge = 0;
-	}
-	
-	public void charge(float partial, float full)
-	{
-		if (partial > full)
+		if (newEnergy > energyMAX)
 		{
-			charge = Ability.maxCharge;
-		}
-		else if(partial < 0)
-		{
-			charge = 0;
-		}
-		else
-		{
-			charge = (int)(partial/full);
-		}
-	}
-	
-	public void energy(int newEnergy)
-	{
-		if (newEnergy > maxEnergy)
-		{
-			energy = maxEnergy;
+			energy = energyMAX;
 		}
 		else if(newEnergy < 0)
 		{

@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
@@ -39,10 +40,10 @@ public class RenderHotBarOverlay
 		mc.renderEngine.bindTexture("/loecraftpack/gui/overlay.png");
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-        
-        if(!this.mc.thePlayer.capabilities.isCreativeMode)
-        	renderEnergyBar(width, height);
         GL11.glColor4f(255.0F, 255.0F, 255.0F, 255.0F);
+        
+        if(!this.mc.thePlayer.capabilities.isCreativeMode && !(this.mc.currentScreen instanceof GuiChat))
+        	renderEnergyBar(width, height);
         
         renderChargeBar(width, height);
         renderCoolDowns(width, height);
@@ -61,9 +62,9 @@ public class RenderHotBarOverlay
 		int posX = width / 2 + 92;
         int posY = height - chargeLength;
 
-        if (Ability.maxCharge > 0)
+        if (Ability.chargeClientMAX> 0)
         {
-            int progress = (int)(((float)Ability.chargeClient/(float)Ability.maxCharge)  * (float)(chargeLength));
+            int progress = (int)(Ability.getCastTimeRatio() * (float)(chargeLength));
             this.drawTexturedModalRect(posX, posY, 0, 10, 5, chargeLength);
 
             if (progress > 0)
@@ -84,9 +85,9 @@ public class RenderHotBarOverlay
 		int posX = width / 2 + 10;
         int posY = height - 45;
 
-        if (Ability.maxCharge > 0)
+        if (Ability.energyClientMAX > 0)
         {
-            int progress = (int)(((float)Ability.chargeClient/(float)Ability.maxCharge)  * (float)(energyLength));
+            int progress = (int)(Ability.getEnergyRatio()  * (float)(energyLength));
             this.drawTexturedModalRect(posX, posY, 0, 0, energyLength, 5);
 
             if (progress > 0)

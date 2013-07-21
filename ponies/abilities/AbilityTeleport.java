@@ -6,19 +6,23 @@ import loecraftpack.packet.PacketIds;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class AbilityTeleport extends Ability
 {
+	int maxDistance = 100;
+	float energyCostRate = 0.5f;
+	
 	public AbilityTeleport()
 	{
-		super("Teleport", Race.UNICORN, 5);
+		super("Teleport", Race.UNICORN, 50, 5);
 	}
 
 	@Override
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
-		MovingObjectPosition target = player.rayTrace(100, 1);
+		MovingObjectPosition target = player.rayTrace(maxDistance, 1);
 		if (target == null)
 			return false;
 		else
@@ -55,4 +59,19 @@ public class AbilityTeleport extends Ability
 	{
 		return true;
 	}
+	
+	@Override
+	public int getEnergyCost(EntityPlayer player)
+	{
+		MovingObjectPosition target = player.rayTrace(maxDistance, 1);
+		if (target == null)
+			return 1000000000;
+		else
+		{
+			double distance = player.getPosition(1.0f).distanceTo(target.hitVec);
+			return energyCost = (int)(energyCostRate * distance);
+		}
+	}
+	
+	
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.RenderHotBarOverlay;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
@@ -24,6 +25,9 @@ public class HandlerTick implements ITickHandler
 	//used for server ticks
 	int autoEffectBuffer = 0;
 	int autoEffectBufferMax = 20;//one sec
+	
+	int autoEffectBufferClient = 0;
+	int autoEffectBufferClientMax = 20;//one sec
 	
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {}
@@ -69,13 +73,17 @@ public class HandlerTick implements ITickHandler
 										if (accessory != null)
 											((ItemAccessory)accessory.getItem()).applyWornEffect(player, inv, accessorySlotId, accessory);
 									}
+								
+								//apply energy Regen
+								AbilityPlayerData data = Ability.map.get(player.username);
+								data.setEnergy(data.energy+data.energyRegenNatural);
 				        	}
 							else if (autoEffectBuffer>=autoEffectBufferMax)
 								autoEffectBuffer=0;
 				        	
 				    		if (Ability.map.containsKey(player.username))
 				    		{
-				    			for(Ability ability : Ability.map.get(player.username).getAbilities())
+				    			for(Ability ability : Ability.map.get(player.username).abilities)
 				    				ability.onUpdate(player);
 				    		}
 			        	}
@@ -116,6 +124,15 @@ public class HandlerTick implements ITickHandler
 			    			{
 			    				ability.onUpdate(player);
 			    			}
+			    			
+			    			if(autoEffectBufferClient++==0)
+							{
+								//apply energy Regen
+								Ability.setEnergy(Ability.energyClient + Ability.energyRegenNatural);
+				        	}
+			    			else if (autoEffectBufferClient>=autoEffectBufferClientMax)
+								autoEffectBufferClient=0;
+			    			
 			        	}//client side
 			        }//entry instanceof EntityPlayer
 				}//Object entry : tickData
