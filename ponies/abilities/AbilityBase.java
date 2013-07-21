@@ -1,10 +1,8 @@
 package loecraftpack.ponies.abilities;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
 import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import net.minecraft.entity.player.EntityPlayer;

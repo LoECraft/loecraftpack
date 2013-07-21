@@ -17,7 +17,6 @@ import net.minecraft.world.World;
 
 public class ItemAbility extends Item
 {
-	//private static AbilityBase[] abilities = AbilityBase.abilities;
 	private static int num = AbilityBase.abilities.length - 1;
 	private static Icon[] icons;
 	

@@ -53,7 +53,6 @@ public class AbilityTeleport extends AbilityBase
 	@Override
 	protected boolean CastSpellServer(EntityPlayer player, World world)
 	{
-		System.out.println("Teleport Server");
 		return true;
 	}
 }

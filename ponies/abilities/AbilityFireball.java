@@ -18,14 +18,12 @@ public class AbilityFireball extends AbilityBase
 	@Override
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
-		System.out.println("Fireball Client");
 		return true;
 	}
 
 	@Override
 	protected boolean CastSpellServer(EntityPlayer player, World world)
 	{
-		System.out.println("Fireball Server");
 		Fireball fireball = new Fireball(world, player, player.getLookVec().xCoord/10f, player.getLookVec().yCoord/10f, player.getLookVec().zCoord/10f);
 		world.spawnEntityInWorld(fireball);
 		return true;
