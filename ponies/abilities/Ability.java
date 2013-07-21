@@ -3,6 +3,7 @@ package loecraftpack.ponies.abilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.enums.Race;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -56,9 +57,7 @@ public abstract class Ability
 	{
 		abilitiesClient = NewAbilityArray();
 		for(Ability ability : abilitiesClient)
-		{
 			LanguageRegistry.instance().addStringLocalization("item.itemAbility." + ability.icon + ".name", ability.name);
-		}
 	}
 	
 	public static Ability[] NewAbilityArray()
@@ -90,7 +89,7 @@ public abstract class Ability
 		held = true;
 		time = System.currentTimeMillis();
 		
-		if (cooldown <= 0 && ( (player.capabilities.isCreativeMode) || (getEnergyCost(player)<=energyClient) ))
+		if (cooldown <= 0 && (player.capabilities.isCreativeMode || getEnergyCost(player)<=energyClient))
 		{
 			if (casttime >= Casttime)
 			{
@@ -108,7 +107,6 @@ public abstract class Ability
 				}
 				else
 				{
-					
 					if (CastSpellServer(player, world))
 					{
 						AbilityPlayerData data = Ability.map.get(player.username);
@@ -187,6 +185,11 @@ public abstract class Ability
 	public static float GetCooldown(int metadata)
 	{
 		return abilitiesClient[metadata].GetCooldown();
+	}
+	
+	public Race GetRace()
+	{
+		return race;
 	}
 	
 	public static void setEnergy(int newEnergy)

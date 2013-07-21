@@ -30,7 +30,7 @@ public class Fireball extends EntityLargeFireball
                 par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 6);
             }
 
-            MechanicExplosion.AOEDamage(this.worldObj, this.posX, this.posY, this.posZ, 3, 1, false);
+            MechanicExplosion.AOEDamage(this.worldObj, this.posX, this.posY, this.posZ, 3, 0, 1, false);
             this.setDead();
         }
     }

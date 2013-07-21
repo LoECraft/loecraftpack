@@ -23,8 +23,6 @@ public class AbilityBuckTree extends Ability {
 	@Override
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
-		//Debug: TreeBuck Client
-		System.out.println("TreeBuck Client");
 		MovingObjectPosition target = player.rayTrace(100, 1);
 		if (target == null)
 			return false;
@@ -46,13 +44,10 @@ public class AbilityBuckTree extends Ability {
 					case 5: x -= 0.5d; break;
 				}
 			}
-			//Debug: TreeBuck Client
-			System.out.println("BUCK?"+world.isRemote);
+			
 			if (player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
-				//Debug: TreeBuck Client
-				System.out.println("BUCK"+world.isRemote);
 				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.TreeBuck, (int)x, (int)y, (int)z));
 				return true;
 			}

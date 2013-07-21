@@ -10,6 +10,7 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -181,7 +182,7 @@ public class MechanicExplosion extends Explosion
         }
     }
 	
-	public void DamageEntities(boolean doubleExplosionSize)
+	public void DamageEntities(boolean doubleExplosionSize, float force, boolean mobFire)
 	{
 		double d0 = this.explosionX;
         double d1 = this.explosionY;
@@ -221,15 +222,18 @@ public class MechanicExplosion extends Explosion
                     double d9 = (double)this.worldObj.getBlockDensity(vec3, entity.boundingBox);
                     double d10 = (1.0D - d7) * d9;
                     entity.attackEntityFrom(DamageSource.setExplosionSource(this), (int)((d10 * d10 + d10) / 2.0D * 8.0D * (double)this.damage + 1.0D));
-                    double d11 = EnchantmentProtection.func_92092_a(entity, d10);
+                    double d11 = EnchantmentProtection.func_92092_a(entity, d10) * force;
                     entity.motionX += d0 * d11;
-                    entity.motionY += d1 * d11;
+                    entity.motionY += Math.abs(d1 * d11);
                     entity.motionZ += d2 * d11;
 
                     if (entity instanceof EntityPlayer)
                     {
                         this.field_77288_k.put((EntityPlayer)entity, this.worldObj.getWorldVec3Pool().getVecFromPool(d0 * d10, d1 * d10, d2 * d10));
                     }
+                    
+                    if (mobFire)
+                    	entity.setFire((int)(Math.min(1, 1.25d-d7) * damage + 3));
                 }
             }
         }
@@ -239,21 +243,21 @@ public class MechanicExplosion extends Explosion
 	
 	public static void Explode(World world, double x, double y, double z, float size, boolean flamey, boolean dropBlocks, float chanceToDrop)
 	{
-		ExplodeCustomDamage(world, x, y, z, size, size, flamey, true, true, true, dropBlocks, true, chanceToDrop);
+		ExplodeCustomDamage(world, x, y, z, size, size, false, flamey, true, true, true, dropBlocks, true, 1, chanceToDrop);
 	}
 	
-	public static void AOEDamage(World world, double x, double y, double z, float size, float damage, boolean flamey)
+	public static void AOEDamage(World world, double x, double y, double z, float size, float force , float damage, boolean flamey)
 	{
-		ExplodeCustomDamage(world, x, y, z, size, damage, flamey, false, true, false, false, false, 0);
+		ExplodeCustomDamage(world, x, y, z, size, damage, true, flamey, false, true, false, false, false, force, 0);
 	}
 	
-	public static void ExplodeCustomDamage(World world, double x, double y, double z, float size, float damage, boolean flamey, boolean smokey, boolean explodey, boolean destroyBlocks, boolean dropBlocks, boolean doubleDamageRadius, float chanceToDrop)
+	public static void ExplodeCustomDamage(World world, double x, double y, double z, float size, float damage, boolean mobFlame, boolean flamey, boolean smokey, boolean explodey, boolean destroyBlocks, boolean dropBlocks, boolean doubleDamageRadius, float force, float chanceToDrop)
 	{
         MechanicExplosion explosion = new MechanicExplosion(world, size, damage, x, y, z);
         explosion.isFlaming = flamey;
         explosion.isSmoking = smokey;
         explosion.explodeParticles = explodey;
         explosion.DestroyBlocks(destroyBlocks, dropBlocks, chanceToDrop);
-        explosion.DamageEntities(doubleDamageRadius);
+        explosion.DamageEntities(doubleDamageRadius, force, mobFlame);
 	}
 }

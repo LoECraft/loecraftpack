@@ -11,7 +11,7 @@ import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.LivingEventId;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
+import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
@@ -36,6 +36,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
+import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.ArrowLooseEvent;
@@ -130,6 +131,17 @@ public class HandlerEvent
 	}
 	
 	
+  /*******************************************************************************************/
+ /**  ABILITY ITEM  *************************************************************************/
+/*******************************************************************************************/
+	
+	@ForgeSubscribe
+	public void onItemDrop(ItemTossEvent event)
+	{
+		ItemStack item = event.entityItem.getEntityItem();
+		if (item.itemID == LoECraftPack.ability.itemID)
+			event.setCanceled(true);
+	}
 	
 	
   /********************************************************************************************/

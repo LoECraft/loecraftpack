@@ -58,7 +58,7 @@ public class HandlerKey extends KeyHandler
 			{
 				EntityPlayer player = Minecraft.getMinecraft().thePlayer;
 				if (LoECraftPack.statHandler.isRace(player, Race.EARTH) && player.motionY > 0)
-					player.motionY *= 1.175f;
+					player.motionY *= 1.175f; //Adds an extra jump height of 1 block over time - stacks with jump boost potion effect
 			}
 			else if (kb.equals(renderMonolithKeybind))
 				renderMonolith = !renderMonolith;
