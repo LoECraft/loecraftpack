@@ -40,14 +40,22 @@ public class RenderHotBarOverlay
 		mc.renderEngine.bindTexture("/loecraftpack/gui/overlay.png");
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.enableGUIStandardItemLighting();
-        GL11.glColor4f(255.0F, 255.0F, 255.0F, 255.0F);
+        if (this.mc.currentScreen instanceof GuiChat)
+        {
+        	GL11.glEnable(GL11.GL_BLEND);
+            GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE_MINUS_SRC_COLOR);
+        }
         
-        if(!this.mc.thePlayer.capabilities.isCreativeMode && !(this.mc.currentScreen instanceof GuiChat))
+        GL11.glColor4f(255.0F, 255.0F, 255.0F, 255.0f);
+        
+        if(!this.mc.thePlayer.capabilities.isCreativeMode)
         	renderEnergyBar(width, height);
         
         renderChargeBar(width, height);
         renderCoolDowns(width, height);
-
+        
+        if (this.mc.currentScreen instanceof GuiChat)
+        	GL11.glDisable(GL11.GL_BLEND);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         this.mc.mcProfiler.endSection();
