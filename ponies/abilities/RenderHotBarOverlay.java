@@ -110,7 +110,7 @@ public class RenderHotBarOverlay
     		{
 	    		Item item = stack.getItem();
 	    		if (item != null && item instanceof ItemAbility)
-    				renderCoolDown(width, height, i, AbilityBase.GetCooldown(stack.getItemDamage()));
+    				renderCoolDown(width, height, i, Ability.GetCooldown(stack.getItemDamage()));
     		}
     	}
     }

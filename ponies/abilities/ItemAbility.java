@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class ItemAbility extends Item
 {
-	private static int num = AbilityBase.abilities.length - 1;
+	private static int num = Ability.abilities.length - 1;
 	private static Icon[] icons;
 	
 	public ItemAbility(int par1)
@@ -38,7 +38,7 @@ public class ItemAbility extends Item
 	@Override
 	public String getUnlocalizedName(ItemStack iconNamestack)
 	{
-		return super.getUnlocalizedName() + "." + AbilityBase.abilities[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
+		return super.getUnlocalizedName() + "." + Ability.abilities[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
 	}
 	
 	@Override
@@ -54,14 +54,14 @@ public class ItemAbility extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-	    icons = new Icon[AbilityBase.abilities.length];
+	    icons = new Icon[Ability.abilities.length];
 	        
-		for (int i = 0; i < AbilityBase.abilities.length; i++)
+		for (int i = 0; i < Ability.abilities.length; i++)
 		{
-			if (AbilityBase.abilities[i] == null)
+			if (Ability.abilities[i] == null)
 				continue;
 			
-	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + AbilityBase.abilities[i].icon);
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + Ability.abilities[i].icon);
 	    	itemIcon = icons[i];
 		}
 	}
@@ -69,14 +69,14 @@ public class ItemAbility extends Item
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
 	{
-		if (!world.isRemote && !AbilityBase.map.containsKey(player.username))
+		if (!world.isRemote && !Ability.map.containsKey(player.username))
 			return itemStack;
 		
-		AbilityBase ability;
+		Ability ability;
 		if (world.isRemote)
-			ability = AbilityBase.abilities[itemStack.getItemDamage()];
+			ability = Ability.abilities[itemStack.getItemDamage()];
 		else
-			ability = AbilityBase.map.get(player.username)[itemStack.getItemDamage()];
+			ability = Ability.map.get(player.username)[itemStack.getItemDamage()];
 		
 		if (!LoECraftPack.statHandler.isRace(player, ability.race))
 		{

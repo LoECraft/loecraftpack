@@ -13,7 +13,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class AbilityBuckTree extends AbilityBase {
+public class AbilityBuckTree extends Ability {
 
 	public AbilityBuckTree()
 	{
@@ -24,13 +24,6 @@ public class AbilityBuckTree extends AbilityBase {
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
 		System.out.println("TreeBuck Client");
-		return true;
-	}
-	
-	@Override
-	protected boolean CastSpellServer(EntityPlayer player, World world)
-	{
-		System.out.println("TreeBuck Server");
 		MovingObjectPosition target = player.rayTrace(100, 1);
 		if (target == null)
 			return false;
@@ -40,15 +33,23 @@ public class AbilityBuckTree extends AbilityBase {
 			int y = (int)target.hitVec.yCoord;
 			int z = (int)target.hitVec.zCoord;
 			
+			System.out.println("BUCK?"+world.isRemote);
 			if (player.worldObj.getBlockId(x, y, z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId(x, y, z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
 				System.out.println("BUCK"+world.isRemote);
-				MechanicTreeBucking.buckTree(player.worldObj, x, y, z, 0/*Do: BuckTree - fortune*/);
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.TreeBuck, x, y, z));
 				return true;
 			}
 			return false;
 		}
+	}
+	
+	@Override
+	protected boolean CastSpellServer(EntityPlayer player, World world)
+	{
+		System.out.println("TreeBuck Server");
+		return true;
 	}
 	
 }

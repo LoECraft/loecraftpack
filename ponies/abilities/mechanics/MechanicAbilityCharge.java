@@ -3,7 +3,6 @@ package loecraftpack.ponies.abilities.mechanics;
 import java.util.HashMap;
 import java.util.Map;
 
-import loecraftpack.ponies.abilities.Ability;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class MechanicAbilityCharge 
@@ -36,7 +35,7 @@ public class MechanicAbilityCharge
 		if (charge > maxCharge)charge = maxCharge;
 		else if (charge < 0)charge = 0;
 		chargers.put(player.username, charge);
-		AbilityModeHandler.abilityModeChange(player, Ability.CHARGE, charge);
+		AbilityModeHandler.abilityModeChange(player, Modes.CHARGE, charge);
 	}
 	
 	/**
@@ -44,7 +43,7 @@ public class MechanicAbilityCharge
 	 */
 	public static void sync(EntityPlayer player)
 	{
-		AbilityModeHandler.abilityModeChange(player, Ability.CHARGE, getChargeState(player));
+		AbilityModeHandler.abilityModeChange(player, Modes.CHARGE, getChargeState(player));
 	}
 	
 	/**

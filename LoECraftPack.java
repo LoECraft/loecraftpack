@@ -51,12 +51,9 @@ import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.abilities.AbilityBase;
-import loecraftpack.ponies.abilities.AbilityFireball;
-import loecraftpack.ponies.abilities.AbilityTeleport;
+import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.ItemAbility;
 import loecraftpack.ponies.abilities.mechanics.CommandHiddenOres;
-import loecraftpack.ponies.abilities.mechanics.CommandTreeBucking;
 import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
@@ -66,7 +63,6 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -225,7 +221,7 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemPedestal, "Pedestal");
 		
 		//Abilities
-		AbilityBase.RegisterAbilities();
+		Ability.RegisterAbilities();
 		
 		//Blocks
 		GameRegistry.registerBlock(bank, "Bank");
@@ -329,7 +325,6 @@ public class LoECraftPack
 		//load server commands
 		event.registerServerCommand(new CommandStatRace());
 		event.registerServerCommand(new CommandHiddenOres());
-		event.registerServerCommand(new CommandTreeBucking());
 	}	
 	
 	public static boolean isSinglePlayer()

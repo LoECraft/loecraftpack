@@ -5,7 +5,7 @@ import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
-import loecraftpack.ponies.abilities.AbilityBase;
+import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.RenderHotBarOverlay;
 import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
@@ -73,9 +73,9 @@ public class HandlerTick implements ITickHandler
 							else if (autoEffectBuffer>=autoEffectBufferMax)
 								autoEffectBuffer=0;
 				        	
-				    		if (AbilityBase.map.containsKey(player.username))
+				    		if (Ability.map.containsKey(player.username))
 				    		{
-				    			for(AbilityBase ability : AbilityBase.map.get(player.username))
+				    			for(Ability ability : Ability.map.get(player.username))
 				    				ability.onUpdate(player);
 				    		}
 			        	}
@@ -112,7 +112,7 @@ public class HandlerTick implements ITickHandler
 					        	}//hidden ore vision
 			        		}//clients player
 			        		
-			    			for(AbilityBase ability : AbilityBase.abilities)
+			    			for(Ability ability : Ability.abilities)
 			    			{
 			    				ability.onUpdate(player);
 			    			}

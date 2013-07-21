@@ -5,7 +5,6 @@ import java.util.List;
 
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.Ability;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -22,11 +21,11 @@ public class AbilityModeHandler
 	public static class Change
 	{
 		public String username = "";
-		public Ability ability;
+		public Modes ability;
 		public int state;
 		public int life = 5;//5 Attempts if disconnected
 		
-		Change(String username, Ability ability, int state)
+		Change(String username, Modes ability, int state)
 		{
 			this.username = username;
 			this.ability = ability;
@@ -39,7 +38,6 @@ public class AbilityModeHandler
 	 */
 	public static void sync(EntityPlayer player)
 	{
-		MechanicTreeBucking.sync(player);
 		MechanicAbilityCharge.sync(player);
 		//...
 	}
@@ -49,7 +47,6 @@ public class AbilityModeHandler
 	 */
 	public static void logout(EntityPlayer player)
 	{
-		MechanicTreeBucking.logout(player);
 		MechanicAbilityCharge.logout(player);
 		//...
 	}
@@ -57,7 +54,7 @@ public class AbilityModeHandler
 	/**
 	 * Creates a Change instance for confirming that the client has updated their mode
 	 */
-	public static void abilityModeChange(EntityPlayer player, Ability ability, int state)
+	public static void abilityModeChange(EntityPlayer player, Modes ability, int state)
 	{
 		Change[] list = changes.toArray(new Change[changes.size()]);
 		for (int i=0; i<list.length; i++)
@@ -75,7 +72,7 @@ public class AbilityModeHandler
 	/**
 	 * Client has confirmed mode change; removes the Change instance.
 	 */
-	public static void clearSuccess(EntityPlayer player, Ability ability, int state)
+	public static void clearSuccess(EntityPlayer player, Modes ability, int state)
 	{
 		Change[] list = changes.toArray(new Change[changes.size()]);
 		for (int i=0; i<list.length; i++)
