@@ -422,7 +422,7 @@ public class EntityTimberWolf extends EntityMob {
 				 /**Handle the effects of each type here**/
 				/****************************************/
 				int banishLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.banishEnchant.effectId, tool);
-				if (dying < banishLevel*20)
+				if (dying < banishLevel*20 && activeForm)
 				{
 					dying = banishLevel*20;
 				}
@@ -431,4 +431,8 @@ public class EntityTimberWolf extends EntityMob {
 		return super.attackEntityFrom(damageSource, par2);
 	}
 	
+	public boolean isPlayingDead()
+	{
+		return !activeForm;
+	}
 }
