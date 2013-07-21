@@ -8,13 +8,8 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.enums.Race;
-import loecraftpack.ponies.abilities.mechanics.Modes;
-import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
-import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
-import loecraftpack.ponies.stats.StatHandlerClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import cpw.mods.fml.common.network.IPacketHandler;
@@ -84,11 +79,6 @@ public class PacketHandlerClient implements IPacketHandler
             			int ability = data.readInt();
             			int mode = data.readInt();
             			boolean success = false;
-            			if (ability == Modes.CHARGE.ordinal())
-            			{
-            				MechanicAbilityCharge.chargeClient = mode;
-            				success = true;
-            			}
             			if (success)
             				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.modeAbility, ability, mode));
             	}

@@ -13,7 +13,7 @@ import cpw.mods.fml.common.network.Player;
 /**
  * This class handles syncing ability mode values on the client end.
  */
-public class AbilityModeHandler 
+public class ModeHandler
 {
 	protected static List<Change> changes = new ArrayList<Change>();
 	protected static int delay = 0;
@@ -38,7 +38,6 @@ public class AbilityModeHandler
 	 */
 	public static void sync(EntityPlayer player)
 	{
-		MechanicAbilityCharge.sync(player);
 		//...
 	}
 	
@@ -47,7 +46,6 @@ public class AbilityModeHandler
 	 */
 	public static void logout(EntityPlayer player)
 	{
-		MechanicAbilityCharge.logout(player);
 		//...
 	}
 	

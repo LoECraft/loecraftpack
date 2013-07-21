@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import loecraftpack.enums.Race;
-import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -12,10 +11,14 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public abstract class Ability
 {
-	public static HashMap<String, Ability[]> map = new HashMap<String, Ability[]>();
+	public static HashMap<String, AbilityPlayerData> map = new HashMap<String, AbilityPlayerData>();
 	//CAUTION: Make sure this is updated when you add abilities.
 	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityBuckTree.class};
-	public static Ability[] abilities = new Ability[abilityClasses.length];
+	public static Ability[] abilitiesClient = new Ability[abilityClasses.length];
+	public static final int maxCharge = 1000;
+	public static int maxEnergy = 1000;
+	public static int energyClient;
+	public static int chargeClient;
 	public String name;
 	public String icon;
 	
@@ -32,7 +35,7 @@ public abstract class Ability
 	public Ability(String name, Race race, int cooldown)
 	{
 		this.name = name;
-		icon = name.toLowerCase().replace(' ', '\0');
+		icon = name.toLowerCase().replace(" ", "");
 		this.race = race;
         Cooldown = cooldown;
 	}
@@ -40,7 +43,7 @@ public abstract class Ability
 	public Ability(String name, Race race, int cooldown, int casttime)
 	{
 		this.name = name;
-		icon = name.toLowerCase().replace(' ', '\0');
+		icon = name.toLowerCase().replace(" ", "");
 		this.race = race;
         Cooldown = cooldown;
         Casttime = casttime;
@@ -48,8 +51,8 @@ public abstract class Ability
 	
 	public static void RegisterAbilities()
 	{
-		abilities = NewAbilityArray();
-		for(Ability ability : abilities)
+		abilitiesClient = NewAbilityArray();
+		for(Ability ability : abilitiesClient)
 		{
 			LanguageRegistry.instance().addStringLocalization("item.itemAbility." + ability.icon + ".name", ability.name);
 		}
@@ -71,7 +74,7 @@ public abstract class Ability
 	
 	public static void RegisterPlayer(String player)
 	{
-		map.put(player, NewAbilityArray());
+		map.put(player, new AbilityPlayerData(player, NewAbilityArray()));
 	}
 	
 	public static void UnregisterPlayer(String player)
@@ -79,7 +82,7 @@ public abstract class Ability
 		map.remove(player);
 	}
 	
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
 	{
 		held = true;
 		time = System.currentTimeMillis();
@@ -88,21 +91,27 @@ public abstract class Ability
 		{
 			if (casttime >= Casttime)
 			{
-				if ((par2World.isRemote && CastSpellClient(par3EntityPlayer, par2World)) ||
-						(!par2World.isRemote && CastSpellServer(par3EntityPlayer, par2World)))
+				if ((world.isRemote && CastSpellClient(player, world)) ||
+						(!world.isRemote && CastSpellServer(player, world)))
 				{
 					cooldown = Cooldown;
 					casttime = 0;
-					MechanicAbilityCharge.setCharge(par3EntityPlayer, 0);
+					if(world.isRemote)
+						zeroCharge(0);
+					else
+						Ability.map.get(player.username).zeroCharge();
 				}
 			}
 			else
 			{
 				casttime += 0.25f;
-				MechanicAbilityCharge.charge(par3EntityPlayer, casttime, Casttime);
+				if(world.isRemote)
+					charge(casttime, Casttime);
+				else
+					Ability.map.get(player.username).charge(casttime, Casttime);
 			}
 		}
-		return par1ItemStack;
+		return itemStack;
 	}
 	
 	public void onUpdate(EntityPlayer player)
@@ -122,7 +131,10 @@ public abstract class Ability
 				if (heldChanged)
 				{
 					casttime = 0;
-					MechanicAbilityCharge.setCharge((EntityPlayer)player, 0);
+					if(player.worldObj.isRemote)
+						zeroCharge(0);
+					else
+						Ability.map.get(player.username).zeroCharge();
 				}
 				
 				heldChanged = false;
@@ -141,24 +153,44 @@ public abstract class Ability
 	
 	public static float GetCooldown(int metadata)
 	{
-		return abilities[metadata].GetCooldown();
+		return abilitiesClient[metadata].GetCooldown();
 	}
 	
-	public static Ability getAbility(String name)
+	public void zeroCharge (int newCharge)
 	{
-		for (int i=0; i<abilities.length; i++)
+		chargeClient = 0;
+	}
+	
+	public void charge(float partial, float full)
+	{
+		if (partial > full)
 		{
-			if (abilities[i].name.contentEquals(name))
-				return abilities[i];
+			chargeClient = Ability.maxCharge;
 		}
-		return null;
+		else if(partial < 0)
+		{
+			chargeClient = 0;
+		}
+		else
+		{
+			chargeClient = (int)(partial/full*maxCharge);
+		}
 	}
 	
-	public void wasCast(EntityPlayer entityPlayer)
+	public void energy(int newEnergy)
 	{
-		cooldown = Cooldown;
-		casttime = 0;
-		MechanicAbilityCharge.setCharge(entityPlayer, 0);
+		if (newEnergy > maxEnergy)
+		{
+			energyClient = maxEnergy;
+		}
+		else if(newEnergy < 0)
+		{
+			energyClient = 0;
+		}
+		else
+		{
+			energyClient = newEnergy;
+		}
 	}
 	
 	protected abstract boolean CastSpellClient(EntityPlayer player, World world); //For client-only things like particles and raycasting

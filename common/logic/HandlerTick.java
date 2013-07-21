@@ -7,7 +7,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.RenderHotBarOverlay;
-import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
+import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.inventory.InventoryCustom;
@@ -75,7 +75,7 @@ public class HandlerTick implements ITickHandler
 				        	
 				    		if (Ability.map.containsKey(player.username))
 				    		{
-				    			for(Ability ability : Ability.map.get(player.username))
+				    			for(Ability ability : Ability.map.get(player.username).getAbilities())
 				    				ability.onUpdate(player);
 				    		}
 			        	}
@@ -112,7 +112,7 @@ public class HandlerTick implements ITickHandler
 					        	}//hidden ore vision
 			        		}//clients player
 			        		
-			    			for(Ability ability : Ability.abilities)
+			    			for(Ability ability : Ability.abilitiesClient)
 			    			{
 			    				ability.onUpdate(player);
 			    			}
@@ -124,7 +124,7 @@ public class HandlerTick implements ITickHandler
 		if (type.contains(TickType.SERVER))
 		{
 			//sync ability mode changes
-			AbilityModeHandler.retryAllRemaining();
+			ModeHandler.retryAllRemaining();
 		}
 		if (type.contains(TickType.RENDER) && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().currentScreen == null || Minecraft.getMinecraft().currentScreen instanceof GuiChat))
 			RenderHotBarOverlay.instance.renderHotBarOverlay(type, tickData);

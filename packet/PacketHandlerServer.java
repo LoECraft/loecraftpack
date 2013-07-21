@@ -7,20 +7,16 @@ import java.io.IOException;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
-import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.AbilityList;
-import loecraftpack.ponies.abilities.mechanics.Modes;
-import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
-import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
-import loecraftpack.ponies.abilities.projectiles.Fireball;
+import loecraftpack.ponies.abilities.mechanics.ModeHandler;
+import loecraftpack.ponies.abilities.mechanics.Modes;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.MovingObjectPosition;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -127,7 +123,7 @@ public class PacketHandlerServer implements IPacketHandler
             		case PacketIds.modeAbility:
             			int ability = data.readInt();
             			int state = data.readInt();
-            			AbilityModeHandler.clearSuccess(sender, Modes.values()[ability], state);
+            			ModeHandler.clearSuccess(sender, Modes.values()[ability], state);
             	}
             }
             catch(IOException e){}

@@ -1,10 +1,7 @@
 package loecraftpack.ponies.abilities;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
-import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -64,9 +61,9 @@ public class RenderHotBarOverlay
 		int posX = width / 2 + 92;
         int posY = height - chargeLength;
 
-        if (MechanicAbilityCharge.maxCharge > 0)
+        if (Ability.maxCharge > 0)
         {
-            int progress = (int)(((float)MechanicAbilityCharge.chargeClient/(float)MechanicAbilityCharge.maxCharge)  * (float)(chargeLength));
+            int progress = (int)(((float)Ability.chargeClient/(float)Ability.maxCharge)  * (float)(chargeLength));
             this.drawTexturedModalRect(posX, posY, 0, 10, 5, chargeLength);
 
             if (progress > 0)
@@ -87,14 +84,14 @@ public class RenderHotBarOverlay
 		int posX = width / 2 + 10;
         int posY = height - 45;
 
-        if (MechanicAbilityCharge.maxCharge > 0)
+        if (Ability.maxCharge > 0)
         {
-            int progress = (int)(((float)MechanicAbilityCharge.chargeClient/(float)MechanicAbilityCharge.maxCharge)  * (float)(energyLength));
+            int progress = (int)(((float)Ability.chargeClient/(float)Ability.maxCharge)  * (float)(energyLength));
             this.drawTexturedModalRect(posX, posY, 0, 0, energyLength, 5);
 
             if (progress > 0)
             {
-                this.drawTexturedModalRect(posX + energyLength - progress, posY, 0 + energyLength - progress, 5, progress, 5);
+                this.drawTexturedModalRect(posX + energyLength - progress, posY, energyLength - progress, 5, progress, 5);
             }
         }
         

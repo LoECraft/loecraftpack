@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public class ItemAbility extends Item
 {
-	private static int num = Ability.abilities.length - 1;
+	private static int num = Ability.abilitiesClient.length - 1;
 	private static Icon[] icons;
 	
 	public ItemAbility(int par1)
@@ -38,7 +38,7 @@ public class ItemAbility extends Item
 	@Override
 	public String getUnlocalizedName(ItemStack iconNamestack)
 	{
-		return super.getUnlocalizedName() + "." + Ability.abilities[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
+		return super.getUnlocalizedName() + "." + Ability.abilitiesClient[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
 	}
 	
 	@Override
@@ -54,14 +54,14 @@ public class ItemAbility extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-	    icons = new Icon[Ability.abilities.length];
+	    icons = new Icon[Ability.abilitiesClient.length];
 	        
-		for (int i = 0; i < Ability.abilities.length; i++)
+		for (int i = 0; i < Ability.abilitiesClient.length; i++)
 		{
-			if (Ability.abilities[i] == null)
+			if (Ability.abilitiesClient[i] == null)
 				continue;
 			
-	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + Ability.abilities[i].icon);
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + Ability.abilitiesClient[i].icon);
 	    	itemIcon = icons[i];
 		}
 	}
@@ -74,9 +74,9 @@ public class ItemAbility extends Item
 		
 		Ability ability;
 		if (world.isRemote)
-			ability = Ability.abilities[itemStack.getItemDamage()];
+			ability = Ability.abilitiesClient[itemStack.getItemDamage()];
 		else
-			ability = Ability.map.get(player.username)[itemStack.getItemDamage()];
+			ability = Ability.map.get(player.username).abilities[itemStack.getItemDamage()];
 		
 		if (!LoECraftPack.statHandler.isRace(player, ability.race))
 		{
