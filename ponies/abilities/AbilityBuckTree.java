@@ -15,9 +15,9 @@ import net.minecraft.world.World;
 
 public class AbilityBuckTree extends AbilityBase {
 
-	public AbilityBuckTree(int par1)
+	public AbilityBuckTree()
 	{
-		super("Buck Tree", Race.EARTH, 3, 1);
+		super("Buck Tree", Race.EARTH, 3);
 	}
 	
 	@Override
