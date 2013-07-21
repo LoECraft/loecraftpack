@@ -219,6 +219,11 @@ public class EntityTimberWolf extends EntityMob {
 		}
     }
 	
+	public boolean canBreatheUnderwater()
+    {
+        return true;
+    }
+	
 	/*******************************************************/
 	/******************** Item Drop ************************/
 	/*******************************************************/
