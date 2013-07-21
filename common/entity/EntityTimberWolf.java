@@ -130,7 +130,6 @@ public class EntityTimberWolf extends EntityMob {
 				{
 					//body reactivates
 					activeForm = true;
-					isJumping = false;
 				}
 			}
 		}
@@ -396,7 +395,7 @@ public class EntityTimberWolf extends EntityMob {
 		{
 			//false death
 			activeForm = false;
-			isJumping = true;
+			isJumping = false;
 			health = 1;
 		}
     }
