@@ -45,8 +45,15 @@ public class ClientProxy extends CommonProxy
 		RenderingRegistry.registerEntityRenderingHandler(EntityPedestal.class, new RenderPedestal());
 	}
 	
+	@Override
 	public void doProxyStuffPost()
 	{
 		Minecraft.getMinecraft().gameSettings.keyBindJump = HandlerKey.jump; //KeysHandler overrides the default jump keybind, which disables jumping. This gets around that.
+	}
+	
+	@Override
+	public boolean isSinglePlayer()
+	{
+		return Minecraft.getMinecraft().isSingleplayer();
 	}
 }

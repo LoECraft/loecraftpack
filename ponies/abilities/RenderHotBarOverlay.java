@@ -17,14 +17,16 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import cpw.mods.fml.common.TickType;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class RenderHotBarOverlay
 {
 	//Reference variables
 	public static RenderHotBarOverlay instance = new RenderHotBarOverlay();
 	Minecraft mc = Minecraft.getMinecraft();
 	protected float zLevel = 0.0f;
-	public static List<ItemAbility> abilities = new ArrayList<ItemAbility>();
 	
 	
 	public void renderHotBarOverlay(EnumSet<TickType> type, Object... tickData)
@@ -103,18 +105,12 @@ public class RenderHotBarOverlay
     {
     	for (int i = 0; i < 9; i++)
     	{
-    		ItemStack stack = this.mc.thePlayer.inventory.mainInventory[i];
+    		ItemStack stack = mc.thePlayer.inventory.mainInventory[i];
     		if (stack != null)
     		{
 	    		Item item = stack.getItem();
 	    		if (item != null && item instanceof ItemAbility)
-	    		{
-	    			for(int a = 0; a < abilities.size(); a++)
-	    			{
-	    				if (abilities.get(a) == item)
-	    				renderCoolDown(width, height, i, ((ItemAbility)item).GetCooldown());
-	    			}
-	    		}
+    				renderCoolDown(width, height, i, AbilityBase.GetCooldown(stack.getItemDamage()));
     		}
     	}
     }

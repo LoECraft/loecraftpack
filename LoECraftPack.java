@@ -50,8 +50,10 @@ import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.abilities.ItemAbilityFireball;
-import loecraftpack.ponies.abilities.ItemAbilityTeleport;
+import loecraftpack.ponies.abilities.AbilityBase;
+import loecraftpack.ponies.abilities.AbilityFireball;
+import loecraftpack.ponies.abilities.AbilityTeleport;
+import loecraftpack.ponies.abilities.ItemAbility;
 import loecraftpack.ponies.abilities.mechanics.CommandHiddenOres;
 import loecraftpack.ponies.abilities.mechanics.CommandTreeBucking;
 import loecraftpack.ponies.stats.CommandStatRace;
@@ -63,6 +65,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
@@ -140,8 +143,7 @@ public class LoECraftPack
 	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(683)).setUnlocalizedName("ringphantomarrow");
 	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(684)).setUnlocalizedName("ammo");
 	
-	public static final ItemAbilityFireball abilityFireball = new ItemAbilityFireball(685);
-	public static final ItemAbilityTeleport abilityTeleport = new ItemAbilityTeleport(686);
+	public static final ItemAbility ability = new ItemAbility(685);
 	
 	public static final BlockBank bank = new BlockBank(665);
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
@@ -218,8 +220,9 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemRingPhantomArrow, "Ring of Phantom Arrows");
 		LanguageRegistry.addName(itemAmmo, "Ammo");
 		LanguageRegistry.addName(itemPedestal, "Pedestal");
-		LanguageRegistry.addName(abilityFireball, "Fireball");
-		LanguageRegistry.addName(abilityTeleport, "Teleport");
+		
+		//Abilities
+		AbilityBase.RegisterAbilities();
 		
 		//Blocks
 		GameRegistry.registerBlock(bank, "Bank");
@@ -326,4 +329,8 @@ public class LoECraftPack
 		event.registerServerCommand(new CommandTreeBucking());
 	}	
 	
+	public static boolean isSinglePlayer()
+	{
+		return proxy.isSinglePlayer();
+	}
 }

@@ -2,6 +2,7 @@ package loecraftpack.common.logic;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
+import loecraftpack.ponies.abilities.AbilityBase;
 import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryClient;
@@ -12,11 +13,9 @@ import cpw.mods.fml.common.IPlayerTracker;
 
 public class HandlerPlayer implements IPlayerTracker
 {
-
 	@Override
 	public void onPlayerLogin(EntityPlayer player)
 	{
-		System.out.println(player.username+" says HI"+player.worldObj.isRemote);
 		//load Stats
 		LoECraftPack.statHandler.addPlayer(player);
 		LoECraftPack.statHandler.sendStatsToPlayer(player);
@@ -24,6 +23,9 @@ public class HandlerPlayer implements IPlayerTracker
 		HandlerExtendedInventoryServer.AddPlayer(player);
 		//sync ability modes
 		AbilityModeHandler.sync(player);
+		//Register abilities
+		
+		AbilityBase.RegisterPlayer(player.username);
 	}
 
 	@Override
@@ -35,6 +37,9 @@ public class HandlerPlayer implements IPlayerTracker
 		HandlerExtendedInventoryServer.SavePlayer(player);
 		//handler player logout for ability modes
 		AbilityModeHandler.logout(player);
+		//Unregister abilities
+		
+		AbilityBase.UnregisterPlayer(player.username);
 	}
 
 	@Override

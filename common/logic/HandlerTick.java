@@ -5,6 +5,7 @@ import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
+import loecraftpack.ponies.abilities.AbilityBase;
 import loecraftpack.ponies.abilities.RenderHotBarOverlay;
 import loecraftpack.ponies.abilities.mechanics.AbilityModeHandler;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
@@ -18,11 +19,8 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
-public class HandlerTick implements ITickHandler {
-	
-	//Reference variables
-	Minecraft mc = Minecraft.getMinecraft();
-		
+public class HandlerTick implements ITickHandler
+{
 	//used for server ticks
 	int autoEffectBuffer = 0;
 	int autoEffectBufferMax = 20;//one sec
@@ -74,6 +72,12 @@ public class HandlerTick implements ITickHandler {
 				        	}
 							else if (autoEffectBuffer>=autoEffectBufferMax)
 								autoEffectBuffer=0;
+				        	
+				    		if (AbilityBase.map.containsKey(player.username))
+				    		{
+				    			for(AbilityBase ability : AbilityBase.map.get(player.username))
+				    				ability.onUpdate(player);
+				    		}
 			        	}
 			        	else //client
 			        	{
@@ -107,6 +111,11 @@ public class HandlerTick implements ITickHandler {
 					        		}
 					        	}//hidden ore vision
 			        		}//clients player
+			        		
+			    			for(AbilityBase ability : AbilityBase.abilities)
+			    			{
+			    				ability.onUpdate(player);
+			    			}
 			        	}//client side
 			        }//entry instanceof EntityPlayer
 				}//Object entry : tickData
@@ -117,7 +126,7 @@ public class HandlerTick implements ITickHandler {
 			//sync ability mode changes
 			AbilityModeHandler.retryAllRemaining();
 		}
-		if (type.contains(TickType.RENDER) && this.mc.theWorld != null && (mc.currentScreen == null || mc.currentScreen instanceof GuiChat))
+		if (type.contains(TickType.RENDER) && Minecraft.getMinecraft().theWorld != null && (Minecraft.getMinecraft().currentScreen == null || Minecraft.getMinecraft().currentScreen instanceof GuiChat))
 			RenderHotBarOverlay.instance.renderHotBarOverlay(type, tickData);
     }
 	

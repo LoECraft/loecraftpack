@@ -36,11 +36,6 @@ public class PacketHandlerServer implements IPacketHandler
             		case PacketIds.useAbility:
             			switch(data.readByte())
             			{
-            				case AbilityList.Fireball: 
-		            			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
-		            			sender.worldObj.spawnEntityInWorld(fireball);
-		            			break;
-	            			
             				case AbilityList.Teleport:
             					sender.setPositionAndUpdate(data.readDouble(), data.readDouble(), data.readDouble());
             					break;

@@ -1,132 +1,90 @@
 package loecraftpack.ponies.abilities;
 
+import java.util.List;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import loecraftpack.LoECraftPack;
-import loecraftpack.enums.Race;
-import loecraftpack.ponies.abilities.mechanics.MechanicAbilityCharge;
+import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-//Do: ItemAbility - Change variables to arrays so that ItemAbilities can be one item via metadata
-public abstract class ItemAbility extends Item
+
+public class ItemAbility extends Item
 {
-	public ItemAbility instance;
-	protected int Cooldown = 0;
-	protected float cooldown = 0;
-	protected int Casttime = 0;
-	protected float casttime = 0;
-	private boolean held;
-	private boolean heldChanged;
-	private long time;
-	private long lastTime;
-	protected Race race;
+	//private static AbilityBase[] abilities = AbilityBase.abilities;
+	private static int num = AbilityBase.abilities.length - 1;
+	private static Icon[] icons;
 	
 	public ItemAbility(int par1)
 	{
 		super(par1);
 		this.setHasSubtypes(true);
+		this.setUnlocalizedName("itemAbility");
         this.setCreativeTab(LoECraftPack.LoECraftTab);
-        RenderHotBarOverlay.abilities.add(this);
-	}
-	
-	public ItemAbility(int par1, int cooldown)
-	{
-		super(par1);
-		this.setHasSubtypes(true);
-		this.setMaxDamage(100);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
-        RenderHotBarOverlay.abilities.add(this);
-        Cooldown = cooldown;
-	}
-	
-	public ItemAbility(int par1, int cooldown, int casttime)
-	{
-		super(par1);
-		this.setHasSubtypes(true);
-		this.setMaxDamage(100);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
-        RenderHotBarOverlay.abilities.add(this);
-        Cooldown = cooldown;
-        Casttime = casttime;
 	}
 	
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int index)
 	{
-		if (!LoECraftPack.statHandler.isRace(par3EntityPlayer, race))
-		{
-			par1ItemStack.stackSize = 0;
-			return par1ItemStack;
-		}
-		
-		instance.held = true;
-		instance.time = System.currentTimeMillis();
-		
-		if (instance.cooldown <= 0)
-		{
-			if (instance.casttime >= instance.Casttime)
-			{
-				if (CastSpell(par3EntityPlayer, par2World))
-				{
-					instance.cooldown = instance.Cooldown;
-					instance.casttime = 0;
-					MechanicAbilityCharge.setCharge(par3EntityPlayer, 0);
-				}
-			}
-			else if (!par2World.isRemote)
-			{
-				instance.casttime += 0.25f;
-				MechanicAbilityCharge.charge(par3EntityPlayer, instance.casttime, instance.Casttime);
-			}
-		}
-		return par1ItemStack;
+		return icons[MathHelper.clamp_int(index, 0, num)];
 	}
 	
 	@Override
-	public void onUpdate(ItemStack par1ItemStack, World par2World, Entity par3Entity, int par4, boolean par5)
+	public String getUnlocalizedName(ItemStack iconNamestack)
 	{
-		if (!LoECraftPack.statHandler.isRace((EntityPlayer)par3Entity, race))
+		return super.getUnlocalizedName() + "." + AbilityBase.abilities[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
+	}
+	
+	@Override
+	public void getSubItems(int id, CreativeTabs tab, List list)
+	{
+		for (int j = 0; j < num+1; ++j)
+    	{
+    		list.add(new ItemStack(id, 1, j));
+    	}
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister iconRegister)
+	{
+	    icons = new Icon[AbilityBase.abilities.length];
+	        
+		for (int i = 0; i < AbilityBase.abilities.length; i++)
 		{
-			par1ItemStack.stackSize = 0;
-			return;
-		}
-		
-		if (instance.cooldown > 0)
-		{
-			if (!par2World.isRemote)
-				instance.cooldown -= 0.05f;
-		}
-		
-		
-		if (instance.time != instance.lastTime || System.currentTimeMillis() - instance.lastTime > 250)
-		{
-			instance.lastTime = instance.time;
-			if (instance.held)
-			{
-				instance.heldChanged = true;
-			}
-			else
-			{
-				if (instance.heldChanged)
-				{
-					instance.casttime = 0;
-					MechanicAbilityCharge.setCharge((EntityPlayer)par3Entity, 0);
-				}
-				
-				instance.heldChanged = false;
-			}
-			instance.held = false;
+			if (AbilityBase.abilities[i] == null)
+				continue;
+			
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:bits/" + AbilityBase.abilities[i].icon);
+	    	itemIcon = icons[i];
 		}
 	}
 	
-	public float GetCooldown()
+	@Override
+	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
 	{
-		if (instance.Cooldown == 0)
-			return 0;
+		if (!world.isRemote && !AbilityBase.map.containsKey(player.username))
+			return itemStack;
 		
-		return instance.cooldown / instance.Cooldown;
+		AbilityBase ability;
+		if (world.isRemote)
+			ability = AbilityBase.abilities[itemStack.getItemDamage()];
+		else
+			ability = AbilityBase.map.get(player.username)[itemStack.getItemDamage()];
+		
+		if (!LoECraftPack.statHandler.isRace(player, ability.race))
+		{
+			itemStack.stackSize = 0;
+			return itemStack;
+		}
+		
+		return ability.onItemRightClick(itemStack, world, player);
 	}
-	
-	protected abstract boolean CastSpell(EntityPlayer player, World world);
 }

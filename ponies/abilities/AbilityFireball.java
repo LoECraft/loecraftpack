@@ -1,0 +1,33 @@
+package loecraftpack.ponies.abilities;
+
+import loecraftpack.enums.Race;
+import loecraftpack.packet.PacketHelper;
+import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.projectiles.Fireball;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.World;
+
+public class AbilityFireball extends AbilityBase
+{
+	public AbilityFireball()
+	{
+		super("Fireball", Race.UNICORN, 3, 1);
+	}
+
+	@Override
+	protected boolean CastSpellClient(EntityPlayer player, World world)
+	{
+		System.out.println("Fireball Client");
+		return true;
+	}
+
+	@Override
+	protected boolean CastSpellServer(EntityPlayer player, World world)
+	{
+		System.out.println("Fireball Server");
+		Fireball fireball = new Fireball(world, player, player.getLookVec().xCoord/10f, player.getLookVec().yCoord/10f, player.getLookVec().zCoord/10f);
+		world.spawnEntityInWorld(fireball);
+		return true;
+	}
+}

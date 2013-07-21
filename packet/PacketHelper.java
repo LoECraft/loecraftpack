@@ -59,10 +59,7 @@ public class PacketHelper
 			ex.printStackTrace();
 		}
 
-		Packet250CustomPayload packet = new Packet250CustomPayload();
-		packet.channel = channel;
-		packet.data = bos.toByteArray();
-		packet.length = bufferSize;
+		Packet250CustomPayload packet = new Packet250CustomPayload(channel, bos.toByteArray());
 		
 		return packet;
 	}

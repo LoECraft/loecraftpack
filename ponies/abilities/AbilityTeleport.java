@@ -8,18 +8,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class ItemAbilityTeleport extends ItemAbility
+public class AbilityTeleport extends AbilityBase
 {
-	public ItemAbilityTeleport(int par1)
+	public AbilityTeleport()
 	{
-		super(par1, 5);
-		setUnlocalizedName("abilityTeleport");
-		race = Race.UNICORN;
-		instance = this;
+		super("Teleport", Race.UNICORN, 5);
 	}
 
 	@Override
-	protected boolean CastSpell(EntityPlayer player, World world)
+	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
 		MovingObjectPosition target = player.rayTrace(100, 1);
 		if (target == null)
@@ -48,7 +45,15 @@ public class ItemAbilityTeleport extends ItemAbility
 			}
 			
 			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.Teleport, x, y, z));
-			return true;
 		}
+		
+		return true;
+	}
+	
+	@Override
+	protected boolean CastSpellServer(EntityPlayer player, World world)
+	{
+		System.out.println("Teleport Server");
+		return true;
 	}
 }

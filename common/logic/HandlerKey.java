@@ -9,6 +9,7 @@ import loecraftpack.enums.Race;
 import loecraftpack.packet.NetworkedPotions;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.AbilityList;
 import loecraftpack.ponies.inventory.GuiEarthPonyInventory;
 import loecraftpack.ponies.inventory.GuiSpecialEquipment;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryClient;
