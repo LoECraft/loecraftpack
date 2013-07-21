@@ -21,9 +21,12 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -124,23 +127,6 @@ public class HandlerEvent
 	public void onAbilityInteract(PlayerInteractEvent event)
 	{
 		EntityPlayer player = event.entityPlayer;
-		
-		  /*******************/
-		 /**Earth Pony Buck**/
-		/*******************/
-		if (player.getHeldItem()==null && MechanicTreeBucking.canBuck(player))
-		{
-			if (player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockZapAppleLog.blockID ||
-				player.worldObj.getBlockId(event.x, event.y, event.z) == LoECraftPack.blockAppleBloomLog.blockID)
-			{
-				System.out.println("BUCK");
-				MechanicTreeBucking.buckTree(player.worldObj, event.x, event.y, event.z, 0/*Do: BuckTree - fortune*/);
-				if (player.worldObj.isRemote)
-				{
-					//Do: EarthPonyBuck - consume stamina
-				}
-			}
-		}
 	}
 	
 	
@@ -397,17 +383,18 @@ public class HandlerEvent
 		Entity sourceEntity = event.source.getEntity();
 		if (sourceEntity!= null && event.entityLiving != null)
 		{
-			int IDEntity = EntityList.getEntityID(event.entityLiving);
+			int entityID = EntityList.getEntityID(event.entityLiving);
 			//System.out.println("attack from "+sourceEntity);
 			//System.out.println("target id"+IDEntity);
 			
+			EntityPlayer attackingPlayer = null;//if any
 			ItemStack tool = null;
 			
 			if (sourceEntity instanceof EntityLiving)
 			{
 				if (sourceEntity instanceof EntityPlayer)
 				{
-					EntityPlayer attackingPlayer = (EntityPlayer)sourceEntity;
+					attackingPlayer = (EntityPlayer)sourceEntity;
 					tool = attackingPlayer.getHeldItem();
 				}
 			}
@@ -425,18 +412,86 @@ public class HandlerEvent
 				
 				if (electricLevel > 0)
 				{
-					if (IDEntity == 50 /*Creeper*/)
-						event.entityLiving.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
-					else if (!event.entityLiving.worldObj.isRemote && IDEntity == 90 /*Pig*/)
+					switch (entityID)
 					{
-						EntityLiving pig = event.entityLiving;
-						EntityPigZombie entitypigzombie = new EntityPigZombie(pig.worldObj);
-			            entitypigzombie.setLocationAndAngles(pig.posX, pig.posY, pig.posZ, pig.rotationYaw, pig.rotationPitch);
-			            pig.worldObj.spawnEntityInWorld(entitypigzombie);
-			            pig.setDead();
+					case 50://Creeper
+						event.entityLiving.getDataWatcher().updateObject(17, Byte.valueOf((byte)1));
+						break;
+						
+					case 90://pig
+						if (!event.entityLiving.worldObj.isRemote)
+						{
+							EntityLiving pig = event.entityLiving;
+							EntityPigZombie entitypigzombie = new EntityPigZombie(pig.worldObj);
+				            entitypigzombie.setLocationAndAngles(pig.posX, pig.posY, pig.posZ, pig.rotationYaw, pig.rotationPitch);
+				            pig.worldObj.spawnEntityInWorld(entitypigzombie);
+				            pig.setDead();
+						}
+						break;
 					}
+				}
+				
+				int friendshipLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.friendshipEnchant.effectId, tool);
+				//System.out.println("friendship "+friendshipLevel);
+				
+				if (friendshipLevel > 0)
+				{
+					if (attackingPlayer != null && !attackingPlayer.capabilities.isCreativeMode)
+		            {
+		                tool.damageItem(1, attackingPlayer);
+		            }
+
+		            if (tool.stackSize <= 0)
+		            {
+		            	attackingPlayer.inventory.setInventorySlotContents(attackingPlayer.inventory.currentItem, (ItemStack)null);
+		            }
+		            
+		            event.setCanceled(true);
+		            
+		            if(event.entityLiving instanceof EntityPlayer)
+		            {
+		            	if (!event.entityLiving.worldObj.isRemote && event.entityLiving instanceof EntityPlayerMP)
+		            	{
+		            		EntityPlayerMP player = (EntityPlayerMP)event.entityLiving;
+		            		switch (friendshipLevel)
+							{
+		            		case 6:
+		            			//Do: HandlerEvent - restore a little of the players energy
+		            			//Version: HandlerEvent - 1.6 - switch this from regeneration to absorb
+		            			player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 0));
+		            			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
+		            			player.sendChatToPlayer("-You can feel the Friendship-");
+		            			break;
+		            			
+		            		case 5:
+		            			//Do: HandlerEvent - restore a little of the players energy
+		            		case 4:
+		            			if(player.rand.nextInt(3)==0)
+		            				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
+		            			player.heal(2);
+		            			player.sendChatToPlayer("-That, felt good!-");
+		            			break;
+		            			
+		            		case 3:
+		            			if(player.rand.nextInt(3)==0)
+		            				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
+		            		case 2:
+		            			if(player.rand.nextInt(5)==0)
+		            				player.heal(1);
+		            		case 1:
+		            			if(player.rand.nextInt(10)==0)
+		            				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 600, 0));
+		            			player.sendChatToPlayer("*Boof!*");
+		            			break;
+							}
+		            	}
+		            }
+		            else
+						switch (entityID)
+						{
 						
-						
+							
+						}
 				}
 			}
 		}

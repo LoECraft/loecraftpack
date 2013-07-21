@@ -61,7 +61,7 @@ public class ItemAbility extends Item
 			if (AbilityBase.abilities[i] == null)
 				continue;
 			
-	    	icons[i] = iconRegister.registerIcon("loecraftpack:bits/" + AbilityBase.abilities[i].icon);
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + AbilityBase.abilities[i].icon);
 	    	itemIcon = icons[i];
 		}
 	}

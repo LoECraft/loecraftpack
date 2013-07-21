@@ -14,7 +14,7 @@ public abstract class AbilityBase
 {
 	public static HashMap<String, AbilityBase[]> map = new HashMap<String, AbilityBase[]>();
 	//CAUTION: Make sure this is updated when you add abilities.
-	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class};
+	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityBuckTree.class};
 	public static AbilityBase[] abilities = new AbilityBase[abilityClasses.length];
 	public String name;
 	public String icon;

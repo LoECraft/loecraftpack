@@ -16,6 +16,7 @@ import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.enchantment.EnchantmentBanish;
 import loecraftpack.common.enchantment.EnchantmentElectric;
+import loecraftpack.common.enchantment.EnchantmentFriendship;
 import loecraftpack.common.entity.EntityPedestal;
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
@@ -160,6 +161,8 @@ public class LoECraftPack
 	
 	public static final Enchantment electricEnchant = new EnchantmentElectric(100, 2);
 	public static final Enchantment banishEnchant = new EnchantmentBanish(101, 2);
+	public static final Enchantment friendshipEnchant = new EnchantmentFriendship(103, 3);
+
 	
 	//declare Generators
 	public static final BiomeGenEverFreeForest biomeGeneratorEverFreeForest = (BiomeGenEverFreeForest)new BiomeGenEverFreeForest(50).setColor(5).setBiomeName("EverFree").setTemperatureRainfall(0.5f, 0.7f);

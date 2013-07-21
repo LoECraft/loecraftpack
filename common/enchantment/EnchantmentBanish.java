@@ -90,5 +90,15 @@ public class EnchantmentBanish extends Enchantment {
     	
     	return 0;
     }
+    
+    
+    /**
+     * Determines if the enchantment passed can be applyied together with this enchantment.
+     */
+    public boolean canApplyTogether(Enchantment enchantment)
+    {
+        return !(enchantment instanceof EnchantmentFriendship);
+    }
+
 
 }
