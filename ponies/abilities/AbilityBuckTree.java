@@ -23,22 +23,37 @@ public class AbilityBuckTree extends Ability {
 	@Override
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
+		//Debug: TreeBuck Client
 		System.out.println("TreeBuck Client");
 		MovingObjectPosition target = player.rayTrace(100, 1);
 		if (target == null)
 			return false;
 		else
 		{
-			int x = (int)target.hitVec.xCoord;
-			int y = (int)target.hitVec.yCoord;
-			int z = (int)target.hitVec.zCoord;
+			double x = (int)target.hitVec.xCoord;
+			double y = (int)target.hitVec.yCoord;
+			double z = (int)target.hitVec.zCoord;
 			
-			System.out.println("BUCK?"+world.isRemote);
-			if (player.worldObj.getBlockId(x, y, z) == LoECraftPack.blockZapAppleLog.blockID ||
-				player.worldObj.getBlockId(x, y, z) == LoECraftPack.blockAppleBloomLog.blockID)
+			if(target.entityHit == null)
 			{
+				switch(target.sideHit)
+				{
+					case 0: y += 0.5d; break;
+					case 1: y -= 0.5d; break;
+					case 2: z += 0.5d; break;
+					case 3: z -= 0.5d; break;
+					case 4: x += 0.5d; break;
+					case 5: x -= 0.5d; break;
+				}
+			}
+			//Debug: TreeBuck Client
+			System.out.println("BUCK?"+world.isRemote);
+			if (player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockZapAppleLog.blockID ||
+				player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockAppleBloomLog.blockID)
+			{
+				//Debug: TreeBuck Client
 				System.out.println("BUCK"+world.isRemote);
-				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.TreeBuck, x, y, z));
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.TreeBuck, (int)x, (int)y, (int)z));
 				return true;
 			}
 			return false;
