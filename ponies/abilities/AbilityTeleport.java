@@ -61,7 +61,7 @@ public class AbilityTeleport extends Ability
 	}
 	
 	@Override
-	public int getEnergyCost(EntityPlayer player)
+	public float getEnergyCost(EntityPlayer player)
 	{
 		MovingObjectPosition target = player.rayTrace(maxDistance, 1);
 		if (target == null)

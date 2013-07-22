@@ -117,19 +117,22 @@ public class RenderHotBarOverlay
     		{
 	    		Item item = stack.getItem();
 	    		if (item != null && item instanceof ItemAbility)
-    				renderCoolDown(width, height, i, Ability.GetCooldown(stack.getItemDamage()));
+    				renderCoolDown(width, height, i, Ability.getCooldown(stack.getItemDamage()), Ability.isToggled(stack.getItemDamage()));
     		}
     	}
     }
     
-    protected void renderCoolDown(int width, int height, int position, float coolDown)
+    protected void renderCoolDown(int width, int height, int position, float coolDown, boolean isToggled)
     {
     	int posX = width / 2 - 88 + (20*position);
         int posY = height - 19;
         
         if (coolDown > 0)
         {
-        	this.drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown);
+        	if (isToggled)
+        		drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown); //CAUTION: Draw toggled ability animation
+        	else
+        		drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown);
         }
     }
     

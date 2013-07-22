@@ -23,11 +23,9 @@ import cpw.mods.fml.common.TickType;
 public class HandlerTick implements ITickHandler
 {
 	//used for server ticks
-	int autoEffectBuffer = 0;
-	int autoEffectBufferMax = 20;//one sec
-	
-	int autoEffectBufferClient = 0;
-	int autoEffectBufferClientMax = 20;//one sec
+	int autoEffectBufferS = 0;
+	int autoEffectBufferC = 0;
+	final int autoEffectBufferMax = 20;//one sec
 	
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {}
@@ -61,25 +59,25 @@ public class HandlerTick implements ITickHandler
 								//TeleporterCustom.teleporterSkyLandsRising.travelToDimension(player);
 				        	}
 				        	
-				        	if(autoEffectBuffer++==0)
+				        	if(autoEffectBufferS++ >= autoEffectBufferMax)
 							{
+				        		autoEffectBufferS = 0;
 				        		//apply auto effect for accessories
 					        	InventoryCustom inv = HandlerExtendedInventoryCommon.getInventory(player, InventoryId.EQUIPMENT);
 								List<Integer> accessorySlotIds = HandlerExtendedInventoryCommon.getAccessorySlotIds(inv);
 								if (accessorySlotIds!=null)
+								{
 									for (Integer accessorySlotId : accessorySlotIds)
 									{
 										ItemStack accessory = inv.getStackInSlot(accessorySlotId);
 										if (accessory != null)
 											((ItemAccessory)accessory.getItem()).applyWornEffect(player, inv, accessorySlotId, accessory);
 									}
-								
-								//apply energy Regen
-								AbilityPlayerData data = Ability.map.get(player.username);
-								data.setEnergy(data.energy+data.energyRegenNatural);
+								}
 				        	}
-							else if (autoEffectBuffer>=autoEffectBufferMax)
-								autoEffectBuffer=0;
+				        	
+				        	AbilityPlayerData data = Ability.map.get(player.username);
+							data.setEnergy(data.energy + data.energyRegenNatural/20f);
 				        	
 				    		if (Ability.map.containsKey(player.username))
 				    		{
@@ -125,13 +123,12 @@ public class HandlerTick implements ITickHandler
 			    				ability.onUpdate(player);
 			    			}
 			    			
-			    			if(autoEffectBufferClient++==0)
+			    			if(autoEffectBufferC++ >= autoEffectBufferMax)
 							{
-								//apply energy Regen
-								Ability.setEnergy(Ability.energyClient + Ability.energyRegenNatural);
+			    				autoEffectBufferC = 0;
 				        	}
-			    			else if (autoEffectBufferClient>=autoEffectBufferClientMax)
-								autoEffectBufferClient=0;
+			    			
+			    			Ability.setEnergy(Ability.energyClient + Ability.energyRegenNatural/20f);
 			    			
 			        	}//client side
 			        }//entry instanceof EntityPlayer

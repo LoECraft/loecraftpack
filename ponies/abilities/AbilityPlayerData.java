@@ -1,11 +1,10 @@
 package loecraftpack.ponies.abilities;
 
-public class AbilityPlayerData {
-	
-	public int energyRegenNatural = 10;//per 1/2 second
+public class AbilityPlayerData
+{
+	public float energyRegenNatural = 10;
 	public int energyMAX = 100;
-	public int energy;
-	
+	public float energy;
 	
 	public float chargeMAX = 100.0f;
 	public float charge;
@@ -18,7 +17,7 @@ public class AbilityPlayerData {
 		//read from NBT
 	}
 	
-	public void setEnergy(int newEnergy)
+	public void setEnergy(float newEnergy)
 	{
 		if (newEnergy > energyMAX)
 		{

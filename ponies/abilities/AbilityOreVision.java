@@ -17,7 +17,7 @@ public class AbilityOreVision extends Ability {
 	
 	public AbilityOreVision()
 	{
-		super("Ore Vision", Race.UNICORN, 20, 60);
+		super("Ore Vision", Race.UNICORN, 20);
 	}
 
 	@Override
@@ -36,9 +36,9 @@ public class AbilityOreVision extends Ability {
 		return true;
 	}
 	
-	static
+	@Override
+	public float getEnergyCostToggled(EntityPlayer player)
 	{
-		// emtpy for now
+		return 1f;
 	}
-
 }
