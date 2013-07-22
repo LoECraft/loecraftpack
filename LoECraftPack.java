@@ -143,7 +143,7 @@ public class LoECraftPack
 	public static final ItemRestorative restoratives = new ItemRestorative(686);
 	static
 	{
-		restoratives.addSubType("Dispel Gem Major").addRMinorSpells();
+		restoratives.addSubType("Dispel Gem Minor").addRMinorSpells();
 		restoratives.addSubType("Dispel Gem Major").addRMinorSpells().addRMajorSpells();
 		restoratives.addSubType("Cleanse Minor").addRSimpleDebuffs();
 		restoratives.addSubType("Cleanse Major").addRSimpleDebuffs().addRHarshDebuffs();
