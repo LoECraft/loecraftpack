@@ -21,6 +21,15 @@ public class ItemRestorativeSubType {
 	}
 	
 	/**
+	 * remove a potion effect that this can restore
+	 */
+	public ItemRestorativeSubType removeR(int effectID)
+	{
+		restoreIDs.remove((Integer)effectID);
+		return this;
+	}
+	
+	/**
 	 * add a potion effect that this can restore
 	 */
 	public ItemRestorativeSubType addR(int effectID)
