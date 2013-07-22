@@ -17,6 +17,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -39,15 +40,6 @@ public class ItemRestorative extends Item
         this.iconName = name.toLowerCase().replace(" ", "");
         fullList.add(this);
     }
-	
-	/**
-	 * add a potion effect that this can restore
-	 */
-	public ItemRestorative addR(int effectID)
-	{
-		restoreIDs.add(effectID);
-		return this;
-	}
 	
 	public static void RegisterRestoratives()
 	{
@@ -95,7 +87,7 @@ public class ItemRestorative extends Item
      */
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
-        return EnumAction.drink;
+        return EnumAction.block;
     }
 
     /**
@@ -141,4 +133,51 @@ public class ItemRestorative extends Item
     	}
     	return false;
     }
+    
+    
+    
+	/**
+	 * add a potion effect that this can restore
+	 */
+	public ItemRestorative addR(int effectID)
+	{
+		restoreIDs.add(effectID);
+		return this;
+	}
+    
+    public ItemRestorative addRMinorSpells()
+	{
+		restoreIDs.add(LoECraftPack.potionOreVision.id);
+		restoreIDs.add(Potion.nightVision.id);
+		restoreIDs.add(Potion.invisibility.id);
+		
+		return this;
+	}
+	
+	public ItemRestorative addRMajorSpells()
+	{
+		restoreIDs.add(LoECraftPack.potionCharged.id);
+		
+		return this;
+	}
+	
+	public ItemRestorative addRSimpleDebuffs()
+	{
+		restoreIDs.add(Potion.blindness.id);
+		restoreIDs.add(Potion.confusion.id);
+		restoreIDs.add(Potion.poison.id);
+		restoreIDs.add(Potion.hunger.id);
+		restoreIDs.add(Potion.digSlowdown.id);
+		
+		return this;
+	}
+	
+	public ItemRestorative addRHarshDebuffs()
+	{
+		restoreIDs.add(Potion.weakness.id);
+		restoreIDs.add(Potion.wither.id);
+		restoreIDs.add(Potion.moveSlowdown.id);
+		
+		return this;
+	}
 }
