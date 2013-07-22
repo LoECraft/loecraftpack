@@ -17,7 +17,7 @@ public class AbilityOreVision extends Ability {
 	
 	public AbilityOreVision()
 	{
-		super("Ore Vision", Race.UNICORN, 20);
+		super("Gem Vision", Race.UNICORN, 20);
 	}
 
 	@Override

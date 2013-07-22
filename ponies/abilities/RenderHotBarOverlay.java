@@ -55,7 +55,7 @@ public class RenderHotBarOverlay
         if (this.mc.currentScreen instanceof GuiChat)
         	GL11.glDisable(GL11.GL_BLEND);
         
-        renderCoolDowns(width, height);
+        renderAbilityOverlays(width, height);
         
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
@@ -108,7 +108,7 @@ public class RenderHotBarOverlay
         this.mc.mcProfiler.endSection();
 	}
     
-    protected void renderCoolDowns(int width, int height)
+    protected void renderAbilityOverlays(int width, int height)
     {
     	for (int i = 0; i < 9; i++)
     	{
@@ -117,25 +117,29 @@ public class RenderHotBarOverlay
     		{
 	    		Item item = stack.getItem();
 	    		if (item != null && item instanceof ItemAbility)
-    				renderCoolDown(width, height, i, Ability.getCooldown(stack.getItemDamage()), Ability.isToggled(stack.getItemDamage()));
+    				renderAbilityOverlay(width, height, i, Ability.getCooldown(stack.getItemDamage()), Ability.isToggled(stack.getItemDamage()));
     		}
     	}
     }
     
-    protected void renderCoolDown(int width, int height, int position, float coolDown, boolean isToggled)
+    protected void renderAbilityOverlay(int width, int height, int position, float coolDown, boolean isToggled)
     {
     	int posX = width / 2 - 88 + (20*position);
         int posY = height - 19;
         
-        if (coolDown > 0)
+        if (isToggled)
         {
-        	if (isToggled)
-        		drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown); //CAUTION: Draw toggled ability animation
-        	else
-        		drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown);
+        	drawToggledTexture(posX, posY, 26, 10, 16, 16, coolDown);
+        }
+        else if (coolDown > 0)
+        {
+        	drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown);
         }
     }
     
+    /**
+     * extracted from minecraft
+     */
     protected void drawTexturedModalRect(int posX, int posY, int uCoord, int vCoord, int width, int height)
     {
         float f = 0.00390625F;
@@ -147,6 +151,37 @@ public class RenderHotBarOverlay
         tessellator.addVertexWithUV((double)(posX + width), (double)(posY + 0), (double)this.zLevel, (double)((float)(uCoord + width) * f), (double)((float)(vCoord + 0) * f1));
         tessellator.addVertexWithUV((double)(posX + 0), (double)(posY + 0), (double)this.zLevel, (double)((float)(uCoord + 0) * f), (double)((float)(vCoord + 0) * f1));
         tessellator.draw();
+    }
+    
+    protected void drawToggledTexture(int posX, int posY, int uCoord, int vCoord, int width, int height, float progress)
+    {
+    	float f = 0.00390625F;
+        float f1 = 0.00390625F;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(posX + 0    ), (double)(posY + height), (double)this.zLevel, (double)((float)(uCoord + 0    ) * f), (double)((float)(vCoord + height) * f1));
+        tessellator.addVertexWithUV((double)(posX + width), (double)(posY + height), (double)this.zLevel, (double)((float)(uCoord + width) * f), (double)((float)(vCoord + height) * f1));
+        tessellator.addVertexWithUV((double)(posX + width), (double)(posY + 0     ), (double)this.zLevel, (double)((float)(uCoord + width) * f), (double)((float)(vCoord + 0     ) * f1));
+        tessellator.addVertexWithUV((double)(posX + 0    ), (double)(posY + 0     ), (double)this.zLevel, (double)((float)(uCoord + 0    ) * f), (double)((float)(vCoord + 0     ) * f1));
+        tessellator.draw();
+        
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, (float)(Math.sin(Math.toRadians(progress*360.0f))+1.0f)/6.0f);
+        
+        tessellator.startDrawingQuads();
+        tessellator.addVertex((double)(posX + 0    ), (double)(posY + height), 0.0f);
+        tessellator.addVertex((double)(posX + width), (double)(posY + height), 0.0f);
+        tessellator.addVertex((double)(posX + width), (double)(posY + 0     ), 0.0f);
+        tessellator.addVertex((double)(posX + 0    ), (double)(posY + 0     ), 0.0f);
+        tessellator.draw();
+        
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_LIGHTING);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
     }
     
     protected void drawCoolDownTexture(int posX, int posY, int uCoord, int vCoord, int width, int height, float progress)
