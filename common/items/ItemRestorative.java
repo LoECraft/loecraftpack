@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import loecraftpack.LoECraftPack;
-import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
@@ -40,6 +40,9 @@ public class ItemRestorative extends Item
         this.setCreativeTab(LoECraftPack.LoECraftTabItem);
     }
 	
+	/**
+	 * create a new restorative Item as a subType of this ItemID
+	 */
 	public ItemRestorativeSubType addSubType(String name)
 	{
 		ItemRestorativeSubType subtype = new ItemRestorativeSubType(name);
@@ -121,7 +124,11 @@ public class ItemRestorative extends Item
      */
     public EnumAction getItemUseAction(ItemStack par1ItemStack)
     {
-        return EnumAction.block;
+    	ItemRestorativeSubType type = subTypes.get(par1ItemStack.getItemDamage());
+    	if (type==null)
+    		return EnumAction.block;
+    	else
+    		return type.useAnimation;
     }
 
     /**
@@ -156,7 +163,7 @@ public class ItemRestorative extends Item
     }
     
     /**
-     * can this item cures this effect
+     * can this item cure this effect
      */
     public boolean isCurable(int potionID, int metaData)
     {

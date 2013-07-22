@@ -10,13 +10,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-public abstract class Ability
+public abstract class ActiveAbility
 {
 	public static HashMap<String, AbilityPlayerData> map = new HashMap<String, AbilityPlayerData>();
 	//CAUTION: Make sure this is updated when you add abilities.
 	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityOreVision.class, AbilityBuckTree.class};
-	public static Ability[] abilitiesClient = new Ability[abilityClasses.length];
-	public static int energyRegenNatural = 10;//per second
+	public static ActiveAbility[] abilitiesClient = new ActiveAbility[abilityClasses.length];
+	public static int energyRegenNatural = 5;//per second (preferably divisible by 5)
 	public static int energyClientMAX = 500;
 	public static float energyClient = 0;
 	public static float chargeClientMAX = 100.0f;
@@ -38,7 +38,7 @@ public abstract class Ability
 	private long lastTime;
 	protected Race race;
 	
-	public Ability(String name, Race race, int cost)
+	public ActiveAbility(String name, Race race, int cost)
 	{
 		this.name = name;
 		icon = name.toLowerCase().replace(" ", "");
@@ -48,7 +48,7 @@ public abstract class Ability
         isToggleable = true;
 	}
 	
-	public Ability(String name, Race race, int cost, int cooldown)
+	public ActiveAbility(String name, Race race, int cost, int cooldown)
 	{
 		this.name = name;
 		icon = name.toLowerCase().replace(" ", "");
@@ -57,7 +57,7 @@ public abstract class Ability
         energyCost = cost;
 	}
 	
-	public Ability(String name, Race race, int cost, int cooldown, int casttime)
+	public ActiveAbility(String name, Race race, int cost, int cooldown, int casttime)
 	{
 		this.name = name;
 		icon = name.toLowerCase().replace(" ", "");
@@ -70,22 +70,22 @@ public abstract class Ability
 	public static void RegisterAbilities()
 	{
 		abilitiesClient = NewAbilityArray();
-		for(Ability ability : abilitiesClient)
+		for(ActiveAbility ability : abilitiesClient)
 			LanguageRegistry.instance().addStringLocalization("item.itemAbility." + ability.icon + ".name", ability.name);
 	}
 	
-	public static Ability[] NewAbilityArray()
+	public static ActiveAbility[] NewAbilityArray()
 	{
-		ArrayList<Ability> abilityList = new ArrayList<Ability>();
+		ArrayList<ActiveAbility> abilityList = new ArrayList<ActiveAbility>();
 		for(Class c : abilityClasses)
 		{
 			try {
-				Ability ability = (Ability)c.getConstructor().newInstance();
+				ActiveAbility ability = (ActiveAbility)c.getConstructor().newInstance();
 				abilityList.add(ability);
 			} catch (Exception e) {e.printStackTrace();}
 		}
 		
-		return abilityList.toArray(new Ability[0]);
+		return abilityList.toArray(new ActiveAbility[0]);
 	}
 	
 	public static void RegisterPlayer(String player)
@@ -105,7 +105,7 @@ public abstract class Ability
 		
 		AbilityPlayerData data = null;
 		if(!world.isRemote)
-			data = Ability.map.get(player.username);;
+			data = ActiveAbility.map.get(player.username);;
 		
 		if (cooldown <= 0 && (player.capabilities.isCreativeMode || getEnergyCost(player)<=(world.isRemote? energyClient: data.energy) || toggled))
 		{
@@ -189,7 +189,7 @@ public abstract class Ability
 			}
 			else
 			{
-				AbilityPlayerData data = Ability.map.get(player.username);
+				AbilityPlayerData data = ActiveAbility.map.get(player.username);
 				if (!player.capabilities.isCreativeMode)
 					data.setEnergy(data.energy - getEnergyCostToggled(player));
 				
@@ -225,7 +225,7 @@ public abstract class Ability
 					}
 					else
 					{
-						AbilityPlayerData data = Ability.map.get(player.username);
+						AbilityPlayerData data = ActiveAbility.map.get(player.username);
 						data.charge = 0;
 						data.chargeMAX = 0;
 					}

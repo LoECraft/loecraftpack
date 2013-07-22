@@ -9,7 +9,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class AbilityTeleport extends Ability
+public class AbilityTeleport extends ActiveAbility
 {
 	int maxDistance = 100;
 	float energyCostRate = 5.0f;

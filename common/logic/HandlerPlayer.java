@@ -2,7 +2,7 @@ package loecraftpack.common.logic;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
-import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryClient;
@@ -25,7 +25,7 @@ public class HandlerPlayer implements IPlayerTracker
 		ModeHandler.sync(player);
 		//Register abilities
 		
-		Ability.RegisterPlayer(player.username);
+		ActiveAbility.RegisterPlayer(player.username);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class HandlerPlayer implements IPlayerTracker
 		ModeHandler.logout(player);
 		//Unregister abilities
 		
-		Ability.UnregisterPlayer(player.username);
+		ActiveAbility.UnregisterPlayer(player.username);
 	}
 
 	@Override

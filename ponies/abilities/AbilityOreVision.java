@@ -11,13 +11,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class AbilityOreVision extends Ability {
+public class AbilityOreVision extends ActiveAbility {
 	
 	public static List<ItemStack> curatives = new ArrayList<ItemStack>();
 	
 	public AbilityOreVision()
 	{
-		super("Gem Vision", Race.UNICORN, 1);//per a tick
+		super("Gem Vision", Race.UNICORN, 10);//to turn on
 	}
 
 	@Override
@@ -39,6 +39,6 @@ public class AbilityOreVision extends Ability {
 	@Override
 	public float getEnergyCostToggled(EntityPlayer player)
 	{
-		return 1f;
+		return 0.5f;
 	}
 }

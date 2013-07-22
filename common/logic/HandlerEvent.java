@@ -11,7 +11,7 @@ import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.LivingEventId;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;

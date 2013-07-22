@@ -52,7 +52,7 @@ import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
-import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.ItemAbility;
 import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
@@ -249,7 +249,7 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemPedestal, "Pedestal");
 		
 		//Abilities
-		Ability.RegisterAbilities();
+		ActiveAbility.RegisterAbilities();
 		
 		//Restoratives
 		restoratives.RegisterRestoratives();

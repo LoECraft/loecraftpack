@@ -71,9 +71,9 @@ public class RenderHotBarOverlay
 		int posX = width / 2 + 92;
         int posY = height - chargeLength;
 
-        if (Ability.chargeClientMAX> 0)
+        if (ActiveAbility.chargeClientMAX> 0)
         {
-            int progress = (int)(Ability.getCastTimeRatio() * (float)(chargeLength));
+            int progress = (int)(ActiveAbility.getCastTimeRatio() * (float)(chargeLength));
             this.drawTexturedModalRect(posX, posY, 0, 10, 5, chargeLength);
 
             if (progress > 0)
@@ -94,9 +94,9 @@ public class RenderHotBarOverlay
 		int posX = width / 2 + 10;
         int posY = height - 45;
 
-        if (Ability.energyClientMAX > 0)
+        if (ActiveAbility.energyClientMAX > 0)
         {
-            int progress = (int)(Ability.getEnergyRatio()  * (float)(energyLength));
+            int progress = (int)(ActiveAbility.getEnergyRatio()  * (float)(energyLength));
             this.drawTexturedModalRect(posX, posY, 0, 0, energyLength, 5);
 
             if (progress > 0)
@@ -117,7 +117,7 @@ public class RenderHotBarOverlay
     		{
 	    		Item item = stack.getItem();
 	    		if (item != null && item instanceof ItemAbility)
-    				renderAbilityOverlay(width, height, i, Ability.getCooldown(stack.getItemDamage()), Ability.isToggled(stack.getItemDamage()));
+    				renderAbilityOverlay(width, height, i, ActiveAbility.getCooldown(stack.getItemDamage()), ActiveAbility.isToggled(stack.getItemDamage()));
     		}
     	}
     }

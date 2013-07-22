@@ -5,7 +5,7 @@ import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
-import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.RenderHotBarOverlay;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
@@ -76,12 +76,12 @@ public class HandlerTick implements ITickHandler
 								}
 				        	}
 				        	
-				        	AbilityPlayerData data = Ability.map.get(player.username);
+				        	AbilityPlayerData data = ActiveAbility.map.get(player.username);
 							data.setEnergy(data.energy + data.energyRegenNatural/20f);
 				        	
-				    		if (Ability.map.containsKey(player.username))
+				    		if (ActiveAbility.map.containsKey(player.username))
 				    		{
-				    			for(Ability ability : Ability.map.get(player.username).abilities)
+				    			for(ActiveAbility ability : ActiveAbility.map.get(player.username).abilities)
 				    				ability.onUpdate(player);
 				    		}
 			        	}
@@ -118,7 +118,7 @@ public class HandlerTick implements ITickHandler
 					        	}//hidden ore vision
 			        		}//clients player
 			        		
-			    			for(Ability ability : Ability.abilitiesClient)
+			    			for(ActiveAbility ability : ActiveAbility.abilitiesClient)
 			    			{
 			    				ability.onUpdate(player);
 			    			}
@@ -128,7 +128,7 @@ public class HandlerTick implements ITickHandler
 			    				autoEffectBufferC = 0;
 				        	}
 			    			
-			    			Ability.setEnergy(Ability.energyClient + Ability.energyRegenNatural/20f);
+			    			ActiveAbility.setEnergy(ActiveAbility.energyClient + ActiveAbility.energyRegenNatural/20f);
 			    			
 			        	}//client side
 			        }//entry instanceof EntityPlayer

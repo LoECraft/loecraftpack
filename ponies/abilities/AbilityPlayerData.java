@@ -9,9 +9,9 @@ public class AbilityPlayerData
 	public float chargeMAX = 100.0f;
 	public float charge;
 	
-	public final Ability[] abilities;
+	public final ActiveAbility[] abilities;
 	
-	public AbilityPlayerData(String player, Ability[] abilities)
+	public AbilityPlayerData(String player, ActiveAbility[] abilities)
 	{
 		this.abilities = abilities;
 		//calc from stats

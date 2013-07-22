@@ -8,7 +8,7 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-public class AbilityFireball extends Ability
+public class AbilityFireball extends ActiveAbility
 {
 	public AbilityFireball()
 	{
