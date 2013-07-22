@@ -155,6 +155,7 @@ public class RenderHotBarOverlay
     
     protected void drawToggledTexture(int posX, int posY, int uCoord, int vCoord, int width, int height, float progress)
     {
+    	float intensity = (float)(Math.sin(Math.toRadians(progress*360.0f))+1.0f)/6.0f;
     	float f = 0.00390625F;
         float f1 = 0.00390625F;
         Tessellator tessellator = Tessellator.instance;
@@ -169,7 +170,7 @@ public class RenderHotBarOverlay
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, (float)(Math.sin(Math.toRadians(progress*360.0f))+1.0f)/6.0f);
+        GL11.glColor4f(1.0F, 1.0F, 1.0F, intensity);
         
         tessellator.startDrawingQuads();
         tessellator.addVertex((double)(posX + 0    ), (double)(posY + height), 0.0f);
