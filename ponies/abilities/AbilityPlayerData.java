@@ -3,7 +3,7 @@ package loecraftpack.ponies.abilities;
 public class AbilityPlayerData
 {
 	public float energyRegenNatural = 10;
-	public int energyMAX = 100;
+	public int energyMAX = 500;
 	public float energy;
 	
 	public float chargeMAX = 100.0f;
@@ -14,7 +14,7 @@ public class AbilityPlayerData
 	public AbilityPlayerData(String player, Ability[] abilities)
 	{
 		this.abilities = abilities;
-		//read from NBT
+		//calc from stats
 	}
 	
 	public void setEnergy(float newEnergy)

@@ -16,8 +16,8 @@ public abstract class Ability
 	//CAUTION: Make sure this is updated when you add abilities.
 	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityOreVision.class, AbilityBuckTree.class};
 	public static Ability[] abilitiesClient = new Ability[abilityClasses.length];
-	public static int energyRegenNatural = 10;//per 1/2 second
-	public static int energyClientMAX = 100;
+	public static int energyRegenNatural = 10;//per second
+	public static int energyClientMAX = 500;
 	public static float energyClient = 0;
 	public static float chargeClientMAX = 100.0f;
 	public static float chargeClient = 0;
@@ -103,7 +103,11 @@ public abstract class Ability
 		held = true;
 		time = System.currentTimeMillis();
 		
-		if (cooldown <= 0 && (player.capabilities.isCreativeMode || getEnergyCost(player)<=energyClient || toggled))
+		AbilityPlayerData data = null;
+		if(!world.isRemote)
+			data = Ability.map.get(player.username);;
+		
+		if (cooldown <= 0 && (player.capabilities.isCreativeMode || getEnergyCost(player)<=(world.isRemote? energyClient: data.energy) || toggled))
 		{
 			if (casttime >= Casttime)
 			{
@@ -123,7 +127,6 @@ public abstract class Ability
 				{
 					if (CastSpellServer(player, world))
 					{
-						AbilityPlayerData data = Ability.map.get(player.username);
 						cooldown = Cooldown;
 						casttime = 0;
 						data.charge = 0;
@@ -146,7 +149,6 @@ public abstract class Ability
 				}
 				else
 				{
-					AbilityPlayerData data = Ability.map.get(player.username);
 					data.charge = casttime;
 					data.chargeMAX = Casttime;
 				}

@@ -12,11 +12,11 @@ import net.minecraft.world.World;
 public class AbilityTeleport extends Ability
 {
 	int maxDistance = 100;
-	float energyCostRate = 0.5f;
+	float energyCostRate = 5.0f;
 	
 	public AbilityTeleport()
 	{
-		super("Teleport", Race.UNICORN, 50, 5);
+		super("Teleport", Race.UNICORN, 0, 5);
 	}
 
 	@Override
