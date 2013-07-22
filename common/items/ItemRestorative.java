@@ -29,7 +29,7 @@ public class ItemRestorative extends Item
 	/**Registration**/
 	/****************/
 	
-	static List<ItemRestorativeSubType> subTypes = new ArrayList<ItemRestorativeSubType>();
+	public final List<ItemRestorativeSubType> subTypes = new ArrayList<ItemRestorativeSubType>();
 	
 	public ItemRestorative(int itemID)
     {
@@ -47,7 +47,7 @@ public class ItemRestorative extends Item
 		return subtype;
 	}
 	
-	public static void RegisterRestoratives()
+	public void RegisterRestoratives()
 	{
 		for(ItemRestorativeSubType subType : subTypes)
 		{

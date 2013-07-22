@@ -232,7 +232,7 @@ public class LoECraftPack
 		Ability.RegisterAbilities();
 		
 		//Restoratives
-		ItemRestorative.RegisterRestoratives();
+		restoratives.RegisterRestoratives();
 		
 		//Blocks
 		GameRegistry.registerBlock(bank, "Bank");
