@@ -23,7 +23,7 @@ public class BlockProtectionMonolith extends Block implements ITileEntityProvide
 	{
 		super(id, Material.rock);
 		setUnlocalizedName("Protection Monolith");
-		setCreativeTab(LoECraftPack.LoECraftTab);
+		setCreativeTab(LoECraftPack.LoECraftTabBlock);
 		this.blockResistance = 2000;
 	}
 	

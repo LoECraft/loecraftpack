@@ -31,7 +31,7 @@ public class BlockProjectTable extends BlockContainer
 	public BlockProjectTable(int id)
 	{
 		super(id, Material.wood);
-		this.setCreativeTab(LoECraftPack.LoECraftTab);
+		this.setCreativeTab(LoECraftPack.LoECraftTabBlock);
 	}
 	
 	@Override

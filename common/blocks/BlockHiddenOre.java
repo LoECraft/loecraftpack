@@ -26,7 +26,7 @@ public class BlockHiddenOre extends Block {
 
 	public BlockHiddenOre(int id) {
 		super(id, Material.rock);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabBlock);
         hiddenIcons = new Icon[types];
 	}
 	

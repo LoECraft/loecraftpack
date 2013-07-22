@@ -21,7 +21,7 @@ public class ItemCrystalHeart extends Item {
 		super(id);
 		this.maxStackSize = 1;
 		this.setMaxDamage(0);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 	}
     
     @Override

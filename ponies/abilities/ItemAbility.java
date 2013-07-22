@@ -25,7 +25,7 @@ public class ItemAbility extends Item
 		super(par1);
 		this.setHasSubtypes(true);
 		this.setUnlocalizedName("itemAbility");
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabAbility);
 	}
 	
 	@Override

@@ -21,7 +21,7 @@ public class BlockBank extends Block
 	{
 		super(id, Material.circuits);
 		setUnlocalizedName("Bank");
-		setCreativeTab(LoECraftPack.LoECraftTab);
+		setCreativeTab(LoECraftPack.LoECraftTabBlock);
 		this.blockResistance = 2000;
 	}
 	

@@ -16,7 +16,7 @@ public class ItemRing extends ItemAccessory {
 	public ItemRing(int par1) {
 		super(par1);
 		this.setMaxStackSize(1);
-		this.setCreativeTab(LoECraftPack.LoECraftTab);
+		this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 	}
 	
 	@Override

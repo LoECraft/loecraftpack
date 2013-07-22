@@ -15,7 +15,7 @@ public class ItemIronArrow extends Item {
 	public ItemIronArrow(int par1) {
 		super(par1);
 		
-		this.setCreativeTab(LoECraftPack.LoECraftTab);
+		this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 	}
 	
 	@Override

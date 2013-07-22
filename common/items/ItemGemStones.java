@@ -23,7 +23,7 @@ public class ItemGemStones extends Item {
 		super(par1);
 		this.setHasSubtypes(true);
 		this.setMaxDamage(0);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 	}
 	
 	public ItemGemStones(int par1, String[] gemDataNames, String[] gemDisplayNames)

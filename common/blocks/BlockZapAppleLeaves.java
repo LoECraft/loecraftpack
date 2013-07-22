@@ -18,7 +18,6 @@ public class BlockZapAppleLeaves extends BlockAppleBloomLeaves
     {
         super(id);
         this.setTickRandomly(true);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
         this.setUnlocalizedName("leavesZap");
         this.apple = LoECraftPack.itemZapApple;
         saplingDropRate = 600;//roughly 60 leaves on a tree

@@ -19,7 +19,7 @@ public class ItemNecklace extends ItemAccessory {
 	public ItemNecklace(int par1) {
 		super(par1);
 		
-		this.setCreativeTab(LoECraftPack.LoECraftTab);
+		this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 	}
 	
 	@Override

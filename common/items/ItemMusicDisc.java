@@ -18,7 +18,7 @@ public class ItemMusicDisc extends ItemRecord
 	{
 		super(id, recordName.replace(" ", "").toLowerCase());
 		unformattedRecordName = recordName;
-		this.setCreativeTab(LoECraftPack.LoECraftTab);
+		this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 		this.setUnlocalizedName("record");
 		this.composer = composer;
 	}

@@ -37,7 +37,7 @@ public class ItemRestorative extends Item
         this.setMaxStackSize(16);
         this.setHasSubtypes(true);
 		this.setUnlocalizedName("restorative");
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabItem);
     }
 	
 	public ItemRestorativeSubType addSubType(String name)

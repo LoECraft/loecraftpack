@@ -16,7 +16,7 @@ public class ItemZapAppleJam extends ItemFood {
 	public ItemZapAppleJam(int id, int heal, float saturation, boolean wolf)
     {
         super(id, heal, saturation, wolf);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabItem);
     }
 	
 	@SideOnly(Side.CLIENT)

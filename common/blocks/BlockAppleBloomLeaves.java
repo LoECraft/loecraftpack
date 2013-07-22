@@ -42,7 +42,7 @@ public class BlockAppleBloomLeaves extends BlockLeavesBase implements IShearable
     {
         super(id, Material.leaves, false);
         this.setTickRandomly(true);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabBlock);
         this.setUnlocalizedName("leavesAppleBloom");
         this.apple = Item.appleRed;
     }

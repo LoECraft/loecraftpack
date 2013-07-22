@@ -26,7 +26,7 @@ public class ItemColoredBed extends Item
         super(par1);
         this.setHasSubtypes(true);
 		this.setMaxDamage(0);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabItem);
         this.setUnlocalizedName("coloredBed");
     }
     

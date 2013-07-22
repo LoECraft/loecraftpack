@@ -106,7 +106,25 @@ public class LoECraftPack
     public static StatHandlerServer statHandler;
 	
 	//Create our own creative tab
-	public static CreativeTabs LoECraftTab = new CreativeTabs("LoECraftTab")
+	public static CreativeTabs LoECraftTabBlock = new CreativeTabs("LoECraftTabBlocks")
+	{
+		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
+        public ItemStack getIconItemStack()
+        {
+                return new ItemStack(Item.writableBook, 1, 0);
+        }
+	};
+	//Create our own creative tab
+	public static CreativeTabs LoECraftTabItem = new CreativeTabs("LoECraftTabItems")
+	{
+		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
+        public ItemStack getIconItemStack()
+        {
+                return new ItemStack(Item.writableBook, 1, 0);
+        }
+	};
+	//Create our own creative tab
+	public static CreativeTabs LoECraftTabAbility = new CreativeTabs("LoECraftTabAbility")
 	{
 		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
         public ItemStack getIconItemStack()
@@ -206,7 +224,9 @@ public class LoECraftPack
 		/****************************/
 		
 		//Creative tab
-		LanguageRegistry.instance().addStringLocalization("itemGroup.LoECraftTab", "LoECraft");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.LoECraftTabBlocks", "LoECraft-Block's");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.LoECraftTabItems", "LoECraft-Item's");
+		LanguageRegistry.instance().addStringLocalization("itemGroup.LoECraftTabAbility", "LoECraft-Abilities");
 		
 		//Items
 		for(int i = 0; i < ItemBits.names.length; i++ )

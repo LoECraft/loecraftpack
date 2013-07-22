@@ -15,7 +15,7 @@ public class ItemPedestal extends Item {
 
 	public ItemPedestal(int par1) {
 		super(par1);
-		this.setCreativeTab(LoECraftPack.LoECraftTab);
+		this.setCreativeTab(LoECraftPack.LoECraftTabItem);
 	}
 	
 	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int xCoord, int yCoord, int zCoord, int side, float par8, float par9, float par10)

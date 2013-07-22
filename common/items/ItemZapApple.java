@@ -25,7 +25,7 @@ public class ItemZapApple extends ItemFood
         super(id, heal, saturation, wolf);
         this.setHasSubtypes(true);
         this.setMaxDamage(0);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabItem);
     }
 
     @SideOnly(Side.CLIENT)

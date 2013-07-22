@@ -23,7 +23,7 @@ public class BlockAppleLog extends Block
 	public BlockAppleLog(int par1, String iconNameSide, String iconNameTop)
     {
         super(par1, Material.wood);
-        this.setCreativeTab(LoECraftPack.LoECraftTab);
+        this.setCreativeTab(LoECraftPack.LoECraftTabBlock);
         this.iconNameSide = iconNameSide;
         this.iconNameTop = iconNameTop;
     }
