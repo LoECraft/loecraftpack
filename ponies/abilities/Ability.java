@@ -14,7 +14,7 @@ public abstract class Ability
 {
 	public static HashMap<String, AbilityPlayerData> map = new HashMap<String, AbilityPlayerData>();
 	//CAUTION: Make sure this is updated when you add abilities.
-	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityBuckTree.class};
+	private static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityOreVision.class, AbilityBuckTree.class};
 	public static Ability[] abilitiesClient = new Ability[abilityClasses.length];
 	public static int energyRegenNatural = 10;//per 1/2 second
 	public static int energyClientMAX = 100;

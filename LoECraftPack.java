@@ -34,6 +34,7 @@ import loecraftpack.common.items.ItemNecklaceOfDreams;
 import loecraftpack.common.items.ItemPedestal;
 import loecraftpack.common.items.ItemPickaxeGem;
 import loecraftpack.common.items.ItemRacial;
+import loecraftpack.common.items.ItemRestorative;
 import loecraftpack.common.items.ItemRing;
 import loecraftpack.common.items.ItemRingLife;
 import loecraftpack.common.items.ItemRingPhantomArrow;
@@ -53,7 +54,6 @@ import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
 import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.ItemAbility;
-import loecraftpack.ponies.abilities.mechanics.CommandHiddenOres;
 import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
@@ -139,8 +139,8 @@ public class LoECraftPack
 	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(682)).setUnlocalizedName("ringlife");
 	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(683)).setUnlocalizedName("ringphantomarrow");
 	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(684)).setUnlocalizedName("ammo");
-	
 	public static final ItemAbility ability = new ItemAbility(685);
+	public static final ItemRestorative dispelGem = (new ItemRestorative(686, 100, "Dispel Gem")).addR(potionOreVision.id);
 	
 	public static final BlockBank bank = new BlockBank(665);
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);
@@ -222,6 +222,9 @@ public class LoECraftPack
 		
 		//Abilities
 		Ability.RegisterAbilities();
+		
+		//Restoratives
+		ItemRestorative.RegisterRestoratives();
 		
 		//Blocks
 		GameRegistry.registerBlock(bank, "Bank");
@@ -324,7 +327,6 @@ public class LoECraftPack
 	{
 		//load server commands
 		event.registerServerCommand(new CommandStatRace());
-		event.registerServerCommand(new CommandHiddenOres());
 	}	
 	
 	public static boolean isSinglePlayer()
