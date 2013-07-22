@@ -140,10 +140,15 @@ public class LoECraftPack
 	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(683)).setUnlocalizedName("ringphantomarrow");
 	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(684)).setUnlocalizedName("ammo");
 	public static final ItemAbility ability = new ItemAbility(685);
-	public static final ItemRestorative dispelGemMinor = (new ItemRestorative(686, 100, "Dispel Gem Minor")).addRMinorSpells();
-	public static final ItemRestorative dispelGemMajor = (new ItemRestorative(687, 30, "Dispel Gem Major")).addRMinorSpells().addRMajorSpells();
-	public static final ItemRestorative CleanseMinor = (new ItemRestorative(688, 50, "Cleanse Minor")).addRSimpleDebuffs();
-	public static final ItemRestorative CleanseMajor = (new ItemRestorative(689, 10, "Cleanse Major")).addRSimpleDebuffs().addRHarshDebuffs();
+	public static final ItemRestorative restoratives = new ItemRestorative(686);
+	static
+	{
+		restoratives.addSubType("Dispel Gem Major").addRMinorSpells();
+		restoratives.addSubType("Dispel Gem Major").addRMinorSpells().addRMajorSpells();
+		restoratives.addSubType("Cleanse Minor").addRSimpleDebuffs();
+		restoratives.addSubType("Cleanse Major").addRSimpleDebuffs().addRHarshDebuffs();
+	}
+	
 			
 	public static final BlockBank bank = new BlockBank(665);
 	public static final BlockProtectionMonolith monolith = new BlockProtectionMonolith(666);

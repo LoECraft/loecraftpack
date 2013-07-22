@@ -20,55 +20,89 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 public class ItemRestorative extends Item
 {
-	public static List<ItemRestorative> fullList = new ArrayList<ItemRestorative>();
-	public List<Integer> restoreIDs = new ArrayList<Integer>();
-	public String name;
-	public String iconName;
+	/****************/
+	/**Registration**/
+	/****************/
 	
-	public ItemRestorative(int itemID, int uses, String name)
+	static List<ItemRestorativeSubType> subTypes = new ArrayList<ItemRestorativeSubType>();
+	
+	public ItemRestorative(int itemID)
     {
         super(itemID);
-        this.setMaxStackSize(1);
-        if (uses>1) 
-        	this.setMaxDamage(uses);
+        this.setMaxStackSize(16);
+        this.setHasSubtypes(true);
+		this.setUnlocalizedName("restorative");
         this.setCreativeTab(LoECraftPack.LoECraftTab);
-        this.name = name;
-        this.iconName = name.toLowerCase().replace(" ", "");
-        fullList.add(this);
     }
+	
+	public ItemRestorativeSubType addSubType(String name)
+	{
+		ItemRestorativeSubType subtype = new ItemRestorativeSubType(name);
+		subTypes.add(subtype);
+		return subtype;
+	}
 	
 	public static void RegisterRestoratives()
 	{
-		for(ItemRestorative restorative : fullList)
+		for(ItemRestorativeSubType subType : subTypes)
 		{
-			LanguageRegistry.addName(restorative, restorative.name);
+			LanguageRegistry.instance().addStringLocalization("item.restorative." + subType.iconName + ".name", subType.name);
 		}
+	}
+	
+	@Override
+	public void getSubItems(int id, CreativeTabs tab, List list)
+	{
+		for (int j = 0; j < subTypes.size(); ++j)
+    	{
+    		list.add(new ItemStack(id, 1, j));
+    	}
+	}
+	
+	@Override
+	public String getUnlocalizedName(ItemStack iconNamestack)
+	{
+		return super.getUnlocalizedName() + "." + subTypes.get(MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, subTypes.size()-1)).iconName;
+	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public Icon getIconFromDamage(int index)
+	{
+		return subTypes.get(MathHelper.clamp_int(index, 0, subTypes.size()-1)).icon;
 	}
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-		itemIcon = iconRegister.registerIcon("loecraftpack:restorative/" + iconName);
+		for (ItemRestorativeSubType subType : subTypes)
+		{
+			subType.icon = iconRegister.registerIcon("loecraftpack:restorative/" + subType.iconName);
+		}
+		
 	}
-
+	
+	
+	/************/
+	/**Behavior**/
+	/************/
+	
     public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player)
     {
         if (!player.capabilities.isCreativeMode)
         {
-        	if (getMaxDamage()==0)
-        		--itemStack.stackSize;
-        	else
-        		itemStack.damageItem(1, player);
+        	--itemStack.stackSize;
         }
 
         if (!world.isRemote)
         {
-            curePotionEffects(player);
+            curePotionEffects(player, itemStack.getItemDamage());
         }
 
         return itemStack;
@@ -102,7 +136,7 @@ public class ItemRestorative extends Item
     /**
      * example from entity living
      */
-    public void curePotionEffects(EntityPlayer player)
+    public void curePotionEffects(EntityPlayer player, int metaData)
     {
     	if (player.worldObj.isRemote)
         {
@@ -114,7 +148,7 @@ public class ItemRestorative extends Item
     	while (effects.hasNext())
     	{
     		PotionEffect effect = effects.next();
-    		if (isCurable(effect.getPotionID()))
+    		if (isCurable(effect.getPotionID(), metaData))
     		{
     			player.removePotionEffect(effect.getPotionID());
     		}
@@ -124,60 +158,13 @@ public class ItemRestorative extends Item
     /**
      * can this item cures this effect
      */
-    public boolean isCurable(int potionID)
+    public boolean isCurable(int potionID, int metaData)
     {
-    	for (int restoreID : restoreIDs)
+    	for (int restoreID : subTypes.get(metaData).restoreIDs)
     	{
     		if (restoreID == potionID)
     			return true;
     	}
     	return false;
     }
-    
-    
-    
-	/**
-	 * add a potion effect that this can restore
-	 */
-	public ItemRestorative addR(int effectID)
-	{
-		restoreIDs.add(effectID);
-		return this;
-	}
-    
-    public ItemRestorative addRMinorSpells()
-	{
-		restoreIDs.add(LoECraftPack.potionOreVision.id);
-		restoreIDs.add(Potion.nightVision.id);
-		restoreIDs.add(Potion.invisibility.id);
-		
-		return this;
-	}
-	
-	public ItemRestorative addRMajorSpells()
-	{
-		restoreIDs.add(LoECraftPack.potionCharged.id);
-		
-		return this;
-	}
-	
-	public ItemRestorative addRSimpleDebuffs()
-	{
-		restoreIDs.add(Potion.blindness.id);
-		restoreIDs.add(Potion.confusion.id);
-		restoreIDs.add(Potion.poison.id);
-		restoreIDs.add(Potion.hunger.id);
-		restoreIDs.add(Potion.digSlowdown.id);
-		
-		return this;
-	}
-	
-	public ItemRestorative addRHarshDebuffs()
-	{
-		restoreIDs.add(Potion.weakness.id);
-		restoreIDs.add(Potion.wither.id);
-		restoreIDs.add(Potion.moveSlowdown.id);
-		
-		return this;
-	}
 }
