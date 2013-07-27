@@ -17,6 +17,7 @@ public class EnchantmentBanish extends Enchantment {
 	/**
      * Returns the minimal value of enchant-ability needed on the enchantment level passed.
      */
+	@Override
     public int getMinEnchantability(int par1)
     {
         return 10 + 10 * (par1 - 1);
@@ -25,6 +26,7 @@ public class EnchantmentBanish extends Enchantment {
     /**
      * Returns the maximum value of enchant-ability needed on the enchantment level passed.
      */
+	@Override
     public int getMaxEnchantability(int par1)
     {
         return super.getMinEnchantability(par1) + 50;
@@ -33,6 +35,7 @@ public class EnchantmentBanish extends Enchantment {
     /**
      * Returns the maximum level that the enchantment can have.
      */
+	@Override
     public int getMaxLevel()
     {
         return 3;
@@ -41,6 +44,7 @@ public class EnchantmentBanish extends Enchantment {
     /**
      * Calculates the (magic) damage done by the enchantment on a living entity based on level and entity passed.
      */
+	@Override
     public int calcModifierLiving(int par1, EntityLiving par2EntityLiving)
     {
     	if (par2EntityLiving.dimension==-1)//NETHER
@@ -95,9 +99,10 @@ public class EnchantmentBanish extends Enchantment {
     /**
      * Determines if the enchantment passed can be applyied together with this enchantment.
      */
+	@Override
     public boolean canApplyTogether(Enchantment enchantment)
     {
-        return !(enchantment instanceof EnchantmentFriendship);
+        return true;
     }
 
 

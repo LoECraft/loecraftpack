@@ -15,10 +15,10 @@ import cpw.mods.fml.relauncher.SideOnly;
  */
 public class MechanicHiddenOres {
 	
+	//Do: GemVisionMechanic - make this use, custom render chunks
+	
 	@SideOnly(Side.CLIENT)
 	public static boolean revealHiddenGems = false;
-	@SideOnly(Side.CLIENT)
-	public static boolean bootUp = true;
 	@SideOnly(Side.CLIENT)
 	public static int powerLevel = 0;
 	@SideOnly(Side.CLIENT)
@@ -28,7 +28,6 @@ public class MechanicHiddenOres {
 	@SideOnly(Side.CLIENT)
 	public static int zPos;
 	
-	//Do: GemVisionMechanic - make this range dependant
 	public static void refreshRenderWithRange(EntityPlayer player)
 	{
 		if (!player.worldObj.isRemote)

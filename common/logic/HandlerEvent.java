@@ -442,69 +442,6 @@ public class HandlerEvent
 						break;
 					}
 				}
-				
-				int friendshipLevel = EnchantmentHelper.getEnchantmentLevel(LoECraftPack.friendshipEnchant.effectId, tool);
-				//System.out.println("friendship "+friendshipLevel);
-				
-				if (friendshipLevel > 0)
-				{
-					if (attackingPlayer != null && !attackingPlayer.capabilities.isCreativeMode)
-		            {
-		                tool.damageItem(1, attackingPlayer);
-		            }
-
-		            if (tool.stackSize <= 0)
-		            {
-		            	attackingPlayer.inventory.setInventorySlotContents(attackingPlayer.inventory.currentItem, (ItemStack)null);
-		            }
-		            
-		            event.setCanceled(true);
-		            
-		            if(event.entityLiving instanceof EntityPlayer)
-		            {
-		            	if (!event.entityLiving.worldObj.isRemote && event.entityLiving instanceof EntityPlayerMP)
-		            	{
-		            		EntityPlayerMP player = (EntityPlayerMP)event.entityLiving;
-		            		switch (friendshipLevel)
-							{
-		            		case 6:
-		            			//Do: HandlerEvent - restore a little of the players energy
-		            			//Version: HandlerEvent - 1.6 - switch this from regeneration to absorb
-		            			player.addPotionEffect(new PotionEffect(Potion.regeneration.id, 600, 0));
-		            			player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
-		            			player.sendChatToPlayer("-You can feel the Friendship-");
-		            			break;
-		            			
-		            		case 5:
-		            			//Do: HandlerEvent - restore a little of the players energy
-		            		case 4:
-		            			if(player.rand.nextInt(3)==0)
-		            				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
-		            			player.heal(2);
-		            			player.sendChatToPlayer("-That, felt good!-");
-		            			break;
-		            			
-		            		case 3:
-		            			if(player.rand.nextInt(3)==0)
-		            				player.addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 600, 0));
-		            		case 2:
-		            			if(player.rand.nextInt(5)==0)
-		            				player.heal(1);
-		            		case 1:
-		            			if(player.rand.nextInt(10)==0)
-		            				player.addPotionEffect(new PotionEffect(Potion.confusion.id, 600, 0));
-		            			player.sendChatToPlayer("*Boof!*");
-		            			break;
-							}
-		            	}
-		            }
-		            else
-						switch (entityID)
-						{
-						
-							
-						}
-				}
 			}
 		}
 	}

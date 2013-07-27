@@ -137,7 +137,14 @@ public abstract class ActiveAbility
 				}
 				
 				if (isToggleable)
+				{
 					toggled = !toggled;
+					if (!toggled)
+					{
+						cycle = 0;
+						CastSpellUntoggledClient(player);
+					}
+				}
 			}
 			else
 			{

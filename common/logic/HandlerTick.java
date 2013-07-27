@@ -90,32 +90,7 @@ public class HandlerTick implements ITickHandler
 			        		//clients player
 			        		if (Minecraft.getMinecraft().thePlayer.entityId == player.entityId)
 			        		{
-				        		//hidden ore vision
-				        		if (MechanicHiddenOres.revealHiddenGems)
-					        	{
-				        			
-					        		if (player.isPotionActive(LoECraftPack.potionOreVision))
-					        		{
-					        			//update render?
-					        			if (MechanicHiddenOres.bootUp)
-					        			{
-					        				MechanicHiddenOres.bootUp = false;
-					        				MechanicHiddenOres.refreshRenderWithRange(player);
-					        			}
-					        			else if (MechanicHiddenOres.xPos != (int) player.posX ||
-				        						 MechanicHiddenOres.yPos != (int) player.posY ||
-				        						 MechanicHiddenOres.zPos != (int) player.posZ )
-					        			{
-					        				MechanicHiddenOres.refreshRenderWithRange(player);
-					        			}
-					        		}
-					        		else
-					        		{
-					        			MechanicHiddenOres.bootUp = true;
-					        			MechanicHiddenOres.revealHiddenGems = false;
-					        			MechanicHiddenOres.refreshRenderWithRange(player);
-					        		}
-					        	}//hidden ore vision
+			        			//empty for now
 			        		}//clients player
 			        		
 			    			for(ActiveAbility ability : ActiveAbility.abilitiesClient)

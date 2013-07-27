@@ -16,7 +16,6 @@ import loecraftpack.common.blocks.TileProjectTable;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.enchantment.EnchantmentBanish;
 import loecraftpack.common.enchantment.EnchantmentElectric;
-import loecraftpack.common.enchantment.EnchantmentFriendship;
 import loecraftpack.common.entity.EntityPedestal;
 import loecraftpack.common.entity.EntityPhantomArrow;
 import loecraftpack.common.entity.EntityTimberWolf;
@@ -46,7 +45,6 @@ import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.logic.HandlerTick;
 import loecraftpack.common.potions.PotionCharged;
-import loecraftpack.common.potions.PotionOreVision;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
@@ -114,7 +112,7 @@ public class LoECraftPack
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
-	//Create our own creative tab
+	
 	public static CreativeTabs LoECraftTabItem = new CreativeTabs("LoECraftTabItems")
 	{
 		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
@@ -123,7 +121,7 @@ public class LoECraftPack
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
-	//Create our own creative tab
+	
 	public static CreativeTabs LoECraftTabAbility = new CreativeTabs("LoECraftTabAbility")
 	{
 		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
@@ -132,13 +130,13 @@ public class LoECraftPack
                 return new ItemStack(Item.writableBook, 1, 0);
         }
 	};
+	
 	//IDs
 	public static final int SkylandDimensionID = 8;
 	public static final int SkylandProviderID = 8;
 	
 	//Declare Potions
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(21, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
-	public static final PotionOreVision potionOreVision = (PotionOreVision)(new PotionOreVision(22, false, 0)).setPotionName("Ore Vision").setIconIndex(0, 0);
 	
 	//Declare immutable Items, Blocks, and Enchantments - Do: Initialize Items/Blocks in PreInit based on config IDs
 	public static final ItemBits bits = new ItemBits(667);
@@ -183,7 +181,6 @@ public class LoECraftPack
 	
 	public static final Enchantment electricEnchant = new EnchantmentElectric(100, 2);
 	public static final Enchantment banishEnchant = new EnchantmentBanish(101, 2);
-	public static final Enchantment friendshipEnchant = new EnchantmentFriendship(103, 3);
 
 	
 	//declare Generators

@@ -11,7 +11,7 @@ public class NetworkedPotions
 	public static final byte oreVision = -128;
 	
 	public static HashMap potions = new HashMap<Byte, Integer>(){{
-		put(oreVision, LoECraftPack.potionOreVision.id);
+		//EX: put(oreVision, LoECraftPack.potionOreVision.id);
 	}};
 	
 	public static void applyEffect(byte potionId, int duration, int strength)

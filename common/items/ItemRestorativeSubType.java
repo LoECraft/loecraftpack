@@ -55,7 +55,6 @@ public class ItemRestorativeSubType {
 	 */
     public ItemRestorativeSubType addRMinorSpells()
 	{
-		restoreIDs.add(LoECraftPack.potionOreVision.id);
 		restoreIDs.add(Potion.nightVision.id);
 		restoreIDs.add(Potion.invisibility.id);
 		
