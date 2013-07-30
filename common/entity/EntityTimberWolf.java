@@ -130,6 +130,8 @@ public class EntityTimberWolf extends EntityMob {
 				{
 					//body reactivates
 					activeForm = true;
+					//Debug: it's alive
+					System.out.println("I'm back!!!");
 				}
 			}
 		}
@@ -364,7 +366,8 @@ public class EntityTimberWolf extends EntityMob {
 	@Override
 	protected void playStepSound(int par1, int par2, int par3, int par4)
     {
-        this.playSound("mob.wolf.step", 0.15F, 1.0F);
+        //this.playSound("mob.wolf.step", 0.15F, 1.0F);
+		this.playSound("step.grass", 0.30F, 1.0F);
     }
 	
 	@Override

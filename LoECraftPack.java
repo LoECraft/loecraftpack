@@ -124,7 +124,6 @@ public class LoECraftPack
 	
 	public static CreativeTabs LoECraftTabAbility = new CreativeTabs("LoECraftTabAbility")
 	{
-		//Set the icon - Do: CreativeTab - Add new item with custom icon for use here 
         public ItemStack getIconItemStack()
         {
                 return new ItemStack(Item.writableBook, 1, 0);

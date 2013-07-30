@@ -85,7 +85,6 @@ public class RenderHotBarOverlay
         this.mc.mcProfiler.endSection();
 	}
 	
-	//Do: RenderHotBarOverlay - apply correct Energy variables
 	protected void renderEnergyBar(int width, int height)
 	{
 		this.mc.mcProfiler.startSection("energyBar");
