@@ -1,6 +1,6 @@
 package loecraftpack.ponies.inventory;
 
-import loecraftpack.common.items.ItemIronArrow;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -10,6 +10,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class SlotAmmo extends Slot
 {
+	public static Icon slotIcon;
+	
 	public SlotAmmo(IInventory inventory, int index, int xPos, int yPos)
 	{
 		super(inventory, index, xPos, yPos);
@@ -24,6 +26,11 @@ public class SlotAmmo extends Slot
 	@SideOnly(Side.CLIENT)
     public Icon getBackgroundIconIndex()
     {
-		return ItemIronArrow.slotIcon;
+		return slotIcon;
     }
+	
+	public static void registerSlotIcons(IconRegister iconRegister)
+	{
+		slotIcon = iconRegister.registerIcon("loecraftpack:tools/slotAmmo");
+	}
 }

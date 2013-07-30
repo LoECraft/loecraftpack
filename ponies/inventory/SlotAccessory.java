@@ -2,10 +2,10 @@ package loecraftpack.ponies.inventory;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.IRacialItem;
-import loecraftpack.common.items.ItemAccessory;
 import loecraftpack.common.items.ItemNecklace;
 import loecraftpack.common.items.ItemRacial;
 import loecraftpack.common.items.ItemRing;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -16,6 +16,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class SlotAccessory extends Slot
 {
+	public static Icon slotIconRacial;
+	public static Icon slotIconNecklace;
+	public static Icon slotIconRing;
+	
 	int type;
 	EntityPlayer player;
 	
@@ -58,13 +62,20 @@ public class SlotAccessory extends Slot
 		switch (type)
 		{
 		case 0:
-			return ItemAccessory.slotIconRacial;
+			return slotIconRacial;
 		case 1:
-			return ItemAccessory.slotIconNecklace;
+			return slotIconNecklace;
 		case 2:
-			return ItemAccessory.slotIconRing;
+			return slotIconRing;
 		default:
 			return null;
 		}
     }
+	
+	public static void registerSlotIcons(IconRegister iconRegister)
+	{
+		slotIconRacial = iconRegister.registerIcon("loecraftpack:tools/slotRacial");
+		slotIconNecklace = iconRegister.registerIcon("loecraftpack:tools/slotNecklace");
+		slotIconRing = iconRegister.registerIcon("loecraftpack:tools/slotRing");
+	}
 }

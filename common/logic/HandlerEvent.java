@@ -11,8 +11,9 @@ import loecraftpack.dimensionaltransfer.TeleporterCustom;
 import loecraftpack.enums.LivingEventId;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
+import loecraftpack.ponies.inventory.SlotAccessory;
+import loecraftpack.ponies.inventory.SlotAmmo;
 import loecraftpack.proxies.ClientProxy;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -21,12 +22,9 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenMinable;
@@ -453,11 +451,12 @@ public class HandlerEvent
   /********************************************************************************************/
  /**  TEXTURE EVENT  *************************************************************************/
 /********************************************************************************************/
-	
+	//accessory
 	@ForgeSubscribe
 	public void onItemTextureStitch(TextureStitchEvent.Pre event)
 	{
-		ItemAccessory.registerSlotIcons(event.map);
+		SlotAccessory.registerSlotIcons(event.map);
+		SlotAmmo.registerSlotIcons(event.map);
 	}
 	
 	
