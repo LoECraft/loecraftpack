@@ -146,7 +146,7 @@ public class LoECraftPack
 	public static final ItemPedestal itemPedestal = (ItemPedestal)(new ItemPedestal(674)).setUnlocalizedName("pedestal");
 	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(675)).setUnlocalizedName("gemstones");
 	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(676)).setUnlocalizedName("cyrstalheart");
-	public static final ItemRacial itemRacial = (ItemRacial)(new ItemRacial(677)).setUnlocalizedName("racial");
+	//Item #677 - place-holder
 	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(678)).setUnlocalizedName("necklace");
 	public static final ItemNecklaceOfDreams itemNecklaceOfDreams = (ItemNecklaceOfDreams)(new ItemNecklaceOfDreams(679)).setUnlocalizedName("necklacedream");
 	public static final ItemNecklaceOfBling itemNecklaceOfBling = (ItemNecklaceOfBling)(new ItemNecklaceOfBling(680)).setUnlocalizedName("necklacebling");
@@ -234,7 +234,6 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
 		LanguageRegistry.instance().addStringLocalization("item.pickaxeGem.name", "Gem Pickaxe");
 		LanguageRegistry.addName(itemCrystalHeart, "Crystal Heart Container");
-		LanguageRegistry.addName(itemRacial, "Racial");
 		LanguageRegistry.addName(itemNecklace, "Necklace");
 		LanguageRegistry.addName(itemNecklaceOfDreams, "Necklace Of Dreams");
 		LanguageRegistry.addName(itemNecklaceOfBling, "Necklace Of Bling");

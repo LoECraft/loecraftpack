@@ -33,6 +33,7 @@ import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.Event.Result;
 import net.minecraftforge.event.EventPriority;
 import net.minecraftforge.event.ForgeSubscribe;
@@ -444,6 +445,19 @@ public class HandlerEvent
 				}
 			}
 		}
+	}
+	
+	
+	
+	
+  /********************************************************************************************/
+ /**  TEXTURE EVENT  *************************************************************************/
+/********************************************************************************************/
+	
+	@ForgeSubscribe
+	public void onItemTextureStitch(TextureStitchEvent.Pre event)
+	{
+		ItemAccessory.registerSlotIcons(event.map);
 	}
 	
 	

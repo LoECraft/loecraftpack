@@ -26,13 +26,13 @@ public class ContainerSpecialEquipment extends Container {
         int h;
         
         //Race item
-        this.addSlotToContainer(new SlotRacial(specialInv, 0, 8, 8, entityPlayer));
+        this.addSlotToContainer(new SlotAccessory(specialInv, 0, 8, 8, 0, entityPlayer));
         //Necklace
-        this.addSlotToContainer(new SlotAccessory(specialInv, 1, 8, 26, 0));
+        this.addSlotToContainer(new SlotAccessory(specialInv, 1, 8, 26, 1, entityPlayer));
         //Rings
         for (v = 0; v < 2; v++)
         {
-        	this.addSlotToContainer(new SlotAccessory(specialInv, v+2, 8, 8+(v+2)*18, 1));
+        	this.addSlotToContainer(new SlotAccessory(specialInv, v+2, 8, 8+(v+2)*18, 2, entityPlayer));
         }
         //Ammo
         this.addSlotToContainer(new SlotAmmo(specialInv, 4, 80, 8));

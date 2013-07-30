@@ -6,9 +6,11 @@ import loecraftpack.enums.LivingEventId;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import loecraftpack.ponies.inventory.InventoryId;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -29,10 +31,21 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 
 public abstract class ItemAccessory extends Item {
+	
+	public static Icon slotIconRacial;
+	public static Icon slotIconNecklace;
+	public static Icon slotIconRing;
 
 	public ItemAccessory(int par1) {
 		super(par1);
 		this.setMaxStackSize(1);
+	}
+	
+	public static void registerSlotIcons(IconRegister iconRegister)
+	{
+		slotIconRacial = iconRegister.registerIcon("loecraftpack:tools/slotRacial");
+		slotIconNecklace = iconRegister.registerIcon("loecraftpack:tools/slotNecklace");
+		slotIconRing = iconRegister.registerIcon("loecraftpack:tools/slotRing");
 	}
 	
 	public static void applyLivingEvent(LivingEvent event, LivingEventId methodId)
