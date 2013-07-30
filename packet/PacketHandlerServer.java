@@ -8,6 +8,9 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
 import loecraftpack.ponies.abilities.AbilityList;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
+import loecraftpack.ponies.abilities.AbilityTeleport;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.Modes;
@@ -17,6 +20,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.Vec3;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -37,8 +41,27 @@ public class PacketHandlerServer implements IPacketHandler
             			switch(data.readByte())
             			{
             				case AbilityList.Teleport:
-            					sender.setPositionAndUpdate(data.readDouble(), data.readDouble(), data.readDouble());
+            					double x = data.readDouble();
+            					double y = data.readDouble();
+            					double z = data.readDouble();
+            					
+            					if (sender.capabilities.isCreativeMode)
+            					{
+            						sender.setPositionAndUpdate(x, y, z);
+            					}
+            					else
+            					{
+            						double distance = sender.getPosition(1.0f).distanceTo(Vec3.createVectorHelper(x, y, z));
+                					
+                					AbilityPlayerData abilityData = ActiveAbility.map.get(sender.username);
+                					
+                					int energyCost = (int)(((AbilityTeleport)abilityData.abilities[1]).energyCostRate * distance);
+                					
+                					sender.setPositionAndUpdate(x, y, z);
+            						abilityData.setEnergy(abilityData.energy-energyCost);
+            					}
             					break;
+            					
             				case AbilityList.TreeBuck:
         						MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/);
             			}

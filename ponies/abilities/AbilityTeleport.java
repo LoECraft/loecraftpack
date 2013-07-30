@@ -3,16 +3,15 @@ package loecraftpack.ponies.abilities;
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class AbilityTeleport extends ActiveAbility
 {
-	int maxDistance = 100;
-	float energyCostRate = 5.0f;
+	public int maxDistance = 100;
+	public float energyCostRate = 5.0f;
 	
 	public AbilityTeleport()
 	{
@@ -63,6 +62,8 @@ public class AbilityTeleport extends ActiveAbility
 	@Override
 	public float getEnergyCost(EntityPlayer player)
 	{
+		if (!player.worldObj.isRemote)
+			return 0;
 		MovingObjectPosition target = player.rayTrace(maxDistance, 1);
 		if (target == null)
 			return 1000000000;

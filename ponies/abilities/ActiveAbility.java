@@ -3,7 +3,6 @@ package loecraftpack.ponies.abilities;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import loecraftpack.common.logic.HandlerKey;
 import loecraftpack.enums.Race;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
