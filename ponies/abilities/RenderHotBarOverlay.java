@@ -2,6 +2,7 @@ package loecraftpack.ponies.abilities;
 
 import java.util.EnumSet;
 
+import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
@@ -74,11 +75,11 @@ public class RenderHotBarOverlay
         if (AbilityPlayerData.clientData != null && AbilityPlayerData.clientData.chargeMax> 0)
         {
             int progress = (int)(AbilityPlayerData.getClientCastTimeRatio() * (float)(chargeLength));
-            this.drawTexturedModalRect(posX, posY, 0, 10, 5, chargeLength);
+            this.drawTexturedModalRect(posX, posY, 0, 15, 5, chargeLength);
 
             if (progress > 0)
             {
-                this.drawTexturedModalRect(posX, posY + chargeLength - progress, 5, 10 + chargeLength - progress, 5, progress);
+                this.drawTexturedModalRect(posX, posY + chargeLength - progress, 5, 15 + chargeLength - progress, 5, progress);
             }
         }
         
@@ -91,16 +92,23 @@ public class RenderHotBarOverlay
 		
 		short energyLength = 81;
 		int posX = width / 2 + 10;
-        int posY = height - 45;
+        int posY = height - 45 - (mc.thePlayer.isInsideOfMaterial(Material.water)? 10: 0);
 
         if (AbilityPlayerData.clientData != null && AbilityPlayerData.clientData.energyMax > 0)
         {
-            int progress = (int)(AbilityPlayerData.getClientEnergyRatio()  * (float)(energyLength));
+            int progress = (int)(AbilityPlayerData.getClientEnergyAfterImageRatio()  * (float)(energyLength));
+            int progressEffective = (int)(AbilityPlayerData.getClientEffectiveEnergyRatio()  * (float)(energyLength));
+            
             this.drawTexturedModalRect(posX, posY, 0, 0, energyLength, 5);
 
             if (progress > 0)
             {
                 this.drawTexturedModalRect(posX + energyLength - progress, posY, energyLength - progress, 5, progress, 5);
+            }
+            
+            if (progressEffective > 0)
+            {
+                this.drawTexturedModalRect(posX + energyLength - progressEffective, posY, energyLength - progressEffective, 10, progressEffective, 5);
             }
         }
         
@@ -128,11 +136,11 @@ public class RenderHotBarOverlay
         
         if (isToggled)
         {
-        	drawToggledTexture(posX, posY, 26, 10, 16, 16, coolDown);
+        	drawToggledTexture(posX, posY, 26, 15, 16, 16, coolDown);
         }
         else if (coolDown > 0)
         {
-        	drawCoolDownTexture(posX, posY, 10, 10, 16, 16, coolDown);
+        	drawCoolDownTexture(posX, posY, 10, 15, 16, 16, coolDown);
         }
     }
     

@@ -8,6 +8,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileColoredBed;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.enums.Race;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.network.INetworkManager;
@@ -27,6 +28,10 @@ public class PacketHandlerClient implements IPacketHandler
             {
             	switch(data.readByte())
             	{
+            		case PacketIds.useAbility:
+            			AbilityPlayerData.cleanUse(data.readInt(), data.readInt());
+            			break;
+
             		case PacketIds.monolithUpdate:
             			int x = data.readInt(),
         			    y = data.readInt(),

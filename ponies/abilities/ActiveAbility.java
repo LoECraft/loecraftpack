@@ -1,5 +1,7 @@
 package loecraftpack.ponies.abilities;
 
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import loecraftpack.enums.Race;
@@ -10,7 +12,7 @@ import loecraftpack.ponies.abilities.active.AbilityTeleport;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -87,7 +89,7 @@ public abstract class ActiveAbility extends AbilityBase
 		held = true;
 		time = System.currentTimeMillis();
 		
-		if (cooldown <= 0 && (toggled || player.capabilities.isCreativeMode || getEnergyCost(player) <= playerData.energy))
+		if (cooldown <= 0 && (toggled || player.capabilities.isCreativeMode || getEnergyCost(player) <= playerData.energy - (isClient()? playerData.energyAttemptOffset: 0)))
 		{
 			if (casttime >= Casttime)
 			{
@@ -96,9 +98,7 @@ public abstract class ActiveAbility extends AbilityBase
 					cooldown = Cooldown;
 					casttime = 0;
 					playerData.charge = 0;
-					playerData.chargeMax = 0;
-					if (!player.capabilities.isCreativeMode && !toggled)
-						playerData.addEnergy(-getEnergyCost(player));
+					playerData.chargeMax = 100;
 				}
 
 				if (isToggleable)
@@ -137,7 +137,7 @@ public abstract class ActiveAbility extends AbilityBase
 			if (!player.capabilities.isCreativeMode)
 				playerData.addEnergy(-getEnergyCostToggled(player));
 
-			if (playerData.energy > getEnergyCostToggled(player))
+			if (playerData.energy  - (isClient()? playerData.energyAttemptOffset: 0)> getEnergyCostToggled(player))
 				toggled = isClient() ? CastSpellToggledClient(player) : CastSpellToggledServer(player);
 			else
 				toggled = false;
@@ -167,7 +167,7 @@ public abstract class ActiveAbility extends AbilityBase
 					casttime = 0;
 					
 					playerData.charge = 0;
-					playerData.chargeMax = 0;
+					playerData.chargeMax = 100;
 				}
 
 				heldChanged = false;
@@ -222,7 +222,9 @@ public abstract class ActiveAbility extends AbilityBase
 
 	protected abstract boolean CastSpellClient(EntityPlayer player, World world); // For client-only things like particles and raycasting
 
-	protected abstract boolean CastSpellServer(EntityPlayer player, World world); // Ability logic
+	protected boolean CastSpellServer(EntityPlayer player, World world){return true;}; // Ability logic  (not sure if this will get used anymore)
+	
+	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException{};// packet triggered version of the above method
 
 	protected boolean CastSpellToggledClient(EntityPlayer player)
 	{

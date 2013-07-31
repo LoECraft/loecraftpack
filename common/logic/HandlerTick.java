@@ -80,7 +80,7 @@ public class HandlerTick implements ITickHandler
 				        	if (data != null)
 				        	{
 				        		data.addEnergy(data.energyRegenNatural/20f);
-				        		data.OnUpdate(player);
+				        		data.onUpdateSERVER(player);
 				        	}
 			        	}
 			        	else //client
@@ -104,7 +104,8 @@ public class HandlerTick implements ITickHandler
 			    				autoEffectBufferC = 0;
 				        	}
 			    			
-			    			data.addEnergy(data.energyRegenNatural/20f);
+			    			data.addEnergyWithOffset(data.energyRegenNatural/20f);
+			    			data.onUpdateCLIENT(player);
 			    			
 			        	}//client side
 			        }//entry instanceof EntityPlayer

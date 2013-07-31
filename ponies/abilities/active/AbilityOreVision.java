@@ -1,20 +1,15 @@
 package loecraftpack.ponies.abilities.active;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 public class AbilityOreVision extends ActiveAbility
 {	
-	public static List<ItemStack> curatives = new ArrayList<ItemStack>();
+	protected static int toggleAfterImageID = -1;/*reserved for orevsion*/
 	
 	public AbilityOreVision()
 	{
@@ -37,12 +32,6 @@ public class AbilityOreVision extends ActiveAbility
 		MechanicHiddenOres.refreshRenderWithRange(player);
 		return true;
 	}
-
-	@Override
-	protected boolean CastSpellServer(EntityPlayer player, World world)
-	{
-		return true;
-	}
 	
 	protected boolean CastSpellToggledClient(EntityPlayer player)
 	{
@@ -52,6 +41,10 @@ public class AbilityOreVision extends ActiveAbility
 		{
 			MechanicHiddenOres.refreshRenderWithRange(player);
 		}
+		
+		float cost = getEnergyCostToggled(player);
+		AbilityPlayerData.addToggleAfterImage(toggleAfterImageID , cost, cost*20.f);
+		
 		return true;
 	}
 	
@@ -60,5 +53,7 @@ public class AbilityOreVision extends ActiveAbility
 	{
 		MechanicHiddenOres.revealHiddenGems = false;
 		MechanicHiddenOres.refreshRenderWithRange(player);
+		if (AbilityPlayerData.afterImageClient.containsKey(toggleAfterImageID))
+			AbilityPlayerData.cleanAfterImage(toggleAfterImageID);
 	}
 }

@@ -8,10 +8,7 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
 import loecraftpack.ponies.abilities.Ability;
-import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.AbilityPlayerData;
-import loecraftpack.ponies.abilities.active.AbilityTeleport;
-import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.Modes;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
@@ -20,7 +17,6 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Vec3;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
@@ -38,36 +34,20 @@ public class PacketHandlerServer implements IPacketHandler
             	switch(data.readByte())
             	{
             		case PacketIds.useAbility:
+            			AbilityPlayerData playerData = AbilityPlayerData.Get(sender.username);
             			switch(data.readByte())
             			{
-            				case Ability.Teleport:
-            					double x = data.readDouble();
-            					double y = data.readDouble();
-            					double z = data.readDouble();
+            				case Ability.Fireball:
+            					(playerData.activeAbilities[0]).CastSpellServer(player, playerData, data);
+            					break;
             					
-            					if (sender.capabilities.isCreativeMode)
-            					{
-            						sender.setPositionAndUpdate(x, y, z);
-            					}
-            					else
-            					{
-            						AbilityPlayerData playerData = AbilityPlayerData.Get(sender.username);
-            						AbilityTeleport teleport = (AbilityTeleport)playerData.activeAbilities[1];
-            						double distance = sender.getPosition(1.0f).distanceTo(Vec3.createVectorHelper(x, y, z));
-                					if (distance > teleport.getMaxDistance(sender))
-                						return;
-                					
-                					int energyCost = (int)(((AbilityTeleport)playerData.activeAbilities[1]).energyCostRate * distance);
-                					if (energyCost > playerData.energy)
-                						return;
-                					
-                					sender.setPositionAndUpdate(x, y, z);
-            						playerData.addEnergy(-energyCost);
-            					}
+            				case Ability.Teleport:
+            					(playerData.activeAbilities[1]).CastSpellServer(player, playerData, data);
             					break;
             					
             				case Ability.TreeBuck:
-        						MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/);
+            					(playerData.activeAbilities[3]).CastSpellServer(player, playerData, data);
+        						break;
             			}
             			break;
             			

@@ -1,14 +1,20 @@
 package loecraftpack.ponies.abilities.active;
 
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.ActiveAbility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 public class AbilityTeleport extends ActiveAbility
 {
@@ -48,16 +54,44 @@ public class AbilityTeleport extends ActiveAbility
 				}
 			}
 			
-			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.Teleport, x, y, z));
+			int attemptID = AbilityPlayerData.attemptUse(energyCost);
+			
+			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.Teleport, attemptID, x, y, z));
 		}
 		
 		return true;
 	}
 	
 	@Override
-	protected boolean CastSpellServer(EntityPlayer player, World world)
+	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException
 	{
-		return true;
+		EntityPlayer sender = (EntityPlayer)player;
+		int attemptID = data.readInt();
+		double x = data.readDouble();
+		double y = data.readDouble();
+		double z = data.readDouble();
+		
+		if (sender.capabilities.isCreativeMode)
+		{
+			sender.setPositionAndUpdate(x, y, z);
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, 0), player);
+		}
+		else
+		{
+			double distance = sender.getPosition(1.0f).distanceTo(Vec3.createVectorHelper(x, y, z));
+			if (distance <= getMaxDistance(sender))
+			{
+				int energyCost = (int)(energyCostRate * distance);
+				if (energyCost <= playerData.energy)
+				{
+					sender.setPositionAndUpdate(x, y, z);
+					playerData.addEnergy(-energyCost);
+					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
+					return;
+				}
+			}
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, 0), player);
+		}
 	}
 	
 	@Override

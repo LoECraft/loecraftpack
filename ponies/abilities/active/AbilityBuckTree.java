@@ -1,19 +1,21 @@
 package loecraftpack.ponies.abilities.active;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.io.DataInputStream;
+import java.io.IOException;
+
 import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 
 public class AbilityBuckTree extends ActiveAbility {
 
@@ -50,7 +52,9 @@ public class AbilityBuckTree extends ActiveAbility {
 			if (player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.TreeBuck, (int)x, (int)y, (int)z));
+				int attemptID = AbilityPlayerData.attemptUse(energyCost);
+				
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.TreeBuck, attemptID, (int)x, (int)y, (int)z));
 				return true;
 			}
 			return false;
@@ -58,10 +62,14 @@ public class AbilityBuckTree extends ActiveAbility {
 	}
 	
 	@Override
-	protected boolean CastSpellServer(EntityPlayer player, World world)
+	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException
 	{
-		System.out.println("TreeBuck Server");
-		return true;
+		EntityPlayer sender = (EntityPlayer) player;
+		int attemptID = data.readInt();
+		MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/);
+		int energyCost = (int)(this.getEnergyCost(sender));
+		abilityData.addEnergy(-energyCost);
+		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
 	}
 	
 }
