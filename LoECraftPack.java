@@ -32,7 +32,6 @@ import loecraftpack.common.items.ItemNecklaceOfBling;
 import loecraftpack.common.items.ItemNecklaceOfDreams;
 import loecraftpack.common.items.ItemPedestal;
 import loecraftpack.common.items.ItemPickaxeGem;
-import loecraftpack.common.items.ItemRacial;
 import loecraftpack.common.items.ItemRestorative;
 import loecraftpack.common.items.ItemRing;
 import loecraftpack.common.items.ItemRingLife;
@@ -51,7 +50,8 @@ import loecraftpack.common.worldgen.WorldGenCustomForest;
 import loecraftpack.packet.PacketHandlerClient;
 import loecraftpack.packet.PacketHandlerServer;
 import loecraftpack.ponies.abilities.ActiveAbility;
-import loecraftpack.ponies.abilities.ItemAbility;
+import loecraftpack.ponies.abilities.ItemActiveAbility;
+import loecraftpack.ponies.abilities.PassiveAbility;
 import loecraftpack.ponies.stats.CommandStatRace;
 import loecraftpack.ponies.stats.StatHandlerServer;
 import loecraftpack.proxies.CommonProxy;
@@ -154,7 +154,7 @@ public class LoECraftPack
 	public static final ItemRingLife itemRingLife = (ItemRingLife)(new ItemRingLife(682)).setUnlocalizedName("ringlife");
 	public static final ItemRingPhantomArrow itemRingPhantomArrow = (ItemRingPhantomArrow)(new ItemRingPhantomArrow(683)).setUnlocalizedName("ringphantomarrow");
 	public static final ItemIronArrow itemAmmo = (ItemIronArrow)(new ItemIronArrow(684)).setUnlocalizedName("ammo");
-	public static final ItemAbility ability = new ItemAbility(685);
+	public static final ItemActiveAbility ability = new ItemActiveAbility(685);
 	public static final ItemRestorative restoratives = new ItemRestorative(686);
 	static
 	{
@@ -245,6 +245,7 @@ public class LoECraftPack
 		
 		//Abilities
 		ActiveAbility.RegisterAbilities();
+		PassiveAbility.RegisterAbilities();
 		
 		//Restoratives
 		restoratives.RegisterRestoratives();

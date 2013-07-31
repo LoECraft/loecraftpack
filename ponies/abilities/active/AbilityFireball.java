@@ -1,8 +1,9 @@
-package loecraftpack.ponies.abilities;
+package loecraftpack.ponies.abilities.active;
 
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import net.minecraft.entity.player.EntityPlayer;

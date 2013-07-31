@@ -23,8 +23,6 @@ public class PacketHandlerClient implements IPacketHandler
 	{
             DataInputStream data = new DataInputStream(new ByteArrayInputStream(payload.data));
             
-            
-            
             try
             {
             	switch(data.readByte())
@@ -70,10 +68,14 @@ public class PacketHandlerClient implements IPacketHandler
             		case PacketIds.subInventory:
             			Minecraft.getMinecraft().displayGuiScreen(new GuiContainerCreative(Minecraft.getMinecraft().thePlayer));
             			break;
+            		case PacketIds.addPlayer:
+            			LoECraftPack.statHandler.addPlayer(PacketHelper.readString(data));
+            			break;
             		case PacketIds.applyStats:
-            			int race = data.readInt();
             			String username = PacketHelper.readString(data);
-            			LoECraftPack.statHandler.updatePlayerData(username, Race.values()[race]);
+            			int race = data.readByte();
+            			float energy = data.readFloat();
+            			LoECraftPack.statHandler.updatePlayerData(username, Race.values()[race], energy);
             			break;
             		case PacketIds.modeAbility:
             			int ability = data.readInt();

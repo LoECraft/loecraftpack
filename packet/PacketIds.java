@@ -83,12 +83,13 @@ public class PacketIds
 	 * - Player (String)
 	 */
 	public static final byte applyStats = -121;
+	public static final byte addPlayer = -120;
 	
 	//Do: PacketIds - applyPotionEffect - remove this and have only server apply potion effects.
 	/**TO SERVER: Client Directly Applied Potion Effect; For Testing Purposes */
-	public static final byte applyPotionEffect = -120;
+	public static final byte applyPotionEffect = -119;
 		
 	//Do: PacketIds - monolithSetOwner - remove this and have the owner set by the server side, during block placement
 	/**TO SERVER: Client Set Owner*/
-	public static final byte monolithSetOwner = -119;
+	public static final byte monolithSetOwner = -118;
 }

@@ -221,6 +221,13 @@ public class MechanicExplosion extends Explosion
                     d2 /= d8;
                     double d9 = (double)this.worldObj.getBlockDensity(vec3, entity.boundingBox);
                     double d10 = (1.0D - d7) * d9;
+                    
+                    if (mobFire)
+                    {
+                    	entity.setFire((int)(Math.min(1, 1.25d-d7) * damage + 3));
+                    	System.out.println(entity.isBurning());
+                    }
+                    
                     entity.attackEntityFrom(DamageSource.setExplosionSource(this), (int)((d10 * d10 + d10) / 2.0D * 8.0D * (double)this.damage + 1.0D));
                     double d11 = EnchantmentProtection.func_92092_a(entity, d10) * force;
                     entity.motionX += d0 * d11;
@@ -231,9 +238,6 @@ public class MechanicExplosion extends Explosion
                     {
                         this.field_77288_k.put((EntityPlayer)entity, this.worldObj.getWorldVec3Pool().getVecFromPool(d0 * d10, d1 * d10, d2 * d10));
                     }
-                    
-                    if (mobFire)
-                    	entity.setFire((int)(Math.min(1, 1.25d-d7) * damage + 3));
                 }
             }
         }

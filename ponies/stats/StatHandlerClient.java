@@ -1,31 +1,41 @@
 package loecraftpack.ponies.stats;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
+import loecraftpack.ponies.abilities.AbilityBase;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class StatHandlerClient extends StatHandlerServer
 {
-	//used by update packet
-	public void updatePlayerData(String player, Race race)
+	@Override
+	public void addPlayer(String player)
 	{
-		if (stats.containsKey(player))
-			//single-player load  OR  stat update
-			((Stats)stats.get(player)).race = race;
-		else
-			//multi-player load
-			stats.put(player, new Stats(race));
+		AbilityPlayerData data = AbilityPlayerData.RegisterPlayer(player);
+		if (!LoECraftPack.isSinglePlayer())
+			stats.put(player, new Stats(data));
+		
+		for(AbilityBase ability : data.activeAbilities)
+			ability.SetPlayer(player, data);
+		
+		for(AbilityBase ability : data.passiveAbilities)
+			ability.SetPlayer(player, data);
 	}
 	
-	@Override
-	public boolean isRace(EntityPlayer player, Race race)
+	//used by update packet
+	public void updatePlayerData(String player, Race race, float energy)
 	{
-		if (Minecraft.getMinecraft().isSingleplayer())
-			return super.isRace(player, race);
+		if (stats.containsKey(player))
+		{
+			//single-player load  OR  stat update
+			Stats playerStats = (Stats)stats.get(player);
+			playerStats.race = race;
+			playerStats.abilityData.energy = energy;
+		}
 		else
-			return isRace(player.username, race);
+			//multi-player load
+			stats.put(player, new Stats(AbilityPlayerData.RegisterPlayer(player), race, energy));
 	}
 	
 	public boolean isRace(String player, Race race)
@@ -38,15 +48,6 @@ public class StatHandlerClient extends StatHandlerServer
 		}
 		
 		return false;
-	}
-	
-	@Override
-	public Race getRace(EntityPlayer player)
-	{
-		if (Minecraft.getMinecraft().isSingleplayer())
-			return super.getRace(player);
-		else
-			return getRace(player.username);
 	}
 	
 	public Race getRace(String player)

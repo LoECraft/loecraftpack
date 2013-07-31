@@ -15,12 +15,12 @@ import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class ItemAbility extends Item
+public class ItemActiveAbility extends Item
 {
-	private static int num = ActiveAbility.abilitiesClient.length - 1;
+	private static int num = ActiveAbility.abilityClasses.length - 1;
 	private static Icon[] icons;
 	
-	public ItemAbility(int par1)
+	public ItemActiveAbility(int par1)
 	{
 		super(par1);
 		this.setHasSubtypes(true);
@@ -38,7 +38,7 @@ public class ItemAbility extends Item
 	@Override
 	public String getUnlocalizedName(ItemStack iconNamestack)
 	{
-		return super.getUnlocalizedName() + "." + ActiveAbility.abilitiesClient[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
+		return super.getUnlocalizedName() + "." + AbilityPlayerData.clientData.activeAbilities[MathHelper.clamp_int(iconNamestack.getItemDamage(), 0, num)].icon;
 	}
 	
 	@Override
@@ -54,14 +54,15 @@ public class ItemAbility extends Item
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister)
 	{
-	    icons = new Icon[ActiveAbility.abilitiesClient.length];
+		ActiveAbility[] abilities = AbilityPlayerData.clientData.activeAbilities;
+	    icons = new Icon[abilities.length];
 	        
-		for (int i = 0; i < ActiveAbility.abilitiesClient.length; i++)
+		for (int i = 0; i < abilities.length; i++)
 		{
-			if (ActiveAbility.abilitiesClient[i] == null)
+			if (abilities[i] == null)
 				continue;
 			
-	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + ActiveAbility.abilitiesClient[i].icon);
+	    	icons[i] = iconRegister.registerIcon("loecraftpack:abilities/" + abilities[i].icon);
 	    	itemIcon = icons[i];
 		}
 	}
@@ -69,14 +70,14 @@ public class ItemAbility extends Item
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
 	{
-		if (!world.isRemote && !ActiveAbility.map.containsKey(player.username))
+		if (!world.isRemote && !AbilityPlayerData.HasPlayer(player.username))
 			return itemStack;
 		
 		ActiveAbility ability;
 		if (world.isRemote)
-			ability = ActiveAbility.abilitiesClient[itemStack.getItemDamage()];
+			ability = AbilityPlayerData.clientData.activeAbilities[itemStack.getItemDamage()];
 		else
-			ability = ActiveAbility.map.get(player.username).abilities[itemStack.getItemDamage()];
+			ability = AbilityPlayerData.Get(player.username).activeAbilities[itemStack.getItemDamage()];
 		
 		if (!LoECraftPack.statHandler.isRace(player, ability.race))
 		{

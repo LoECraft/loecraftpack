@@ -1,18 +1,19 @@
-package loecraftpack.ponies.abilities;
+package loecraftpack.ponies.abilities.active;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class AbilityOreVision extends ActiveAbility {
-	
+public class AbilityOreVision extends ActiveAbility
+{	
 	public static List<ItemStack> curatives = new ArrayList<ItemStack>();
 	
 	public AbilityOreVision()

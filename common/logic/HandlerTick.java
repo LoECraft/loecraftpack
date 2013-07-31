@@ -5,11 +5,11 @@ import java.util.List;
 
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.items.ItemAccessory;
-import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.AbilityPlayerData;
+import loecraftpack.ponies.abilities.ActiveAbility;
+import loecraftpack.ponies.abilities.PassiveAbility;
 import loecraftpack.ponies.abilities.RenderHotBarOverlay;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
-import loecraftpack.ponies.abilities.mechanics.MechanicHiddenOres;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryCommon;
 import loecraftpack.ponies.inventory.InventoryCustom;
 import loecraftpack.ponies.inventory.InventoryId;
@@ -76,14 +76,12 @@ public class HandlerTick implements ITickHandler
 								}
 				        	}
 				        	
-				        	AbilityPlayerData data = ActiveAbility.map.get(player.username);
-							data.setEnergy(data.energy + data.energyRegenNatural/20f);
-				        	
-				    		if (ActiveAbility.map.containsKey(player.username))
-				    		{
-				    			for(ActiveAbility ability : ActiveAbility.map.get(player.username).abilities)
-				    				ability.onUpdate(player);
-				    		}
+				        	AbilityPlayerData data = AbilityPlayerData.Get(player.username);
+				        	if (data != null)
+				        	{
+				        		data.addEnergy(data.energyRegenNatural/20f);
+				        		data.OnUpdate(player);
+				        	}
 			        	}
 			        	else //client
 			        	{
@@ -93,17 +91,20 @@ public class HandlerTick implements ITickHandler
 			        			//empty for now
 			        		}//clients player
 			        		
-			    			for(ActiveAbility ability : ActiveAbility.abilitiesClient)
-			    			{
+			        		
+			        		AbilityPlayerData data = AbilityPlayerData.clientData;
+			    			for(ActiveAbility ability : data.activeAbilities)
 			    				ability.onUpdate(player);
-			    			}
+			    			
+			    			for(PassiveAbility ability : data.passiveAbilities)
+			    				ability.onTick(player);
 			    			
 			    			if(autoEffectBufferC++ >= autoEffectBufferMax)
 							{
 			    				autoEffectBufferC = 0;
 				        	}
 			    			
-			    			ActiveAbility.setEnergy(ActiveAbility.energyClient + ActiveAbility.energyRegenNatural/20f);
+			    			data.addEnergy(data.energyRegenNatural/20f);
 			    			
 			        	}//client side
 			        }//entry instanceof EntityPlayer

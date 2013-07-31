@@ -1,4 +1,4 @@
-package loecraftpack.ponies.abilities;
+package loecraftpack.ponies.abilities.active;
 
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.relauncher.Side;
@@ -7,6 +7,8 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -48,7 +50,7 @@ public class AbilityBuckTree extends ActiveAbility {
 			if (player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
-				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.TreeBuck, (int)x, (int)y, (int)z));
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.TreeBuck, (int)x, (int)y, (int)z));
 				return true;
 			}
 			return false;

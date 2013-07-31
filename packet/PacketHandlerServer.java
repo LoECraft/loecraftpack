@@ -7,10 +7,10 @@ import java.io.IOException;
 import loecraftpack.LoECraftPack;
 import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
-import loecraftpack.ponies.abilities.AbilityList;
-import loecraftpack.ponies.abilities.AbilityPlayerData;
-import loecraftpack.ponies.abilities.AbilityTeleport;
+import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.ActiveAbility;
+import loecraftpack.ponies.abilities.AbilityPlayerData;
+import loecraftpack.ponies.abilities.active.AbilityTeleport;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.Modes;
@@ -40,7 +40,7 @@ public class PacketHandlerServer implements IPacketHandler
             		case PacketIds.useAbility:
             			switch(data.readByte())
             			{
-            				case AbilityList.Teleport:
+            				case Ability.Teleport:
             					double x = data.readDouble();
             					double y = data.readDouble();
             					double z = data.readDouble();
@@ -51,18 +51,22 @@ public class PacketHandlerServer implements IPacketHandler
             					}
             					else
             					{
+            						AbilityPlayerData playerData = AbilityPlayerData.Get(sender.username);
+            						AbilityTeleport teleport = (AbilityTeleport)playerData.activeAbilities[1];
             						double distance = sender.getPosition(1.0f).distanceTo(Vec3.createVectorHelper(x, y, z));
+                					if (distance > teleport.getMaxDistance(sender))
+                						return;
                 					
-                					AbilityPlayerData abilityData = ActiveAbility.map.get(sender.username);
-                					
-                					int energyCost = (int)(((AbilityTeleport)abilityData.abilities[1]).energyCostRate * distance);
+                					int energyCost = (int)(((AbilityTeleport)playerData.activeAbilities[1]).energyCostRate * distance);
+                					if (energyCost > playerData.energy)
+                						return;
                 					
                 					sender.setPositionAndUpdate(x, y, z);
-            						abilityData.setEnergy(abilityData.energy-energyCost);
+            						playerData.addEnergy(-energyCost);
             					}
             					break;
             					
-            				case AbilityList.TreeBuck:
+            				case Ability.TreeBuck:
         						MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/);
             			}
             			break;

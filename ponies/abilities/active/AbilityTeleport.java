@@ -1,8 +1,10 @@
-package loecraftpack.ponies.abilities;
+package loecraftpack.ponies.abilities.active;
 
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.abilities.Ability;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -10,7 +12,6 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class AbilityTeleport extends ActiveAbility
 {
-	public int maxDistance = 100;
 	public float energyCostRate = 5.0f;
 	
 	public AbilityTeleport()
@@ -21,7 +22,7 @@ public class AbilityTeleport extends ActiveAbility
 	@Override
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
-		MovingObjectPosition target = player.rayTrace(maxDistance, 1);
+		MovingObjectPosition target = player.rayTrace(getMaxDistance(player), 1);
 		if (target == null)
 			return false;
 		else
@@ -47,7 +48,7 @@ public class AbilityTeleport extends ActiveAbility
 				}
 			}
 			
-			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, AbilityList.Teleport, x, y, z));
+			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.Teleport, x, y, z));
 		}
 		
 		return true;
@@ -64,9 +65,9 @@ public class AbilityTeleport extends ActiveAbility
 	{
 		if (!player.worldObj.isRemote)
 			return 0;
-		MovingObjectPosition target = player.rayTrace(maxDistance, 1);
+		MovingObjectPosition target = player.rayTrace(getMaxDistance(player), 1);
 		if (target == null)
-			return 1000000000;
+			return Float.MAX_VALUE;
 		else
 		{
 			double distance = player.getPosition(1.0f).distanceTo(target.hitVec);
@@ -74,5 +75,8 @@ public class AbilityTeleport extends ActiveAbility
 		}
 	}
 	
-	
+	public float getMaxDistance(EntityPlayer player)
+	{
+		return 100;
+	}
 }
