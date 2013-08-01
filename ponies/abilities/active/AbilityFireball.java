@@ -36,7 +36,7 @@ public class AbilityFireball extends ActiveAbility
 		EntityPlayer sender = (EntityPlayer) player;
 		int attemptID = data.readInt();
 		energyCost = (int)(this.getEnergyCost(sender));
-		System.out.println("COST"+energyCost);
+		System.out.println("FireBall: "+energyCost+" "+abilityData.energy);
 		if(abilityData.energy>=energyCost)
 		{
 			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);

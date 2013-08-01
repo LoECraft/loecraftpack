@@ -233,7 +233,10 @@ public class AbilityPlayerData
 			else
 				afterImageClientTimeStamp.put(id, (int)(System.currentTimeMillis()/100L));;
 			clientData.addEnergy(-cost);
+			energyAfterImageOffset += cost;
 		}
+		if (useAttemptsClient.containsKey(id))
+			energyAttemptOffset -= useAttemptsClient.get(id);
 		useAttemptsClient.remove(id);
 		useAttemptsClientTimeStamp.remove(id);
 	}
