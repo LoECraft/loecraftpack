@@ -62,7 +62,10 @@ public abstract class ActiveAbility extends AbilityBase
 	public static void RegisterAbilities()
 	{
 		for (ActiveAbility ability : NewAbilityArray())
+		{
 			LanguageRegistry.instance().addStringLocalization("item.itemAbility." + ability.icon + ".name", ability.name);
+			ability.SetID();
+		}
 	}
 
 	public static ActiveAbility[] NewAbilityArray()
@@ -93,6 +96,7 @@ public abstract class ActiveAbility extends AbilityBase
 		{
 			if (casttime >= Casttime)
 			{
+				System.out.println((isClient()?"Client: ":"Server: ") + playerData.energy);
 				if ((isClient() && CastSpellClient(player, world)) || (!isClient() && CastSpellServer(player, world)))
 				{
 					cooldown = Cooldown;
