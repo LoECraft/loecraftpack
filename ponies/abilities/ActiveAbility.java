@@ -250,7 +250,11 @@ public abstract class ActiveAbility extends AbilityBase
 		if (cooldown <= 0 && casttime >= (float)Casttime-0.1f)
 		{
 			if (castSpellServerPacket(player, attemptID, data))
+			{
+				cooldown = Cooldown;
+				casttime = 0;
 				return;
+			}
 		}
 		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 0, (int)(casttime*20.0f)), player);
 	}

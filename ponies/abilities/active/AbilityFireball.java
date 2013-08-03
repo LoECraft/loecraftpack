@@ -38,9 +38,6 @@ public class AbilityFireball extends ActiveAbility
 		System.out.println("FireBall: "+energyCost+" "+playerData.energy);
 		if(playerData.energy>=energyCost)
 		{
-			cooldown = Cooldown;
-			casttime = 0;
-			
 			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
 			sender.worldObj.spawnEntityInWorld(fireball);
 			playerData.addEnergy(-energyCost);
