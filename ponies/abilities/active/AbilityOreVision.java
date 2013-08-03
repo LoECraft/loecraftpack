@@ -43,7 +43,7 @@ public class AbilityOreVision extends ActiveAbility
 		}
 		
 		float cost = getEnergyCostToggled(player);
-		AbilityPlayerData.addToggleAfterImage(toggleAfterImageID , cost, cost*20.f);
+		AbilityPlayerData.addToggleAfterImage(activeID, toggleAfterImageID, cost, cost*20.f);
 		
 		return true;
 	}

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import loecraftpack.enums.Race;
+import loecraftpack.packet.PacketHelper;
+import loecraftpack.packet.PacketIds;
 import loecraftpack.ponies.abilities.active.AbilityBuckTree;
 import loecraftpack.ponies.abilities.active.AbilityFireball;
 import loecraftpack.ponies.abilities.active.AbilityOreVision;
@@ -12,6 +14,7 @@ import loecraftpack.ponies.abilities.active.AbilityTeleport;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -23,6 +26,8 @@ public abstract class ActiveAbility extends AbilityBase
 	public static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityOreVision.class, AbilityBuckTree.class};
 	public static String[] abilityNames = new String[abilityClasses.length];
 
+	protected int activeID = -1;
+	
 	protected boolean toggled = false;
 	private boolean isToggleable = false;
 	private float cycle = 0; // Used while ability is toggled to make cooldown
@@ -36,6 +41,7 @@ public abstract class ActiveAbility extends AbilityBase
 	private boolean heldChanged;
 	private long time;
 	private long lastTime;
+	
 
 	public ActiveAbility(String name, Race race, int cost)
 	{
@@ -73,6 +79,7 @@ public abstract class ActiveAbility extends AbilityBase
 
 	public static ActiveAbility[] NewAbilityArray()
 	{
+		byte id = 0;
 		ArrayList<ActiveAbility> abilityList = new ArrayList<ActiveAbility>();
 		for (Class c : abilityClasses)
 		{
@@ -80,6 +87,8 @@ public abstract class ActiveAbility extends AbilityBase
 			{
 				ActiveAbility ability = (ActiveAbility) c.getConstructor().newInstance();
 				abilityList.add(ability);
+				ability.activeID = id;
+				id++;
 			}
 			catch (Exception e)
 			{
@@ -100,7 +109,7 @@ public abstract class ActiveAbility extends AbilityBase
 			if (casttime >= Casttime)
 			{
 				System.out.println((isClient()?"Client: ":"Server: ") + playerData.energy);
-				if ((isClient() && CastSpellClient(player, world)) || (!isClient() && CastSpellServer(player, world)))
+				if ((isClient() && CastSpellClient(player, world)) || (!isClient() && isToggleable && castSpellServerToggleable(player, world)))
 				{
 					cooldown = Cooldown;
 					casttime = 0;
@@ -229,19 +238,29 @@ public abstract class ActiveAbility extends AbilityBase
 
 	protected abstract boolean CastSpellClient(EntityPlayer player, World world); // For client-only things like particles and raycasting
 
-	public boolean CastSpellServer(EntityPlayer player, World world){return true;}; // Ability logic  (not sure if this will get used anymore)
+	public boolean castSpellServerToggleable(EntityPlayer player, World world){return true;}; // Ability logic Toggable
 	
-	public void CastSpellServer(Player player, DataInputStream data) throws IOException{};// packet triggered version of the above method
-
-	protected boolean CastSpellToggledClient(EntityPlayer player)
+	//packet triggered Ability logic - override the method below this
+	public void castSpellServerByHandler(Player player, DataInputStream data) throws IOException
 	{
-		return true;
+		//Debug: server casting availability check info
+		System.out.println("SERVER CAST "+cooldown+" "+casttime+" "+Casttime);
+		
+		int attemptID = data.readInt();
+		if (cooldown <= 0 && casttime >= (float)Casttime-0.1f)
+		{
+			if (castSpellServerPacket(player, attemptID, data))
+				return;
+		}
+		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 0, (int)(casttime*20.0f)), player);
 	}
+	
+	//method to override
+	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException{return false;};
 
-	protected boolean CastSpellToggledServer(EntityPlayer player)
-	{
-		return true;
-	}
+	protected boolean CastSpellToggledClient(EntityPlayer player){return true;}
+
+	protected boolean CastSpellToggledServer(EntityPlayer player){return true;}
 
 	protected void CastSpellUntoggledClient(EntityPlayer player) {}
 

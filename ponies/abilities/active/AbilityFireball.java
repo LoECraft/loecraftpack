@@ -25,28 +25,29 @@ public class AbilityFireball extends ActiveAbility
 	@Override
 	protected boolean CastSpellClient(EntityPlayer player, World world)
 	{
-		int attemptID = AbilityPlayerData.attemptUse(energyCost);
-		PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.Fireball, attemptID));
+		int attemptID = AbilityPlayerData.attemptUse(activeID, energyCost);
+		PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID));
 		return true;
 	}
 
 	@Override
-	public void CastSpellServer(Player player, DataInputStream data) throws IOException
+	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer) player;
-		int attemptID = data.readInt();
 		energyCost = (int)(this.getEnergyCost(sender));
 		System.out.println("FireBall: "+energyCost+" "+playerData.energy);
 		if(playerData.energy>=energyCost)
 		{
+			cooldown = Cooldown;
+			casttime = 0;
+			
 			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
 			sender.worldObj.spawnEntityInWorld(fireball);
 			playerData.addEnergy(-energyCost);
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
+			
+			return true;
 		}
-		else
-		{
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, 0), player);
-		}
+		return false;
 	}
 }

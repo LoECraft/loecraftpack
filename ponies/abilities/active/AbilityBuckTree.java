@@ -52,9 +52,9 @@ public class AbilityBuckTree extends ActiveAbility
 			if (player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
-				int attemptID = AbilityPlayerData.attemptUse(energyCost);
+				int attemptID = AbilityPlayerData.attemptUse(activeID, energyCost);
 				
-				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.TreeBuck, attemptID, (int)x, (int)y, (int)z));
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, (int)x, (int)y, (int)z));
 				return true;
 			}
 			return false;
@@ -62,13 +62,16 @@ public class AbilityBuckTree extends ActiveAbility
 	}
 	
 	@Override
-	public void CastSpellServer(Player player, DataInputStream data) throws IOException
+	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer) player;
-		int attemptID = data.readInt();
-		MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/);
-		int energyCost = (int)(this.getEnergyCost(sender));
-		playerData.addEnergy(-energyCost);
-		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
+		if (MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/))
+		{
+			int energyCost = (int)(this.getEnergyCost(sender));
+			playerData.addEnergy(-energyCost);
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
+			return true;
+		}
+		return false;
 	}
 }

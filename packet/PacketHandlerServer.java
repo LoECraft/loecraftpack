@@ -25,24 +25,24 @@ import cpw.mods.fml.common.network.Player;
 public class PacketHandlerServer implements IPacketHandler
 {
 	@Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload payload, Player player)
+    public void onPacketData(INetworkManager manager, Packet250CustomPayload payload, Player sender)
 	{
             DataInputStream data = new DataInputStream(new ByteArrayInputStream(payload.data));
-            EntityPlayer sender = (EntityPlayer) player;
+            EntityPlayer player = (EntityPlayer) sender;
             
             try
             {
             	switch(data.readByte())
             	{
             		case PacketIds.useAbility:
-            			CastSpellForPlayer(data.readByte(), sender);
+            			CastSpellForPlayer(data.readInt(), sender, data);
             			break;
             			
             		case PacketIds.monolithEdit:
             			int x = data.readInt(),
             			    y = data.readInt(),
             			    z = data.readInt();
-            			TileProtectionMonolith te = (TileProtectionMonolith)sender.worldObj.getBlockTileEntity(x, y, z);
+            			TileProtectionMonolith te = (TileProtectionMonolith)player.worldObj.getBlockTileEntity(x, y, z);
             			if (te != null)
             			{
             				int w = data.readInt();
@@ -55,15 +55,15 @@ public class PacketHandlerServer implements IPacketHandler
             				te.offsetZ = oz;
             				if (data.available() > 0)
             					te.setOwners(PacketHelper.readString(data));
-            				sender.worldObj.updateTileEntityChunkAndDoNothing(x, y, z, te);
-            				PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, x, y, z, te.width, te.length, te.offsetX, te.offsetZ, te.getOwners()), player);
+            				player.worldObj.updateTileEntityChunkAndDoNothing(x, y, z, te);
+            				PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, x, y, z, te.width, te.length, te.offsetX, te.offsetZ, te.getOwners()), sender);
             			}
             			break;
             		case PacketIds.monolithSetOwner:
 	            		x = data.readInt();
 	        			y = data.readInt();
 	        			z = data.readInt();
-	        			te = (TileProtectionMonolith)sender.worldObj.getBlockTileEntity(x, y, z);
+	        			te = (TileProtectionMonolith)player.worldObj.getBlockTileEntity(x, y, z);
 	        			if (te != null)
 	        				te.setOwners(PacketHelper.readString(data));
             			break;
@@ -71,12 +71,12 @@ public class PacketHandlerServer implements IPacketHandler
             			x = data.readInt();
 	        			y = data.readInt();
 	        			z = data.readInt();
-	        			te = (TileProtectionMonolith)sender.worldObj.getBlockTileEntity(x, y, z);
+	        			te = (TileProtectionMonolith)player.worldObj.getBlockTileEntity(x, y, z);
 	        			if (te != null)
-	        				PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, x, y, z, te.width, te.length, te.offsetX, te.offsetZ, te.getOwners()), player);
+	        				PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.monolithUpdate, x, y, z, te.width, te.length, te.offsetX, te.offsetZ, te.getOwners()), sender);
             			break;
             		case PacketIds.applyPotionEffect:
-            			sender.addPotionEffect(new PotionEffect((Integer)NetworkedPotions.potions.get(data.readByte()), data.readInt(), data.readByte()));
+            			player.addPotionEffect(new PotionEffect((Integer)NetworkedPotions.potions.get(data.readByte()), data.readInt(), data.readByte()));
             			break;
             		case PacketIds.subInventory:
             			int guiId = data.readInt();
@@ -85,23 +85,23 @@ public class PacketHandlerServer implements IPacketHandler
             				if (guiId < GuiIds.values().length)
             				{
             					GuiIds clientGui = GuiIds.values()[guiId];
-            					if (HandlerExtendedInventoryServer.compareInvId(sender, clientGui))
+            					if (HandlerExtendedInventoryServer.compareInvId(player, clientGui))
             					{
             						//set id for exception exception
-            						guiId = HandlerExtendedInventoryServer.getNextInv(sender, clientGui).ordinal();
-            						if (sender.capabilities.isCreativeMode && guiId==GuiIds.MAIN_INV.ordinal())
+            						guiId = HandlerExtendedInventoryServer.getNextInv(player, clientGui).ordinal();
+            						if (player.capabilities.isCreativeMode && guiId==GuiIds.MAIN_INV.ordinal())
             						{
-                    					sender.openContainer = sender.inventoryContainer;
-                    					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.subInventory),player);
+                    					player.openContainer = player.inventoryContainer;
+                    					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.subInventory),sender);
             						}
             						else
             						{
-		            					sender.openGui(LoECraftPack.instance,
+		            					player.openGui(LoECraftPack.instance,
 		            							guiId,
-		            			                MinecraftServer.getServer().worldServerForDimension(sender.dimension),
-		            			                (int)sender.posX,
-		            			                (int)sender.posY,
-		            			                (int)sender.posZ);
+		            			                MinecraftServer.getServer().worldServerForDimension(player.dimension),
+		            			                (int)player.posX,
+		            			                (int)player.posY,
+		            			                (int)player.posZ);
             						}
             					}
             				}
@@ -117,23 +117,30 @@ public class PacketHandlerServer implements IPacketHandler
             		case PacketIds.modeAbility:
             			int ability = data.readInt();
             			int state = data.readInt();
-            			ModeHandler.clearSuccess(sender, Modes.values()[ability], state);
+            			ModeHandler.clearSuccess(player, Modes.values()[ability], state);
             	}
             }
             catch(IOException e){}
     }
 	
-	private boolean CastSpellForPlayer(byte id, EntityPlayer player)
+	private void CastSpellForPlayer(int id, Player sender, DataInputStream data) throws IOException
 	{
-		AbilityPlayerData playerData = AbilityPlayerData.Get(player.username);
+		AbilityPlayerData playerData = AbilityPlayerData.Get(((EntityPlayer)sender).username);
+		
+		playerData.activeAbilities[id].castSpellServerByHandler(sender, data);
+		
+		//Debug: the following is more stable, but... un-neccesary if the client and server are using compatible versions.
+		/*
 		String abilityName = ActiveAbility.abilityNames[id];
 		
-		for(ActiveAbility ability : playerData.activeAbilities)
+		for(ActiveAbility ability : playerData.activeAbilities) 
 		{
 			if (ability.name.equals(abilityName))
-				return ability.CastSpellServer(player, player.worldObj);
+			{
+				ability.castSpellServerVisable(sender, data);
+				break;
+			}
 		}
-		
-		return false;
+		*/
 	}
 }

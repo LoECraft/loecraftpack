@@ -1,10 +1,13 @@
 package loecraftpack.ponies.abilities;
 
+import java.io.DataInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -14,17 +17,13 @@ public class AbilityPlayerData
 	public static AbilityPlayerData clientData = new AbilityPlayerData();
 	
 	@SideOnly(Side.CLIENT)
-	public static HashMap<Integer, Integer> useAttemptsClient = new HashMap<Integer, Integer>();
-	@SideOnly(Side.CLIENT)
-	public static HashMap<Integer, Integer> useAttemptsClientTimeStamp = new HashMap<Integer, Integer>();
+	public static HashMap<Integer, EnergyUsePiece<Integer>> useAttemptsClient = new HashMap<Integer, EnergyUsePiece<Integer>>();
 	@SideOnly(Side.CLIENT)
 	public static int nextAttemptID = 0;
 	@SideOnly(Side.CLIENT)
 	public static int energyAttemptOffset = 0;
 	@SideOnly(Side.CLIENT)
-	public static HashMap<Integer, Float> afterImageClient = new HashMap<Integer, Float>();
-	@SideOnly(Side.CLIENT)
-	public static HashMap<Integer, Integer> afterImageClientTimeStamp = new HashMap<Integer, Integer>();
+	public static HashMap<Integer, EnergyUsePiece<Float>> afterImageClient = new HashMap<Integer, EnergyUsePiece<Float>>();
 	@SideOnly(Side.CLIENT)
 	public static int nextAfterImageID = 0;
 	@SideOnly(Side.CLIENT)
@@ -138,15 +137,17 @@ public class AbilityPlayerData
 		energyAttemptOffset = 0;
 		
 		int currentTime = (int)(System.currentTimeMillis()/100L);
-		for (int id : useAttemptsClientTimeStamp.keySet())
+		for (int id : useAttemptsClient.keySet())
 		{
-			if (currentTime - useAttemptsClientTimeStamp.get(id) > 80)
+			if (useAttemptsClient.get(id)==null)
+				useAttemptsClient.remove(id);
+			if (currentTime - useAttemptsClient.get(id).timestamp > 80)
 			{
-				cleanUse(id, 0);
+				cleanUse(id);
 			}
 			else
 			{
-				energyAttemptOffset += useAttemptsClient.get(id);
+				energyAttemptOffset += useAttemptsClient.get(id).cost;
 			}
 		}
 		
@@ -155,19 +156,22 @@ public class AbilityPlayerData
 		
 		energyAfterImageOffset = 0;
 		
-		for (int id : afterImageClientTimeStamp.keySet())
+		for (int id : afterImageClient.keySet())
 		{
-			if (id >= 0 && currentTime - afterImageClientTimeStamp.get(id) > 10)
+			if (afterImageClient.get(id)==null)
+				afterImageClient.remove(id);
+			if (id >= 0 && currentTime - afterImageClient.get(id).timestamp > 10)
 			{
 				cleanAfterImage(id);
 			}
 			else
 			{
-				energyAfterImageOffset += afterImageClient.get(id);
+				energyAfterImageOffset += afterImageClient.get(id).cost;
 			}
 		}
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static float getClientEnergyAfterImageRatio()
 	{
 		if (clientData == null)
@@ -181,6 +185,7 @@ public class AbilityPlayerData
 			return (clientData.energy + energyAfterImageOffset) / (float) clientData.energyMax;
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static float getClientEffectiveEnergyRatio()
 	{
 		if (clientData == null)
@@ -193,7 +198,8 @@ public class AbilityPlayerData
 		else
 			return (clientData.energy  - (float)energyAttemptOffset) / (float) clientData.energyMax;
 	}
-
+	
+	@SideOnly(Side.CLIENT)
 	public static float getClientCastTimeRatio()
 	{
 		if (clientData == null)
@@ -207,51 +213,80 @@ public class AbilityPlayerData
 			return clientData.charge / clientData.chargeMax;
 	}
 	
-	public static int attemptUse(int cost)
+	@SideOnly(Side.CLIENT)
+	public static int attemptUse(int activeID, int cost)
 	{
-		int id = nextAttemptID;
-		nextAttemptID = (id+1)%256;
-		useAttemptsClient.put(id, cost);
-		useAttemptsClientTimeStamp.put(id, (int)(System.currentTimeMillis()/100L));
+		int useID = nextAttemptID;
+		nextAttemptID = (useID+1)%256;
+		useAttemptsClient.put(useID, new EnergyUsePiece<Integer>(activeID, cost, (int)(System.currentTimeMillis()/100L)));
 		energyAttemptOffset += cost;
-		return id;
+		return useID;
 	}
 	
-	public static void cleanUse(int id, int cost)
+	@SideOnly(Side.CLIENT)
+	public static void cleanUse(int useID)
 	{
-		if (cost>0)
+		energyAttemptOffset -= useAttemptsClient.get(useID).cost;
+		useAttemptsClient.remove(useID);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void cleanUse(int activeID, int useID, boolean worked, int value)//value is either cost or casttime, based on the value of worked
+	{
+		//Debug: information of returned ability use packet
+		System.out.println("clean AID:"+activeID+" UID:"+useID+" W:"+worked+" V:"+value);
+		if (worked)
 		{
 			int imageId = nextAfterImageID;
 			nextAfterImageID = (imageId+1)%256;
-			afterImageClient.put(imageId, (float)cost);
-			if (useAttemptsClientTimeStamp.containsKey(id))
-				afterImageClientTimeStamp.put(imageId, useAttemptsClientTimeStamp.get(id));
+			if (useAttemptsClient.containsKey(useID))
+				afterImageClient.put(imageId, new EnergyUsePiece<Float>(activeID, (float)value, useAttemptsClient.get(useID).timestamp));
 			else
-				afterImageClientTimeStamp.put(id, (int)(System.currentTimeMillis()/100L));;
-			clientData.addEnergy(-cost);
-			energyAfterImageOffset += cost;
+				afterImageClient.put(imageId, new EnergyUsePiece<Float>(activeID, (float)value, (int)(System.currentTimeMillis()/100L)));
+			clientData.addEnergy(-value);
+			energyAfterImageOffset += value;
 		}
-		if (useAttemptsClient.containsKey(id))
-			energyAttemptOffset -= useAttemptsClient.get(id);
-		useAttemptsClient.remove(id);
-		useAttemptsClientTimeStamp.remove(id);
+		else
+		{
+			failedUseUpdateClient(activeID, (float)(value*20));
+		}
+		if (useAttemptsClient.containsKey(useID))
+			energyAttemptOffset -= useAttemptsClient.get(useID).cost;
+		useAttemptsClient.remove(useID);
 	}
 	
-	public static void addToggleAfterImage(int id, float cost, float costMax)
+	@SideOnly(Side.CLIENT)
+	public static void addToggleAfterImage(int activeID, int imageID, float cost, float costMax)
 	{
-		if (afterImageClient.containsKey(id))
+		if (afterImageClient.containsKey(imageID))
 		{
-			cost+=afterImageClient.get(id);
+			cost+=afterImageClient.get(imageID).cost;
 			if (cost > costMax)
 				cost = costMax;
 		}
-		afterImageClient.put(id, cost);
-		afterImageClientTimeStamp.put(id, (int)(System.currentTimeMillis()/100L));
+		afterImageClient.put(imageID, new EnergyUsePiece<Float>(activeID, (float)cost, (int)(System.currentTimeMillis()/100L)));
 	}
 	
+	@SideOnly(Side.CLIENT)
 	public static void cleanAfterImage(int id)
 	{
 		afterImageClient.remove(id);
-		afterImageClientTimeStamp.remove(id);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	protected static void failedUseUpdateClient(int activeID, float casttime)
+	{
+		String abilityName = ActiveAbility.abilityNames[activeID];
+		
+		for(ActiveAbility ability : clientData.activeAbilities) 
+		{
+			if (ability.name.equals(abilityName))
+			{
+				ability.casttime = casttime;
+				ability.cooldown = 0;
+				
+				break;
+			}
+		}
 	}
 }

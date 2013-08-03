@@ -54,19 +54,17 @@ public class AbilityTeleport extends ActiveAbility
 				}
 			}
 			
-			int attemptID = AbilityPlayerData.attemptUse(energyCost);
-			
-			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, Ability.Teleport, attemptID, x, y, z));
+			int attemptID = AbilityPlayerData.attemptUse(activeID, energyCost);
+			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, x, y, z));
 		}
 		
 		return true;
 	}
 	
 	@Override
-	public void CastSpellServer(Player player, DataInputStream data) throws IOException
+	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer)player;
-		int attemptID = data.readInt();
 		double x = data.readDouble();
 		double y = data.readDouble();
 		double z = data.readDouble();
@@ -74,7 +72,8 @@ public class AbilityTeleport extends ActiveAbility
 		if (sender.capabilities.isCreativeMode)
 		{
 			sender.setPositionAndUpdate(x, y, z);
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, 0), player);
+			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, 0), player);
+			return true;
 		}
 		else
 		{
@@ -86,12 +85,12 @@ public class AbilityTeleport extends ActiveAbility
 				{
 					sender.setPositionAndUpdate(x, y, z);
 					playerData.addEnergy(-energyCost);
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
-					return;
+					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
+					return true;
 				}
 			}
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, 0), player);
 		}
+		return false;
 	}
 	
 	@Override
