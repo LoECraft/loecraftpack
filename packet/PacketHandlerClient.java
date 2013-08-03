@@ -78,7 +78,7 @@ public class PacketHandlerClient implements IPacketHandler
             			break;
             		case PacketIds.applyStats:
             			String username = PacketHelper.readString(data);
-            			int race = data.readByte();
+            			byte race = data.readByte();
             			float energy = data.readFloat();
             			LoECraftPack.statHandler.updatePlayerData(username, Race.values()[race], energy);
             			break;

@@ -28,10 +28,7 @@ public abstract class PassiveAbility extends AbilityBase
 	public static void RegisterAbilities()
 	{
 		for(PassiveAbility ability : NewAbilityArray())
-		{
 			LanguageRegistry.instance().addStringLocalization("item.itemAbility." + ability.icon + ".name", ability.name);
-			ability.SetID();
-		}
 	}
 	
 	public static PassiveAbility[] NewAbilityArray()

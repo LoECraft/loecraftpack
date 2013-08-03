@@ -19,9 +19,6 @@ public abstract class AbilityBase
 	protected String playerName = "";
 	protected AbilityPlayerData playerData = null;
 	protected Stats playerStats = null;
-	public int id = -1;
-	
-	private static int index = 0;
 	
 	public AbilityBase(String name, Race race)
 	{
@@ -41,10 +38,5 @@ public abstract class AbilityBase
 	public boolean isClient()
 	{
 		return isClient;
-	}
-	
-	public void SetID()
-	{
-		id = index++;
 	}
 }

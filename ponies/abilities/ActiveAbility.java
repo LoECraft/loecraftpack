@@ -21,6 +21,7 @@ public abstract class ActiveAbility extends AbilityBase
 {
 	// CAUTION: Make sure this is updated when you add abilities.
 	public static Class[] abilityClasses = new Class[] {AbilityFireball.class, AbilityTeleport.class, AbilityOreVision.class, AbilityBuckTree.class};
+	public static String[] abilityNames = new String[abilityClasses.length];
 
 	protected boolean toggled = false;
 	private boolean isToggleable = false;
@@ -61,10 +62,12 @@ public abstract class ActiveAbility extends AbilityBase
 
 	public static void RegisterAbilities()
 	{
-		for (ActiveAbility ability : NewAbilityArray())
+		ActiveAbility[] templateAbilities = NewAbilityArray();
+		for (int i = 0; i < templateAbilities.length; i++)
 		{
+			ActiveAbility ability = templateAbilities[i];
 			LanguageRegistry.instance().addStringLocalization("item.itemAbility." + ability.icon + ".name", ability.name);
-			ability.SetID();
+			abilityNames[i] = ability.name;
 		}
 	}
 
@@ -226,7 +229,7 @@ public abstract class ActiveAbility extends AbilityBase
 
 	protected abstract boolean CastSpellClient(EntityPlayer player, World world); // For client-only things like particles and raycasting
 
-	protected boolean CastSpellServer(EntityPlayer player, World world){return true;}; // Ability logic  (not sure if this will get used anymore)
+	public boolean CastSpellServer(EntityPlayer player, World world){return true;}; // Ability logic  (not sure if this will get used anymore)
 	
 	public void CastSpellServer(Player player, DataInputStream data) throws IOException{};// packet triggered version of the above method
 

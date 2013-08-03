@@ -17,8 +17,8 @@ import net.minecraft.world.World;
 import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 
-public class AbilityBuckTree extends ActiveAbility {
-
+public class AbilityBuckTree extends ActiveAbility
+{
 	public AbilityBuckTree()
 	{
 		super("Buck Tree", Race.EARTH, 100, 3);
@@ -71,5 +71,4 @@ public class AbilityBuckTree extends ActiveAbility {
 		playerData.addEnergy(-energyCost);
 		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
 	}
-	
 }

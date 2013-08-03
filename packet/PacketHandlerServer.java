@@ -9,6 +9,7 @@ import loecraftpack.common.blocks.TileProtectionMonolith;
 import loecraftpack.common.gui.GuiIds;
 import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.AbilityPlayerData;
+import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.ModeHandler;
 import loecraftpack.ponies.abilities.mechanics.Modes;
 import loecraftpack.ponies.inventory.HandlerExtendedInventoryServer;
@@ -34,21 +35,7 @@ public class PacketHandlerServer implements IPacketHandler
             	switch(data.readByte())
             	{
             		case PacketIds.useAbility:
-            			AbilityPlayerData playerData = AbilityPlayerData.Get(sender.username);
-            			switch(data.readByte())
-            			{
-            				case Ability.Fireball:
-            					(playerData.activeAbilities[0]).CastSpellServer(player, data);
-            					break;
-            					
-            				case Ability.Teleport:
-            					(playerData.activeAbilities[1]).CastSpellServer(player, data);
-            					break;
-            					
-            				case Ability.TreeBuck:
-            					(playerData.activeAbilities[3]).CastSpellServer(player, data);
-        						break;
-            			}
+            			CastSpellForPlayer(data.readByte(), sender);
             			break;
             			
             		case PacketIds.monolithEdit:
@@ -135,4 +122,18 @@ public class PacketHandlerServer implements IPacketHandler
             }
             catch(IOException e){}
     }
+	
+	private boolean CastSpellForPlayer(byte id, EntityPlayer player)
+	{
+		AbilityPlayerData playerData = AbilityPlayerData.Get(player.username);
+		String abilityName = ActiveAbility.abilityNames[id];
+		
+		for(ActiveAbility ability : playerData.activeAbilities)
+		{
+			if (ability.name.equals(abilityName))
+				return ability.CastSpellServer(player, player.worldObj);
+		}
+		
+		return false;
+	}
 }
