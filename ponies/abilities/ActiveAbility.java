@@ -109,7 +109,7 @@ public abstract class ActiveAbility extends AbilityBase
 			if (casttime >= Casttime)
 			{
 				System.out.println((isClient()?"Client: ":"Server: ") + playerData.energy);
-				if ((isClient() && CastSpellClient(player, world)) || (!isClient() && isToggleable && castSpellServerToggleable(player, world)))
+				if ((isClient() && CastSpellClient(player, world)) || (!isClient() && castSpellServer(player, world)))
 				{
 					cooldown = Cooldown;
 					casttime = 0;
@@ -235,7 +235,7 @@ public abstract class ActiveAbility extends AbilityBase
 
 	protected abstract boolean CastSpellClient(EntityPlayer player, World world); // For client-only things like particles and raycasting
 
-	public boolean castSpellServerToggleable(EntityPlayer player, World world){return true;}; // Ability logic Toggable
+	public boolean castSpellServer(EntityPlayer player, World world){return isToggleable;}; // Ability logic Togglable, or rapid casting
 	
 	//packet triggered Ability logic - override the method below this
 	public void castSpellServerByHandler(Player player, DataInputStream data) throws IOException
