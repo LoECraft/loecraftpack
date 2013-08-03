@@ -113,8 +113,7 @@ public abstract class ActiveAbility extends AbilityBase
 				{
 					cooldown = Cooldown;
 					casttime = 0;
-					playerData.charge = 0;
-					playerData.chargeMax = 100;
+					playerData.setCharge(0, 100);
 				}
 
 				if (isToggleable)
@@ -135,8 +134,7 @@ public abstract class ActiveAbility extends AbilityBase
 			{
 				casttime += 0.25f;
 				
-				playerData.charge = casttime;
-				playerData.chargeMax = Casttime;
+				playerData.setCharge(casttime, Casttime);
 			}
 		}
 		
@@ -182,8 +180,7 @@ public abstract class ActiveAbility extends AbilityBase
 				{
 					casttime = 0;
 					
-					playerData.charge = 0;
-					playerData.chargeMax = 100;
+					playerData.setCharge(0, 100);
 				}
 
 				heldChanged = false;

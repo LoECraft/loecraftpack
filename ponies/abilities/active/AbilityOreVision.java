@@ -53,7 +53,7 @@ public class AbilityOreVision extends ActiveAbility
 	{
 		MechanicHiddenOres.revealHiddenGems = false;
 		MechanicHiddenOres.refreshRenderWithRange(player);
-		if (AbilityPlayerData.afterImageClient.containsKey(toggleAfterImageID))
+		if (AbilityPlayerData.afterImage.containsKey(toggleAfterImageID))
 			AbilityPlayerData.cleanAfterImage(toggleAfterImageID);
 	}
 }
