@@ -62,13 +62,13 @@ public class AbilityBuckTree extends ActiveAbility {
 	}
 	
 	@Override
-	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException
+	public void CastSpellServer(Player player, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer) player;
 		int attemptID = data.readInt();
 		MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/);
 		int energyCost = (int)(this.getEnergyCost(sender));
-		abilityData.addEnergy(-energyCost);
+		playerData.addEnergy(-energyCost);
 		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
 	}
 	

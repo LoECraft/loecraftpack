@@ -38,15 +38,15 @@ public class PacketHandlerServer implements IPacketHandler
             			switch(data.readByte())
             			{
             				case Ability.Fireball:
-            					(playerData.activeAbilities[0]).CastSpellServer(player, playerData, data);
+            					(playerData.activeAbilities[0]).CastSpellServer(player, data);
             					break;
             					
             				case Ability.Teleport:
-            					(playerData.activeAbilities[1]).CastSpellServer(player, playerData, data);
+            					(playerData.activeAbilities[1]).CastSpellServer(player, data);
             					break;
             					
             				case Ability.TreeBuck:
-            					(playerData.activeAbilities[3]).CastSpellServer(player, playerData, data);
+            					(playerData.activeAbilities[3]).CastSpellServer(player, data);
         						break;
             			}
             			break;

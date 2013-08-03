@@ -228,7 +228,7 @@ public abstract class ActiveAbility extends AbilityBase
 
 	protected boolean CastSpellServer(EntityPlayer player, World world){return true;}; // Ability logic  (not sure if this will get used anymore)
 	
-	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException{};// packet triggered version of the above method
+	public void CastSpellServer(Player player, DataInputStream data) throws IOException{};// packet triggered version of the above method
 
 	protected boolean CastSpellToggledClient(EntityPlayer player)
 	{

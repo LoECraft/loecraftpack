@@ -61,7 +61,9 @@ public class PacketIds
 	public static final byte appleBloomUpdate = -125;
 	
 	/**TO SERVER: Use Player Ability <p>
+	 *  TO SERVER:<br>
 	 * undefined vars
+	 *  TO CLIENT:<br>
 	 */
 	public static final byte useAbility = -124;
 	

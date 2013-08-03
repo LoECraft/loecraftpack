@@ -31,17 +31,17 @@ public class AbilityFireball extends ActiveAbility
 	}
 
 	@Override
-	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException
+	public void CastSpellServer(Player player, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer) player;
 		int attemptID = data.readInt();
 		energyCost = (int)(this.getEnergyCost(sender));
-		System.out.println("FireBall: "+energyCost+" "+abilityData.energy);
-		if(abilityData.energy>=energyCost)
+		System.out.println("FireBall: "+energyCost+" "+playerData.energy);
+		if(playerData.energy>=energyCost)
 		{
 			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
 			sender.worldObj.spawnEntityInWorld(fireball);
-			abilityData.addEnergy(-energyCost);
+			playerData.addEnergy(-energyCost);
 			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, attemptID, energyCost), player);
 		}
 		else

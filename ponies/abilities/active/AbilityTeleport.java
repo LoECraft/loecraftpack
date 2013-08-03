@@ -63,7 +63,7 @@ public class AbilityTeleport extends ActiveAbility
 	}
 	
 	@Override
-	public void CastSpellServer(Player player, AbilityPlayerData abilityData, DataInputStream data) throws IOException
+	public void CastSpellServer(Player player, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer)player;
 		int attemptID = data.readInt();

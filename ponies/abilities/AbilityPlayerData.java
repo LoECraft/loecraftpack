@@ -51,8 +51,6 @@ public class AbilityPlayerData
 		this.activeAbilities = ActiveAbility.NewAbilityArray();
 		this.passiveAbilities = PassiveAbility.NewAbilityArray();
 		playerName = "";
-		//Debug: full energy on load
-		energy = energyMax;
 	}
 	
 	public AbilityPlayerData(String player, ActiveAbility[] activeAbilities, PassiveAbility[] passiveAbilities)
@@ -60,8 +58,6 @@ public class AbilityPlayerData
 		this.activeAbilities = activeAbilities;
 		this.passiveAbilities = passiveAbilities;
 		playerName = player;
-		//Debug: full energy on load
-		energy = energyMax;
 	}
 	
 	public void setEnergy(float newEnergy)
