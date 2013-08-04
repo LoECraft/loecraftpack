@@ -75,11 +75,11 @@ public class RenderHotBarOverlay
         if (AbilityPlayerData.clientData != null && AbilityPlayerData.clientData.chargeMax> 0)
         {
             int progress = (int)(AbilityPlayerData.getClientCastTimeRatio() * (float)(chargeLength));
-            this.drawTexturedModalRect(posX, posY, 0, 15, 5, chargeLength);
+            this.drawTexturedModalRect(posX, posY, 81, 0, 5, chargeLength);
 
             if (progress > 0)
             {
-                this.drawTexturedModalRect(posX, posY + chargeLength - progress, 5, 15 + chargeLength - progress, 5, progress);
+                this.drawTexturedModalRect(posX, posY + chargeLength - progress, 86, chargeLength - progress, 5, progress);
             }
         }
         
@@ -96,19 +96,39 @@ public class RenderHotBarOverlay
 
         if (AbilityPlayerData.clientData != null && AbilityPlayerData.clientData.energyMax > 0)
         {
-            int progress = (int)(AbilityPlayerData.getClientEnergyAfterImageRatio()  * (float)(energyLength));
+            int progressAfterImage = (int)(AbilityPlayerData.getClientEnergyAfterImageRatio()  * (float)(energyLength));
             int progressEffective = (int)(AbilityPlayerData.getClientEffectiveEnergyRatio()  * (float)(energyLength));
+            int progressRegen = (int)(AbilityPlayerData.getClientRegenEnergyRatio()  * (float)(energyLength));
+            int progressDrain = (int)(AbilityPlayerData.getClientDrainEnergyRatio()  * (float)(energyLength));
             
             this.drawTexturedModalRect(posX, posY, 0, 0, energyLength, 5);
 
-            if (progress > 0)
+            if (progressAfterImage > 0)
             {
-                this.drawTexturedModalRect(posX + energyLength - progress, posY, energyLength - progress, 5, progress, 5);
+                this.drawTexturedModalRect(posX + Math.max(energyLength - progressAfterImage, 0), posY,
+                								  Math.max(energyLength - progressAfterImage, 0), 5,
+                								  progressAfterImage, 5);
+            }
+            
+            if (progressRegen > 0)
+            {
+                this.drawTexturedModalRect(posX + Math.max(energyLength - progressRegen, 0), posY,
+                								  Math.max(energyLength - progressRegen, 0), 15,
+                								  Math.max(progressRegen - progressEffective, 0), 5);
             }
             
             if (progressEffective > 0)
             {
-                this.drawTexturedModalRect(posX + energyLength - progressEffective, posY, energyLength - progressEffective, 10, progressEffective, 5);
+                this.drawTexturedModalRect(posX + Math.max(energyLength - progressEffective, 0), posY,
+                								  Math.max(energyLength - progressEffective, 0), 10,
+                								  progressEffective, 5);
+            }
+            
+            if (progressDrain > 0)
+            {
+                this.drawTexturedModalRect(posX + Math.max(energyLength - progressEffective , 0), posY,
+                								  Math.max(energyLength - progressEffective , 0), 20,
+                								  Math.max(progressEffective - progressDrain, 0), 5);
             }
         }
         
@@ -136,11 +156,11 @@ public class RenderHotBarOverlay
         
         if (isToggled)
         {
-        	drawToggledTexture(posX, posY, 26, 15, 16, 16, coolDown);
+        	drawToggledTexture(posX, posY, 97, 45, 16, 16, coolDown);
         }
         else if (coolDown > 0)
         {
-        	drawCoolDownTexture(posX, posY, 10, 15, 16, 16, coolDown);
+        	drawCoolDownTexture(posX, posY, 81, 45, 16, 16, coolDown);
         }
     }
     

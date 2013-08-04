@@ -18,6 +18,7 @@ public class PotionCharged extends Potion {
 		
 	}
 	
+	@Override
 	public void performEffect(EntityLiving entityLiving, int level)
     {
 		int coordX = (int)(entityLiving.posX+0.5);
@@ -28,6 +29,7 @@ public class PotionCharged extends Potion {
 			world.addWeatherEffect(new EntityLightningBolt(world, entityLiving.posX, entityLiving.posY, entityLiving.posZ));
     }
 	
+	@Override
 	public boolean isReady(int par1, int par2)
     {
         int k;

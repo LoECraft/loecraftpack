@@ -65,9 +65,10 @@ public class AbilityBuckTree extends ActiveAbility
 	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer) player;
-		if (MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/))
+		int energyCost = (int)(this.getEnergyCost(sender));
+		
+		if (playerData.energy>=energyCost && MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/))
 		{
-			int energyCost = (int)(this.getEnergyCost(sender));
 			playerData.addEnergy(-energyCost);
 			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
 			return true;

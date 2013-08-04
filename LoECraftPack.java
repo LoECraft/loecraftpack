@@ -22,6 +22,7 @@ import loecraftpack.common.entity.EntityTimberWolf;
 import loecraftpack.common.items.ItemBits;
 import loecraftpack.common.items.ItemColoredBed;
 import loecraftpack.common.items.ItemCrystalHeart;
+import loecraftpack.common.items.ItemEnergyDrink;
 import loecraftpack.common.items.ItemGemStones;
 import loecraftpack.common.items.ItemHiddenOre;
 import loecraftpack.common.items.ItemIronArrow;
@@ -44,6 +45,7 @@ import loecraftpack.common.logic.HandlerGui;
 import loecraftpack.common.logic.HandlerPlayer;
 import loecraftpack.common.logic.HandlerTick;
 import loecraftpack.common.potions.PotionCharged;
+import loecraftpack.common.potions.PotionEnergy;
 import loecraftpack.common.worldgen.BiomeGenEverFreeForest;
 import loecraftpack.common.worldgen.WorldGenCustomAppleTree;
 import loecraftpack.common.worldgen.WorldGenCustomForest;
@@ -136,6 +138,7 @@ public class LoECraftPack
 	
 	//Declare Potions
 	public static final PotionCharged potionCharged = (PotionCharged)(new PotionCharged(21, true, 16776960)).setPotionName("Charged").setIconIndex(0, 0);
+	public static final PotionEnergy potionEnergy = (PotionEnergy)(new PotionEnergy(22, true, 16776960)).setPotionName("Energy").setIconIndex(0, 0);
 	
 	//Declare immutable Items, Blocks, and Enchantments - Do: Initialize Items/Blocks in PreInit based on config IDs
 	public static final ItemBits bits = new ItemBits(667);
@@ -146,7 +149,7 @@ public class LoECraftPack
 	public static final ItemPedestal itemPedestal = (ItemPedestal)(new ItemPedestal(674)).setUnlocalizedName("pedestal");
 	public static final ItemGemStones itemGemStones = (ItemGemStones)(new ItemGemStones(675)).setUnlocalizedName("gemstones");
 	public static final ItemCrystalHeart itemCrystalHeart = (ItemCrystalHeart)(new ItemCrystalHeart(676)).setUnlocalizedName("cyrstalheart");
-	//Item #677 - place-holder
+	public static final ItemEnergyDrink itemEnergyDrink = (ItemEnergyDrink)(new ItemEnergyDrink(677)).setUnlocalizedName("energyDrink");
 	public static final ItemNecklace itemNecklace = (ItemNecklace)(new ItemNecklace(678)).setUnlocalizedName("necklace");
 	public static final ItemNecklaceOfDreams itemNecklaceOfDreams = (ItemNecklaceOfDreams)(new ItemNecklaceOfDreams(679)).setUnlocalizedName("necklacedream");
 	public static final ItemNecklaceOfBling itemNecklaceOfBling = (ItemNecklaceOfBling)(new ItemNecklaceOfBling(680)).setUnlocalizedName("necklacebling");

@@ -36,6 +36,11 @@ public class AbilityPlayerData
 	@SideOnly(Side.CLIENT)
 	protected static EnergyUsePiece<Float> afterImageDrawBack = new EnergyUsePiece<Float>(0,0.0f,0);
 	
+	@SideOnly(Side.CLIENT)
+	protected static EnergyUsePiece<Float> restoreDrawBack = new EnergyUsePiece<Float>(0,0.0f,0);
+	@SideOnly(Side.CLIENT)
+	protected static EnergyUsePiece<Float> drainDrawBack = new EnergyUsePiece<Float>(0,0.0f,0);
+	
 	
 	public String playerName;
 	private EntityPlayer player = null;
@@ -86,6 +91,31 @@ public class AbilityPlayerData
 	public void addEnergyWithOffset(float energyDifference)
 	{
 		energy = Math.min(energyMax + energyAttemptOffset, Math.max(0, energy + energyDifference));
+	}
+	
+	//uses drain and restore animation
+	@SideOnly(Side.CLIENT)
+	public void restoreOrDrainEnergyWithOffset(float energyDifference)
+	{
+		float oldEnergy = clientData.energy;
+		addEnergyWithOffset(energyDifference);
+		
+		if (energyDifference>0)
+		{
+			if (clientData.energy >= clientData.energyMax)
+				restoreDrawBack.cost = clientData.energy - (oldEnergy - getDrawBack(restoreDrawBack));
+			else
+				restoreDrawBack.cost = getDrawBack(restoreDrawBack) + energyDifference;
+			restoreDrawBack.timestamp = System.currentTimeMillis();
+		}
+		else
+		{
+			if (clientData.energy <= 0)
+				drainDrawBack.cost = oldEnergy + getDrawBack(drainDrawBack);
+			else
+				drainDrawBack.cost = getDrawBack(drainDrawBack) - energyDifference;
+			drainDrawBack.timestamp = System.currentTimeMillis();
+		}
 	}
 	
 	public static AbilityPlayerData Get(String player)
@@ -190,21 +220,9 @@ public class AbilityPlayerData
 		if (clientData == null)
 			return 0;
 		
-		if (clientData.energy + energyAfterImageOffset + getAfterImageDrawBack() >= clientData.energyMax)
-			return 1;
-		else if (clientData.energy + energyAfterImageOffset + getAfterImageDrawBack() <= 0)
-			return 0;
-		else
-			return (clientData.energy + energyAfterImageOffset + getAfterImageDrawBack()) / (float) clientData.energyMax;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected static float getAfterImageDrawBack()
-	{
-		float progress = (float)(System.currentTimeMillis() - afterImageDrawBack.timestamp);
-		if (progress>=400.0f)
-			return 0.0f;
-		return (1-(progress / 400.0f))*afterImageDrawBack.cost;
+		float goal = clientData.energy + energyAfterImageOffset + getDrawBack(afterImageDrawBack) + getDrawBack(drainDrawBack) - getDrawBack(restoreDrawBack);
+		
+		return clampRatio(goal);
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -213,30 +231,50 @@ public class AbilityPlayerData
 		if (clientData == null)
 			return 0;
 		
-		if (clientData.energy - (float)energyAttemptOffset + getUseAttemptsDrawBackFalling() - getUseAttemptsDrawBackRising() >= clientData.energyMax)
+		float goal = clientData.energy - (float)energyAttemptOffset + getDrawBack(useAttemptsDrawBackFalling) - getDrawBack(useAttemptsDrawBackRising) + getDrawBack(drainDrawBack) - getDrawBack(restoreDrawBack);
+		
+		return clampRatio(goal);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static float getClientRegenEnergyRatio()
+	{
+		if (clientData == null)
+			return 0;
+		
+		float goal = clientData.energy - (float)energyAttemptOffset + getDrawBack(useAttemptsDrawBackFalling) - getDrawBack(useAttemptsDrawBackRising) + getDrawBack(drainDrawBack);
+		
+		return clampRatio(goal);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static float getClientDrainEnergyRatio()
+	{
+		if (clientData == null)
+			return 0;
+		
+		float goal = clientData.energy - (float)energyAttemptOffset + getDrawBack(useAttemptsDrawBackFalling) - getDrawBack(useAttemptsDrawBackRising) - getDrawBack(restoreDrawBack);
+		
+		return clampRatio(goal);
+	}
+	
+	protected static float clampRatio(float goal)
+	{
+		if (goal >= clientData.energyMax)
 			return 1;
-		else if (clientData.energy - (float)energyAttemptOffset + getUseAttemptsDrawBackFalling() - getUseAttemptsDrawBackRising() <= 0)
+		else if (goal <= 0)
 			return 0;
 		else
-			return (clientData.energy - (float)energyAttemptOffset + getUseAttemptsDrawBackFalling() - getUseAttemptsDrawBackRising()) / (float) clientData.energyMax;
+			return goal / (float) clientData.energyMax;
 	}
 	
 	@SideOnly(Side.CLIENT)
-	protected static float getUseAttemptsDrawBackFalling()
+	protected static float getDrawBack(EnergyUsePiece<Float> meter)
 	{
-		float progress = (float)(System.currentTimeMillis() - useAttemptsDrawBackFalling.timestamp);
+		float progress = (float)(System.currentTimeMillis() - meter.timestamp);
 		if (progress>=400.0f)
 			return 0.0f;
-		return (1-(progress / 400.0f))*useAttemptsDrawBackFalling.cost;
-	}
-	
-	@SideOnly(Side.CLIENT)
-	protected static float getUseAttemptsDrawBackRising()
-	{
-		float progress = (float)(System.currentTimeMillis() - useAttemptsDrawBackRising.timestamp);
-		if (progress>=400.0f)
-			return 0.0f;
-		return (1-(progress / 400.0f))*useAttemptsDrawBackRising.cost;
+		return (1-(progress / 400.0f))*meter.cost;
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -260,7 +298,7 @@ public class AbilityPlayerData
 		nextAttemptID = (useID+1)%256;
 		useAttempts.put(useID, new EnergyUsePiece<Integer>(activeID, cost, (System.currentTimeMillis()/100L)));
 		energyAttemptOffset += cost;
-		useAttemptsDrawBackFalling.cost = getUseAttemptsDrawBackFalling() + cost;
+		useAttemptsDrawBackFalling.cost = getDrawBack(useAttemptsDrawBackFalling) + cost;
 		useAttemptsDrawBackFalling.timestamp = System.currentTimeMillis();
 		return useID;
 	}
@@ -268,7 +306,7 @@ public class AbilityPlayerData
 	@SideOnly(Side.CLIENT)
 	public static void cleanUse(int useID)
 	{
-		useAttemptsDrawBackRising.cost = getUseAttemptsDrawBackRising() + useAttempts.get(useID).cost;
+		useAttemptsDrawBackRising.cost = getDrawBack(useAttemptsDrawBackRising) + useAttempts.get(useID).cost;
 		useAttemptsDrawBackRising.timestamp = System.currentTimeMillis();
 		energyAttemptOffset -= useAttempts.get(useID).cost;
 		useAttempts.remove(useID);
@@ -288,7 +326,7 @@ public class AbilityPlayerData
 			else
 			{
 				afterImage.put(imageId, new EnergyUsePiece<Float>(activeID, (float)value, (System.currentTimeMillis()/100L)));
-				useAttemptsDrawBackFalling.cost = getUseAttemptsDrawBackFalling() + value;
+				useAttemptsDrawBackFalling.cost = getDrawBack(useAttemptsDrawBackFalling) + value;
 				useAttemptsDrawBackFalling.timestamp = System.currentTimeMillis();
 			}
 			clientData.addEnergy(-value);
@@ -320,7 +358,7 @@ public class AbilityPlayerData
 	@SideOnly(Side.CLIENT)
 	public static void cleanAfterImage(int id)
 	{
-		afterImageDrawBack.cost = getAfterImageDrawBack() + afterImage.get(id).cost;
+		afterImageDrawBack.cost = getDrawBack(afterImageDrawBack) + afterImage.get(id).cost;
 		afterImageDrawBack.timestamp = System.currentTimeMillis();
 		afterImage.remove(id);
 	}

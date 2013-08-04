@@ -104,7 +104,7 @@ public class HandlerTick implements ITickHandler
 			    				autoEffectBufferC = 0;
 				        	}
 			    			
-			    			data.addEnergyWithOffset(data.energyRegenNatural/20f);
+			    			data.restoreOrDrainEnergyWithOffset(data.energyRegenNatural/20f);
 			    			data.onUpdateCLIENT(player);
 			    			
 			        	}//client side
