@@ -237,6 +237,10 @@ public class LoECraftPack
 		LanguageRegistry.addName(itemZapAppleJam, "Zap-Apple Jam");
 		LanguageRegistry.instance().addStringLocalization("item.pickaxeGem.name", "Gem Pickaxe");
 		LanguageRegistry.addName(itemCrystalHeart, "Crystal Heart Container");
+		LanguageRegistry.instance().addStringLocalization("item.energyDrink.diet.name", "Zero-Energy");
+		LanguageRegistry.instance().addStringLocalization("item.energyDrink.apple.name", "Apple Power");
+		LanguageRegistry.instance().addStringLocalization("item.energyDrink.fusion.name", "Magic Fusion");
+		LanguageRegistry.instance().addStringLocalization("item.energyDrink.max.name", "Rainbow MAX!");
 		LanguageRegistry.addName(itemNecklace, "Necklace");
 		LanguageRegistry.addName(itemNecklaceOfDreams, "Necklace Of Dreams");
 		LanguageRegistry.addName(itemNecklaceOfBling, "Necklace Of Bling");
