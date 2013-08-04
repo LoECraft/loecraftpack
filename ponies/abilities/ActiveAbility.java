@@ -222,22 +222,36 @@ public abstract class ActiveAbility extends AbilityBase
 	{
 		return race;
 	}
-
+	
+	/**
+	 * activation cost
+	 */
 	public float getEnergyCost(EntityPlayer player)
 	{
 		return energyCost;
 	}
-
+	
+	/**
+	 * sustain cost
+	 */
 	public float getEnergyCostToggled(EntityPlayer player)
 	{
 		return 0;
 	}
-
-	protected abstract boolean CastSpellClient(EntityPlayer player, World world); // For client-only things like particles and raycasting
-
-	public boolean castSpellServer(EntityPlayer player, World world){return isToggleable;}; // Ability logic Togglable, or rapid casting
 	
-	//packet triggered Ability logic - override the method below this
+	/**
+	 * used to inform the server of client-only things like particles, raycasting, energy use attempts.
+	 */
+	protected abstract boolean CastSpellClient(EntityPlayer player, World world);
+	
+	/**
+	 * Ability logic Togglable, or rapid casting
+	 */
+	public boolean castSpellServer(EntityPlayer player, World world){return isToggleable;}
+	
+	/**
+	 * packet triggered Ability logic - please override the method: castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
+	 */
 	public void castSpellServerByHandler(Player player, DataInputStream data) throws IOException
 	{
 		//Debug: server casting availability check info
@@ -256,7 +270,9 @@ public abstract class ActiveAbility extends AbilityBase
 		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 0, (int)(casttime*20.0f)), player);
 	}
 	
-	//method to override
+	/**
+	 * packet triggered Ability logic
+	 */
 	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException{return false;};
 
 	protected boolean CastSpellToggledClient(EntityPlayer player){return true;}
