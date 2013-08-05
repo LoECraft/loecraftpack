@@ -22,6 +22,7 @@ public class AbilityPlayerData
 	@SideOnly(Side.CLIENT)
 	public static AbilityPlayerData clientData = new AbilityPlayerData();
 	
+	@SideOnly(Side.CLIENT)
 	protected static EnergyUsePiece<Float> useDrawBackRising = new EnergyUsePiece<Float>(0,0.0f,0);
 	@SideOnly(Side.CLIENT)
 	protected static EnergyUsePiece<Float> useDrawBackFalling = new EnergyUsePiece<Float>(0,0.0f,0);
