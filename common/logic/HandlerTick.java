@@ -27,6 +27,9 @@ public class HandlerTick implements ITickHandler
 	int autoEffectBufferC = 0;
 	final int autoEffectBufferMax = 20;//one sec
 	
+	//randomly set falling value, that discerns when changingPlayerStat updates occur.
+	int changingPlayerStatUpdateDelay = 100;
+	
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {}
 	
@@ -79,8 +82,13 @@ public class HandlerTick implements ITickHandler
 				        	AbilityPlayerData data = AbilityPlayerData.Get(player.username);
 				        	if (data != null)
 				        	{
-				        		data.addEnergy(data.energyRegenNatural/20f, false);
 				        		data.onUpdateSERVER(player);
+				        		
+				        		if (0==--changingPlayerStatUpdateDelay)
+				    			{
+				    				data.sendChangingPlayerStatPacket();
+				    				changingPlayerStatUpdateDelay = 1000;
+				    			}
 				        	}
 			        	}
 			        	else //client
@@ -104,8 +112,8 @@ public class HandlerTick implements ITickHandler
 			    				autoEffectBufferC = 0;
 				        	}
 			    			
-			    			data.restoreOrDrainEnergy(data.energyRegenNatural/20f);
 			    			data.onUpdateCLIENT(player);
+			    			
 			    			
 			        	}//client side
 			        }//entry instanceof EntityPlayer

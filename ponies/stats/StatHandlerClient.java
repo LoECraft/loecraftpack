@@ -21,6 +21,8 @@ public class StatHandlerClient extends StatHandlerServer
 		
 		for(AbilityBase ability : data.passiveAbilities)
 			ability.SetPlayer(player, data);
+		
+		data.bindPlayerStats(player);
 	}
 	
 	//used by update packet

@@ -60,10 +60,13 @@ public class PacketIds
 	 */
 	public static final byte appleBloomUpdate = -125;
 	
-	/**TO SERVER: Use Player Ability <p>
+	/**TO BOTH: Use Player Ability <p>
 	 *  TO SERVER:<br>
-	 * undefined vars
-	 *  TO CLIENT:<br>
+	 * - activeId (Int)<br>
+	 * - undefined variables (handle case by case)<p>
+	 *  TO CLIENT: (deny packet)<br>
+	 * - activeId (Int)<br>
+	 * - energy (float)<br>
 	 */
 	public static final byte useAbility = -124;
 	
@@ -86,12 +89,15 @@ public class PacketIds
 	 */
 	public static final byte applyStats = -121;
 	public static final byte addPlayer = -120;
+	public static final byte statUpdate = -119;
 	
 	//Do: PacketIds - applyPotionEffect - remove this and have only server apply potion effects.
 	/**TO SERVER: Client Directly Applied Potion Effect; For Testing Purposes */
-	public static final byte applyPotionEffect = -119;
+	public static final byte applyPotionEffect = -118;
 		
 	//Do: PacketIds - monolithSetOwner - remove this and have the owner set by the server side, during block placement
 	/**TO SERVER: Client Set Owner*/
-	public static final byte monolithSetOwner = -118;
+	public static final byte monolithSetOwner = -117;
+
+	
 }

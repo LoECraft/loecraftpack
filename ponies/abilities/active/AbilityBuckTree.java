@@ -21,7 +21,7 @@ public class AbilityBuckTree extends ActiveAbility
 {
 	public AbilityBuckTree()
 	{
-		super("Buck Tree", Race.EARTH, 100, 3);
+		super("Buck Tree", Race.EARTH, 100, 1, 3);
 	}
 	
 	@Override

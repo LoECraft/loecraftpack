@@ -22,7 +22,7 @@ public class AbilityTeleport extends ActiveAbility
 	
 	public AbilityTeleport()
 	{
-		super("Teleport", Race.UNICORN, 0, 5);
+		super("Teleport", Race.UNICORN, 0, 1, 5);
 	}
 
 	@Override

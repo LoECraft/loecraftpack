@@ -4,9 +4,15 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
+import loecraftpack.LoECraftPack;
+import loecraftpack.packet.PacketHelper;
+import loecraftpack.packet.PacketIds;
+import loecraftpack.ponies.stats.Stats;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -35,6 +41,8 @@ public class AbilityPlayerData
 	
 	public String playerName;
 	private EntityPlayer player = null;
+	protected Stats playerStats = null;
+	
 	public float energyRegenNatural = 5;//Multiples of 5, for max accuracy
 	public int energyMax = 500;
 	public float energy;
@@ -97,6 +105,8 @@ public class AbilityPlayerData
 			
 			for(AbilityBase ability : clientData.passiveAbilities)
 				ability.SetPlayer(player, clientData);
+			
+			clientData.bindPlayerStats(player);
 		}
 		else
 			map.put(player, playerData);
@@ -104,9 +114,19 @@ public class AbilityPlayerData
 		return playerData;
 	}
 	
+	public void bindPlayerStats(String player)
+	{
+		playerStats = (Stats)LoECraftPack.statHandler.stats.get(player);
+	}
+	
 	public static void UnregisterPlayer(String player)
 	{
 		map.remove(player);
+	}
+	
+	public Stats getPlayerStats()
+	{
+		return playerStats;
 	}
 	
 	
@@ -118,6 +138,8 @@ public class AbilityPlayerData
 	
 	public void onUpdateSERVER(EntityPlayer player)
 	{
+		addEnergy(energyRegenNatural/20f, false);
+		
 		for(ActiveAbility ability : activeAbilities)
 			ability.onUpdate(player);
 		
@@ -127,6 +149,8 @@ public class AbilityPlayerData
 	
 	public void onUpdateCLIENT(EntityPlayer player)
 	{
+		restoreOrDrainEnergy(energyRegenNatural/20f);
+		
 		long currentTime = System.currentTimeMillis();
 		Object[] timeStamps = afterImageStorage.keySet().toArray();
 		for (Object obj : timeStamps)
@@ -378,9 +402,31 @@ public class AbilityPlayerData
 			{
 				ability.cooldown = 0;
 				clientData.setEnergy(setEnergy, true);
+				if (ability.isToggleable())
+					ability.toggled = false;
 				
 				break;
 			}
 		}
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void applyGlobalCooldown()
+	{
+		for (ActiveAbility ability : clientData.activeAbilities)
+		{
+			ability.applyGlobalCooldown();
+		}
+	}
+	
+	public void sendChangingPlayerStatPacket()
+	{
+		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.statUpdate, energy), (Player)player);
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static void recieveChangingPlayerStatPacket(DataInputStream data) throws IOException
+	{
+		clientData.setEnergy(data.readFloat(), true);
 	}
 }

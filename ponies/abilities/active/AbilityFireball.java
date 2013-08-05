@@ -19,7 +19,7 @@ public class AbilityFireball extends ActiveAbility
 {
 	public AbilityFireball()
 	{
-		super("Fireball", Race.UNICORN, 100, 3, 1);
+		super("Fireball", Race.UNICORN, 100, 1, 3, 1);
 	}
 
 	@Override

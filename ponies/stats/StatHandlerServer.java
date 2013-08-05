@@ -35,6 +35,8 @@ public class StatHandlerServer
 		
 		for(AbilityBase ability : data.passiveAbilities)
 			ability.SetPlayer(player.username, data);
+		
+		data.bindPlayerStats(player.username);
 	}
 	
 	public static void savePlayer(EntityPlayer player)

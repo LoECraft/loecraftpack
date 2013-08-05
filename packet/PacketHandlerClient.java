@@ -31,6 +31,9 @@ public class PacketHandlerClient implements IPacketHandler
             		case PacketIds.useAbility:
             			AbilityPlayerData.handleDeny(data.readInt(), data.readFloat());
             			break;
+            			
+            		case PacketIds.statUpdate:
+            			AbilityPlayerData.recieveChangingPlayerStatPacket(data);
 
             		case PacketIds.monolithUpdate:
             			int x = data.readInt(),

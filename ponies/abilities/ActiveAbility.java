@@ -33,6 +33,8 @@ public abstract class ActiveAbility extends AbilityBase
 	private float cycle = 0; // Used while ability is toggled to make cooldown
 								// animation continually cycle
 	protected int energyCost = 0;
+	protected int CooldownGlobal = 0;
+	protected int CooldownNormal = 0;
 	protected int Cooldown = 0;
 	protected float cooldown = 0;
 	protected int Casttime = 0;
@@ -43,27 +45,30 @@ public abstract class ActiveAbility extends AbilityBase
 	private long lastTime;
 	
 
-	public ActiveAbility(String name, Race race, int cost)
+	public ActiveAbility(String name, Race race, int cost, int globalCooldown)
 	{
 		super(name, race);
-		Cooldown = 1;
+		CooldownNormal = 1;
 		energyCost = cost;
+		this.CooldownGlobal = globalCooldown;
 		isToggleable = true;
 	}
 
-	public ActiveAbility(String name, Race race, int cost, int cooldown)
+	public ActiveAbility(String name, Race race, int cost, int globalCooldown, int cooldown)
 	{
 		super(name, race);
-		Cooldown = cooldown;
+		CooldownNormal = cooldown;
 		energyCost = cost;
+		this.CooldownGlobal = globalCooldown;
 	}
 
-	public ActiveAbility(String name, Race race, int cost, int cooldown, int casttime)
+	public ActiveAbility(String name, Race race, int cost, int globalCooldown, int cooldown, int casttime)
 	{
 		super(name, race);
-		Cooldown = cooldown;
+		CooldownNormal = cooldown;
 		Casttime = casttime;
 		energyCost = cost;
+		this.CooldownGlobal = globalCooldown;
 	}
 
 	public static void RegisterAbilities()
@@ -111,9 +116,11 @@ public abstract class ActiveAbility extends AbilityBase
 				System.out.println((isClient()?"Client: ":"Server: ") + playerData.energy);
 				if ((isClient() && castSpellClient(player, world)) || (!isClient() && castSpellServer(player, world)))
 				{
-					cooldown = Cooldown;
+					cooldown = (Cooldown = CooldownNormal);
 					casttime = 0;
 					playerData.setCharge(0, 100);
+					if (isClient() && !toggled)
+						playerData.applyGlobalCooldown();
 				}
 
 				if (isToggleable)
@@ -194,10 +201,23 @@ public abstract class ActiveAbility extends AbilityBase
 		return toggled;
 	}
 	
+	public boolean isToggleable()
+	{
+		return isToggleable;
+	}
+	
 	@SideOnly(Side.CLIENT)
 	public static boolean isToggled(int metadata)
 	{
 		return AbilityPlayerData.clientData.activeAbilities[metadata].isToggled();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public void applyGlobalCooldown()
+	{
+		System.out.println("----"+this+" "+cooldown+" "+CooldownGlobal);
+		if (cooldown < CooldownGlobal)
+			cooldown = (Cooldown = CooldownGlobal);
 	}
 
 	public float getCooldown()
@@ -241,6 +261,7 @@ public abstract class ActiveAbility extends AbilityBase
 	
 	/**
 	 * used to inform the server of client-only things like particles, raycasting, energy use attempts.
+	 * as well as handle client side logic
 	 */
 	protected abstract boolean castSpellClient(EntityPlayer player, World world);
 	
@@ -261,7 +282,7 @@ public abstract class ActiveAbility extends AbilityBase
 		{
 			if (castSpellServerPacket(player, data))
 			{
-				cooldown = Cooldown;
+				cooldown = (Cooldown = CooldownNormal);
 				casttime = 0;
 				return;
 			}

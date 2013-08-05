@@ -8,12 +8,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
 public class AbilityOreVision extends ActiveAbility
-{	
-	protected static int toggleAfterImageID = -1;/*reserved for orevsion*/
+{
 	
 	public AbilityOreVision()
 	{
-		super("Gem Vision", Race.UNICORN, 10);//to turn on
+		super("Gem Vision", Race.UNICORN, 10, 1);//to turn on
 	}
 	
 	@Override
