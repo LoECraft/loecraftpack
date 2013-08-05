@@ -22,10 +22,10 @@ public class PotionEnergy extends Potion {
 			
 			if (player.worldObj.isRemote)
 			{
-				abilityData.restoreOrDrainEnergyWithOffset(100*level);
+				abilityData.restoreOrDrainEnergy(100*level);
 			}
 			else
-				abilityData.addEnergy(100*level);
+				abilityData.addEnergy(100*level, false);
 		}
 	}
 	

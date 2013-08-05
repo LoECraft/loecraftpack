@@ -25,7 +25,7 @@ public class AbilityBuckTree extends ActiveAbility
 	}
 	
 	@Override
-	protected boolean CastSpellClient(EntityPlayer player, World world)
+	protected boolean castSpellClient(EntityPlayer player, World world)
 	{
 		MovingObjectPosition target = player.rayTrace(100, 1);
 		if (target == null)
@@ -52,9 +52,10 @@ public class AbilityBuckTree extends ActiveAbility
 			if (player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockZapAppleLog.blockID ||
 				player.worldObj.getBlockId((int)x, (int)y, (int)z) == LoECraftPack.blockAppleBloomLog.blockID)
 			{
-				int attemptID = AbilityPlayerData.attemptUse(activeID, energyCost);
+				AbilityPlayerData.clientData.addEnergy(-energyCost, true);
+				AbilityPlayerData.clientData.addAfterImage(energyCost);
 				
-				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, (int)x, (int)y, (int)z));
+				PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, (int)x, (int)y, (int)z));
 				return true;
 			}
 			return false;
@@ -62,17 +63,23 @@ public class AbilityBuckTree extends ActiveAbility
 	}
 	
 	@Override
-	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
+	protected boolean castSpellServer(EntityPlayer player, World world) {
+		return false;
+	}
+	
+	@Override
+	protected boolean castSpellServerPacket(Player player, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer) player;
 		int energyCost = (int)(this.getEnergyCost(sender));
 		
 		if (playerData.energy>=energyCost && MechanicTreeBucking.buckTree(sender.worldObj, data.readInt(), data.readInt(), data.readInt(), 0/*Do: BuckTree - fortune*/))
 		{
-			playerData.addEnergy(-energyCost);
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
+			playerData.addEnergy(-energyCost, false);
 			return true;
 		}
 		return false;
 	}
+
+	
 }

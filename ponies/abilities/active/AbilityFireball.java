@@ -23,25 +23,22 @@ public class AbilityFireball extends ActiveAbility
 	}
 
 	@Override
-	protected boolean CastSpellClient(EntityPlayer player, World world)
+	protected boolean castSpellClient(EntityPlayer player, World world)
 	{
-		int attemptID = AbilityPlayerData.attemptUse(activeID, energyCost);
-		PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID));
+		AbilityPlayerData.clientData.addEnergy(-energyCost, true);
+		AbilityPlayerData.clientData.addAfterImage(energyCost);
 		return true;
 	}
-
+	
 	@Override
-	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
-	{
-		EntityPlayer sender = (EntityPlayer) player;
-		energyCost = (int)(this.getEnergyCost(sender));
+	protected boolean castSpellServer(EntityPlayer player, World world) {
+		energyCost = (int)(this.getEnergyCost(player));
 		System.out.println("FireBall: "+energyCost+" "+playerData.energy);
 		if(playerData.energy>=energyCost)
 		{
-			Fireball fireball = new Fireball(sender.worldObj, sender, sender.getLookVec().xCoord/10f, sender.getLookVec().yCoord/10f, sender.getLookVec().zCoord/10f);
-			sender.worldObj.spawnEntityInWorld(fireball);
-			playerData.addEnergy(-energyCost);
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
+			Fireball fireball = new Fireball(player.worldObj, player, player.getLookVec().xCoord/10f, player.getLookVec().yCoord/10f, player.getLookVec().zCoord/10f);
+			player.worldObj.spawnEntityInWorld(fireball);
+			playerData.addEnergy(-energyCost, false);
 			
 			return true;
 		}

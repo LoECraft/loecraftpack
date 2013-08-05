@@ -26,7 +26,7 @@ public class AbilityTeleport extends ActiveAbility
 	}
 
 	@Override
-	protected boolean CastSpellClient(EntityPlayer player, World world)
+	protected boolean castSpellClient(EntityPlayer player, World world)
 	{
 		MovingObjectPosition target = player.rayTrace(getMaxDistance(player), 1);
 		if (target == null)
@@ -54,15 +54,22 @@ public class AbilityTeleport extends ActiveAbility
 				}
 			}
 			
-			int attemptID = AbilityPlayerData.attemptUse(activeID, energyCost);
-			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, x, y, z));
+			AbilityPlayerData.clientData.addEnergy(-energyCost, true);
+			AbilityPlayerData.clientData.addAfterImage(energyCost);
+			
+			PacketDispatcher.sendPacketToServer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, x, y, z));
 		}
 		
 		return true;
 	}
 	
 	@Override
-	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
+	protected boolean castSpellServer(EntityPlayer player, World world) {
+		return false;
+	}
+	
+	@Override
+	protected boolean castSpellServerPacket(Player player, DataInputStream data) throws IOException
 	{
 		EntityPlayer sender = (EntityPlayer)player;
 		double x = data.readDouble();
@@ -72,7 +79,6 @@ public class AbilityTeleport extends ActiveAbility
 		if (sender.capabilities.isCreativeMode)
 		{
 			sender.setPositionAndUpdate(x, y, z);
-			PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, 0), player);
 			return true;
 		}
 		else
@@ -84,8 +90,7 @@ public class AbilityTeleport extends ActiveAbility
 				if (energyCost <= playerData.energy)
 				{
 					sender.setPositionAndUpdate(x, y, z);
-					playerData.addEnergy(-energyCost);
-					PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 1, energyCost), player);
+					playerData.addEnergy(-energyCost, false);
 					return true;
 				}
 			}
@@ -112,4 +117,6 @@ public class AbilityTeleport extends ActiveAbility
 	{
 		return 100;
 	}
+
+	
 }

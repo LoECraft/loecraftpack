@@ -16,25 +16,16 @@ public class AbilityPlayerData
 	@SideOnly(Side.CLIENT)
 	public static AbilityPlayerData clientData = new AbilityPlayerData();
 	
+	protected static EnergyUsePiece<Float> useDrawBackRising = new EnergyUsePiece<Float>(0,0.0f,0);
 	@SideOnly(Side.CLIENT)
-	protected static HashMap<Integer, EnergyUsePiece<Integer>> useAttempts = new HashMap<Integer, EnergyUsePiece<Integer>>();
-	@SideOnly(Side.CLIENT)
-	protected static int nextAttemptID = 0;
-	@SideOnly(Side.CLIENT)
-	public static int energyAttemptOffset = 0;
-	@SideOnly(Side.CLIENT)
-	protected static EnergyUsePiece<Float> useAttemptsDrawBackRising = new EnergyUsePiece<Float>(0,0.0f,0);
-	@SideOnly(Side.CLIENT)
-	protected static EnergyUsePiece<Float> useAttemptsDrawBackFalling = new EnergyUsePiece<Float>(0,0.0f,0);
+	protected static EnergyUsePiece<Float> useDrawBackFalling = new EnergyUsePiece<Float>(0,0.0f,0);
 	
 	@SideOnly(Side.CLIENT)
-	public static HashMap<Integer, EnergyUsePiece<Float>> afterImage = new HashMap<Integer, EnergyUsePiece<Float>>();
-	@SideOnly(Side.CLIENT)
-	protected static int nextAfterImageID = 0;
-	@SideOnly(Side.CLIENT)
-	protected static float energyAfterImageOffset = 0;
-	@SideOnly(Side.CLIENT)
 	protected static EnergyUsePiece<Float> afterImageDrawBack = new EnergyUsePiece<Float>(0,0.0f,0);
+	@SideOnly(Side.CLIENT)
+	protected static HashMap<Long, Float> afterImageStorage = new HashMap<Long, Float>();
+	@SideOnly(Side.CLIENT)
+	protected static float afterImageHold = 0;
 	
 	@SideOnly(Side.CLIENT)
 	protected static EnergyUsePiece<Float> restoreDrawBack = new EnergyUsePiece<Float>(0,0.0f,0);
@@ -136,42 +127,22 @@ public class AbilityPlayerData
 	
 	public void onUpdateCLIENT(EntityPlayer player)
 	{
-
-		energyAttemptOffset = 0;
-		
-		long currentTime = (System.currentTimeMillis()/100L);
-		for (int id : useAttempts.keySet())
+		long currentTime = System.currentTimeMillis();
+		Object[] timeStamps = afterImageStorage.keySet().toArray();
+		for (Object obj : timeStamps)
 		{
-			if (useAttempts.get(id)==null)
-				useAttempts.remove(id);
-			if (currentTime - useAttempts.get(id).timestamp > 80)
+			long timeStamp = Long.valueOf(obj.toString());
+			if (currentTime - timeStamp >= 500)
 			{
-				cleanUse(id);
-			}
-			else
-			{
-				energyAttemptOffset += useAttempts.get(id).cost;
+				float cost = afterImageStorage.get(timeStamp);
+				afterImageStorage.remove(timeStamp);
+				
+				afterImageDrawBack.cost = getDrawBack(afterImageDrawBack) + cost;
+				afterImageDrawBack.timestamp = System.currentTimeMillis();
+				afterImageHold -= cost;
 			}
 		}
 		
-		//trims energy with offset, to keep it from going to high.
-		setEnergyWithOffset(energy);
-		
-		energyAfterImageOffset = 0;
-		
-		for (int id : afterImage.keySet())
-		{
-			if (afterImage.get(id)==null)
-				afterImage.remove(id);
-			if (id >= 0 && currentTime - afterImage.get(id).timestamp > 10)
-			{
-				cleanAfterImage(id);
-			}
-			else
-			{
-				energyAfterImageOffset += afterImage.get(id).cost;
-			}
-		}
 	}
 	
 	
@@ -179,51 +150,70 @@ public class AbilityPlayerData
 	
 	
 	/**************************************/
-	/********  GET/SET - ENERGY  **********/
+	/*****  GET/SET - ENERGY/CHARGE  ******/
 	/**************************************/
-	
-	/**
-	 * Server side: set energy
-	 */
-	public void setEnergy(float newEnergy)
-	{
-		energy = Math.min(energyMax, Math.max(0, newEnergy));
-	}
-	
-	/**
-	 * Server side: add/subtract energy
-	 */
-	public void addEnergy(float energyDifference)
-	{
-		energy = Math.min(energyMax, Math.max(0, energy + energyDifference));
-	}
 	
 	/**
 	 * set energy
 	 */
-	@SideOnly(Side.CLIENT)
-	public void setEnergyWithOffset(float newEnergy)
+	public void setEnergy(float newEnergy, boolean isClient)
 	{
-		energy = Math.min(energyMax + energyAttemptOffset, Math.max(0, newEnergy));
+		if (isClient)
+		{
+			float oldEnergy = clientData.energy;
+			clientData.energy = Math.min(energyMax, Math.max(0, newEnergy));
+			float energyDifference = clientData.energy-oldEnergy;
+			
+			if (clientData.energy-oldEnergy>0)
+			{
+				useDrawBackRising.cost = getDrawBack(useDrawBackRising) + energyDifference;
+				useDrawBackRising.timestamp = System.currentTimeMillis();
+			}
+			else
+			{
+				useDrawBackFalling.cost = getDrawBack(useDrawBackFalling) - energyDifference;
+				useDrawBackFalling.timestamp = System.currentTimeMillis();
+			}
+		}
+		else
+		{
+			energy = Math.min(energyMax, Math.max(0, newEnergy));
+		}
 	}
 	
 	/**
-	 * add/subtract energy - when using abilities
+	 * add/subtract energy
 	 */
-	@SideOnly(Side.CLIENT)
-	public void addEnergyWithOffset(float energyDifference)
+	public void addEnergy(float energyDifference, boolean isClient)
 	{
-		energy = Math.min(energyMax + energyAttemptOffset, Math.max(0, energy + energyDifference));
+		if (isClient)
+		{
+			clientData.energy = Math.min(energyMax, Math.max(0, energy + energyDifference));
+			if (energyDifference>0)
+			{
+				useDrawBackRising.cost = getDrawBack(useDrawBackRising) + energyDifference;
+				useDrawBackRising.timestamp = System.currentTimeMillis();
+			}
+			else
+			{
+				useDrawBackFalling.cost = getDrawBack(useDrawBackFalling) - energyDifference;
+				useDrawBackFalling.timestamp = System.currentTimeMillis();
+			}
+		}
+		else
+		{
+			energy = Math.min(energyMax, Math.max(0, energy + energyDifference));
+		}
 	}
 	
 	/**
 	 * add/subtract energy - used by regen, restore, drain, etc.
 	 */
 	@SideOnly(Side.CLIENT)
-	public void restoreOrDrainEnergyWithOffset(float energyDifference)
+	public void restoreOrDrainEnergy(float energyDifference)
 	{
 		float oldEnergy = clientData.energy;
-		addEnergyWithOffset(energyDifference);
+		clientData.energy = Math.min(energyMax, Math.max(0, energy + energyDifference));
 		
 		if (energyDifference>0)
 		{
@@ -252,6 +242,30 @@ public class AbilityPlayerData
 		chargeMax = max;
 	}
 	
+	
+	
+	
+	/**************************************/
+	/********  GET RENDER INFO  ***********/
+	/**************************************/
+	
+	/**
+	 * get the position of the charge
+	 */
+	@SideOnly(Side.CLIENT)
+	public static float getClientCastTimeRatio()
+	{
+		if (clientData == null)
+			return 0;
+		
+		if (clientData.charge >= clientData.chargeMax)
+			return 1;
+		else if (clientData.charge <= 0)
+			return 0;
+		else
+			return (clientData.charge) / clientData.chargeMax;
+	}
+	
 	/**
 	 * get the position of the afterImage
 	 */
@@ -261,7 +275,7 @@ public class AbilityPlayerData
 		if (clientData == null)
 			return 0;
 		
-		float goal = clientData.energy + energyAfterImageOffset + getDrawBack(afterImageDrawBack) + getDrawBack(drainDrawBack) - getDrawBack(restoreDrawBack);
+		float goal = clientData.energy + afterImageHold + getDrawBack(afterImageDrawBack) - getDrawBack(useDrawBackRising) + getDrawBack(drainDrawBack) - getDrawBack(restoreDrawBack);
 		
 		return clampRatio(goal);
 	}
@@ -275,7 +289,7 @@ public class AbilityPlayerData
 		if (clientData == null)
 			return 0;
 		
-		float goal = clientData.energy - (float)energyAttemptOffset + getDrawBack(useAttemptsDrawBackFalling) - getDrawBack(useAttemptsDrawBackRising) + getDrawBack(drainDrawBack) - getDrawBack(restoreDrawBack);
+		float goal = clientData.energy + getDrawBack(useDrawBackFalling) - getDrawBack(useDrawBackRising) + getDrawBack(drainDrawBack) - getDrawBack(restoreDrawBack);
 		
 		return clampRatio(goal);
 	}
@@ -289,7 +303,7 @@ public class AbilityPlayerData
 		if (clientData == null)
 			return 0;
 		
-		float goal = clientData.energy - (float)energyAttemptOffset + getDrawBack(useAttemptsDrawBackFalling) - getDrawBack(useAttemptsDrawBackRising) + getDrawBack(drainDrawBack);
+		float goal = clientData.energy + getDrawBack(useDrawBackFalling) - getDrawBack(useDrawBackRising) + getDrawBack(drainDrawBack);
 		
 		return clampRatio(goal);
 	}
@@ -303,7 +317,7 @@ public class AbilityPlayerData
 		if (clientData == null)
 			return 0;
 		
-		float goal = clientData.energy - (float)energyAttemptOffset + getDrawBack(useAttemptsDrawBackFalling) - getDrawBack(useAttemptsDrawBackRising) - getDrawBack(restoreDrawBack);
+		float goal = clientData.energy + getDrawBack(useDrawBackFalling) - getDrawBack(useDrawBackRising) - getDrawBack(restoreDrawBack);
 		
 		return clampRatio(goal);
 	}
@@ -333,122 +347,28 @@ public class AbilityPlayerData
 		return (1-(progress / 400.0f))*meter.cost;
 	}
 	
-	/**
-	 * get the position of the charge
-	 */
-	@SideOnly(Side.CLIENT)
-	public static float getClientCastTimeRatio()
-	{
-		if (clientData == null)
-			return 0;
-		
-		if (clientData.charge >= clientData.chargeMax)
-			return 1;
-		else if (clientData.charge <= 0)
-			return 0;
-		else
-			return (clientData.charge) / clientData.chargeMax;
-	}
 	
 	
 	
-	
-	/**************************************/
-	/******  ENERGY ATTEMPT CODE  *********/
-	/**************************************/
+	/****************************/
+	/**********  OTHER  *********/
+	/****************************/
 	
 	/**
-	 * store an energy attempt cost by sequential id
+	 *  store a after-image by sequential id
 	 */
 	@SideOnly(Side.CLIENT)
-	public static int attemptUse(int activeID, int cost)
+	public static void addAfterImage(float cost)
 	{
-		int useID = nextAttemptID;
-		nextAttemptID = (useID+1)%256;
-		useAttempts.put(useID, new EnergyUsePiece<Integer>(activeID, cost, (System.currentTimeMillis()/100L)));
-		energyAttemptOffset += cost;
-		useAttemptsDrawBackFalling.cost = getDrawBack(useAttemptsDrawBackFalling) + cost;
-		useAttemptsDrawBackFalling.timestamp = System.currentTimeMillis();
-		return useID;
-	}
-	
-	/**
-	 * remove a OLD energy attempt cost
-	 */
-	@SideOnly(Side.CLIENT)
-	public static void cleanUse(int useID)
-	{
-		useAttemptsDrawBackRising.cost = getDrawBack(useAttemptsDrawBackRising) + useAttempts.get(useID).cost;
-		useAttemptsDrawBackRising.timestamp = System.currentTimeMillis();
-		energyAttemptOffset -= useAttempts.get(useID).cost;
-		useAttempts.remove(useID);
-	}
-	
-	/**
-	 * remove a energy attempt cost by id. on a success, store a after-image by sequential id, in it's place
-	 */
-	@SideOnly(Side.CLIENT)
-	public static void cleanUse(int activeID, int useID, boolean worked, int value)//value is either cost or casttime, based on the value of worked
-	{
-		//Debug: information of returned ability use packet
-		System.out.println("clean AID:"+activeID+" UID:"+useID+" W:"+worked+" V:"+value);
-		if (worked)
-		{
-			int imageId = nextAfterImageID;
-			nextAfterImageID = (imageId+1)%256;
-			if (useAttempts.containsKey(useID))
-				afterImage.put(imageId, new EnergyUsePiece<Float>(activeID, (float)value, useAttempts.get(useID).timestamp));
-			else
-			{
-				afterImage.put(imageId, new EnergyUsePiece<Float>(activeID, (float)value, (System.currentTimeMillis()/100L)));
-				useAttemptsDrawBackFalling.cost = getDrawBack(useAttemptsDrawBackFalling) + value;
-				useAttemptsDrawBackFalling.timestamp = System.currentTimeMillis();
-			}
-			clientData.addEnergy(-value);
-			energyAfterImageOffset += value;
-		}
-		else
-		{
-			failedUseUpdateClient(activeID, (float)(value*20));
-		}
-		if (useAttempts.containsKey(useID))
-		{
-			energyAttemptOffset -= useAttempts.get(useID).cost;
-			useAttempts.remove(useID);
-		}
-	}
-	
-	/**
-	 *  store a after-image by assigned id (values below 0)
-	 */
-	@SideOnly(Side.CLIENT)
-	public static void addToggleAfterImage(int activeID, int imageID, float cost, float costMax)
-	{
-		if (afterImage.containsKey(imageID))
-		{
-			cost+=afterImage.get(imageID).cost;
-			if (cost > costMax)
-				cost = costMax;
-		}
-		afterImage.put(imageID, new EnergyUsePiece<Float>(activeID, (float)cost, (System.currentTimeMillis()/100L)));
-	}
-	
-	/**
-	 * remove an after-image by id
-	 */
-	@SideOnly(Side.CLIENT)
-	public static void cleanAfterImage(int id)
-	{
-		afterImageDrawBack.cost = getDrawBack(afterImageDrawBack) + afterImage.get(id).cost;
-		afterImageDrawBack.timestamp = System.currentTimeMillis();
-		afterImage.remove(id);
+		afterImageHold += cost;
+		afterImageStorage.put(System.currentTimeMillis(), cost);
 	}
 	
 	/**
 	 * restore position of charge, if server denied the use of a non-toggle ability
 	 */
 	@SideOnly(Side.CLIENT)
-	protected static void failedUseUpdateClient(int activeID, float casttime)
+	public static void handleDeny(int activeID, float setEnergy)
 	{
 		String abilityName = ActiveAbility.abilityNames[activeID];
 		
@@ -456,8 +376,8 @@ public class AbilityPlayerData
 		{
 			if (ability.name.equals(abilityName))
 			{
-				ability.casttime = casttime;
 				ability.cooldown = 0;
+				clientData.setEnergy(setEnergy, true);
 				
 				break;
 			}

@@ -29,7 +29,7 @@ public class PacketHandlerClient implements IPacketHandler
             	switch(data.readByte())
             	{
             		case PacketIds.useAbility:
-            			AbilityPlayerData.cleanUse(data.readInt(), data.readInt(), data.readInt()!=0, data.readInt());
+            			AbilityPlayerData.handleDeny(data.readInt(), data.readFloat());
             			break;
 
             		case PacketIds.monolithUpdate:

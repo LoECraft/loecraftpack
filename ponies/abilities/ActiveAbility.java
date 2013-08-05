@@ -104,12 +104,12 @@ public abstract class ActiveAbility extends AbilityBase
 		held = true;
 		time = System.currentTimeMillis();
 		
-		if (cooldown <= 0 && (toggled || player.capabilities.isCreativeMode || getEnergyCost(player) <= playerData.energy - (isClient()? playerData.energyAttemptOffset: 0)))
+		if (cooldown <= 0 && (toggled || player.capabilities.isCreativeMode || getEnergyCost(player) <= playerData.energy))
 		{
 			if (casttime >= Casttime)
 			{
 				System.out.println((isClient()?"Client: ":"Server: ") + playerData.energy);
-				if ((isClient() && CastSpellClient(player, world)) || (!isClient() && castSpellServer(player, world)))
+				if ((isClient() && castSpellClient(player, world)) || (!isClient() && castSpellServer(player, world)))
 				{
 					cooldown = Cooldown;
 					casttime = 0;
@@ -149,9 +149,9 @@ public abstract class ActiveAbility extends AbilityBase
 		if (toggled)
 		{
 			if (!player.capabilities.isCreativeMode)
-				playerData.addEnergy(-getEnergyCostToggled(player));
+				playerData.addEnergy(-getEnergyCostToggled(player), isClient());
 
-			if (playerData.energy  - (isClient()? playerData.energyAttemptOffset: 0)> getEnergyCostToggled(player))
+			if (playerData.energy > getEnergyCostToggled(player))
 				toggled = isClient() ? CastSpellToggledClient(player) : CastSpellToggledServer(player);
 			else
 				toggled = false;
@@ -242,12 +242,12 @@ public abstract class ActiveAbility extends AbilityBase
 	/**
 	 * used to inform the server of client-only things like particles, raycasting, energy use attempts.
 	 */
-	protected abstract boolean CastSpellClient(EntityPlayer player, World world);
+	protected abstract boolean castSpellClient(EntityPlayer player, World world);
 	
 	/**
-	 * Ability logic Togglable, or rapid casting
+	 * Ability logic server side. for abilities that don't require the client to send a special packet
 	 */
-	public boolean castSpellServer(EntityPlayer player, World world){return isToggleable;}
+	protected abstract boolean castSpellServer(EntityPlayer player, World world);
 	
 	/**
 	 * packet triggered Ability logic - please override the method: castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException
@@ -257,23 +257,22 @@ public abstract class ActiveAbility extends AbilityBase
 		//Debug: server casting availability check info
 		System.out.println("SERVER CAST "+cooldown+" "+casttime+" "+Casttime);
 		
-		int attemptID = data.readInt();
 		if (cooldown <= 0 && casttime >= (float)Casttime-0.1f)
 		{
-			if (castSpellServerPacket(player, attemptID, data))
+			if (castSpellServerPacket(player, data))
 			{
 				cooldown = Cooldown;
 				casttime = 0;
 				return;
 			}
 		}
-		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, attemptID, 0, (int)(casttime*20.0f)), player);
+		PacketDispatcher.sendPacketToPlayer(PacketHelper.Make("loecraftpack", PacketIds.useAbility, activeID, this.playerData.energy), player);
 	}
 	
 	/**
 	 * packet triggered Ability logic
 	 */
-	protected boolean castSpellServerPacket(Player player, int attemptID, DataInputStream data) throws IOException{return false;};
+	protected boolean castSpellServerPacket(Player player, DataInputStream data) throws IOException{return false;};
 
 	protected boolean CastSpellToggledClient(EntityPlayer player){return true;}
 

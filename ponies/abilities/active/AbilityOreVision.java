@@ -24,12 +24,17 @@ public class AbilityOreVision extends ActiveAbility
 	
 
 	@Override
-	protected boolean CastSpellClient(EntityPlayer player, World world)
+	protected boolean castSpellClient(EntityPlayer player, World world)
 	{
 		MechanicHiddenOres.revealHiddenGems = true;
 		//Do: adjust values by player stats
 		MechanicHiddenOres.powerLevel = 2;
 		MechanicHiddenOres.refreshRenderWithRange(player);
+		return true;
+	}
+	
+	@Override
+	protected boolean castSpellServer(EntityPlayer player, World world) {
 		return true;
 	}
 	
@@ -43,7 +48,7 @@ public class AbilityOreVision extends ActiveAbility
 		}
 		
 		float cost = getEnergyCostToggled(player);
-		AbilityPlayerData.addToggleAfterImage(activeID, toggleAfterImageID, cost, cost*20.f);
+		AbilityPlayerData.addAfterImage(cost);
 		
 		return true;
 	}
@@ -53,7 +58,7 @@ public class AbilityOreVision extends ActiveAbility
 	{
 		MechanicHiddenOres.revealHiddenGems = false;
 		MechanicHiddenOres.refreshRenderWithRange(player);
-		if (AbilityPlayerData.afterImage.containsKey(toggleAfterImageID))
-			AbilityPlayerData.cleanAfterImage(toggleAfterImageID);
 	}
+
+	
 }

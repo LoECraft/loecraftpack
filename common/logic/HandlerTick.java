@@ -79,7 +79,7 @@ public class HandlerTick implements ITickHandler
 				        	AbilityPlayerData data = AbilityPlayerData.Get(player.username);
 				        	if (data != null)
 				        	{
-				        		data.addEnergy(data.energyRegenNatural/20f);
+				        		data.addEnergy(data.energyRegenNatural/20f, false);
 				        		data.onUpdateSERVER(player);
 				        	}
 			        	}
@@ -104,7 +104,7 @@ public class HandlerTick implements ITickHandler
 			    				autoEffectBufferC = 0;
 				        	}
 			    			
-			    			data.restoreOrDrainEnergyWithOffset(data.energyRegenNatural/20f);
+			    			data.restoreOrDrainEnergy(data.energyRegenNatural/20f);
 			    			data.onUpdateCLIENT(player);
 			    			
 			        	}//client side
