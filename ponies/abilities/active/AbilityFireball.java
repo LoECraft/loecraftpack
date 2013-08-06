@@ -1,19 +1,11 @@
 package loecraftpack.ponies.abilities.active;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-
 import loecraftpack.enums.Race;
-import loecraftpack.packet.PacketHelper;
-import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.projectiles.Fireball;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 
 public class AbilityFireball extends ActiveAbility
 {

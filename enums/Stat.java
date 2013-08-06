@@ -4,17 +4,21 @@ public enum Stat
 {
 	//universal
 	DODGE, //affects chance to dodge attacks
-	//unicorn
-	MAGIC, //uber stat
-	ELEMENTAL, //damaging
-	PURITY, //healing
-	ARCANE, //utility
-	//pegasus
-	AGILITY,
-	FLIGHT,
-	WEATHER,
 	
-	//earth pony
-	STRENGTH
+	//Unicorn
+	ELEMENTAL,  //offense
+	RESTORATION,//defense
+	ARCANE,     //utility
+	
+	//Pegasus
+	STORM,
+	WEATHER,
+	FLIGHT,
+	
+	//Earth Pony
+	STRENGTH,
+	WILLPOWER,
+	NATURE
+	
 	//Do: Add the rest of the stats
 }

@@ -7,7 +7,6 @@ import loecraftpack.LoECraftPack;
 import loecraftpack.enums.Race;
 import loecraftpack.packet.PacketHelper;
 import loecraftpack.packet.PacketIds;
-import loecraftpack.ponies.abilities.Ability;
 import loecraftpack.ponies.abilities.AbilityPlayerData;
 import loecraftpack.ponies.abilities.ActiveAbility;
 import loecraftpack.ponies.abilities.mechanics.MechanicTreeBucking;
